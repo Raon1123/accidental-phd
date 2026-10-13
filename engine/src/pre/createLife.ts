@@ -8,6 +8,7 @@ import { indexDepartments, trackWeights, unitKey, unitsForTrack, type DeptIndex 
 import { monthlyFromRecord, projectStipend, scholarshipOptions } from '../data/funding';
 import { fieldOf, groupOf, kediOf, kscedOf, subfieldsOf, TRACKS, tracksOf } from '../data/taxonomy';
 import { entranceFee, waiverRate } from '../data/tuition';
+import { tuitionCharge } from '../phd/money';
 import { draw, drawNormal } from '../rng';
 import { clamp, odds, z } from '../odds';
 import { pickUniform, pickWeighted } from '../util';
@@ -188,7 +189,7 @@ export function createLife(config: LifeConfig, seed: string, data: DataBundle): 
   const fee = entranceFee(data, school);
   const ledger: LifeState['ledger'] = fee.value > 0 ? [{ month: 0, kind: 'entrance-fee', amount: -fee.value, recordId: fee.id }] : [];
 
-  return {
+  const state: LifeState = {
     version: 1, engineRevision: 'wave4', dataRevision: data.dataRevision, seed, stage: 'phd', month: 0, ageMonths: age * ASSUMED.MONTHS_PER_YEAR,
     stats,
     choices: {
@@ -213,4 +214,12 @@ export function createLife(config: LifeConfig, seed: string, data: DataBundle): 
     pending: null, snapshots: [], auto: config.auto ?? false,
     newsSeed: config.cohortOf ?? seed,
   };
+
+  // ── 첫 학기 등록금(§5.1): month 0 = 2027년 3월은 학기 경계이므로 여기서 청구한다(월 틱은 month 1부터 돈다) ──
+  const tuition = tuitionCharge(state, data);
+  if (tuition && tuition.amount > 0) {
+    state.money.cash -= tuition.amount;
+    state.ledger.push({ month: 0, kind: 'tuition', amount: -tuition.amount, recordId: tuition.recordId });
+  }
+  return state;
 }

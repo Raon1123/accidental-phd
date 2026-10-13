@@ -95,7 +95,8 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
       const age = s.ageMonths / 12;
       expect(Number.isInteger(age)).toBe(true);
       expect(Object.keys(ASSUMED.ENTRY_AGE_DIST).map(Number)).toContain(age);
-      expect(s.money.cash).toBe(ASSUMED.INIT_CASH - entranceFee(data, s.choices.school).value);
+      const tuition0 = s.ledger.find(e => e.kind === 'tuition')?.amount ?? 0;   // 첫 학기 등록금(§5.1, month 0 = 학기 경계)
+      expect(s.money.cash).toBe(ASSUMED.INIT_CASH - entranceFee(data, s.choices.school).value + tuition0);
     }
     expect(ASSUMED.INIT_CASH).toBe(5_000_000);
   });
@@ -288,10 +289,14 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
     const s = createLife({ school: 'snu', track: 'ai' }, SEED, data);
     const fee = entranceFee(data, 'snu');
     expect(fee.value).toBeGreaterThan(0);
-    expect(s.ledger).toEqual([{ month: 0, kind: 'entrance-fee', amount: -fee.value, recordId: fee.id }]);
-    expect(s.money.cash).toBe(ASSUMED.INIT_CASH - fee.value);
+    expect(s.ledger[0]).toEqual({ month: 0, kind: 'entrance-fee', amount: -fee.value, recordId: fee.id });
+    // 첫 학기 등록금도 month 0 에 청구된다(§5.1; 감면율 반영, 레코드 id 기록)
+    const t = s.ledger.find(e => e.kind === 'tuition')!;
+    expect(t.amount).toBeLessThan(0); expect(t.recordId).toMatch(/tuition$/);
+    expect(s.money.cash).toBe(ASSUMED.INIT_CASH - fee.value + t.amount);
     const k = createLife({ school: 'kaist', track: 'ai' }, SEED, data);   // 입학금 0원 (0014#54)
-    expect(k.money.cash).toBe(ASSUMED.INIT_CASH);
+    expect(k.ledger.find(e => e.kind === 'entrance-fee')).toBeUndefined();
+    expect(k.money.cash).toBe(ASSUMED.INIT_CASH + (k.ledger.find(e => e.kind === 'tuition')?.amount ?? 0));
     expect(k.ledger.every(e => e.amount !== 0)).toBe(true);
   });
 
