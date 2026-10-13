@@ -1,102 +1,417 @@
 [
   {
-    "id": "krivet-2025-phd-jobs",
-    "title": "국내 신규 박사학위 취득자의 특성 및 일자리 변화",
-    "publisher": "한국직업능력연구원(KRIVET)",
-    "year": 2025,
-    "url": "https://krivet.re.kr/kor/sub.do?menuSn=23&pstNo=NH0000000325",
+    "id": "academyinfo-2026-lecturer-fee",
+    "title": "대학알리미 공시항목 14-차. 강사 강의료 (학교별 연도별 추이)",
+    "publisher": "한국대학교육협의회 대학알리미(교육부 대학정보공시)",
+    "year": 2026,
+    "url": "https://www.academyinfo.go.kr/popup/pubinfo2020/list.do",
     "checked_on": "2026-10-13",
-    "note": "2021–2024 박사조사. 응답자 45,561명. 졸업자 조사이며 입학자 종단조사가 아님. 어쩌다 박사 v3.5가 표 8·9·10을 인용."
+    "note": "학교별 팝업(schlId, svyYr, menuIdx=04). 공시 8월, 자료기준일 당해연도 4월(1학기). 평균 강사 강의료=∑(지급단가×단가별 강의시간수)/총 강의시간 수. 화면 열 제목은 천원이나 값(예: 서울대 91,834.5)과 교육부 2022 발표(국공립 평균 8만9천원)로 보아 단위는 원/시간. 대학알리미에는 교원 급여 공시항목이 없다(시행령 별표2 확인)."
   },
   {
-    "id": "kistep-2024-st-indicators",
-    "title": "2023 이공계인력 지표집",
-    "publisher": "한국과학기술기획평가원(KISTEP)",
+    "id": "academyinfo-2026-portal",
+    "title": "대학알리미 (대학 정보공시 포털)",
+    "publisher": "교육부·한국대학교육협의회",
+    "year": 2026,
+    "url": "https://www.academyinfo.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 대학 공시. 등록금·교원 급여·신규 임용 공시의 입구. 개별 수치는 하위 id(academyinfo-<year>-<topic>)로 등록. 2026-10-13 포털 접속 확인(제목만 확인)."
+  },
+  {
+    "id": "acl-2026-acceptance",
+    "title": "Proceedings of ACL 2026 (Long Papers) front matter, Program Chairs' message",
+    "publisher": "Association for Computational Linguistics (ACL Anthology)",
+    "year": 2026,
+    "url": "https://aclanthology.org/2026.acl-long.0.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 프로시딩 서문. 분모는 ARR(ACL Rolling Review) 두 주기의 고유 제출 12,148편."
+  },
+  {
+    "id": "alio-2026-kdi-pay",
+    "title": "한국개발연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0151&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국개발연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0151. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kedi-pay",
+    "title": "한국교육개발원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0167&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국교육개발원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0167. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kihasa-pay",
+    "title": "한국보건사회연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0200&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국보건사회연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0200. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kipa-pay",
+    "title": "한국행정연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0298&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국행정연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0298. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kipf-pay",
+    "title": "한국조세재정연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0256&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국조세재정연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0256. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kli-pay",
+    "title": "한국노동연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0179&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국노동연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0179. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-krivet-pay",
+    "title": "한국직업능력연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0264&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국직업능력연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0264. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-portal",
+    "title": "공공기관 경영정보 공개시스템(ALIO)",
+    "publisher": "기획재정부",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 출연연 임직원 보수 공시(경제·인문사회연구회 소속만; 국가과학기술연구회 소속은 ONE ST onest.re.kr). 2026-10-13 curl 접속 HTTP 200 확인(#9 수집 중)."
+  },
+  {
+    "id": "asiae-2024-retirement-age",
+    "title": "과기 출연연 연구직 정년 65세 연장 법안 발의",
+    "publisher": "아시아경제",
     "year": 2024,
-    "url": "https://www.hrstpolicy.re.kr/kistep/upload/file/202406177_1397100000.pdf",
-    "checked_on": "2026-10-13",
-    "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
+    "url": "https://view.asiae.co.kr/article/2024111809233400694",
+    "note": "출처 계급: 수필·수기 · 2024-11-18 보도. 공개. 임금피크제·해외 이직 사례를 역할어로 기록.",
+    "checked_on": "2026-10-13"
   },
   {
-    "id": "snu-2026-tuition",
-    "title": "2026학년도 제1학기 등록금 일람표",
-    "publisher": "서울대학교",
-    "year": 2026,
-    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2026/02/2026_tuition.pdf",
-    "checked_on": "2026-10-13",
-    "note": "PDF 3쪽. '대학원' 표: 일반대학원(인문대, 사회대, 자연대, 공대, 농생대 등) 신입생·1학년 입학금/수업료/계 및 3학기 이상 수업료. 석사/박사 구분 없이 일반대학원 동일 금액. 학과 단위 세부(컴퓨터공학부, 생명과학부 등)는 표에 없고 단과대/계열 단위만 있음. 단위 원, 학기당."
+    "id": "brunch-2016-phd-defense-series",
+    "title": "박사과정의 잡동사니 9. 디펜스 시작",
+    "publisher": "브런치(Brunch)",
+    "year": 2016,
+    "url": "https://brunch.co.kr/@phdcandidate/11",
+    "note": "출처 계급: 수필·수기 · 2016-12-29 개인 연재 수필. 공개. 분야는 미표기이나 스마트홈 시스템 프로토타입과 시연 언급으로 컴퓨터 계열로 추정.",
+    "checked_on": "2026-10-13"
   },
   {
-    "id": "snu-2026-scholarship",
-    "title": "교내장학금 - 서울대학교 학생처",
-    "publisher": "서울대학교",
-    "year": 2026,
-    "url": "https://student.snu.ac.kr/%EB%8C%80%ED%95%99%EC%83%9D%ED%99%9C/%EC%9E%A5%ED%95%99/%EA%B5%90%EB%82%B4%EC%9E%A5%ED%95%99%EA%B8%88/",
+    "id": "brunch-2017-thesis-planning-tips",
+    "title": "박사 논문을 준비하며 상상하는 후기! 시행착오를 줄이자",
+    "publisher": "브런치(Brunch)",
+    "year": 2017,
+    "url": "https://brunch.co.kr/@utoskin/53",
     "checked_on": "2026-10-13",
-    "note": "대학원 교내장학금(맞춤형, 생활지원, 강의연구지원, 기초학문분야 학문후속세대, 강의조교 등). 2026학년도 기준 문구(2026.3.1., 2026.9.1. 날짜 언급). 학부대학 항목에는 학문후속세대 금액이 다르게 나와 있음(본 기록은 대학원 표 기준)."
+    "note": "출처 계급: 수필·수기 · 개인 블로그 조언 글. 공개 게시(2017-06-10). 필자 전공은 명시되지 않으나 경영·마케팅 계열 연구를 맥락으로 서술. 실제 경험보다 준비 단계의 조언 형식."
   },
   {
-    "id": "snu-2026-scholarship-2",
-    "title": "2026학년도 대학원 대통령과학장학금 신규장학생 신청 및 선발 안내",
-    "publisher": "서울대학교",
-    "year": 2026,
-    "url": "https://snupharm.snu.ac.kr/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/?mod=document&uid=8811",
+    "id": "brunch-2018-phd-for-working-adults",
+    "title": "박사과정 입학을 생각하는 직장인들에게",
+    "publisher": "브런치(Brunch)",
+    "year": 2018,
+    "url": "https://brunch.co.kr/@shincoach/23",
     "checked_on": "2026-10-13",
-    "note": "서울대 약학대학 공지사항 페이지(한국장학재단 사업 안내). 금액, 최대 학기, 신청 자격. 사업 주체는 한국장학재단이며 서울대 자체 장학금이 아님."
+    "note": "출처 계급: 수필·수기 · 개인 블로그 수기. 공개 게시(2018-08-10). 인적자원개발 전공 수료생(사회과학) 본인 표기. 입학 판단·학비·수업·자격시험·등재지 논문·지도교수 갈등 서술. 필자 1인의 사례."
   },
   {
-    "id": "snu-2026-scholarship-3",
-    "title": "2026학년도 (이공계)박사우수장학금, 석사우수장학금 신규장학생 신청 안내",
-    "publisher": "서울대학교",
-    "year": 2026,
-    "url": "https://ie.snu.ac.kr/notice/?mod=document&uid=6206",
+    "id": "brunch-2019-polisci-phd-application",
+    "title": "정치학 박사 유학 원서 준비 방법 및 자료 모음",
+    "publisher": "브런치(Brunch)",
+    "year": 2019,
+    "url": "https://brunch.co.kr/@mastad90/53",
     "checked_on": "2026-10-13",
-    "note": "서울대 산업공학과 공지 페이지(공과대학 배정 안내). 이공계 박사우수장학금 금액/최대 학기/성적 기준. 한국장학재단 온라인 신청."
+    "note": "출처 계급: 수필·수기 · 개인 블로그 글. 공개 게시(2019-10-30). 정치학 박사 유학 지원 경험. 필자 1인의 사례."
   },
   {
-    "id": "kaist-2026-tuition",
-    "title": "2026학년도 봄학기(재학/복학생/학사과정 신입생) 등록금 납부안내 (붙임1 석·박사과정 재학생 납입금 등 책정표)",
-    "publisher": "한국과학기술원 (KAIST)",
-    "year": 2026,
-    "url": "https://www.kaist.ac.kr/kr/html/footer/0802.html?mode=D&no=9f98a5467d7457b5adbc219fc3c00d94&file_id=68729",
+    "id": "brunch-2021-phd-retail-management",
+    "title": "영혼을 갈아 넣는 박사학위 도전기!!!",
+    "publisher": "브런치(Brunch)",
+    "year": 2021,
+    "url": "https://brunch.co.kr/@ddc8fafd53894cb/47",
     "checked_on": "2026-10-13",
-    "note": "KAIST 교무처 PDF(10쪽, 2026.1.16.). 석·박사과정 재학생 납입금 책정표는 PDF 8쪽(인쇄 6쪽). 단위 천원/학기. 입학금 항목은 이 표에 없음. 일부 전공(MBA/MS 특수전공, 경영공학부 연차초과)은 별도 기준."
+    "note": "출처 계급: 수필·수기 · 개인 블로그 수기. 공개 게시(2021-03-04). 유통·경영 분야(사회과학) 실무자의 석박사 경로. 필자 1인의 사례."
   },
   {
-    "id": "kaist-2026-scholarship",
-    "title": "장학금 종류별 세부 지급 기준 (학연장려금 Stipend 제도, 학자금 및 수당)",
-    "publisher": "한국과학기술원 (KAIST)",
-    "year": 2026,
-    "url": "https://www.kaist.ac.kr/kr/html/edu/03110503.html",
+    "id": "brunch-2024-law-phd-application",
+    "title": "박사과정 입시 (1) - 학업계획서 작성과 서류 준비",
+    "publisher": "브런치(Brunch)",
+    "year": 2024,
+    "url": "https://brunch.co.kr/@nonsideproject/40",
     "checked_on": "2026-10-13",
-    "note": "KAIST 장학안내 페이지. 학연장려금(자연과학·생명과학·공학·AI 단과대 석·박사, 국비 또는 KAIST장학생), 박사 일반조교수당, 국비TA수당. 명시적 학년도 표기 없음(교비장학금 표가 '10~'26년 입학생 기준)."
+    "note": "출처 계급: 수필·수기 · 개인 블로그 수기. 공개 게시(2024-01-13). 직장을 병행하는 파트타임 법학 박사과정 지원 경험. 필자 1인의 사례."
   },
   {
-    "id": "postech-2025-tuition",
-    "title": "포항공과대학교 대학원 컴퓨터공학과 (김박사넷)",
-    "publisher": "김박사넷 (phdkim.net) - 비공식 집계, 원자료 2025 대학알리미 공시(포항공과대학교)",
+    "id": "brunch-2025-polisci-publications",
+    "title": "[특별기획 6.0] 공식기록: Publications",
+    "publisher": "브런치(Brunch)",
     "year": 2025,
-    "url": "https://phdkim.net/gradinfo/school/118/department/8",
+    "url": "https://brunch.co.kr/@boyish-aaron/113",
     "checked_on": "2026-10-13",
-    "note": "제3자 집계 사이트. 2025년 대학알리미 등록금 현황 공시를 가공한 값이라고 페이지에 적혀 있음. 등록금은 '연간'으로 표기, 입학금은 기간 미표기. 석사/박사/통합 구분 없음. 포스텍 공식 페이지에서는 금액을 찾지 못해 indexed로만 사용."
+    "note": "출처 계급: 수필·수기 · 연재 글('정치학 선수가 되기 위한 훈련' 26화). 공개 게시(2025-04-27). 정치학 박사과정 경험. 필자 1인의 사례."
   },
   {
-    "id": "postech-2026-scholarship",
-    "title": "재정지원 (2026년도 학생조교수당 기준금액)",
-    "publisher": "포항공과대학교",
+    "id": "cau-2026-scholarship",
+    "title": "2026학년도 전반기 특별추천전형 모집요강 (9. 등록금 및 환불규정, 11. 장학제도)",
+    "publisher": "중앙대학교 대학원",
     "year": 2026,
-    "url": "https://adm-g.postech.ac.kr/graduate-info/support-policy/",
+    "url": "http://graduate.cau.ac.kr/graduate/info/notice.do?mode=download&articleNo=45623&attachNo=57280",
     "checked_on": "2026-10-13",
-    "note": "POSTECH 대학원 입학 홈페이지 재정지원 안내(한글). 학생조교수당 월 기준금액(가이드라인, 지도교수 재량으로 변동), 펠로우십(K-탑티어), 생활비 지원 장학금. 최대 지원 학기, 등록금/입학금 금액은 이 페이지에 없음."
+    "note": "PDF p.11 등록금표(2026 미정, 2025 참고), p.12 CAU GRS 장학금(금액·지급기간), p.13 BK21 장학금. 장학인원·금액은 예산범위 내 대학원 장학위원회 결정. 규정 개정 시 변동 가능."
   },
   {
-    "id": "gist-2026-tuition",
-    "title": "2026학년도 대학원 가을학기 최종합격자 입학등록 안내 2026. 6. (첨부 PDF)",
-    "publisher": "광주과학기술원",
+    "id": "cau-2026-scholarship-2",
+    "title": "장학안내 > 장학 > 학사안내",
+    "publisher": "중앙대학교 대학원",
     "year": 2026,
-    "url": "https://www.gist.ac.kr/gadm/html/sub04/0401.html?mode=D&no=221820&file_id=82195",
+    "url": "http://graduate.cau.ac.kr/graduate/bachelors-guide/scholarship-information.do",
     "checked_on": "2026-10-13",
-    "note": "GIST 대학원 입학 공지의 첨부 PDF (13쪽). 5쪽: 입학금 680,000원. 8쪽: 대학원과정 신입생 납입금(수업료) 2026학년도 기준 3,805,000원/학기; 국비/과기원 장학생은 납입금 전액 면제, 일반장학생은 고지서 납부. 학과·계열별 구분 없이 단일 금액으로 게시. PDF 텍스트 추출 시 한글이 깨져 숫자와 표 구조로 확인했고, 한글 문구는 같은 GIST 공식 웹페이지(gadm/html/sub02/0201.html)와 대조함."
+    "note": "대학원 장학 종류 표(CAU GRS, 우수재학생, 중앙사랑연구, CAYSS, BK21, 직계, 부속기관, 외국인 등). 페이지에 게시 연도 표기 없음(현행 안내)."
+  },
+  {
+    "id": "cau-2026-tuition",
+    "title": "2026학년도 전반기 일반대학원 특별추천전형 합격자 유의사항",
+    "publisher": "중앙대학교 대학원",
+    "year": 2025,
+    "url": "https://graduate.cau.ac.kr/_attach/gradcau/file/2025/11/wTIsRiaXUNkenbmpcfsBZxgiWZ.pdf",
+    "checked_on": "2026-10-13",
+    "note": "2025-11-06 작성. '등록금액: 미정 [2025학년도 등록금 참고]'라며 2025학년도 계열별 입학금·수업료(한 학기)표를 제시. 2026학년도 확정액은 확인된 공식 문서에 없음. 표는 일반대학원 공통(석사/박사 구분 없음)."
+  },
+  {
+    "id": "cau-2027-phd-admission-guide",
+    "title": "2027학년도 전반기 대학원 일반전형 모집요강",
+    "publisher": "중앙대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.cau.ac.kr/_attach/gradcau/file/2026/10/TdVGpWqHBjIJdyzKnRdeSEHqQH.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 전체를 내려받아 읽음(38쪽). 4-1.모집학과(일반과정, 협동과정) 표(인쇄 쪽 3-5)에서 석사/박사/석박통합 개설 여부 확인. 진입 페이지 https://graduate.cau.ac.kr/graduate/admission/recruitment-guidelines.do (게시물 51131). 이 문서에서 학과별 등록금표는 확인하지 못함."
+  },
+  {
+    "id": "chi-2026-acceptance",
+    "title": "CHI 2026 Papers Chairs' Welcome",
+    "publisher": "ACM SIGCHI (CHI 2026 Proceedings front matter)",
+    "year": 2026,
+    "url": "https://repository.tudelft.nl/file/File_3348fbe3-d887-4812-95d1-fe021410b15b",
+    "checked_on": "2026-10-13",
+    "note": "델프트 공대 저장소의 공개 사본(Bozzon et al. 2026). 완료 제출 6,730편, 최종 채택 1,702편(25.3%). 2025년 제출 5,014편, 2024년 4,046편."
+  },
+  {
+    "id": "chosunbiz-2024-grad-research-survey",
+    "title": "KAIST 대학원생 연구실서 하루 10시간씩 일하고 월 166만원 받는다…“일부 교수 갑질 여전”",
+    "publisher": "조선비즈(다음 뉴스 전재)",
+    "year": 2024,
+    "url": "https://v.daum.net/v/zEe146Gk7G",
+    "note": "출처 계급: 수필·수기 · 2024-02-29 기사. 대학원 총학생회 연구환경 설문(2023-11, 응답 1,818명). 공개. 집계 결과이며 개별 인터뷰 아님.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "cnu-2026-scholarship",
+    "title": "2026학년도 전기2차 일반대학원 모집요강 (7. 대학원 장학제도, 8. 4단계 BK21사업)",
+    "publisher": "충남대학교",
+    "year": 2026,
+    "url": "https://ipsi.cnu.ac.kr/Upl/gadm/yokang/0103_A_0_1764044261.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 입학본부 모집요강 PDF (42 pages). Scholarship table PDF pp.32-33, BK21 pp.34-35. States 선발기준·인원·지급 내역 may change at the paying body's discretion. Its tuition table is 2025학년도 후기 based, so tuition was taken from the 2026 일람표 instead."
+  },
+  {
+    "id": "cnu-2026-tuition",
+    "title": "2026학년도 등록금 책정 공고 (붙임1 2026학년도 충남대학교 등록금 일람표.xlsx)",
+    "publisher": "충남대학교",
+    "year": 2026,
+    "url": "https://plus.cnu.ac.kr/_prog/_board/?mode=V&no=2511699&code=sub07_0702&site_dvs_cd=kr&menu_dvs_cd=&skey=&sval=&site_dvs=&ntt_tag=&GotoPage=",
+    "checked_on": "2026-10-13",
+    "note": "Official 재무과 notice dated 2026-02-09 (대학원 일반/전문/특수 2.5% 인상). Figures come from attachment 1 (xlsx, sheet '2026 학부, 대학원', unit 원/학기), rows 일반대학원(박사). 수업료 excludes 입학금; the 신입생 수업료 column = 수업료 + 입학금. No separate 기성회비 column."
+  },
+  {
+    "id": "cnu-2027-phd-admission-guide",
+    "title": "2027학년도 전기 대학원 1차 신입생 모집요강",
+    "publisher": "충남대학교 입학본부(일반대학원)",
+    "year": 2027,
+    "url": "https://ipsi.cnu.ac.kr/Upl/gadm/yokang/0102_A_0_1790645155.pdf",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 입학정보 '전기 1차 모집요강' 페이지(https://ipsi.cnu.ac.kr/html/gadm/sub01/sub01_0102.html)의 PDF(34쪽)를 읽음. 모집학과 및 모집여부 표는 PDF 6~8쪽(인쇄 2~4쪽), 2027학년도 신입생 등록금액은 PDF 30~31쪽(인쇄 26~27쪽). △는 2차 모집(원서접수 2026.12.3~12.8) 예정. 등록금은 2026학년도 전기 기준이며 변동 가능."
+  },
+  {
+    "id": "core-2018-ranking",
+    "title": "CORE2018 Conference Rankings (CORE Conference Portal)",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2018,
+    "url": "https://portal.core.edu.au/conf-ranks/2081/",
+    "checked_on": "2026-10-13",
+    "note": "ISSCC의 마지막 등급 판(CORE2018 A). CORE2020 이후 판에는 ISSCC 항목이 없음. 접근 경로: 포털 HTML은 일부 환경에서 403이지만 브라우저형 User-Agent의 curl로 CSV 내보내기(do=Export)가 200으로 응답한다. 학회별 상세 쪽은 가끔 빈 응답이 와 재시도가 필요했다."
+  },
+  {
+    "id": "core-2023-ranking",
+    "title": "CORE2023 Conference Rankings (CORE Conference Portal)",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2023,
+    "url": "https://portal.core.edu.au/conf-ranks/?search=&by=all&source=CORE2023&sort=atitle&page=1&do=Export",
+    "checked_on": "2026-10-13",
+    "note": "ICORE2026에서 서수 등급을 잃은 학회(ICASSP)의 직전 판 등급을 위해서만 인용. 접근 경로: 포털 HTML은 일부 환경에서 403이지만 브라우저형 User-Agent의 curl로 CSV 내보내기(do=Export)가 200으로 응답한다. 학회별 상세 쪽은 가끔 빈 응답이 와 재시도가 필요했다."
+  },
+  {
+    "id": "core-2026-portal",
+    "title": "CORE Conference Ranking Portal",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2026,
+    "url": "https://portal.core.edu.au/conf-ranks/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 학회 등급 A*/A/B/C. 2026-10-13 자동 접속은 HTTP 403, 수집 시 브라우저로 확인하고 edition 연도를 note에."
+  },
+  {
+    "id": "core-2026-ranking",
+    "title": "ICORE2026 Conference Rankings (CORE Conference Portal)",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2026,
+    "url": "https://portal.core.edu.au/conf-ranks/?search=&by=all&source=ICORE2026&sort=atitle&page=1&do=Export",
+    "checked_on": "2026-10-13",
+    "note": "포털 기본 판(ICORE2026, 2026-10-13 기준 최신)의 CSV 내보내기를 읽음. A*/A/B/C 외에 Multiconference, National, Unranked, TBR 등 비서수 값이 있음. 접근 경로: 포털 HTML은 일부 환경에서 403이지만 브라우저형 User-Agent의 curl로 CSV 내보내기(do=Export)가 200으로 응답한다. 학회별 상세 쪽은 가끔 빈 응답이 와 재시도가 필요했다."
+  },
+  {
+    "id": "cultureconvergence-2020-social-science-qualitative-dissertation",
+    "title": "사회과학분야 박사학위자의 질적 연구 경험",
+    "publisher": "문화와융합",
+    "year": 2020,
+    "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002582373",
+    "checked_on": "2026-10-13",
+    "note": "질적 연구 논문(KCI 등재지). 초록 서지 페이지만 열람, 면담 발췌 없음. 참여자 수와 전공은 초록에 표기되지 않음. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "cvpr-2026-acceptance",
+    "title": "CVPR 2026 Media Registration page and Closing news",
+    "publisher": "CVPR 2026 organizers (cvpr.thecvf.com)",
+    "year": 2026,
+    "url": "https://cvpr.thecvf.com/Conferences/2026/News/Media_Reg_Open",
+    "checked_on": "2026-10-13",
+    "note": "공식 사이트. 이 쪽은 제출 16,092편, 채택률 25.2%. Closing 쪽 https://cvpr.thecvf.com/Conferences/2026/News/Closing 은 제출 16,092편, 채택 발표 4,089건."
+  },
+  {
+    "id": "dac-2025-acceptance",
+    "title": "62nd DAC Program (Welcome message)",
+    "publisher": "Design Automation Conference executive committee",
+    "year": 2025,
+    "url": "https://confcats-siteplex.s3.amazonaws.com/dac/files/62dacprogram.860185f3fd.pdf.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 프로그램 책자 환영사. Research Track: 제출 1,862편 중 채택 420편. Engineering Track은 건수 미공개."
+  },
+  {
+    "id": "dgist-2025-scholarship",
+    "title": "대학원 입학 > 대학원 안내 > 장학제도 (sub01_02_01)",
+    "publisher": "대구경북과학기술원",
+    "year": 2025,
+    "url": "https://www.dgist.ac.kr/gadm/sub01_02_01.do",
+    "checked_on": "2026-10-13",
+    "note": "DGIST 대학원 입학 홈페이지 장학제도. 국비장학생 등록금 전액면제(학기당 3,845,000원, 2025년 기준), 학생맞춤형 장려금 최소 연 석사 7,800,000원 / 박사 14,040,000원 + 별도 가산액; 디지스트장학생 연 석사 15,000,000원 / 박사 22,000,000원 이상(연구과제 참여 전제). 모든 금액 2025년 기준. 같은 내용이 sub01_02.do에도 게시됨."
+  },
+  {
+    "id": "dgist-2025-scholarship-2",
+    "title": "대학원 < 장학안내 < 학사정보 < 대학생활",
+    "publisher": "대구경북과학기술원",
+    "year": 2023,
+    "url": "https://www.dgist.ac.kr/kor/sub05_01_04_01.do",
+    "checked_on": "2026-10-13",
+    "note": "DGIST 재학생용 학사정보 장학안내. 페이지에 '2023년 9월 기준'으로 표기되어 오래된 값일 수 있음. 학생지원경비(국비장학생, 박사 645,000원/월, 최대 8학기), 학생맞춤형 장려금 기본 지급액표(국비 박사 1,170,000원/월, 디지스트장학생 박사 1,834,000원/월), 교수평의회장학금 250,000원/월. 등록금 정보는 이 페이지에 없음."
+  },
+  {
+    "id": "dgist-2025-tuition",
+    "title": "대학원 입학 > 대학원 안내 > 장학제도 (sub01_02_03)",
+    "publisher": "대구경북과학기술원",
+    "year": 2025,
+    "url": "https://www.dgist.ac.kr/gadm/sub01_02_03.do",
+    "checked_on": "2026-10-13",
+    "note": "DGIST 대학원 입학 홈페이지. 일반장학생 열에 '등록금 납부(학기당 3,845,000원*)', 각주 '2025년 기준 금액이므로 추후 변동 가능'. 2026학년도 금액은 찾지 못함. 입학금은 이 페이지에 없음. 계열별 구분 없이 단일 금액 표기, 다른 장학제도 페이지에는 '학과(전공)별 등록금이 상이하므로 확인 요망'이라는 문구가 있음."
+  },
+  {
+    "id": "dgist-2027-phd-admission-guide",
+    "title": "2027 Graduate School Admission Guide (2027학년도 대학원 모집요강)",
+    "publisher": "DGIST 대학원 입학팀",
+    "year": 2027,
+    "url": "https://www.dgist.ac.kr/gadm/sub02_01.do",
+    "checked_on": "2026-10-13",
+    "note": "모집요강 PDF(20쪽, https://www.dgist.ac.kr/cmm/fms/FileDown.do?atchFileId=FILE_000000169951Fh5&fileSn=0)를 내려받아 직접 읽음. 2027학년도 봄학기(전기) 1~3차와 가을학기 공통 요강. 인쇄 p.8 'Ⅰ 모집과정' 표에서 박사 칸(국비/디지스트/일반장학생)이 ○인 학과만 units에 반영. 등록금 정보는 확인하지 않음."
+  },
+  {
+    "id": "eccv-2024-acceptance",
+    "title": "ECCV 2024 opening slides",
+    "publisher": "ECCV 2024 organizers (eccv2024.ecva.net)",
+    "year": 2024,
+    "url": "https://eccv2024.ecva.net/media/eccv-2024/Slides/2822.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 개회 슬라이드. 채택 2,387편(27.9%). 2차 자료는 2,395편. ECCV 2026은 공식 채택률 쪽을 찾지 못해 수집하지 않음."
+  },
+  {
+    "id": "emnlp-2025-acceptance",
+    "title": "Proceedings of EMNLP 2025 (Main) front matter, Program Chairs' message",
+    "publisher": "Association for Computational Linguistics (ACL Anthology)",
+    "year": 2025,
+    "url": "https://aclanthology.org/2025.emnlp-main.0.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 프로시딩 서문. 철회 778편과 데스크 리젝 670편이 분모 8,174편에 포함. EMNLP 2026은 공식 수치를 찾지 못함."
+  },
+  {
+    "id": "ewha-2025-indexed-phdkim",
+    "title": "이화여자대학교 대학원 수학과 (phdkim.net 대학원 정보)",
+    "publisher": "phdkim.net (대학알리미 2025 공시 데이터 가공 제3자 사이트, 대학 공식 출처 아님)",
+    "year": 2025,
+    "url": "https://phdkim.net/gradinfo/school/12/department/30",
+    "checked_on": "2026-10-13",
+    "note": "제3자 집계 사이트. 2025 대학알리미 공시(항목 129)에서 가공한 값: 입학금 1,027,000원, 등록금 6,201,000원('연간 등록금'으로 표기, 학기 환산 여부 불명). 사이트 자체가 오류 가능성을 경고. 이화 공식 2026 값과 불일치(공식 인문사회 약 635만원 대 사이트 인문사회 5,448,000원 등)하므로 참고용(indexed)."
+  },
+  {
+    "id": "ewha-2026-scholarship",
+    "title": "장학금 (대학원 장학금 안내, 2026학년도 후기 입학생 기준)",
+    "publisher": "이화여자대학교",
+    "year": 2026,
+    "url": "https://graduate.ewha.ac.kr/graduate/scholarship/scholarship.do",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 교내 대학원장학금 표(최우수이화인, 우수박사(N), 이화연구엑셀런스, 우수이화과학인, 우월김활란21세기, 우수연구, 이화플러스, 학생조교 등) 및 교외·외국인 장학금. 4단계 BK21 연구장학금은 이 페이지에 금액 없음. 장학금 내용은 변경될 수 있음."
+  },
+  {
+    "id": "ewha-2026-scholarship-2",
+    "title": "이화여자대학교 4단계 BK21 사업 '미래대응 LIFE 인재 양성팀' 자체 운영규정 (2024년 8월 9일)",
+    "publisher": "이화여자대학교",
+    "year": 2024,
+    "url": "https://cmsfox.ewha.ac.kr/_res/ewha/bk4life/etc/%EC%9A%B4%EC%98%81%EB%82%B4%EA%B7%9C.pdf",
+    "checked_on": "2026-10-13",
+    "note": "한 BK21 사업팀(LIFE 인재 양성팀)의 내규이며 전교 공통 기준이 아님. 2024-08 문서(최신 공개본, 2026 개정 여부 미확인). 연구장학금 월별 지급: 석사 월 100만원 이상, 박사 월 160만원 이상, 박사수료 월 130만원 이상."
+  },
+  {
+    "id": "ewha-2026-tuition",
+    "title": "2026학년도 후기 외국인특별전형 모집요강(국제학생팀 안내문) - Ⅷ 등록금",
+    "publisher": "이화여자대학교",
+    "year": 2026,
+    "url": "https://isa.ewha.ac.kr/bbs/oisa/251/13688/download.do",
+    "checked_on": "2026-10-13",
+    "note": "국제학생팀(isa.ewha.ac.kr) PDF, PDF p.27. 일반대학원 등록금을 계열 범위와 '약 ○○만원'으로만 제시 (2026학년도 1학기 기준, 추후 변경 가능). 인문사회계열은 단일값, 자연과학·공학/예체능/의학계열은 범위(자연과학·공학 약 736~858만원)라서 단일 학과별 값은 없음. 외국인특별전형 문서이나 같은 대학원 등록금표를 싣고 있음."
+  },
+  {
+    "id": "ewha-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 신입생 모집요강 (2027 Spring Admission Guide)",
+    "publisher": "이화여자대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.ewha.ac.kr/_res/ewha/graduate/etc/2027%20Spring%20Admission%20Guide.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 전체를 내려받아 읽음. Ⅱ.모집학과(학부) 및 전공 표(인쇄 쪽 3-6)와 모집하지 않는 전공 표(쪽 7)를 확인. 학과별 박사 등록금표는 이 문서에 없음. 진입 페이지 https://graduate.ewha.ac.kr/graduate/admission/guide.do"
   },
   {
     "id": "gist-2026-scholarship",
@@ -126,139 +441,58 @@
     "note": "GIST 학사정보. 기본장학금(국비 및 과기원 장학생 전원, 수업료 전액, 수업연한 내), 지스트총장장학금(통합·박사과정 신입생 성적우수자, 입학금 면제 + 학기당 1,500,000원/6회), RA장학금과 발전기금 장학금은 금액 미표기."
   },
   {
-    "id": "dgist-2025-tuition",
-    "title": "대학원 입학 > 대학원 안내 > 장학제도 (sub01_02_03)",
-    "publisher": "대구경북과학기술원",
-    "year": 2025,
-    "url": "https://www.dgist.ac.kr/gadm/sub01_02_03.do",
+    "id": "gist-2026-tuition",
+    "title": "2026학년도 대학원 가을학기 최종합격자 입학등록 안내 2026. 6. (첨부 PDF)",
+    "publisher": "광주과학기술원",
+    "year": 2026,
+    "url": "https://www.gist.ac.kr/gadm/html/sub04/0401.html?mode=D&no=221820&file_id=82195",
     "checked_on": "2026-10-13",
-    "note": "DGIST 대학원 입학 홈페이지. 일반장학생 열에 '등록금 납부(학기당 3,845,000원*)', 각주 '2025년 기준 금액이므로 추후 변동 가능'. 2026학년도 금액은 찾지 못함. 입학금은 이 페이지에 없음. 계열별 구분 없이 단일 금액 표기, 다른 장학제도 페이지에는 '학과(전공)별 등록금이 상이하므로 확인 요망'이라는 문구가 있음."
+    "note": "GIST 대학원 입학 공지의 첨부 PDF (13쪽). 5쪽: 입학금 680,000원. 8쪽: 대학원과정 신입생 납입금(수업료) 2026학년도 기준 3,805,000원/학기; 국비/과기원 장학생은 납입금 전액 면제, 일반장학생은 고지서 납부. 학과·계열별 구분 없이 단일 금액으로 게시. PDF 텍스트 추출 시 한글이 깨져 숫자와 표 구조로 확인했고, 한글 문구는 같은 GIST 공식 웹페이지(gadm/html/sub02/0201.html)와 대조함."
   },
   {
-    "id": "dgist-2025-scholarship",
-    "title": "대학원 입학 > 대학원 안내 > 장학제도 (sub01_02_01)",
-    "publisher": "대구경북과학기술원",
-    "year": 2025,
-    "url": "https://www.dgist.ac.kr/gadm/sub01_02_01.do",
+    "id": "gist-2027-phd-admission-guide",
+    "title": "2027학년도 봄학기(1-2차) GIST 대학원 신입생 모집요강",
+    "publisher": "광주과학기술원 입학팀",
+    "year": 2027,
+    "url": "https://www.gist.ac.kr/download/?file_id=plgwf3bghac8lcmvk1tbc4psnsnm53",
     "checked_on": "2026-10-13",
-    "note": "DGIST 대학원 입학 홈페이지 장학제도. 국비장학생 등록금 전액면제(학기당 3,845,000원, 2025년 기준), 학생맞춤형 장려금 최소 연 석사 7,800,000원 / 박사 14,040,000원 + 별도 가산액; 디지스트장학생 연 석사 15,000,000원 / 박사 22,000,000원 이상(연구과제 참여 전제). 모든 금액 2025년 기준. 같은 내용이 sub01_02.do에도 게시됨."
+    "note": "입학 홈페이지 전형안내>봄학기 2차>모집요강 다운로드(https://www.gist.ac.kr/gadm/html/sub01/010203.html)의 16쪽 이미지형 PDF. '02. 모집분야 및 학위과정' 표(PDF 4쪽, 표기 p.04)를 읽음. 1차(2026.6)·2차(2026.10.12~21 접수) 공통 문서."
   },
   {
-    "id": "dgist-2025-scholarship-2",
-    "title": "대학원 < 장학안내 < 학사정보 < 대학생활",
-    "publisher": "대구경북과학기술원",
+    "id": "gradschoolstory-2023-changhyun-series",
+    "title": "창현의 이야기 (대학원생 때 알았더라면 좋았을 것들)",
+    "publisher": "대학원생 때 알았더라면 좋았을 것들(gradschoolstory.net)",
     "year": 2023,
-    "url": "https://www.dgist.ac.kr/kor/sub05_01_04_01.do",
-    "checked_on": "2026-10-13",
-    "note": "DGIST 재학생용 학사정보 장학안내. 페이지에 '2023년 9월 기준'으로 표기되어 오래된 값일 수 있음. 학생지원경비(국비장학생, 박사 645,000원/월, 최대 8학기), 학생맞춤형 장려금 기본 지급액표(국비 박사 1,170,000원/월, 디지스트장학생 박사 1,834,000원/월), 교수평의회장학금 250,000원/월. 등록금 정보는 이 페이지에 없음."
+    "url": "https://gradschoolstory.net/changhyun/",
+    "note": "출처 계급: 수필·수기 · 공개 블로그 연재(2023). 산업공학 계열 교수의 1인칭 회고. 필자는 해외 대학 재직으로 보이며 진학·재직 국가가 글에 명시되지 않음. 사용한 글은 page_or_url 참조.",
+    "checked_on": "2026-10-13"
   },
   {
-    "id": "unist-2026-tuition",
-    "title": "대학원행정 > 등록 개요 > 등록 금액",
-    "publisher": "울산과학기술원",
-    "year": 2026,
-    "url": "https://www.unist.ac.kr/unist/education/academic/grad-registration.do",
-    "checked_on": "2026-10-13",
-    "note": "UNIST 대학원 행정 페이지. 일반대학원 이공계열 3,840,000원, 융합경영대학원 4,950,000원, 기술경영전문대학원 석사전일/박사전일제 6,500,000원 등. 기간(학기/연)과 연도는 페이지에 명시되지 않으며, 2026학년도 후기2차 모집요강(unist-2026-scholarship-2)이 '2025년 5월 기준, 1학기 3,840,000원'으로 학기당임을 명시. 입학금은 이 페이지에 없음. 실납부액은 사전감면·분할납부·초과학기 등으로 다를 수 있다고 안내."
+    "id": "gradschoolstory-2023-yoonsup-series",
+    "title": "윤섭의 이야기 (대학원생 때 알았더라면 좋았을 것들)",
+    "publisher": "대학원생 때 알았더라면 좋았을 것들(gradschoolstory.net)",
+    "year": 2023,
+    "url": "https://gradschoolstory.net/yoonsup/",
+    "note": "출처 계급: 수필·수기 · 공개 블로그 연재(글별 2022~2023). 생명정보학·생명과학 박사 출신 필자의 1인칭 회고. 사용한 글은 레코드의 page_or_url 참조. 2025년 이후 사이트 첫 화면이 무관한 게시물로 채워져 도메인 현황 확인 필요, 개별 글은 열람 가능.",
+    "checked_on": "2026-10-13"
   },
   {
-    "id": "unist-2026-scholarship",
-    "title": "대학원 장학",
-    "publisher": "울산과학기술원",
-    "year": 2026,
-    "url": "https://www.unist.ac.kr/unist/admissions/scholarship-info-grad.do",
+    "id": "hangyo-2022-lecturer-fee-moe-analysis",
+    "title": "물가 급등하는데…대학 강사 평균 강의료 겨우 0.7% 올라",
+    "publisher": "한국교육신문(교육부·한국대학교육협의회 2022년 6월 대학정보공시 분석 결과 보도)",
+    "year": 2022,
+    "url": "https://hangyo.com/news/article.html?no=96627",
     "checked_on": "2026-10-13",
-    "note": "UNIST 대학원 장학 분류 페이지. 국비장학생(등록금 전액 면제, 학연장려금 지급), UNIST장학생(등록금 전액 지원, 지도교수 연구비로 보충; 학연장려금 지급), 일반장학생(학연장려금 미지급). 금액은 이 페이지에 없음. 이중수혜 불가, 수업연한 초과자 제외, 학적변동 시 전액 환수."
+    "note": "2022년 1학기. 일반대·교대 전체 평균 6만7400원, 국공립 8만9000원, 사립 5만6400원. 2차 보도이며 교육부·대교협 원문 보도자료는 확인하지 못함."
   },
   {
-    "id": "unist-2026-scholarship-2",
-    "title": "2026학년도 후기2차 대학원과정 신입생 모집요강 - 양자대학원 양자과학기술 전공",
-    "publisher": "울산과학기술원",
-    "year": 2026,
-    "url": "https://adm-g.unist.ac.kr/admg/community/notice.do?mode=download&articleNo=285863&attachNo=577391",
+    "id": "hankyung-2025-private-professor-pay",
+    "title": "[단독] 연봉 4배 앞세워 교수 빼가는데…재정 열악한 韓대학은 속수무책",
+    "publisher": "한국경제(2025-07-06)",
+    "year": 2025,
+    "url": "https://www.hankyung.com/article/2025070610601",
     "checked_on": "2026-10-13",
-    "note": "UNIST 대학원 입학처 공지 첨부 PDF (13쪽). 해당 모집 분야(양자대학원)는 국비 장학생으로만 선발. PDF 10쪽(인쇄 쪽번호 9): 국비 장학생 지원 내용 - 등록금 전액 면제(2025년 5월 기준 1학기 3,840,000원), 학연장려금 이공계열 기준 박사 연 13,200,000원 이상(월 1,100,000원 이상), 석사 연 9,600,000원 이상(월 800,000원 이상). 양자대학원 모집요강이라 다른 학과에도 동일 적용되는지는 이 문서만으로 확정할 수 없음. 입학금 항목 없음."
-  },
-  {
-    "id": "yonsei-2026-tuition",
-    "title": "연세대학교 2026학년도 일반대학원 등록금 명세표 (2026_fee2.pdf)",
-    "publisher": "연세대학교",
-    "year": 2026,
-    "url": "https://www.yonsei.ac.kr/sites/sc/down/2026_fee2.pdf",
-    "checked_on": "2026-10-13",
-    "note": "Official 등록금 명세표 PDF, 4 pages; page 1 = 일반대학원 table (입학금, 학기당 수업료 by 계열). Table does not distinguish 석사/박사 and does not list which department belongs to which 계열. Text read from the PDF text layer (extracted locally because WebFetch could not decode it). The identical 일반대학원 table also appears in the Mirae (Wonju) campus PDF; only the Sinchon PDF is cited."
-  },
-  {
-    "id": "yonsei-2026-scholarship",
-    "title": "연세대학교 대학원 > 학사안내 > 장학 > 교내장학금",
-    "publisher": "연세대학교",
-    "year": 2026,
-    "url": "https://graduate.yonsei.ac.kr/graduate/academic/scholarship.do",
-    "checked_on": "2026-10-13",
-    "note": "Official 교내장학금 table. Lists 연세 동행 장학금 and 연세 박사과정 특별 장학금 as 정액 (fixed amount) without stating the amount; eligibility 박사 정규등록학기 and 통합 4~6학기, 내국인 and 일반전형 외국인."
-  },
-  {
-    "id": "yonsei-2026-scholarship-2",
-    "title": "2026학년도 2학기 일반대학원 연세 동행 장학금 등 관련 안내 (공지, 게시 2025.09.09)",
-    "publisher": "연세대학교",
-    "year": 2026,
-    "url": "https://graduate.yonsei.ac.kr/graduate/board/notice.do?mode=view&articleNo=454682",
-    "checked_on": "2026-10-13",
-    "note": "Official notice giving the per-semester amount (120만원/학기, 등록금성외 장학금) for 연세 동행 장학금 & 연세 박사과정 특별 장학금, and 연세 외국인 동행 장학금 amounts. Amounts may change each year per the notice."
-  },
-  {
-    "id": "korea-2026-tuition",
-    "title": "2026학년도 일반대학원 재학생 등록금 일람표 (2026_Registration_fee(grad).pdf)",
-    "publisher": "고려대학교",
-    "year": 2026,
-    "url": "https://www.korea.ac.kr/sites/ko/files/2026_Registration_fee(grad).pdf",
-    "checked_on": "2026-10-13",
-    "note": "Official 등록금 일람표 (대학원 재학생), 1 page, unit 천원 (thousand KRW). Gives 입학금, 수업료, 의료공제, 보건비, 학생회비, 고연전필승기금 by 계열 and by 입학연도 (24학번~ vs 23학번 이전), and lists departments per 계열. Linked from https://www.korea.ac.kr/ko/582/subview.do (등록금 일람표). Values below are for 2024학번 이후 입학. Table covers 석사, 박사 with the same fee."
-  },
-  {
-    "id": "korea-2026-scholarship",
-    "title": "고려대학교 일반대학원 > 장학제도 > 4단계 BK21 연구장학금",
-    "publisher": "고려대학교",
-    "year": 2026,
-    "url": "https://graduate.korea.ac.kr/scholarship/bk21.html",
-    "checked_on": "2026-10-13",
-    "note": "Official page; 지급액 per month by 석사/박사/박사수료. No date on page (4단계 BK21 period). Max semesters not stated (eligibility window in years)."
-  },
-  {
-    "id": "korea-2026-scholarship-2",
-    "title": "고려대학교 일반대학원 > 장학제도 > 교내 장학금",
-    "publisher": "고려대학교",
-    "year": 2026,
-    "url": "https://graduate.korea.ac.kr/scholarship/school.html",
-    "checked_on": "2026-10-13",
-    "note": "Official 교내 장학금 list. Page footer says Copyright 2022 and carries no academic-year date, so treat as undated. Many programs have amount '소정금액' (unspecified)."
-  },
-  {
-    "id": "skku-2026-tuition",
-    "title": "2026학년도 후기 일반대학원 일반전형 모집요강 (수정3차; 10. 등록금 안내, 12. 장학금 안내)",
-    "publisher": "성균관대학교",
-    "year": 2026,
-    "url": "https://gradschool.skku.edu/grad/mojip/regul.htm?bbsid=grad_dataroom&ctg_cd=REGUL&page=1&skey=&keyword=&mode=view&bltn_seq=58820",
-    "checked_on": "2026-10-13",
-    "note": "Official 모집요강 PDF attached to this notice page (file '2026학년도 후기 일반대학원 일반전형 모집요강_대학원팀 작업_260317_업로드용_수정3차.pdf', 37 pages; downloaded through the site's POST file endpoint). Records cite PDF page numbers: PDF page 22 = 등록금 안내 (입학금, 학기당 수업료 by 계열; note: 학과별로 등록금이 다를 수 있음), PDF pages 24-25 = 특별 장학금. The 2026학년도 전기 요강 stated its tuition was 2025 basis; this 후기 table is the 2026 one. Table not split by 석사/박사."
-  },
-  {
-    "id": "hanyang-2026-tuition",
-    "title": "2026학년도 한양대학교 등록금 명세서(내국인) (첨부 PDF, 1쪽)",
-    "publisher": "한양대학교",
-    "year": 2026,
-    "url": "https://nursing.hanyang.ac.kr/front/noti/Notice/file-load?id=2043&fileId=2612",
-    "checked_on": "2026-10-13",
-    "note": "Official tuition sheet attached to the university's 2026학년도 등록금 책정 안내 notice (posted 2026-02-03, hosted on the 간호대학 site). 내국인 only. 일반대학원 table has rows by 계열 only; it does not separate 석사 and 박사."
-  },
-  {
-    "id": "hanyang-2026-tuition-2",
-    "title": "2026학년도 한양대학교 등록금 책정 안내 (공지)",
-    "publisher": "한양대학교",
-    "year": 2026,
-    "url": "https://nursing.hanyang.ac.kr/front/noti/Notice/view?id=2043&BoardArticleSearch%5Bcategory%5D=1",
-    "checked_on": "2026-10-13",
-    "note": "Notice page (2026-02-03) that carries the tuition sheet; states 입학금 동결, 연구등록금 동결, 수업료 인상(안) 2.6%."
+    "note": "교육부 자료 인용, 사립대 정교수 평균 급여 2019년 1억62만원, 2024년 1억139만원. 국립대·부교수·조교수 수치 없음. 세전·수당 포함 여부 미기재. 2차 보도."
   },
   {
     "id": "hanyang-2026-scholarship",
@@ -279,220 +513,112 @@
     "note": "Hanyang research office BK21 page; lists 연구장학금 per month. Page is undated. Other Hanyang BK21 pages (not fetchable) were reported by search to say 박사생 월 160만원, so the amount may be stale."
   },
   {
-    "id": "sogang-2026-tuition",
-    "title": "2026학년도 후기 일반2차전형 합격자 등록금 안내 (일반대학원 장학·등록 게시판, 2026.08.03)",
-    "publisher": "서강대학교",
+    "id": "hanyang-2026-tuition",
+    "title": "2026학년도 한양대학교 등록금 명세서(내국인) (첨부 PDF, 1쪽)",
+    "publisher": "한양대학교",
     "year": 2026,
-    "url": "https://gradsch.sogang.ac.kr/front/cmsboardview.do?siteId=gradsch&bbsConfigFK=402&pkid=938929",
+    "url": "https://nursing.hanyang.ac.kr/front/noti/Notice/file-load?id=2043&fileId=2612",
     "checked_on": "2026-10-13",
-    "note": "Official 일반대학원 notice with 2026 신입생 입학금/수업료/학생회비 by 계열. Table does not split 석사/박사 for 일반 계열 (EIC 전공만 구분). 계열: 인문사회, 이학, 공학/융합."
+    "note": "Official tuition sheet attached to the university's 2026학년도 등록금 책정 안내 notice (posted 2026-02-03, hosted on the 간호대학 site). 내국인 only. 일반대학원 table has rows by 계열 only; it does not separate 석사 and 박사."
   },
   {
-    "id": "sogang-2026-tuition-2",
-    "title": "2026학년도 2학기 재학생(학점등록 포함), 논문(연구)등록생 등록금 납부 안내 (일반대학원, 2026.08.07)",
-    "publisher": "서강대학교",
+    "id": "hanyang-2026-tuition-2",
+    "title": "2026학년도 한양대학교 등록금 책정 안내 (공지)",
+    "publisher": "한양대학교",
     "year": 2026,
-    "url": "https://gradsch.sogang.ac.kr/front/cmsboardview.do?siteId=gradsch&bbsConfigFK=402&pkid=939117",
+    "url": "https://nursing.hanyang.ac.kr/front/noti/Notice/view?id=2043&BoardArticleSearch%5Bcategory%5D=1",
     "checked_on": "2026-10-13",
-    "note": "Official 2026-2학기 재학생 수업료와 논문등록생 금액 by 계열 (내국인/외국인). No 입학금 column; 총액 shown by the fetch tool was computed, not stated."
+    "note": "Notice page (2026-02-03) that carries the tuition sheet; states 입학금 동결, 연구등록금 동결, 수업료 인상(안) 2.6%."
   },
   {
-    "id": "sogang-2026-scholarship",
-    "title": "일반대학원 학사 - 장학금 (gradsch04_3_2)",
-    "publisher": "서강대학교",
-    "year": 2026,
-    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch04_3_2.html",
+    "id": "hanyang-2027-phd-admission-guide",
+    "title": "2027학년도 일반대학원 신입학 전기 특별전형 모집요강(수정, 2026.09.21 기준)",
+    "publisher": "한양대학교 대학원",
+    "year": 2027,
+    "url": "http://grad.hanyang.ac.kr/board/data.php?ptype=view&idx=10548&page=1&code=data&category=119",
     "checked_on": "2026-10-13",
-    "note": "Official 일반대학원 scholarship table (Albatross, 서강 Scholarship, 타대학, 석·박사 연계, TA, RA, 서강 글로벌 등). Page shows no date; read on 2026-10-13 as the current page. Page does not say which items apply to 박사."
+    "note": "자료실 게시물 첨부 PDF(/admin/bbs/down.php?code=data&idx=10548&no=1)를 내려받아 '1-1. 계열별 모집학과: 일반학과', '1-2. 학과간협동과정' 표(PDF 3~13쪽)를 직접 읽음. 열은 석사/박사/석박통합이며 ◯ 모집, ✕ 모집안함. 서울캠퍼스 학과만 사용하고 (ERICA) 표기 학과는 제외."
   },
   {
-    "id": "sogang-2026-scholarship-2",
-    "title": "일반대학원 - 대학원혁신센터 (BK21 연구장학금 안내)",
-    "publisher": "서강대학교",
-    "year": 2026,
-    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch004_03.html",
-    "checked_on": "2026-10-13",
-    "note": "Official page: 인력양성사업 연구장학금 석사 월 100만, 박사 월 160만, 박사수료 월 130만 이상; project period 2020.9~2027.8. Page undated; page does not name 'BK21' explicitly."
-  },
-  {
-    "id": "khu-2026-tuition",
-    "title": "2026학년도 전기 일반대학원 정원내 신(편)입학 모집요강(안) - 2. 2026학년도 등록금 안내 (p.37)",
-    "publisher": "경희대학교",
-    "year": 2026,
-    "url": "https://iphak.khu.ac.kr/file/download.do?sfn=20250925042145187_2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf&ofn=2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf",
-    "checked_on": "2026-10-13",
-    "note": "Official 입학처 PDF (file name ends '(안)'). p.37 table by 계열 x 과정(석사/박사/석박사통합) for 서울/국제캠퍼스. Page states: '본 등록금은 2025학년도 등록금 기준으로, 변경 될 수 있습니다.' So values are the 2025학년도 basis shown for 2026 admission, not confirmed 2026 rates. 입학금 and 수업료 are 필수납부; 기타회비 선택납부."
-  },
-  {
-    "id": "khu-2026-scholarship",
-    "title": "2026학년도 전기 일반대학원 정원내 신(편)입학 모집요강(안) - 4. 장학금 안내 (p.40-41)",
-    "publisher": "경희대학교",
-    "year": 2026,
-    "url": "https://iphak.khu.ac.kr/file/download.do?sfn=20250925042145187_2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf&ofn=2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf",
-    "checked_on": "2026-10-13",
-    "note": "Same official PDF; pp.38-39 list 대외 연구비 사업(BK21 etc.), p.40-41 장학금 현황 table and 경희학부우수졸업생 장학. BK21 생활비 amount not given. Many items say only '수업료 일부'."
-  },
-  {
-    "id": "ewha-2026-tuition",
-    "title": "2026학년도 후기 외국인특별전형 모집요강(국제학생팀 안내문) - Ⅷ 등록금",
-    "publisher": "이화여자대학교",
-    "year": 2026,
-    "url": "https://isa.ewha.ac.kr/bbs/oisa/251/13688/download.do",
-    "checked_on": "2026-10-13",
-    "note": "국제학생팀(isa.ewha.ac.kr) PDF, PDF p.27. 일반대학원 등록금을 계열 범위와 '약 ○○만원'으로만 제시 (2026학년도 1학기 기준, 추후 변경 가능). 인문사회계열은 단일값, 자연과학·공학/예체능/의학계열은 범위(자연과학·공학 약 736~858만원)라서 단일 학과별 값은 없음. 외국인특별전형 문서이나 같은 대학원 등록금표를 싣고 있음."
-  },
-  {
-    "id": "ewha-2026-scholarship",
-    "title": "장학금 (대학원 장학금 안내, 2026학년도 후기 입학생 기준)",
-    "publisher": "이화여자대학교",
-    "year": 2026,
-    "url": "https://graduate.ewha.ac.kr/graduate/scholarship/scholarship.do",
-    "checked_on": "2026-10-13",
-    "note": "일반대학원 교내 대학원장학금 표(최우수이화인, 우수박사(N), 이화연구엑셀런스, 우수이화과학인, 우월김활란21세기, 우수연구, 이화플러스, 학생조교 등) 및 교외·외국인 장학금. 4단계 BK21 연구장학금은 이 페이지에 금액 없음. 장학금 내용은 변경될 수 있음."
-  },
-  {
-    "id": "ewha-2026-scholarship-2",
-    "title": "이화여자대학교 4단계 BK21 사업 '미래대응 LIFE 인재 양성팀' 자체 운영규정 (2024년 8월 9일)",
-    "publisher": "이화여자대학교",
-    "year": 2024,
-    "url": "https://cmsfox.ewha.ac.kr/_res/ewha/bk4life/etc/%EC%9A%B4%EC%98%81%EB%82%B4%EA%B7%9C.pdf",
-    "checked_on": "2026-10-13",
-    "note": "한 BK21 사업팀(LIFE 인재 양성팀)의 내규이며 전교 공통 기준이 아님. 2024-08 문서(최신 공개본, 2026 개정 여부 미확인). 연구장학금 월별 지급: 석사 월 100만원 이상, 박사 월 160만원 이상, 박사수료 월 130만원 이상."
-  },
-  {
-    "id": "ewha-2025-indexed-phdkim",
-    "title": "이화여자대학교 대학원 수학과 (phdkim.net 대학원 정보)",
-    "publisher": "phdkim.net (대학알리미 2025 공시 데이터 가공 제3자 사이트, 대학 공식 출처 아님)",
+    "id": "heraldk-2025-snu-assistant-pay",
+    "title": "서울대 교수도 연봉 낮으면 소용 없다?…채용 합격하고 포기",
+    "publisher": "헤럴드경제(2025-10-08)",
     "year": 2025,
-    "url": "https://phdkim.net/gradinfo/school/12/department/30",
+    "url": "https://www.heraldk.com/article/2025100816543424477",
     "checked_on": "2026-10-13",
-    "note": "제3자 집계 사이트. 2025 대학알리미 공시(항목 129)에서 가공한 값: 입학금 1,027,000원, 등록금 6,201,000원('연간 등록금'으로 표기, 학기 환산 여부 불명). 사이트 자체가 오류 가능성을 경고. 이화 공식 2026 값과 불일치(공식 인문사회 약 635만원 대 사이트 인문사회 5,448,000원 등)하므로 참고용(indexed)."
+    "note": "서울대 조교수 평균 8848만원(2021년 기준)을 출처 미명시로 제시. 서울대 교수협의회 비율 주장(정교수 73%, 부교수 89%, 조교수 93%)은 비교 대상 5개교 미명시라 수치로 쓰지 않음."
   },
   {
-    "id": "cau-2026-tuition",
-    "title": "2026학년도 전반기 일반대학원 특별추천전형 합격자 유의사항",
-    "publisher": "중앙대학교 대학원",
+    "id": "ibric-2019-grad-survey-comments",
+    "title": "이공계 대학원생 처우 개선을 위한 설문조사 - 주관식 의견",
+    "publisher": "생물학연구정보센터(BRIC)",
+    "year": 2019,
+    "url": "https://www.ibric.org/community/biohelp/reply/gra2.html",
+    "note": "출처 계급: 수필·수기 · 익명 설문 자유서술 응답 모음. 공개 열람. 게시 연도는 페이지에 없고 본문의 2019년 3월 지침 언급으로 2019년 이후로 추정. 응답자 신원·학교 없음.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "ibric-2019-qualifying-fail-overseas",
+    "title": "10년 미국 유학, 박사 퀄 fail (BRIC 소리마당 진로 게시판)",
+    "publisher": "생물학연구정보센터(BRIC)",
+    "year": 2019,
+    "url": "https://www.ibric.org/bric/community/popular-sori.do?mode=view&articleNo=9583996&title=10%EB%85%84+%EB%AF%B8%EA%B5%AD+%EC%9C%A0%ED%95%99%2C+%EB%B0%95%EC%82%AC+%ED%80%84+fail%2C+%EC%84%9C%EB%A5%B8+%EC%97%AC%EC%9E%90",
+    "note": "출처 계급: 수필·수기 · 익명 게시판 글(2019-08-31). 로그인 없이 본문 열람 가능, 댓글만 로그인. 해외(미국) 생명과학 박사과정 맥락이라 한국 대학 제도와 다름.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "iccv-2025-acceptance",
+    "title": "ICCV 2025 Main Program (front matter)",
+    "publisher": "ICCV 2025 organizers (media.eventhosts.cc)",
     "year": 2025,
-    "url": "https://graduate.cau.ac.kr/_attach/gradcau/file/2025/11/wTIsRiaXUNkenbmpcfsBZxgiWZ.pdf",
+    "url": "https://media.eventhosts.cc/Conferences/ICCV2025/iccv25_main_program.pdf",
     "checked_on": "2026-10-13",
-    "note": "2025-11-06 작성. '등록금액: 미정 [2025학년도 등록금 참고]'라며 2025학년도 계열별 입학금·수업료(한 학기)표를 제시. 2026학년도 확정액은 확인된 공식 문서에 없음. 표는 일반대학원 공통(석사/박사 구분 없음)."
+    "note": "공식 프로그램 PDF 서문. 2차 자료 NTT https://group.ntt/en/topics/2025/10/23/iccv2025.html 은 채택 2,698편으로 2,701편과 다름(직접 확인하지 못함)."
   },
   {
-    "id": "cau-2026-scholarship",
-    "title": "2026학년도 전반기 특별추천전형 모집요강 (9. 등록금 및 환불규정, 11. 장학제도)",
-    "publisher": "중앙대학교 대학원",
+    "id": "iclr-2026-acceptance",
+    "title": "A Retrospective on the ICLR 2026 Review Process",
+    "publisher": "ICLR Program Chairs (blog.iclr.cc)",
     "year": 2026,
-    "url": "http://graduate.cau.ac.kr/graduate/info/notice.do?mode=download&articleNo=45623&attachNo=57280",
+    "url": "https://blog.iclr.cc/2026/03/31/a-retrospective-on-the",
     "checked_on": "2026-10-13",
-    "note": "PDF p.11 등록금표(2026 미정, 2025 참고), p.12 CAU GRS 장학금(금액·지급기간), p.13 BK21 장학금. 장학인원·금액은 예산범위 내 대학원 장학위원회 결정. 규정 개정 시 변동 가능."
+    "note": "공식 블로그. 팩트시트 https://media.iclr.cc/Conferences/ICLR2026/ICLR2026_Fact_Sheet.pdf 는 채택 5,357편, 채택률 27%로 블로그(5,355편, 27.4%)와 2편 차이."
   },
   {
-    "id": "cau-2026-scholarship-2",
-    "title": "장학안내 > 장학 > 학사안내",
-    "publisher": "중앙대학교 대학원",
+    "id": "icml-2025-acceptance",
+    "title": "ICML 2025 acceptance notice (RIKEN AIP news item, cites icml.cc/Conferences/2025)",
+    "publisher": "RIKEN Center for Advanced Intelligence Project",
+    "year": 2025,
+    "url": "https://aip.riken.jp/?p=19952",
+    "checked_on": "2026-10-13",
+    "note": "2차 자료. 이 기사가 icml.cc/Conferences/2025를 출처로 달았으나 icml.cc 쪽 통계는 직접 확인하지 못함. ICML 2026 수치는 공식 자료가 없어 수집하지 않음."
+  },
+  {
+    "id": "icra-2025-acceptance",
+    "title": "ICRA 2025 Highlight Statistics (announcement)",
+    "publisher": "IEEE Robotics and Automation Society (ICRA 2025)",
+    "year": 2025,
+    "url": "https://2025.ieee-icra.org/announcements",
+    "checked_on": "2026-10-13",
+    "note": "공식 공지. 제출 4,250편, 채택 1,606편(채택률은 공지에 없음). 저널 전환 503편은 별도."
+  },
+  {
+    "id": "icros-2026",
+    "title": "2026 제41회 제어·로봇·시스템학회 학술대회 안내",
+    "publisher": "제어·로봇·시스템학회(ICROS)",
     "year": 2026,
-    "url": "http://graduate.cau.ac.kr/graduate/bachelors-guide/scholarship-information.do",
+    "url": "https://2026.icros.org/",
     "checked_on": "2026-10-13",
-    "note": "대학원 장학 종류 표(CAU GRS, 우수재학생, 중앙사랑연구, CAYSS, BK21, 직계, 부속기관, 외국인 등). 페이지에 게시 연도 표기 없음(현행 안내)."
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개. 일정 페이지에 '준비 중' 표시가 남아 있음."
   },
   {
-    "id": "konkuk-2026-tuition",
-    "title": "2026학년도 전기 대학원 일반전형 (추가)모집요강 - Ⅺ 등록금 안내, Ⅻ 장학 안내",
-    "publisher": "건국대학교 대학원",
+    "id": "ieie-2026-summer",
+    "title": "대한전자공학회 2026년도 하계종합학술대회 안내",
+    "publisher": "대한전자공학회(IEIE)",
     "year": 2026,
-    "url": "https://www.konkuk.ac.kr/bbs/edutech/4092/1201390/download.do",
+    "url": "https://conf.theieie.org/2026s",
     "checked_on": "2026-10-13",
-    "note": "PDF p.20 등록금표(입학금·수업료·등록금·기타납입금(학생회비)), p.21 장학 안내. 이 요강은 박사과정 및 통합과정만 모집(석사 미모집). '신규 대학원 등록금 책정표에 따라 변경 가능'. 교육공학과·산업경영융합학부는 이학계열 적용."
-  },
-  {
-    "id": "konkuk-2026-scholarship",
-    "title": "장학안내 (건국대학교 대학원)",
-    "publisher": "건국대학교 대학원",
-    "year": 2026,
-    "url": "https://www.konkuk.ac.kr/grad/10293/subview.do",
-    "checked_on": "2026-10-13",
-    "note": "교내 장학 표(연구조교, 석박통합 특별장학, 수업조교 A/C, 복지, 외국인 등). 모두 등록금 범위 내 지급, 별도 등록금표 없음. 게시 연도 불명(현행 안내)."
-  },
-  {
-    "id": "konkuk-2026-scholarship-2",
-    "title": "[한국장학재단] 2026년 석사 및 박사우수장학금(이공계) 안내",
-    "publisher": "건국대학교 대학원",
-    "year": 2026,
-    "url": "https://grad.konkuk.ac.kr/grad/10301/subview.do;jsessionid=B8660290FD0676F3CDBBD17FAC90CDF3?enc=Zm5jdDF8QEB8JTJGYmJzJTJGZ3JhZCUyRjI2MiUyRjExNzQ5MTUlMkZhcnRjbFZpZXcuZG8lM0Y%3D",
-    "checked_on": "2026-10-13",
-    "note": "대학원 공지(신청 마감 2026-06-04). 한국장학재단(국가) 이공계 석사·박사 우수장학금 교내 추천 안내: 석사 9명 학기당 250만원, 박사 6명 학기당 375만원. 마감된 공지이며 학교 자체 프로그램이 아님."
-  },
-  {
-    "id": "pusan-2026-tuition",
-    "title": "[학사]2026학년도 등록금 책정 안내 (재료공학부 게시, 2026.01.14)",
-    "publisher": "부산대학교",
-    "year": 2026,
-    "url": "https://mse.pusan.ac.kr/mse/50822/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGbXNlJTJGMTIyNjUlMkYxNzU0MzAwJTJGYXJ0Y2xWaWV3LmRvJTNG",
-    "checked_on": "2026-10-13",
-    "note": "Department page on pusan.ac.kr reproducing the 2026학년도 등록금 책정표: 입학금, 수업료Ⅰ, 수업료Ⅱ per 계열 for 일반대학원 (석사, 박사과정 및 석·박사통합과정 combined; not split by degree). The page does not state the billing period explicitly; amounts are per-term figures (1학년 row includes 입학금, 2~4학년 row has 입학금 0). The university's own 책정표 file on onestop.pusan.ac.kr was not retrievable (download link only)."
-  },
-  {
-    "id": "pusan-2026-scholarship",
-    "title": "PNU 이공계 연구생활장려금(Stipend) 지원사업 2026학년도 2학기 운영계획(안), 2026. 8.",
-    "publisher": "부산대학교 산학협력단",
-    "year": 2026,
-    "url": "https://fashion.pusan.ac.kr/bbs/fashion/979/1526944/download.do",
-    "checked_on": "2026-10-13",
-    "note": "PDF hosted on a pusan.ac.kr department board. The PDF text extractor dropped Hangul glyphs, so only digits and some symbols were machine-read directly: the 기준금액(월) line (석사 80, 박사 110, in 만원), the period 2026.9~2027.2 (6개월), the program span '25.5.1~'34.2.28 and the application deadline 2026.9.11. Eligibility and funding-source wording could not be read from the PDF; they are taken from search-result text of the same PDF and from the MSIT program description (석사 80만원, 박사 110만원 기준금액)."
-  },
-  {
-    "id": "uos-2024-tuition",
-    "title": "2024학년도 후기 일반대학원 일반전형 신입학 모집요강, 7-2. 2024학년도 등록금 (단위: 원, 학기당)",
-    "publisher": "서울시립대학교 일반대학원",
-    "year": 2024,
-    "url": "https://graduate.uos.ac.kr/files/graduate/graduate/admission/2024%ED%95%99%EB%85%84%EB%8F%84%20%ED%9B%84%EA%B8%B0%20%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90%20%EC%9D%BC%EB%B0%98%EC%A0%84%ED%98%95%20%EC%8B%A0%EC%9E%85%ED%95%99%20%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95.pdf",
-    "checked_on": "2026-10-13",
-    "note": "LATEST OFFICIAL TABLE READABLE, academic year 2024 (not 2026). Per-semester 입학금 + 수업료 by 계열; not split by master/doctor. The 2026학년도 대학원 등록금 책정표 on uos.ac.kr / graduate.uos.ac.kr sits behind an SSO redirect or a placeholder download link and could not be retrieved. Source id carries 2024 on purpose."
-  },
-  {
-    "id": "uos-2026-scholarship",
-    "title": "교내장학 < 장학금지급 및 학자금 대출 < 학생지원 < 서울시립대학교 일반대학원",
-    "publisher": "서울시립대학교 일반대학원",
-    "year": 2026,
-    "url": "https://www.uos.ac.kr/graduateNew/html/support/scholarship/scholarship.do?menuid=3000004001001000000&identified=anonymous",
-    "checked_on": "2026-10-13",
-    "note": "Graduate 교내장학 list (총장/수업지원/연구지원/학·석사연계/원장/강의조교/외국인/연구비 장학 etc.). Benefits are given as codes (A 수업료전액감면(입학금포함), B 반액, G 일정액지급) with no KRW amounts. Academic year is not printed on the page; the same benefit codes appear in the official 2025학년도 후기 신입생 학사안내 PDF on graduate.uos.ac.kr."
-  },
-  {
-    "id": "knu-2026-tuition",
-    "title": "경북대학교 대학원 등록금표(2026학년도) (tuition_2026(2).xls, sheet 2026학년도 등록금표_대학원)",
-    "publisher": "경북대학교",
-    "year": 2026,
-    "url": "https://knu.ac.kr/wbbs/wbbs/download/tuition_2026(2).xls",
-    "checked_on": "2026-10-13",
-    "note": "Official 등록금표 file linked from the 등록금 차등납부제도 page of knu.ac.kr (menu_url=edu/academic03_04_02). Per-semester 입학금, 수업료Ⅰ/Ⅱ, (구)부가징수금, 수업료 합계 by 대학원/등록계열/학과. Not split by master/doctor except a few named programs (e.g. 보건학과(박사)). File last saved 2026-08-03."
-  },
-  {
-    "id": "knu-2026-scholarship",
-    "title": "경북대, 전일제 박사과정생 등록금 전액 장학금 지원 (경북대 대학소식, 등록 2025-05-29)",
-    "publisher": "경북대학교",
-    "year": 2026,
-    "url": "https://www.knu.ac.kr/wbbs/wbbs/bbs/btin/viewBtin.action?bbs_cde=28&btin.bbs_cde=28&btin.doc_no=1334585&btin.appl_no=000000&btin.page=1&btin.search_type=&btin.search_text=&popupDeco=&btin.note_div=row&menu_idx=214",
-    "checked_on": "2026-10-13",
-    "note": "University news item (page text is very long; first 100000 characters read). States a full-tuition scholarship for 전일제 박사 and 석·박사통합 students from 2025학년도 2학기. No max semesters, amounts, or 입학금/수업료 breakdown on the page. A second KNU news item (doc_no=1335408) says '대부분에게' (most students)."
-  },
-  {
-    "id": "knu-2024-scholarship",
-    "title": "2024년 대학원 대통령과학장학금사업 학생 온라인 신청 안내",
-    "publisher": "경북대학교",
-    "year": 2024,
-    "url": "https://www.knu.ac.kr/wbbs/wbbs/bbs/btin/viewBtin.action?bbs_cde=1&btin.bbs_cde=1&btin.doc_no=1331191&btin.appl_no=000000&menu_idx=67",
-    "checked_on": "2026-10-13",
-    "note": "KNU notice (2024-02-14) of the national 대통령과학장학금 (Korea Student Aid Foundation, kosaf.go.kr) for 이공계 일반대학원. 2024 figures; no 2026 version found. National program, not KNU-funded; max period and extra conditions are in an HWP attachment that could not be read."
-  },
-  {
-    "id": "jnu-2026-tuition",
-    "title": "등록금내역 (2026학년도 대학원 등록금, 학기당)",
-    "publisher": "전남대학교",
-    "year": 2026,
-    "url": "https://www.jnu.ac.kr/MainUniLife/UniInfor/Registration/ListFees",
-    "checked_on": "2026-10-13",
-    "note": "Official 재무과 page, 2026학년도 대학원 학기별 등록금 일람표. 일반대학원 row is labelled (석사,박사), i.e. the same amount for master and doctoral. Page states 일반대학원 2.5% 인상(수업료Ⅱ기준) and 2018학년도부터 입학금 폐지. Department-to-계열 assignment is not listed on the page. (The 2026 모집요강 copy of the table is labelled 2025학년도 기준 reference with the same 공학계 3,327,000.)"
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개. 추계 대회(2025년도 추계학술대회, 2025-11-28~29, 곤지암)의 명칭에는 '종합'이 빠져 있음."
   },
   {
     "id": "jnu-2026-scholarship",
@@ -522,21 +648,1749 @@
     "note": "Official 모집요강 PDF for the 전기 (추가) intake. Used only for the first-semester tuition waiver wording, which is narrower here (본교 출신 내국인 석사과정 졸업자 중 전일제 박사과정 신입생) than in the 후기 materials."
   },
   {
-    "id": "cnu-2026-tuition",
-    "title": "2026학년도 등록금 책정 공고 (붙임1 2026학년도 충남대학교 등록금 일람표.xlsx)",
-    "publisher": "충남대학교",
+    "id": "jnu-2026-tuition",
+    "title": "등록금내역 (2026학년도 대학원 등록금, 학기당)",
+    "publisher": "전남대학교",
     "year": 2026,
-    "url": "https://plus.cnu.ac.kr/_prog/_board/?mode=V&no=2511699&code=sub07_0702&site_dvs_cd=kr&menu_dvs_cd=&skey=&sval=&site_dvs=&ntt_tag=&GotoPage=",
+    "url": "https://www.jnu.ac.kr/MainUniLife/UniInfor/Registration/ListFees",
     "checked_on": "2026-10-13",
-    "note": "Official 재무과 notice dated 2026-02-09 (대학원 일반/전문/특수 2.5% 인상). Figures come from attachment 1 (xlsx, sheet '2026 학부, 대학원', unit 원/학기), rows 일반대학원(박사). 수업료 excludes 입학금; the 신입생 수업료 column = 수업료 + 입학금. No separate 기성회비 column."
+    "note": "Official 재무과 page, 2026학년도 대학원 학기별 등록금 일람표. 일반대학원 row is labelled (석사,박사), i.e. the same amount for master and doctoral. Page states 일반대학원 2.5% 인상(수업료Ⅱ기준) and 2018학년도부터 입학금 폐지. Department-to-계열 assignment is not listed on the page. (The 2026 모집요강 copy of the table is labelled 2025학년도 기준 reference with the same 공학계 3,327,000.)"
   },
   {
-    "id": "cnu-2026-scholarship",
-    "title": "2026학년도 전기2차 일반대학원 모집요강 (7. 대학원 장학제도, 8. 4단계 BK21사업)",
-    "publisher": "충남대학교",
-    "year": 2026,
-    "url": "https://ipsi.cnu.ac.kr/Upl/gadm/yokang/0103_A_0_1764044261.pdf",
+    "id": "jnu-2027-grad-dept-list",
+    "title": "전남대학교 일반대학원 학과 목록",
+    "publisher": "전남대학교 일반대학원",
+    "year": 2027,
+    "url": "https://graduate.jnu.ac.kr/IndexMain.aspx",
     "checked_on": "2026-10-13",
-    "note": "Official 입학본부 모집요강 PDF (42 pages). Scholarship table PDF pp.32-33, BK21 pp.34-35. States 선발기준·인원·지급 내역 may change at the paying body's discretion. Its tuition table is 2025학년도 후기 based, so tuition was taken from the 2026 일람표 instead."
+    "note": "일반대학원 메인의 '학과' 메뉴 목록(학과 명칭)만 읽음. 학위과정·차수별 모집 여부는 없으며 모집요강이 정본."
+  },
+  {
+    "id": "jnu-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 신입생 모집요강(공고)",
+    "publisher": "전남대학교 대학원 입시(admgraduate)",
+    "year": 2027,
+    "url": "http://admgraduate.jnu.ac.kr/bbs/admgraduate/1150/854459/download.do",
+    "checked_on": "2026-10-13",
+    "note": "2027학년도 전기(1차) 공고 게시글(/bbs/admgraduate/1150/1055093/artclView.do, 2026.09.15 작성·10.01 수정) 첨부 PDF(59쪽, 이미지 PDF)를 내려받아 쪽 이미지로 직접 읽음. 모집단위표는 PDF 10~13쪽(인쇄 8~11쪽): 광주캠퍼스, 여수캠퍼스; 석사·박사·석박사통합 O 표기, 음영은 미모집. 등록금(PDF 55쪽, 인쇄 53쪽)은 계열 단위 2026학년도 참고표."
+  },
+  {
+    "id": "kaist-2026-scholarship",
+    "title": "장학금 종류별 세부 지급 기준 (학연장려금 Stipend 제도, 학자금 및 수당)",
+    "publisher": "한국과학기술원 (KAIST)",
+    "year": 2026,
+    "url": "https://www.kaist.ac.kr/kr/html/edu/03110503.html",
+    "checked_on": "2026-10-13",
+    "note": "KAIST 장학안내 페이지. 학연장려금(자연과학·생명과학·공학·AI 단과대 석·박사, 국비 또는 KAIST장학생), 박사 일반조교수당, 국비TA수당. 명시적 학년도 표기 없음(교비장학금 표가 '10~'26년 입학생 기준)."
+  },
+  {
+    "id": "kaist-2026-tuition",
+    "title": "2026학년도 봄학기(재학/복학생/학사과정 신입생) 등록금 납부안내 (붙임1 석·박사과정 재학생 납입금 등 책정표)",
+    "publisher": "한국과학기술원 (KAIST)",
+    "year": 2026,
+    "url": "https://www.kaist.ac.kr/kr/html/footer/0802.html?mode=D&no=9f98a5467d7457b5adbc219fc3c00d94&file_id=68729",
+    "checked_on": "2026-10-13",
+    "note": "KAIST 교무처 PDF(10쪽, 2026.1.16.). 석·박사과정 재학생 납입금 책정표는 PDF 8쪽(인쇄 6쪽). 단위 천원/학기. 입학금 항목은 이 표에 없음. 일부 전공(MBA/MS 특수전공, 경영공학부 연차초과)은 별도 기준."
+  },
+  {
+    "id": "kaist-2027-phd-admission-guide",
+    "title": "KAIST 2027학년도 봄학기 입학 1차 대학원 신입생 모집요강",
+    "publisher": "KAIST 대학원입학팀",
+    "year": 2027,
+    "url": "https://admission.kaist.ac.kr/graduate/reference/sub01",
+    "checked_on": "2026-10-13",
+    "note": "자료실 모집요강 게시물(pstNo 2232, 2026.5.28 게시) 첨부 PDF(25쪽, 이미지형)를 내려받아 '4. 모집분야 및 학위과정' 개요(PDF 8쪽, 표기 p.6)와 '1지망 모집분야 일람표'(PDF 9쪽, 표기 p.7)의 박사과정 열을 읽음. 직접 파일: https://admission.kaist.ac.kr/wz/api/board/58/2232/download/0 . 봄학기 2차 모집요강(pstNo 2251)은 받았으나 읽지 않음. 서버가 중간 인증서를 보내지 않아 GlobalSign 중간 인증서를 추가해 TLS 검증을 유지한 채 접근."
+  },
+  {
+    "id": "kci-2024-classification-notice",
+    "title": "[★중요] 학술표준분류체계 개정 알림(2024. 11. 30. 적용)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2024,
+    "url": "https://www.kci.go.kr/kciportal/mobile/bbs/bbsNoticeView.kci?boardBean.bullScriSequ=000000039527",
+    "checked_on": "2026-10-13",
+    "note": "2024-11-13 게시. 학술표준분류 개정을 KCI가 2024-11-30 적용. 붙임2 '학술표준분류표(변경 후_총괄표).xlsx'는 파일 ID만 노출되어 직접 내려받지 못함. 개정 연도·적용일 교차 확인용이며 레코드의 source_id는 NRF 원본을 쓴다."
+  },
+  {
+    "id": "kci-2026-journal-applied-chem-eng",
+    "title": "KCI 학술지 상세: 공업화학 (Jpurnal of the Korean Industrial and Engineering Chemistry)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001123&sereSearBean.sereId=000325",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-bkms",
+    "title": "KCI 학술지 상세: 대한수학회보 (Bulletin of the KMS)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000953&sereSearBean.sereId=000206",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-cheolhak-sasang",
+    "title": "KCI 학술지 상세: 철학사상",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000003068&sereSearBean.sereId=001235",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-comm-kms",
+    "title": "KCI 학술지 상세: 대한수학회논문집 (Communications of the KMS)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000953&sereSearBean.sereId=000207",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-csam",
+    "title": "KCI 학술지 상세: Communications for Statistical Applications and Methods (Communications for Statistical Applications and Methods)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000850&sereSearBean.sereId=000420",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-economy-and-society",
+    "title": "KCI 학술지 상세: 경제와 사회 (Economy and Society)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001299&sereSearBean.sereId=000107",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-exp-mol-med",
+    "title": "KCI 학술지 상세: Experimental and Molecular Medicine (Experimental and Molecular Medicine)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000951&sereSearBean.sereId=000088",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-hanguksa-yeongu",
+    "title": "KCI 학술지 상세: 한국사연구 (The Journal of Korean History)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001503&sereSearBean.sereId=000361",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ijpem",
+    "title": "KCI 학술지 상세: International Journal of Precision Engineering and Manufacturing (International Journal of Precision Engineering and Manufacturing)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001215&sereSearBean.sereId=001391",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-irpa",
+    "title": "KCI 학술지 상세: International Review of Public Administration (International Review of Public Administration)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000856&sereSearBean.sereId=000299",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-j-microbiology",
+    "title": "KCI 학술지 상세: The Journal of Microbiology (Journal of Microbiology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000970&sereSearBean.sereId=000121",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jeet",
+    "title": "KCI 학술지 상세: Journal of Electrical Engineering & Technology (Journal of Electrical Engineering & Technology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001086&sereSearBean.sereId=SER000002593",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jiec",
+    "title": "KCI 학술지 상세: Journal of Industrial and Engineering Chemistry (Journal of Industrial and Engineering Chemistry)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001123&sereSearBean.sereId=000711",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jkms",
+    "title": "KCI 학술지 상세: 대한수학회지 (Journal of the KMS)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000953&sereSearBean.sereId=000208",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jkss",
+    "title": "KCI 학술지 상세: Journal of the Korean Statistical Society (Journal of the Korean Statistical Society)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000850&sereSearBean.sereId=000337",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jmst",
+    "title": "KCI 학술지 상세: 대한기계학회 영문 논문집 (Journal of Mechanical Science and Technology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001027&sereSearBean.sereId=000058",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kaps-policy",
+    "title": "KCI 학술지 상세: 한국정책학회보 (The Korea Association for Policy Studies)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000832&sereSearBean.sereId=000110",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kdi-jep",
+    "title": "KCI 학술지 상세: 한국개발연구",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000002605&sereSearBean.sereId=001088",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kiee-transactions",
+    "title": "KCI 학술지 상세: 전기학회논문지",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001086&sereSearBean.sereId=SER000002663",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kiise-journal",
+    "title": "KCI 학술지 상세: 정보과학회논문지 (Journal of KIISE)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001216&sereSearBean.sereId=SER000004124",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kips-transactions-b",
+    "title": "KCI 학술지 상세: 정보처리학회 논문지 (The Transactions of the Korea Information Processing Society)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000930&sereSearBean.sereId=B00564",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjas",
+    "title": "KCI 학술지 상세: 응용통계연구 (The Korean Journal of applied Statistics)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000850&sereSearBean.sereId=000408",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjche",
+    "title": "KCI 학술지 상세: Korean Journal of Chemical Engineering (Korean Journal of Chemical Engineering)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001249&sereSearBean.sereId=000406",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjes-economic-studies",
+    "title": "KCI 학술지 상세: 경제학연구 (KYONG JE HAK YON GU)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000741&sereSearBean.sereId=000214",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjmr",
+    "title": "KCI 학술지 상세: 한국재료학회지 (Korean Journal of Materials Research)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001207&sereSearBean.sereId=000279",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjp-counseling-psychotherapy",
+    "title": "KCI 학술지 상세: 한국심리학회지: 상담 및 심리치료 (Korean Journal Of Counseling And Psychotherapy)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000428&sereSearBean.sereId=000523",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjp-general",
+    "title": "KCI 학술지 상세: 한국심리학회지:일반 (Korean Journal of Psychology: General)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000678&sereSearBean.sereId=001037",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjp-social-personality",
+    "title": "KCI 학술지 상세: 한국심리학회지: 사회및성격 (Korean Journal of Social and Personality Psychology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001540&sereSearBean.sereId=000424",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjs-sociology",
+    "title": "KCI 학술지 상세: 한국사회학 (Korean Journal of Sociology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000799&sereSearBean.sereId=000205",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kll-korean-lang-lit",
+    "title": "KCI 학술지 상세: 국어국문학 (The Korean Language and Literature)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001396&sereSearBean.sereId=000019",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-korean-chem-eng-res",
+    "title": "KCI 학술지 상세: 화학공학 (Korean Chem. Eng. Res.)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001249&sereSearBean.sereId=000148",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kosenv-journal",
+    "title": "KCI 학술지 상세: 대한환경공학회지 (Journal of Korean Society of Environmental Engineers)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001109&sereSearBean.sereId=000098",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kosham",
+    "title": "KCI 학술지 상세: 한국방재학회논문집 (Journal of The Korean Society of Hazard Mitigation)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000392&sereSearBean.sereId=001845",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kpar",
+    "title": "KCI 학술지 상세: 한국행정학보 (Korean Public Administration Review)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000856&sereSearBean.sereId=000298",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kpsr",
+    "title": "KCI 학술지 상세: 한국정치학회보 (Korean Political Science Review)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000834&sereSearBean.sereId=000383",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ksce-civil-env-research",
+    "title": "KCI 학술지 상세: 대한토목학회논문집(국문) (Journal of the Korean Society of Civil Engineers)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001098&sereSearBean.sereId=SER000003506",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ksce-journal",
+    "title": "KCI 학술지 상세: KSCE Journal of Civil Engineering (KSCE Journal of Civil Engineering)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001098&sereSearBean.sereId=000839",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ksme-a",
+    "title": "KCI 학술지 상세: 대한기계학회논문집 A (Transactions of the KSME, A)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001027&sereSearBean.sereId=000056",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-molecules-and-cells",
+    "title": "KCI 학술지 상세: Molecules and Cells (Molecules and Cells)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000972&sereSearBean.sereId=000079",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-seoul-j-economics",
+    "title": "KCI 학술지 상세: Seoul Journal of Economics",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000003026&sereSearBean.sereId=000366",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-society-and-theory",
+    "title": "KCI 학술지 상세: 사회와 이론 (Society and Theory)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000002231&sereSearBean.sereId=001910",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-studies-in-korean-lit",
+    "title": "KCI 학술지 상세: 한국문학연구 (The Studies in Korean Literature)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000004500&sereSearBean.sereId=001857",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-yoksa-hakbo",
+    "title": "KCI 학술지 상세: 역사학보 (YOKSA HAKBO)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001484&sereSearBean.sereId=000356",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-portal",
+    "title": "한국학술지인용색인(KCI)",
+    "publisher": "한국연구재단(NRF)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 국내 저널 등재 여부. 2026-10-13 포털 접속 확인."
+  },
+  {
+    "id": "kedi-2020-major-classification",
+    "title": "2020 학과(전공) 분류 자료집 (통계자료 SM 2020-08)",
+    "publisher": "한국교육개발원(KEDI)",
+    "year": 2020,
+    "url": "https://www.alio.go.kr/download/download.json?fileNo=2648843",
+    "checked_on": "2026-10-13",
+    "note": "ALIO에 '붙임3. 2020년 학과전공 분류 자료집.pdf'(875쪽, 2020-12-29 생성)로 게시된 한국교육개발원 간행물. 학교급별 표 3개: 전문대학 C(대분류 7·중분류 31·소분류 76), 4년제 대학 U(7·35·121), 대학원 G(7·35·118). 코드 체계: 대분류 U01~U07(인문·사회·교육·공학·자연·의약·예체능), 중분류 U0101형, 소분류 U010101형, 학과(세분류) U01010100001형. 자료집은 학과코드가 2002·2003년 개정본이라고 밝힘. 소분류별 설명과 관련학과 목록 수록. mapping-kedi.json은 4년제 대학 U 표를 대상으로 하며 가운뎃점은 PDF의 U+FF65를 U+00B7로 바꿔 적음. 대학원 G 표는 U 표와 숫자부가 같고 U010208·U020107·U020308 세 코드만 G에 없어 같은 매핑을 적용할 수 있음. 전문대학 C 표와 학과(세분류) 목록은 매핑하지 않음. 최신 2023·2024년판 원본은 교육통계서비스(KESS)에서 찾지 못해 2020년판을 기준으로 함."
+  },
+  {
+    "id": "kedi-2021-yearbook-t13-12",
+    "title": "2021 교육통계연보 13-12 교원변동 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2021,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=90126&survSeq=2021&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-12. 쪽 798-799(2쪽 표). 신규채용·복직·퇴직(질병·사망·정년)·휴직 등 교원 변동 건수. 직위별 행(총·학장, 교수, 부교수, 조교수)은 전체 학교급 합, 학교별 행은 직위 합. 집계 기간과 신규채용의 정의(타 대학 이동 임용 포함 여부)는 표 각주에 없음. 각주: 기술대학에는 전임교원이 없음, 대학부설대학원 교원은 대학원 소속 전임교원, 국공립 전임교원수에 기금교수 포함."
+  },
+  {
+    "id": "kedi-2021-yearbook-t13-6",
+    "title": "2021 교육통계연보 13-6 직위별 교원수 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2021,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=90120&survSeq=2021&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-6. 조사 기준일 2021.4.1. 쪽 786-787(2쪽 표). 전임교원은 총(학)장과 교수·부교수·조교수로 구분하고, 비전임은 강사·시간강사·겸임교원·명예교수·기타로 구분. 국공립 전임교원수에 기금교수 포함. 파일은 영문 병기판 PDF."
+  },
+  {
+    "id": "kedi-2022-dataset-dept",
+    "title": "교육통계서비스 학교/학과별 데이터셋 2022년 고등 학과별 (교원 포함)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2022,
+    "url": "https://kess.kedi.re.kr/contents/dataset?itemCode=04&menuId=m_02_04_03_02&tabId=m1",
+    "checked_on": "2026-10-13",
+    "note": "파일 '2022년 고등 학과별 학과수 입학정원 지원 입학 학생 외국인학생 졸업 교원_221016y.xlsx', 시트 '학과별 교육통계'. 조사 기준일 2022.4.1. 공표 후 변동 없음이며 대학알리미 공시 자료와 다를 수 있음(파일 안내). 전임교원은 총(학)장 및 전임교원(교수·부교수·조교수)으로 휴직자 포함·퇴직자 제외, 국공립 기금교수 포함. 비전임교원은 겸임·초빙·석좌·명예·대우·객원·강의·예우·교환·특임·원로교수·강사 등. 시간강사 열은 2020년 이후 사실상 비어 있고 강사는 비전임교원에 포함됨. 학과 계열은 학과(전공)분류자료집의 대계열을 따름."
+  },
+  {
+    "id": "kedi-2022-yearbook-t13-12",
+    "title": "2022 교육통계연보 13-12 교원변동 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2022,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=96922&survSeq=2022&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-12. 쪽 798-799(2쪽 표). 신규채용·복직·퇴직(질병·사망·정년)·휴직 등 교원 변동 건수. 직위별 행(총·학장, 교수, 부교수, 조교수)은 전체 학교급 합, 학교별 행은 직위 합. 집계 기간과 신규채용의 정의(타 대학 이동 임용 포함 여부)는 표 각주에 없음. 각주: 기술대학에는 전임교원이 없음, 대학부설대학원 교원은 대학원 소속 전임교원, 국공립 전임교원수에 기금교수 포함."
+  },
+  {
+    "id": "kedi-2022-yearbook-t13-6",
+    "title": "2022 교육통계연보 13-6 직위별 교원수 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2022,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=96916&survSeq=2022&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-6. 조사 기준일 2022.4.1. 쪽 786-787(2쪽 표). 전임교원은 총(학)장과 교수·부교수·조교수로 구분하고, 비전임은 강사·시간강사·겸임교원·명예교수·기타로 구분. 국공립 전임교원수에 기금교수 포함. 파일은 영문 병기판 PDF."
+  },
+  {
+    "id": "kedi-2023-dataset-dept",
+    "title": "교육통계서비스 학교/학과별 데이터셋 2023년 고등 학과별 (교원 포함)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2023,
+    "url": "https://kess.kedi.re.kr/contents/dataset?itemCode=04&menuId=m_02_04_03_02&tabId=m1",
+    "checked_on": "2026-10-13",
+    "note": "파일 '2023년 고등 학과별 학과수 입학정원 지원 입학 학생 외국인학생 졸업 교원_250812H.xlsx', 시트 '학과별 교육통계'. 조사 기준일 2023.4.1. 공표 후 변동 없음이며 대학알리미 공시 자료와 다를 수 있음(파일 안내). 전임교원은 총(학)장 및 전임교원(교수·부교수·조교수)으로 휴직자 포함·퇴직자 제외, 국공립 기금교수 포함. 비전임교원은 겸임·초빙·석좌·명예·대우·객원·강의·예우·교환·특임·원로교수·강사 등. 시간강사 열은 2020년 이후 사실상 비어 있고 강사는 비전임교원에 포함됨. 학과 계열은 학과(전공)분류자료집의 대계열을 따름."
+  },
+  {
+    "id": "kedi-2023-yearbook-t13-12",
+    "title": "2023 교육통계연보 13-12 교원변동 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2023,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=101295&survSeq=2023&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-12. 쪽 798-799(2쪽 표). 신규채용·복직·퇴직(질병·사망·정년)·휴직 등 교원 변동 건수. 직위별 행(총·학장, 교수, 부교수, 조교수)은 전체 학교급 합, 학교별 행은 직위 합. 집계 기간과 신규채용의 정의(타 대학 이동 임용 포함 여부)는 표 각주에 없음. 각주: 기술대학에는 전임교원이 없음, 대학부설대학원 교원은 대학원 소속 전임교원, 국공립 전임교원수에 기금교수 포함."
+  },
+  {
+    "id": "kedi-2023-yearbook-t13-6",
+    "title": "2023 교육통계연보 13-6 직위별 교원수 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2023,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=101289&survSeq=2023&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-6. 조사 기준일 2023.4.1. 쪽 786-787(2쪽 표). 전임교원은 총(학)장과 교수·부교수·조교수로 구분하고, 비전임은 강사·시간강사·겸임교원·명예교수·기타로 구분. 국공립 전임교원수에 기금교수 포함. 파일은 영문 병기판 PDF."
+  },
+  {
+    "id": "kedi-2024-dataset-dept",
+    "title": "교육통계서비스 학교/학과별 데이터셋 2024년 고등 학과별 (교원 포함)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2024,
+    "url": "https://kess.kedi.re.kr/contents/dataset?itemCode=04&menuId=m_02_04_03_02&tabId=m1",
+    "checked_on": "2026-10-13",
+    "note": "파일 '2024년 고등 학과별 학과수 입학정원 지원 입학 학생 외국인학생 졸업 교원_240828yh.xlsx', 시트 '학과별 교육통계'. 조사 기준일 2024.4.1. 공표 후 변동 없음이며 대학알리미 공시 자료와 다를 수 있음(파일 안내). 전임교원은 총(학)장 및 전임교원(교수·부교수·조교수)으로 휴직자 포함·퇴직자 제외, 국공립 기금교수 포함. 비전임교원은 겸임·초빙·석좌·명예·대우·객원·강의·예우·교환·특임·원로교수·강사 등. 시간강사 열은 2020년 이후 사실상 비어 있고 강사는 비전임교원에 포함됨. 학과 계열은 학과(전공)분류자료집의 대계열을 따름."
+  },
+  {
+    "id": "kedi-2024-major-classification-summary",
+    "title": "2024 학과(전공) 분류 자료집 4년제 대학 요약표 (3쪽)",
+    "publisher": "한국교육개발원(KEDI)",
+    "year": 2024,
+    "url": "https://jrsfile.jobkorea.co.kr/PJT/itle/attachedfile02.pdf",
+    "checked_on": "2026-10-13",
+    "note": "표제 '2024 학과(전공) 분류 자료집 4년제 대학'. 잡코리아 서버의 첨부 PDF(2025-01-02 생성, 발행처 표기 없음)라 교차 확인용으로만 사용. 대분류 7·중분류 35·소분류 121 전 코드와 명칭이 2020년판(kedi-2020-major-classification)과 163개 모두 일치함을 확인. 따라서 2020년판 이후 4년제 대학 U 표에 코드 변경은 없는 것으로 봄."
+  },
+  {
+    "id": "kedi-2024-yearbook-t13-12",
+    "title": "2024 교육통계연보 13-12 교원변동 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2024,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=105759&survSeq=2024&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-12. 쪽 800-801(2쪽 표). 신규채용·복직·퇴직(질병·사망·정년)·휴직 등 교원 변동 건수. 직위별 행(총·학장, 교수, 부교수, 조교수)은 전체 학교급 합, 학교별 행은 직위 합. 집계 기간과 신규채용의 정의(타 대학 이동 임용 포함 여부)는 표 각주에 없음. 각주: 기술대학에는 전임교원이 없음, 대학부설대학원 교원은 대학원 소속 전임교원, 국공립 전임교원수에 기금교수 포함."
+  },
+  {
+    "id": "kedi-2024-yearbook-t13-6",
+    "title": "2024 교육통계연보 13-6 직위별 교원수 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2024,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=105753&survSeq=2024&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-6. 조사 기준일 2024.4.1. 쪽 788-789(2쪽 표). 전임교원은 총(학)장과 교수·부교수·조교수로 구분하고, 비전임은 강사·시간강사·겸임교원·명예교수·기타로 구분. 국공립 전임교원수에 기금교수 포함. 파일은 영문 병기판 PDF."
+  },
+  {
+    "id": "kedi-2025-dataset-dept",
+    "title": "교육통계서비스 학교/학과별 데이터셋 2025년 고등 학과별 (교원 포함)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2025,
+    "url": "https://kess.kedi.re.kr/contents/dataset?itemCode=04&menuId=m_02_04_03_02&tabId=m1",
+    "checked_on": "2026-10-13",
+    "note": "파일 '2025년 고등 학과별 학과수 입학정원 지원 입학 학생 외국학생 졸업 교원_250828H.xlsx', 시트 '학과별 교육통계'. 조사 기준일 2025.4.1. 공표 후 변동 없음이며 대학알리미 공시 자료와 다를 수 있음(파일 안내). 전임교원은 총(학)장 및 전임교원(교수·부교수·조교수)으로 휴직자 포함·퇴직자 제외, 국공립 기금교수 포함. 비전임교원은 겸임·초빙·석좌·명예·대우·객원·강의·예우·교환·특임·원로교수·강사 등. 시간강사 열은 2020년 이후 사실상 비어 있고 강사는 비전임교원에 포함됨. 학과 계열은 학과(전공)분류자료집의 대계열을 따름. 2025년부터 무전공 계열이 추가됨."
+  },
+  {
+    "id": "kedi-2025-higher-ed-analysis",
+    "title": "2025 교육통계 분석자료집 - 고등교육통계편 (제Ⅲ장 대학원)",
+    "publisher": "교육부·한국교육개발원(KEDI)",
+    "year": 2025,
+    "url": "https://kess.kedi.re.kr/publ/view?survSeq=2025&publSeq=44&menuSeq=0&itemCode=02&language=",
+    "checked_on": "2026-10-13",
+    "note": "교육통계서비스(KESS) 통계간행물 2025년판. 조사기준일 2025.4.1, 학생변동(휴학·중도탈락)은 전년도 3.1~조사연도 2.말. 장별 PDF는 /publ/fileView?publItemId=<id>&survSeq=2025&publSeq=44 (대학원 학생: 109224 재적·109225 입학·109226 휴학/중도탈락·109227 학위취득). 이 표는 석사·박사 구분과 계열(KEDI 7대)·성별 분해를 제공. 학생 수=재적학생 수. 박사과정은 석/박사통합 포함. 2026년 조사 결과(2026-08-25 공표)는 이 판에 없음."
+  },
+  {
+    "id": "kedi-2025-yearbook",
+    "title": "2025 교육통계연보 (제17장 대학원 표 17-8 연령별 졸업생수)",
+    "publisher": "교육부·한국교육개발원(KEDI)",
+    "year": 2025,
+    "url": "https://kess.kedi.re.kr/publ/view?survSeq=2025&publSeq=2&menuSeq=0&itemCode=02&language=",
+    "checked_on": "2026-10-13",
+    "note": "KESS 통계간행물 통합 PDF(publItemId=107733, 1,116쪽). 대학원 연령별 졸업생수(표 17-8)는 박사과정에서 33세 이상이 단일 최상위 구간이라 평균 연령 산출 불가."
+  },
+  {
+    "id": "kedi-2025-yearbook-t13-12",
+    "title": "2025 교육통계연보 13-12 교원변동 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2025,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=107534&survSeq=2025&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-12. 쪽 800-801(2쪽 표). 신규채용·복직·퇴직(질병·사망·정년)·휴직 등 교원 변동 건수. 직위별 행(총·학장, 교수, 부교수, 조교수)은 전체 학교급 합, 학교별 행은 직위 합. 집계 기간과 신규채용의 정의(타 대학 이동 임용 포함 여부)는 표 각주에 없음. 각주: 기술대학에는 전임교원이 없음, 대학부설대학원 교원은 대학원 소속 전임교원, 국공립 전임교원수에 기금교수 포함."
+  },
+  {
+    "id": "kedi-2025-yearbook-t13-6",
+    "title": "2025 교육통계연보 13-6 직위별 교원수 (고등교육기관)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2025,
+    "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=107528&survSeq=2025&publSeq=2",
+    "checked_on": "2026-10-13",
+    "note": "고등교육기관 현황 장 표 13-6. 조사 기준일 2025.4.1. 쪽 788-789(2쪽 표). 전임교원은 총(학)장과 교수·부교수·조교수로 구분하고, 비전임은 강사·시간강사·겸임교원·명예교수·기타로 구분. 국공립 전임교원수에 기금교수 포함. 파일은 영문 병기판 PDF."
+  },
+  {
+    "id": "kedi-2026-basic-stats-press",
+    "title": "2026년 교육기본통계 조사 결과 발표 (보도자료 및 별첨)",
+    "publisher": "교육부·한국교육개발원(KEDI)",
+    "year": 2026,
+    "url": "https://kess.kedi.re.kr/post/6876965?itemCode=04&menuId=m_02_04_02",
+    "checked_on": "2026-10-13",
+    "note": "2026-08-25 공표. 조사기준일 2026.4.1. 별첨 HWPX는 https://kess.kedi.re.kr/userfile/6876972 (본문 표)와 /userfile/6876971 이며 쪽 번호가 없어 표 번호로 인용. 대학원은 석사·박사 구분 없는 합계만 있고 박사과정 재적·졸업자 수는 없음. 표 22(외국 학생 수)만 학위과정 박사 열을 제공. 본문 설명 자료이며 분석자료집(kedi-2025-higher-ed-analysis)의 2026년판이 나오면 그것으로 대체해야 함."
+  },
+  {
+    "id": "kedi-2026-dataset-dept",
+    "title": "교육통계서비스 학교/학과별 데이터셋 2026년 고등 학과별 (교원 포함)",
+    "publisher": "한국교육개발원(KEDI) 교육통계센터",
+    "year": 2026,
+    "url": "https://kess.kedi.re.kr/contents/dataset?itemCode=04&menuId=m_02_04_03_02&tabId=m1",
+    "checked_on": "2026-10-13",
+    "note": "파일 '2026년 고등 학과별 학과수 입학정원 지원 입학 학생 외국학생 졸업 교원_260826H.xlsx', 시트 '학과별 교육통계'. 조사 기준일 2026.4.1. 공표 후 변동 없음이며 대학알리미 공시 자료와 다를 수 있음(파일 안내). 전임교원은 총(학)장 및 전임교원(교수·부교수·조교수)으로 휴직자 포함·퇴직자 제외, 국공립 기금교수 포함. 비전임교원은 겸임·초빙·석좌·명예·대우·객원·강의·예우·교환·특임·원로교수·강사 등. 시간강사 열은 2020년 이후 사실상 비어 있고 강사는 비전임교원에 포함됨. 학과 계열은 학과(전공)분류자료집의 대계열을 따름. 2025년부터 무전공 계열이 추가됨."
+  },
+  {
+    "id": "kedi-2026-press-basic-stats",
+    "title": "2026년 교육기본통계 조사 결과 발표 (보도자료)",
+    "publisher": "한국교육개발원(KEDI)·교육부",
+    "year": 2026,
+    "url": "https://www.kedi.re.kr/khome/main/announce/selectBroadAnnounceForm.do?selectTp=0&board_sq_no=3&article_sq_no=36467",
+    "checked_on": "2026-10-13",
+    "note": "보도 2026.8.26. 조사 기준일 2026.4.1. 전체 고등교육기관(전문대학·대학원 등 포함) 전임교원 86,628명(전년 대비 73명 감소), 비전임교원 159,205명(5,282명 증가), 전체 교원 245,833명. 첨부 한글 파일은 열람하지 못했고 게시 페이지 본문 수치를 읽음. 직위별·계열별 분해 없음."
+  },
+  {
+    "id": "kess-2026-portal",
+    "title": "교육통계서비스(KESS)",
+    "publisher": "한국교육개발원(KEDI)",
+    "year": 2026,
+    "url": "https://kess.kedi.re.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 고등교육통계(학생·졸업·교원, 학과 분류). 2026-10-13 포털 접속 확인(프레임 셸)."
+  },
+  {
+    "id": "khan-2014-drifting-phds",
+    "title": "[박점규의 노동여지도]'떠돌이 박사들'의 한숨, 과학도시 대전",
+    "publisher": "주간경향",
+    "year": 2014,
+    "url": "https://weekly.khan.co.kr/article/201408251949471",
+    "note": "출처 계급: 수필·수기 · 2014-08-25 르포·인터뷰 기사. 공개. 정부출연연구기관 계약직 박사 연구원 사례. 기관명·실명은 레코드에 옮기지 않음.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "khan-2015-non-tenure-track-20-years",
+    "title": "\"20년 근속해도 단기 계약직…'비정년'은 교수가 아닙니다\"",
+    "publisher": "경향신문",
+    "year": 2015,
+    "url": "https://www.khan.co.kr/article/201508282309185",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 기획 기사(비정년트랙 교원 인터뷰). 공개. 2015년 자료로 강사법 이전 상황. 인터뷰이는 역할명으로만 기록."
+  },
+  {
+    "id": "khan-2017-contract-researchers",
+    "title": "‘비정규직의 섬’ 전문직 연구원",
+    "publisher": "주간경향",
+    "year": 2017,
+    "url": "https://weekly.khan.co.kr/article/201705292033101",
+    "note": "출처 계급: 수필·수기 · 2017-05-29 기획 기사. 공개. 익명(ㄱ씨 등) 사례 인용.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "khu-2026-scholarship",
+    "title": "2026학년도 전기 일반대학원 정원내 신(편)입학 모집요강(안) - 4. 장학금 안내 (p.40-41)",
+    "publisher": "경희대학교",
+    "year": 2026,
+    "url": "https://iphak.khu.ac.kr/file/download.do?sfn=20250925042145187_2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf&ofn=2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Same official PDF; pp.38-39 list 대외 연구비 사업(BK21 etc.), p.40-41 장학금 현황 table and 경희학부우수졸업생 장학. BK21 생활비 amount not given. Many items say only '수업료 일부'."
+  },
+  {
+    "id": "khu-2026-tuition",
+    "title": "2026학년도 전기 일반대학원 정원내 신(편)입학 모집요강(안) - 2. 2026학년도 등록금 안내 (p.37)",
+    "publisher": "경희대학교",
+    "year": 2026,
+    "url": "https://iphak.khu.ac.kr/file/download.do?sfn=20250925042145187_2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf&ofn=2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 입학처 PDF (file name ends '(안)'). p.37 table by 계열 x 과정(석사/박사/석박사통합) for 서울/국제캠퍼스. Page states: '본 등록금은 2025학년도 등록금 기준으로, 변경 될 수 있습니다.' So values are the 2025학년도 basis shown for 2026 admission, not confirmed 2026 rates. 입학금 and 수업료 are 필수납부; 기타회비 선택납부."
+  },
+  {
+    "id": "khu-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 정원내 신(편)입학 모집요강",
+    "publisher": "경희대학교 입학처(일반대학원)",
+    "year": 2027,
+    "url": "https://iphak.khu.ac.kr/submenu.do?menuurl=2YmZUZGvsmKEoKRLPZRjqw%3d%3d&",
+    "checked_on": "2026-10-13",
+    "note": "입학처 일반대학원(내국인) 모집요강 페이지의 PDF(2027학년도 전기 일반대학원 정원내 신(편)입학 모집요강_fv.pdf)를 내려받아 '2 모집학과 및 과정' 표(PDF 7~12쪽)를 직접 읽음. 열은 신입학 석사/박사/석박통합이며 l 모집, X 모집하지 않음. 캠퍼스는 표 제목(서울캠퍼스/국제캠퍼스)."
+  },
+  {
+    "id": "kiee-2026-summer",
+    "title": "대한전기학회 제57회 하계학술대회 안내",
+    "publisher": "대한전기학회(KIEE)",
+    "year": 2026,
+    "url": "https://www.kiee.or.kr/pages_events/conf_events.vm",
+    "checked_on": "2026-10-13",
+    "note": "주최처 행사 목록. 논문 수와 채택률 미공개."
+  },
+  {
+    "id": "kiise-kcc-2026",
+    "title": "한국컴퓨터종합학술대회 2026 (KCC2026) 안내",
+    "publisher": "한국정보과학회(KIISE)",
+    "year": 2026,
+    "url": "https://www.kiise.or.kr/conference/main/index.do?CC=KCC&CS=2026",
+    "checked_on": "2026-10-13",
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개. 같은 학회의 다른 안내 쪽과 요일 표기(화/수)가 다름."
+  },
+  {
+    "id": "kiise-ksc-2025",
+    "title": "한국소프트웨어종합학술대회 2025 (KSC2025) 안내",
+    "publisher": "한국정보과학회(KIISE)",
+    "year": 2025,
+    "url": "https://www.kiise.or.kr/conference/main/index.do?CC=KSC&CS=2025",
+    "checked_on": "2026-10-13",
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개."
+  },
+  {
+    "id": "kistep-2024-st-indicators",
+    "title": "2023 이공계인력 지표집",
+    "publisher": "한국과학기술기획평가원(KISTEP)",
+    "year": 2024,
+    "url": "https://www.hrstpolicy.re.kr/kistep/upload/file/202406177_1397100000.pdf",
+    "checked_on": "2026-10-13",
+    "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
+  },
+  {
+    "id": "knu-2024-scholarship",
+    "title": "2024년 대학원 대통령과학장학금사업 학생 온라인 신청 안내",
+    "publisher": "경북대학교",
+    "year": 2024,
+    "url": "https://www.knu.ac.kr/wbbs/wbbs/bbs/btin/viewBtin.action?bbs_cde=1&btin.bbs_cde=1&btin.doc_no=1331191&btin.appl_no=000000&menu_idx=67",
+    "checked_on": "2026-10-13",
+    "note": "KNU notice (2024-02-14) of the national 대통령과학장학금 (Korea Student Aid Foundation, kosaf.go.kr) for 이공계 일반대학원. 2024 figures; no 2026 version found. National program, not KNU-funded; max period and extra conditions are in an HWP attachment that could not be read."
+  },
+  {
+    "id": "knu-2026-scholarship",
+    "title": "경북대, 전일제 박사과정생 등록금 전액 장학금 지원 (경북대 대학소식, 등록 2025-05-29)",
+    "publisher": "경북대학교",
+    "year": 2026,
+    "url": "https://www.knu.ac.kr/wbbs/wbbs/bbs/btin/viewBtin.action?bbs_cde=28&btin.bbs_cde=28&btin.doc_no=1334585&btin.appl_no=000000&btin.page=1&btin.search_type=&btin.search_text=&popupDeco=&btin.note_div=row&menu_idx=214",
+    "checked_on": "2026-10-13",
+    "note": "University news item (page text is very long; first 100000 characters read). States a full-tuition scholarship for 전일제 박사 and 석·박사통합 students from 2025학년도 2학기. No max semesters, amounts, or 입학금/수업료 breakdown on the page. A second KNU news item (doc_no=1335408) says '대부분에게' (most students)."
+  },
+  {
+    "id": "knu-2026-tuition",
+    "title": "경북대학교 대학원 등록금표(2026학년도) (tuition_2026(2).xls, sheet 2026학년도 등록금표_대학원)",
+    "publisher": "경북대학교",
+    "year": 2026,
+    "url": "https://knu.ac.kr/wbbs/wbbs/download/tuition_2026(2).xls",
+    "checked_on": "2026-10-13",
+    "note": "Official 등록금표 file linked from the 등록금 차등납부제도 page of knu.ac.kr (menu_url=edu/academic03_04_02). Per-semester 입학금, 수업료Ⅰ/Ⅱ, (구)부가징수금, 수업료 합계 by 대학원/등록계열/학과. Not split by master/doctor except a few named programs (e.g. 보건학과(박사)). File last saved 2026-08-03."
+  },
+  {
+    "id": "knu-2027-grad-dept-list",
+    "title": "경북대학교 대학원 학과소개(인문사회·자연과학·공학·예체능·융합·학과간 협동과정)",
+    "publisher": "경북대학교 대학원",
+    "year": 2027,
+    "url": "https://home.knu.ac.kr/HOME/grad/sub.htm?nav_code=gra1626678009",
+    "checked_on": "2026-10-13",
+    "note": "학과별 학위과정(석사, 박사) 표기를 읽은 학과 목록 페이지(nav_code=gra1626678009, 1626678024, 1626678033, 1626678041, 1626678065). 모집요강 대조용 보조 근거이며 차수별 모집 여부는 모집요강이 정본."
+  },
+  {
+    "id": "knu-2027-phd-admission-guide",
+    "title": "2027학년도 경북대학교 일반대학원 1학기 1차 모집요강",
+    "publisher": "경북대학교 대학원 입학처",
+    "year": 2027,
+    "url": "https://ipsi2.knu.ac.kr/upload_data/mojib/20260826134550_68.pdf",
+    "checked_on": "2026-10-13",
+    "note": "입학처 모집요강 페이지(https://ipsi2.knu.ac.kr/mojib/) 게시 PDF(70쪽, 2027학년도 1학기=전기 1차)를 읽음. 모집단위 표는 PDF 13~18쪽(인쇄 2~7쪽): 대구캠퍼스, 상주캠퍼스, 전공별(영어영문학과·교육학과) 표. 문서에 'X'는 해당 차수 미모집이며 1학기 2차, 2학기 모집이 별도로 있음. 학과별 등록금 표는 이 PDF에 없음."
+  },
+  {
+    "id": "konkuk-2026-scholarship",
+    "title": "장학안내 (건국대학교 대학원)",
+    "publisher": "건국대학교 대학원",
+    "year": 2026,
+    "url": "https://www.konkuk.ac.kr/grad/10293/subview.do",
+    "checked_on": "2026-10-13",
+    "note": "교내 장학 표(연구조교, 석박통합 특별장학, 수업조교 A/C, 복지, 외국인 등). 모두 등록금 범위 내 지급, 별도 등록금표 없음. 게시 연도 불명(현행 안내)."
+  },
+  {
+    "id": "konkuk-2026-scholarship-2",
+    "title": "[한국장학재단] 2026년 석사 및 박사우수장학금(이공계) 안내",
+    "publisher": "건국대학교 대학원",
+    "year": 2026,
+    "url": "https://grad.konkuk.ac.kr/grad/10301/subview.do;jsessionid=B8660290FD0676F3CDBBD17FAC90CDF3?enc=Zm5jdDF8QEB8JTJGYmJzJTJGZ3JhZCUyRjI2MiUyRjExNzQ5MTUlMkZhcnRjbFZpZXcuZG8lM0Y%3D",
+    "checked_on": "2026-10-13",
+    "note": "대학원 공지(신청 마감 2026-06-04). 한국장학재단(국가) 이공계 석사·박사 우수장학금 교내 추천 안내: 석사 9명 학기당 250만원, 박사 6명 학기당 375만원. 마감된 공지이며 학교 자체 프로그램이 아님."
+  },
+  {
+    "id": "konkuk-2026-tuition",
+    "title": "2026학년도 전기 대학원 일반전형 (추가)모집요강 - Ⅺ 등록금 안내, Ⅻ 장학 안내",
+    "publisher": "건국대학교 대학원",
+    "year": 2026,
+    "url": "https://www.konkuk.ac.kr/bbs/edutech/4092/1201390/download.do",
+    "checked_on": "2026-10-13",
+    "note": "PDF p.20 등록금표(입학금·수업료·등록금·기타납입금(학생회비)), p.21 장학 안내. 이 요강은 박사과정 및 통합과정만 모집(석사 미모집). '신규 대학원 등록금 책정표에 따라 변경 가능'. 교육공학과·산업경영융합학부는 이학계열 적용."
+  },
+  {
+    "id": "konkuk-2027-phd-admission-guide",
+    "title": "2027학년도 전기 대학원 일반전형 모집요강",
+    "publisher": "건국대학교 대학원",
+    "year": 2027,
+    "url": "https://www.konkuk.ac.kr/sites/grad/files/260910.pdf",
+    "checked_on": "2026-10-13",
+    "note": "이미지 PDF(텍스트 층 없음, 25쪽)라 모집단위 표(Ⅳ.모집단위, 인쇄 쪽 5-8)를 쪽 이미지로 직접 읽음. 박사 60개 학과 + 학과간 협동과정 8개 + 학연산 협동과정 4개 중 범위 내 단위를 기록. 진입 페이지 https://www.konkuk.ac.kr/grad/10313/subview.do"
+  },
+  {
+    "id": "korea-2026-scholarship",
+    "title": "고려대학교 일반대학원 > 장학제도 > 4단계 BK21 연구장학금",
+    "publisher": "고려대학교",
+    "year": 2026,
+    "url": "https://graduate.korea.ac.kr/scholarship/bk21.html",
+    "checked_on": "2026-10-13",
+    "note": "Official page; 지급액 per month by 석사/박사/박사수료. No date on page (4단계 BK21 period). Max semesters not stated (eligibility window in years)."
+  },
+  {
+    "id": "korea-2026-scholarship-2",
+    "title": "고려대학교 일반대학원 > 장학제도 > 교내 장학금",
+    "publisher": "고려대학교",
+    "year": 2026,
+    "url": "https://graduate.korea.ac.kr/scholarship/school.html",
+    "checked_on": "2026-10-13",
+    "note": "Official 교내 장학금 list. Page footer says Copyright 2022 and carries no academic-year date, so treat as undated. Many programs have amount '소정금액' (unspecified)."
+  },
+  {
+    "id": "korea-2026-tuition",
+    "title": "2026학년도 일반대학원 재학생 등록금 일람표 (2026_Registration_fee(grad).pdf)",
+    "publisher": "고려대학교",
+    "year": 2026,
+    "url": "https://www.korea.ac.kr/sites/ko/files/2026_Registration_fee(grad).pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 등록금 일람표 (대학원 재학생), 1 page, unit 천원 (thousand KRW). Gives 입학금, 수업료, 의료공제, 보건비, 학생회비, 고연전필승기금 by 계열 and by 입학연도 (24학번~ vs 23학번 이전), and lists departments per 계열. Linked from https://www.korea.ac.kr/ko/582/subview.do (등록금 일람표). Values below are for 2024학번 이후 입학. Table covers 석사, 박사 with the same fee."
+  },
+  {
+    "id": "korea-2027-phd-admission-guide",
+    "title": "2027학년도 전기 고려대학교 대학원 학생모집 안내(입시요강, 내국인전형 신입학)",
+    "publisher": "고려대학교 일반대학원",
+    "year": 2027,
+    "url": "https://graduate.korea.ac.kr/ft_board/download.html?fd=freshman&fname=20261002154382248975.pdf",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 신입학 안내 페이지(https://graduate.korea.ac.kr/matriculate/koreans_n.html)의 '입시요강 다운로드' PDF(20쪽)를 내려받아 8-1 '계열별 모집학과: 신입학' 표(요강 p.12-24)를 이미지로 읽음. 원서접수 2026-09-29~10-07(예정). 표의 열은 석사/박사/석·박사통합 × 구술시험/서류전형. 서울캠퍼스 학과와 세종캠퍼스(세종) 표기가 함께 있음. 등록금은 표에 없어 생략."
+  },
+  {
+    "id": "koreanteachered-2019-junior-faculty-teaching-adaptation",
+    "title": "사범대학 신임교수의 교수활동 적응과정에 관한 연구",
+    "publisher": "한국교원교육연구",
+    "year": 2019,
+    "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002450610",
+    "checked_on": "2026-10-13",
+    "note": "질적 연구 논문(KCI 등재지). 교육학 계열 단과대학 신임교수 8명 반구조화 면담. 초록만 열람, 면담 발췌 없음. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "kribb-2026-postdoc-3rd-notice",
+    "title": "2026-3차 박사후연구원 채용공고",
+    "publisher": "한국생명공학연구원(KRIBB)",
+    "year": 2026,
+    "url": "https://www.kribb.re.kr/kor/sub03/sub03_01_01_view.jsp?b_idx=35441",
+    "checked_on": "2026-10-13",
+    "note": "접수 2026-10-08~10-23. 공고 본문은 게시판 이미지 4장(공고문 PDF 첨부). 4. 근무요건 라. 보수 항목을 이미지에서 직접 읽음."
+  },
+  {
+    "id": "krivet-2014-stem-phd-employment-brief",
+    "title": "국내 이공계 신규 박사학위 취득자의 고용 현황 (패널 브리프, THE HRD REVIEW 2014년 1월)",
+    "publisher": "한국직업능력연구원(KRIVET)",
+    "year": 2014,
+    "url": "https://krivet.re.kr/repository/bitstream/202405/8824/2/P31701_12_fulltext.pdf",
+    "checked_on": "2026-10-13",
+    "note": "송창용·김혜정. 박사조사(2013: 2012.8·2013.2 졸업자). 표 3이 학위 취득 소요기간(개월; 석·박사통합자 제외). 졸업자 조사이며 입학자 종단조사가 아님. 저장소 직접 내려받기는 브라우저 User-Agent와 Referer가 필요."
+  },
+  {
+    "id": "krivet-2017-phd-labor-transition-brief",
+    "title": "국내 신규 박사인력 노동시장 이행실태 (패널 브리프, THE HRD REVIEW 2017년 1월)",
+    "publisher": "한국직업능력연구원(KRIVET)",
+    "year": 2017,
+    "url": "https://krivet.re.kr/repository/bitstream/202405/9115/2/P32001_10_fulltext.pdf",
+    "checked_on": "2026-10-13",
+    "note": "유한구·김혜정. 박사조사(2015) 응답자 7,938명(2015.8·2016.2 박사학위 취득자, 외국인 제외). 표 4가 입학·취득 평균 연령과 학위 취득 소요기간(전체·성별·계열·학업전념/직장병행). 졸업자 조사이며 입학자 종단조사가 아님. 저장소 직접 내려받기는 브라우저 User-Agent와 Referer가 있어야 403을 피함."
+  },
+  {
+    "id": "krivet-2025-hrd-review-brief",
+    "title": "THE HRD REVIEW 28권 1호 조사·통계 브리프: 국내 신규 박사학위 취득자의 특성 및 일자리 변화 (장광남 외)",
+    "publisher": "한국직업능력연구원(KRIVET)",
+    "year": 2025,
+    "url": "https://www.krivet.re.kr/repository/bitstream/202405/10625/2/P32801_08_fulltext_20250331.pdf",
+    "checked_on": "2026-10-13",
+    "note": "krivet-2025-phd-jobs(보도자료 게시물, 2025-03-31)의 첨부 조사통계브리프와 같은 문서의 공개 저장소 사본(PDF 17쪽 = 인쇄 쪽 130~146 중 133~145의 표 3~10·그림 6~11 확인). 자료: 국내 신규박사학위 취득자 실태조사 원시자료 2021~2024(졸업자 45,561명, 내국인 36,402명), 교육부·KRIVET 공동 국가승인통계 제920009호. 외국인·무응답 제외. 졸업자 조사이며 입학자 종단조사가 아님. PDF는 브라우저 User-Agent 헤더가 없으면 403; KRIVET 게시물의 첨부 다운로드는 보안문자(CAPTCHA)가 있어 이 저장소 사본으로 확인. PDF 글꼴 때문에 텍스트 추출 시 한글이 빠지므로 표는 페이지 이미지로 읽음."
+  },
+  {
+    "id": "krivet-2025-phd-jobs",
+    "title": "국내 신규 박사학위 취득자의 특성 및 일자리 변화",
+    "publisher": "한국직업능력연구원(KRIVET)",
+    "year": 2025,
+    "url": "https://krivet.re.kr/kor/sub.do?menuSn=23&pstNo=NH0000000325",
+    "checked_on": "2026-10-13",
+    "note": "2021–2024 박사조사. 응답자 45,561명. 졸업자 조사이며 입학자 종단조사가 아님. 어쩌다 박사 v3.5가 표 8·9·10을 인용."
+  },
+  {
+    "id": "kros-kroc-2026",
+    "title": "제21회 한국로봇종합학술대회(KRoC 2026) 안내",
+    "publisher": "한국로봇학회(KROS)",
+    "year": 2026,
+    "url": "https://kros.org/",
+    "checked_on": "2026-10-13",
+    "note": "학회 홈페이지(CP949 인코딩). 홈페이지가 KRoC 2026 일자를 '2025년 2월 4일~7일'로 잘못 적었으나 2026-02-04가 수요일이어서 2026년의 오기로 판단. 논문 수와 채택률 미공개."
+  },
+  {
+    "id": "ksocedu-2013-non-tenure-track-faculty-life",
+    "title": "비정년트랙 전임교수의 삶에 관한 연구",
+    "publisher": "교육사회학연구",
+    "year": 2013,
+    "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001778439",
+    "checked_on": "2026-10-13",
+    "note": "질적 연구 논문(KCI 등재지, 심층면담과 인사규정 분석). 초록만 열람, 면담 인원은 초록에 표기되지 않음. 2013년 자료. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "kyosu-2012-retired-professor-isolation",
+    "title": "\"은퇴 직후 극한의 소외 느꼈다\"",
+    "publisher": "교수신문",
+    "year": 2012,
+    "url": "http://www.kyosu.net/news/articleView.html?idxno=25309",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 인터뷰 기사(사회학 분야 퇴직 교수). 공개. 2012년 자료. 인터뷰이는 역할명으로만 기록."
+  },
+  {
+    "id": "kyosu-2017-retired-professor-registry",
+    "title": "깨지는 교수 神話 … 지자체별로 퇴임교수 등록제 시행한다면?",
+    "publisher": "교수신문",
+    "year": 2017,
+    "url": "https://www.kyosu.net/news/articleView.html?idxno=40224",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 기획 기사(퇴임 교수 다수 의견). 공개. 2017년 자료. 인문사회와 이공 퇴임자가 섞여 있음. 인물은 역할명으로만 기록."
+  },
+  {
+    "id": "kyosu-2022-faculty-pay",
+    "title": "교수 연봉, 30년 동안 얼마나 달라졌을까",
+    "publisher": "교수신문(2022-04-22, 2026-03-03 수정)",
+    "year": 2022,
+    "url": "https://www.kyosu.net/news/articleView.html?idxno=87572",
+    "checked_on": "2026-10-13",
+    "note": "국립대 부교수 평균 9538만원은 교육부 자료(강병원 의원실, 2021 전국 4년제 대학 직위별 교원 급여 현황). 사립대 조교수 5557만원은 출처 미명시(2021). 비정년트랙 교수 3871만원(2020)은 교수신문이 사립대 88곳에서 받은 설문이며 전국 평균이 아님. 2차 보도."
+  },
+  {
+    "id": "kyosu-2023-humsoc-phd-research-capacity",
+    "title": "\"인문사회 대학원은 '석사대학원'…박사과정 때 귀동냥하며 논문 써\"",
+    "publisher": "교수신문",
+    "year": 2023,
+    "url": "https://www.kyosu.net/news/articleView.html?idxno=100416",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 인문사회 박사과정생 연구력 실태조사 보도 기사(온라인 설문과 포커스그룹 면담 기반). 공개. 조사 원문이 아니라 기사 기준."
+  },
+  {
+    "id": "learnercentered-2024-counselor-doctoral-narrative",
+    "title": "중년 상담자의 박사과정 학업경험에 대한 자전적 내러티브 탐구",
+    "publisher": "학습자중심교과교육연구",
+    "year": 2024,
+    "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003056342",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 질적 연구 논문(KCI 등재지). 초록 서지 페이지만 열람, 면담 발췌는 확인하지 못함. 참여자 5명, 상담 분야 박사과정생. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "moe-2024-graduate-employment-release",
+    "title": "2023년 고등교육기관 졸업자 취업통계 조사결과 발표 (보도자료)",
+    "publisher": "교육부, 한국교육개발원(KEDI)",
+    "year": 2024,
+    "url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156667662",
+    "checked_on": "2026-10-13",
+    "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
+  },
+  {
+    "id": "moe-2026-academyinfo-standard-classification",
+    "title": "대학알리미 표준분류 정보 (교육편제단위 표준분류체계)",
+    "publisher": "교육부 대학알리미",
+    "year": 2026,
+    "url": "https://www.academyinfo.go.kr/mjrinfo/mjrinfo0460/doInit.do",
+    "checked_on": "2026-10-13",
+    "note": "KEDI 학과(전공) 분류와 별개인 교육부 체계. 5대 계열(인문·사회, 자연과학, 공학, 예·체능, 의학)과 광역, 대분류 A~F·중분류 2자리·소분류 3자리 코드. 2026 공시 194건(2025 공시 191건에 산업디자인·시각디자인·생활디자인 소분류 3건 추가). 선택 목록 조회 엔드포인트 selectPopUpList.do에서 JSON으로 전체를 받을 수 있음. 이번 매핑에서는 쓰지 않음(KEDI 교육통계는 U 코드 체계). 다음 사람이 다시 찾지 않도록 기록함."
+  },
+  {
+    "id": "moneytoday-2023-nst-institute-pay",
+    "title": "과학 연구기관 초임 4313만원, 평균연봉 9370만원...여전한 처우개선 목소리",
+    "publisher": "머니투데이(Money Today)",
+    "year": 2023,
+    "url": "https://v.daum.net/v/yfhQzWC2B1?f=p",
+    "checked_on": "2026-10-13",
+    "note": "2023-05-24 기사. 국가과학기술연구회와 ALIO 자료 기반이라고 밝히며 2022년(기사 표현 지난해) 25개 출연연 평균연봉 9370만원, 상위 9곳 평균연봉 나열. 평균연봉의 정의(인건비 합계인지 보수인지)는 기사에 없음. 기사 본문은 WebFetch 요약으로 읽었고 원문 대조는 하지 않음."
+  },
+  {
+    "id": "moppa-2026-pay-regulation",
+    "title": "공무원보수규정(대통령령 제36728호, 시행 2026-10-02) 별표 5·12·24",
+    "publisher": "인사혁신처",
+    "year": 2026,
+    "url": "https://www.law.go.kr/lsInfoP.do?lsiSeq=290321",
+    "checked_on": "2026-10-13",
+    "note": "국가법령정보센터 법령 본문 XML(OpenAPI)에서 별표 텍스트를 읽고, 같은 별표의 PDF 첨부와 금액 집합을 대조함. 월지급액(원), 수당 제외 본봉. 2026년 보수 인상분은 2026-01-02 공포 영 제36013호로 개정, 2026-01-01 이후 지급분부터 적용."
+  },
+  {
+    "id": "msit-2025-stem-stipend-plan",
+    "title": "이공계 석·박사 '연구생활장려금' 받는다…올해 30개 대학·5만 명",
+    "publisher": "대한민국 정책브리핑(과학기술정보통신부 정책뉴스)",
+    "year": 2025,
+    "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148939468",
+    "checked_on": "2026-10-13",
+    "note": "2025-02-11 게시. 이공계 연구생활장려금 지원 사업 2025년도 시행계획 공모. 최소 기준금액 석사 월 80만원, 박사 월 110만원. 사업기간 2025~2033. 2차 자료(시행계획 원문 아님)."
+  },
+  {
+    "id": "mt-2020-young-scientists",
+    "title": "\"MIT, 하버드에선 포닥이 경쟁력\"…90년생 과학자들의 수다",
+    "publisher": "머니투데이",
+    "year": 2020,
+    "url": "https://www.mt.co.kr/tech/2020/02/17/2020021512060252319",
+    "note": "출처 계급: 수필·수기 · 2020-02-17 신진연구자 좌담 기사(좌담 2020-02-03). 공개. 포닥·연구교수·스태프 사이언티스트 발언.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "mt-2024-institute-audit",
+    "title": "\"노벨상 평균 70세, 韓연구자 정년 61세\"…과방위 국감, 처우개선 요구",
+    "publisher": "머니투데이",
+    "year": 2024,
+    "url": "https://www.mt.co.kr/tech/2024/10/17/2024101717465981305",
+    "note": "출처 계급: 수필·수기 · 2024-10-17 국정감사 보도. 공개. 의원 발언 중심이라 개별 연구자 서사는 간접적.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "neurips-2025-acceptance",
+    "title": "Reflections on the 2025 Review Process from the Program Committee Chairs",
+    "publisher": "NeurIPS Program Committee Chairs (blog.neurips.cc)",
+    "year": 2025,
+    "url": "https://blog.neurips.cc/2025/09/30/reflections-on-the-2025-review-process-from-the-program-committee-chairs/",
+    "checked_on": "2026-10-13",
+    "note": "공식 블로그. 'valid paper submissions' 기준 메인 트랙 채택률."
+  },
+  {
+    "id": "newsis-2025-faculty-pay-moe",
+    "title": "전문대 교수 연봉, 평균 6700만원도 안돼…5년 연속 감소",
+    "publisher": "뉴시스(다음 뉴스 게재, 2025-10-19)",
+    "year": 2025,
+    "url": "https://v.daum.net/v/8tqIblnQXH",
+    "checked_on": "2026-10-13",
+    "note": "교육부가 김용태 의원실에 제출한 최근 5년간 대학교 교원 임용 현황 인용. 학교유형별 전임교원(교수·부교수·조교수) 연평균 급여. 국립·사립, 직급별 수치는 기사에 없음. 세전·수당 포함 여부 미기재. 2차 보도."
+  },
+  {
+    "id": "newstomato-2019-authorship-column",
+    "title": "(시론)저자의 자격, 학문의 몰락",
+    "publisher": "뉴스토마토",
+    "year": 2019,
+    "url": "https://newstomato.com/ReadNews.aspx?no=928109",
+    "note": "출처 계급: 수필·수기 · 2019-10-24 시론(칼럼). 초파리 유전학 연구자의 1인칭 회고. 공개. 사건 자체는 2005년 전후이나 기록 연도는 게재 연도.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "nrf-2023-bk21-guideline-revision",
+    "title": "4단계 BK21 사업 관리 운영 지침 및 집행기준 개정 안내",
+    "publisher": "한국연구재단(NRF) BK21사업팀",
+    "year": 2023,
+    "url": "https://gsesbk21.snu.ac.kr/wp-content/uploads/sites/150/2024/05/붙임1.-4단계-BK21-사업-관리-운영-지침-및-집행기준-개정-안내-1.pdf",
+    "checked_on": "2026-10-13",
+    "note": "2023-02-27 개정 안내(16쪽). 대학원생 연구장학금 단가 일괄 인상(+30만원): 석사 70→100만원, 박사 130→160만원, 박사수료 100→130만원. 비교표의 개정(안) 값이며 확정 지침 본문이 아님. 서울대 사업단 사이트 게시본."
+  },
+  {
+    "id": "nrf-2024-classification",
+    "title": "학술표준분류표 (학술 연구분야 분류표) 2024년 개정 반영본",
+    "publisher": "한국연구재단(NRF)",
+    "year": 2024,
+    "url": "https://www.nrf.re.kr/page/323?menuNo=323",
+    "checked_on": "2026-10-13",
+    "note": "NRF 사업자료실 > 연구분야분류표 > 학술표준분류. 현행 공식 명칭은 학술표준분류(교육부 학술표준분류체계를 NRF가 관리). 2024년 개정 반영(KCI 적용 2024-11-30). 표 파일 info_2_4.xlsx 시트 major-final, 표제 '학술표준분류표 (2025. 11.)', 파일 수정일 2025-11-25(https://www.nrf.re.kr/file/generalFileDownload?downFileName=info_2_4.xlsx). 4단계(대8·중153·소1,556·세2,515). 개정 이력: 2012 확립, 2013~2016 6차례 일부 개정, 2023~2025 수요 접수 일부 개정, 2024 개정 반영. 표 주석: 2024년 개정 내용 시스템 반영 과정에서 분야코드가 변경될 수 있음. 해설서 PDF: info_2_5.pdf."
+  },
+  {
+    "id": "nst-2026-etri-disclosure",
+    "title": "한국전자통신연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=ETRI",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kaeri-disclosure",
+    "title": "한국원자력연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KAERI",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kimm-disclosure",
+    "title": "한국기계연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KIMM",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kist-disclosure",
+    "title": "한국과학기술연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KIST",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kisti-disclosure",
+    "title": "한국과학기술정보연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KISTI",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kribb-disclosure",
+    "title": "한국생명공학연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KRIBB",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-28. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-krict-disclosure",
+    "title": "한국화학연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KRICT",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "ohmynews-2022-lecturers-where-gone",
+    "title": "그 많던 시간강사들은 어디로 갔을까?",
+    "publisher": "오마이뉴스",
+    "year": 2022,
+    "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0002834520",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 시민기자 칼럼(사회복지 분야 질적 연구자). 공개(2022-05-12). 강사법 이후 시간강사 감소를 다루는 해설 글."
+  },
+  {
+    "id": "ohmynews-2026-mentor-outside-university",
+    "title": "대학 밖에서 찾은 지도교수, 마음을 고쳐먹기 시작했다",
+    "publisher": "오마이뉴스",
+    "year": 2026,
+    "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003271546",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 인터뷰 기사(인문사회 분야 박사과정 수료 후 학계를 떠난 독립 연구자). 공개(2026-09-30). 인물은 역할명으로만 기록."
+  },
+  {
+    "id": "osdi-2026-acceptance",
+    "title": "OSDI '26 Program Co-Chairs' Message",
+    "publisher": "USENIX Association",
+    "year": 2026,
+    "url": "https://www.usenix.org/sites/default/files/osdi26-message.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 PC 의장 메시지. 리뷰 대상 669편(데스크 리젝 제외), 채택 134편, 이전 해 revise-and-resubmit로 2편 추가 채택."
+  },
+  {
+    "id": "phdkim-2020-global-phd-fellowship",
+    "title": "글로벌박사양성사업 및 지원 후기 - 상편",
+    "publisher": "김박사넷(phdkim.net)",
+    "year": 2020,
+    "url": "https://phdkim.net/job/article/20/",
+    "note": "출처 계급: 수필·수기 · 편집 기고문(2020-03-03). 분야 미표기, 실험 장비·기초 데이터 언급으로 실험 계열로 추정. 하편은 사용하지 않음. 후반 로그인 필요.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "phdkim-2020-grad-survival-2600",
+    "title": "대학원생 2600일 생존기 (1~5)",
+    "publisher": "김박사넷(phdkim.net)",
+    "year": 2020,
+    "url": "https://phdkim.net/job/article/35/",
+    "note": "출처 계급: 수필·수기 · 편집 연재(2020-06~07). 공학 통합과정 출신 기업 연구원 필자. 각 편 후반은 로그인 필요, 공개된 앞부분만 사용.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "phdkim-2020-us-postdoc-journey",
+    "title": "미국 포닥 도전기 (상·중·하)",
+    "publisher": "김박사넷(phdkim.net)",
+    "year": 2020,
+    "url": "https://phdkim.net/job/article/34/",
+    "note": "출처 계급: 수필·수기 · 편집 연재(2020-06~07). 전기전자·컴퓨터 계열 박사 필자(상편 자기소개). 각 편 후반은 로그인 필요, 공개된 앞부분만 사용.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "phdkim-2021-alt-military-service",
+    "title": "[저년차의 관문] 전문연구요원",
+    "publisher": "김박사넷(phdkim.net)",
+    "year": 2021,
+    "url": "https://phdkim.net/job/article/111/",
+    "note": "출처 계급: 수필·수기 · 편집 기고문(2021-10-28). 공학·컴퓨터 계열 대학원생 필자. 후반 로그인 필요, 공개된 앞부분만 사용.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "phdkim-2021-professor-attempt",
+    "title": "[논문 두편 국내박사 교수 도전기] Part 0. 출사표",
+    "publisher": "김박사넷(phdkim.net)",
+    "year": 2021,
+    "url": "https://phdkim.net/job/article/114/",
+    "note": "출처 계급: 수필·수기 · 편집 연재(2021-09-06). 분야 미표기, 실험 실패·높은 영향력지수 논문 언급으로 실험 계열로 추정. 공개 열람.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "phdkim-2021-qualifying-exam",
+    "title": "[저년차의 관문] QE - 박사자격시험",
+    "publisher": "김박사넷(phdkim.net)",
+    "year": 2021,
+    "url": "https://phdkim.net/job/article/108/",
+    "note": "출처 계급: 수필·수기 · 편집 기고문(2021-09-02). 자연과학 통합과정 필자. 공개 열람.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "phdkim-2022-happy-phd-series",
+    "title": "[행복한 박사과정 이야기] ep 1·3·5·6",
+    "publisher": "김박사넷(phdkim.net)",
+    "year": 2022,
+    "url": "https://phdkim.net/job/article/136/",
+    "note": "출처 계급: 수필·수기 · 편집 연재(2022). 반도체·2차원 소재 실험 연구실 박사과정 필자(ep1, ep3). ep5·ep6은 분야 미표기이나 실험 장비·시약 언급. 각 편 후반은 로그인 필요, 공개된 앞부분만 사용.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "postech-2025-tuition",
+    "title": "포항공과대학교 대학원 컴퓨터공학과 (김박사넷)",
+    "publisher": "김박사넷 (phdkim.net) - 비공식 집계, 원자료 2025 대학알리미 공시(포항공과대학교)",
+    "year": 2025,
+    "url": "https://phdkim.net/gradinfo/school/118/department/8",
+    "checked_on": "2026-10-13",
+    "note": "제3자 집계 사이트. 2025년 대학알리미 등록금 현황 공시를 가공한 값이라고 페이지에 적혀 있음. 등록금은 '연간'으로 표기, 입학금은 기간 미표기. 석사/박사/통합 구분 없음. 포스텍 공식 페이지에서는 금액을 찾지 못해 indexed로만 사용."
+  },
+  {
+    "id": "postech-2026-scholarship",
+    "title": "재정지원 (2026년도 학생조교수당 기준금액)",
+    "publisher": "포항공과대학교",
+    "year": 2026,
+    "url": "https://adm-g.postech.ac.kr/graduate-info/support-policy/",
+    "checked_on": "2026-10-13",
+    "note": "POSTECH 대학원 입학 홈페이지 재정지원 안내(한글). 학생조교수당 월 기준금액(가이드라인, 지도교수 재량으로 변동), 펠로우십(K-탑티어), 생활비 지원 장학금. 최대 지원 학기, 등록금/입학금 금액은 이 페이지에 없음."
+  },
+  {
+    "id": "postech-2027-phd-admission-guide",
+    "title": "2026-27학년도 포항공과대학교 대학원 신입생 모집요강 (2026학년도 2학기·2027학년도 1학기 입학)",
+    "publisher": "포항공과대학교 대학원 입학팀",
+    "year": 2027,
+    "url": "https://adm-g.postech.ac.kr/wp-content/uploads/2026/09/20260903161555_dlYjLIFjmN.pdf",
+    "checked_on": "2026-10-13",
+    "note": "98쪽 PDF의 '모집 학과와 학위 과정' 표(PDF 6쪽)를 이미지로 확인해 박사과정 열을 읽음. 2027학년도 1학기(전기) 입학분이며 박사는 일반전형에서만 선발(특차전형 박사 없음). 문서 안내문에 따르면 내용은 변경될 수 있음."
+  },
+  {
+    "id": "pressian-2019-current-lecturer",
+    "title": "\"현직 강사입니다. 교수 처우 바라는 게 아닙니다\"",
+    "publisher": "프레시안",
+    "year": 2019,
+    "url": "https://www.pressian.com/pages/articles/253552",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 기고문(영화·미디어 분야 시간강사). 공개(2019-08-19). 강사법 시행 직전 시점의 보수·계약 서술이며 이후 달라졌을 수 있음."
+  },
+  {
+    "id": "pusan-2026-scholarship",
+    "title": "PNU 이공계 연구생활장려금(Stipend) 지원사업 2026학년도 2학기 운영계획(안), 2026. 8.",
+    "publisher": "부산대학교 산학협력단",
+    "year": 2026,
+    "url": "https://fashion.pusan.ac.kr/bbs/fashion/979/1526944/download.do",
+    "checked_on": "2026-10-13",
+    "note": "PDF hosted on a pusan.ac.kr department board. The PDF text extractor dropped Hangul glyphs, so only digits and some symbols were machine-read directly: the 기준금액(월) line (석사 80, 박사 110, in 만원), the period 2026.9~2027.2 (6개월), the program span '25.5.1~'34.2.28 and the application deadline 2026.9.11. Eligibility and funding-source wording could not be read from the PDF; they are taken from search-result text of the same PDF and from the MSIT program description (석사 80만원, 박사 110만원 기준금액)."
+  },
+  {
+    "id": "pusan-2026-tuition",
+    "title": "[학사]2026학년도 등록금 책정 안내 (재료공학부 게시, 2026.01.14)",
+    "publisher": "부산대학교",
+    "year": 2026,
+    "url": "https://mse.pusan.ac.kr/mse/50822/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGbXNlJTJGMTIyNjUlMkYxNzU0MzAwJTJGYXJ0Y2xWaWV3LmRvJTNG",
+    "checked_on": "2026-10-13",
+    "note": "Department page on pusan.ac.kr reproducing the 2026학년도 등록금 책정표: 입학금, 수업료Ⅰ, 수업료Ⅱ per 계열 for 일반대학원 (석사, 박사과정 및 석·박사통합과정 combined; not split by degree). The page does not state the billing period explicitly; amounts are per-term figures (1학년 row includes 입학금, 2~4학년 row has 입학금 0). The university's own 책정표 file on onestop.pusan.ac.kr was not retrievable (download link only)."
+  },
+  {
+    "id": "pusan-2027-phd-admission-guide",
+    "title": "2027학년도 특차 일반대학원 신입생 모집요강",
+    "publisher": "부산대학교 입학처(일반대학원)",
+    "year": 2027,
+    "url": "https://go.pusan.ac.kr/graduate/pages/index.asp?p=91&b=B_1_16&bn=49773&m=read",
+    "checked_on": "2026-10-13",
+    "note": "공고(2026.08.04) 첨부 PDF(/_common/new_download_file.asp?menu=boardfile&file_no=4422, 61쪽)를 내려받아 박사과정 모집단위표(PDF 9~11쪽, 인쇄 7~9쪽)를 읽음. 특차 모집요강이며 '특차에서 선발하지 않는 모집단위는 전기·후기에서 선발, 11월 공고 전기 모집요강 확인' 문구가 있음. 전기 모집요강은 아직 미공고라 읽지 못함. 모집여부 표기: ○ 특차 모집, × 특차 미모집."
+  },
+  {
+    "id": "sbs-2014-humanities-fulltime-phd-scholarship",
+    "title": "서울대 인문대, '전업' 박사과정 학생에 장학금 지원",
+    "publisher": "SBS 뉴스",
+    "year": 2014,
+    "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1002398842",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 방송 뉴스 기사(인문대 박사과정 집필 장학금). 공개. 2014년 제도로 현재 지원 조건과 다를 수 있음."
+  },
+  {
+    "id": "scimago-2025-sjr-chem-materials-engineering",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 화학·재료공학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 화학·재료공학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-civil-env-engineering",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 토목·환경공학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 토목·환경공학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-computer-science",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 컴퓨터과학·인공지능",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 컴퓨터과학·인공지능 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-economics",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 경제학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 경제학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-history-philosophy-korean-literature",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 역사학·철학·한국문학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 역사학·철학·한국문학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-life-science",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 생명과학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 생명과학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-mathematics",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 수학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 수학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-mech-elec-engineering",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 기계·전기전자공학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 기계·전기전자공학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-polsci-public-admin",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 정치학·행정학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 정치학·행정학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-psychology",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 심리학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 심리학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-sociology",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 사회학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 사회학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-statistics",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 통계학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 통계학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2026-portal",
+    "title": "Scimago Journal & Country Rank",
+    "publisher": "SCImago Lab",
+    "year": 2026,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 저널 지표(SJR 사분위). 개별 저널 수치는 하위 id로. 2026-10-13 자동 접속은 HTTP 403(봇 차단), 수집 시 브라우저로 확인."
+  },
+  {
+    "id": "sedaily-2018-science-roundtable",
+    "title": "[과기상 수상자 특별좌담] \"이공계 박사 절반 미취업·비정규직..서울대 대학원마저 미달\"",
+    "publisher": "서울경제",
+    "year": 2018,
+    "url": "https://www.sedaily.com/article/12149562",
+    "note": "출처 계급: 수필·수기 · 2018-12-16 좌담 기사(발언 중심). 공개. 발언자 신원은 역할어로만 기록.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "sedaily-2026-retired-scientists",
+    "title": "“퇴직 과학자는 국가전략자산…연구 현장의 암묵지, 기업에 활용해야”",
+    "publisher": "서울경제",
+    "year": 2026,
+    "url": "https://m.sedaily.com/article/20096173",
+    "note": "출처 계급: 수필·수기 · 2026-09-30 인터뷰 기사(전직 정부출연연구기관장). 공개. 개별 사례가 적고 일반 서술이 많음.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "segye-2024-snu-council-pay",
+    "title": "세계일보 사설 (서울대 교수협의회 자료 인용, 제목 미확인)",
+    "publisher": "세계일보(2024-07-01 사설)",
+    "year": 2024,
+    "url": "https://www.segye.com/newsView/20240701515110",
+    "checked_on": "2026-10-13",
+    "note": "서울대 교수협의회 자료 인용, 2021년 기준. 서울대는 정교수로 명시, 성균관·연세·고려는 직급 미명시(문맥상 정교수). 2차 보도, 사설."
+  },
+  {
+    "id": "seoul-2023-engineering-dropout",
+    "title": "[단독] ‘취업 보장’ 반도체학과마저 이탈… “기술 경쟁? 있는 학생도 나갈 판”",
+    "publisher": "서울신문",
+    "year": 2023,
+    "url": "https://m.seoul.co.kr/news/2023/10/31/20231031005004",
+    "note": "출처 계급: 수필·수기 · 2023-10-31 단독 분석 기사. 공개. 대학원 모집 미달·중도 이탈 통계와 교수 발언.",
+    "checked_on": "2026-10-13"
+  },
+  {
+    "id": "sigmod-2026-acceptance",
+    "title": "SIGMOD 2026 Changes and Final Numbers (PACMMOD V4 N3 editorial)",
+    "publisher": "ACM SIGMOD / PACMMOD",
+    "year": 2026,
+    "url": "https://www-live.dfki.de/fileadmin/user_upload/import/17620_3802001.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PACMMOD 4권 3호 사설(DOI https://doi.org/10.1145/3802001)의 DFKI 미러본. 4회 라운드 합산 제출 1,049편, 게재 349편. 2025년은 제출 1,008편, 채택률 26%."
+  },
+  {
+    "id": "sisajournal-2002-humanities-phd-jobless",
+    "title": "\"공부한 게 아까워 장사하기도 힘들다\"",
+    "publisher": "시사저널",
+    "year": 2002,
+    "url": "https://www.sisajournal.com/news/articleView.html?idxno=80983",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 주간지 기획 기사(인문학 박사 실업 인터뷰). 공개. 2002년 자료로 현재 상황과 다름. 인터뷰이는 익명 처리해 기록."
+  },
+  {
+    "id": "skku-2026-tuition",
+    "title": "2026학년도 후기 일반대학원 일반전형 모집요강 (수정3차; 10. 등록금 안내, 12. 장학금 안내)",
+    "publisher": "성균관대학교",
+    "year": 2026,
+    "url": "https://gradschool.skku.edu/grad/mojip/regul.htm?bbsid=grad_dataroom&ctg_cd=REGUL&page=1&skey=&keyword=&mode=view&bltn_seq=58820",
+    "checked_on": "2026-10-13",
+    "note": "Official 모집요강 PDF attached to this notice page (file '2026학년도 후기 일반대학원 일반전형 모집요강_대학원팀 작업_260317_업로드용_수정3차.pdf', 37 pages; downloaded through the site's POST file endpoint). Records cite PDF page numbers: PDF page 22 = 등록금 안내 (입학금, 학기당 수업료 by 계열; note: 학과별로 등록금이 다를 수 있음), PDF pages 24-25 = 특별 장학금. The 2026학년도 전기 요강 stated its tuition was 2025 basis; this 후기 table is the 2026 one. Table not split by 석사/박사."
+  },
+  {
+    "id": "skku-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 일반전형 모집요강(수정 7차, 2026.09.18판)",
+    "publisher": "성균관대학교 대학원",
+    "year": 2027,
+    "url": "https://gradschool.skku.edu/grad/mojip/regul.htm?bbsid=grad_dataroom&ctg_cd=REGUL&page=1&skey=&keyword=&mode=view&bltn_seq=59065",
+    "checked_on": "2026-10-13",
+    "note": "게시물 첨부 PDF(2027학년도 전기 일반대학원 일반전형 모집요강_260918_홈페이지 첨부_수정7차.pdf)를 내려받아 '2. 모집학과(신입학)' 표(PDF 4~8쪽, 인쇄 2~6쪽)를 직접 읽음. 열은 석사/박사/석박사. 계약학과 표(PDF 8쪽)는 범위 밖으로 제외."
+  },
+  {
+    "id": "slownews-2015-i-am-a-lecturer",
+    "title": "나는 시간강사다: 88만원 세대보다 힘든 '젊은 교수님'",
+    "publisher": "슬로우뉴스",
+    "year": 2015,
+    "url": "https://slownews.kr/36378",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 연재 수기(필명 기고, 인문학 시간강사). 공개 게시, 연재 중 1회분. 금액과 조건은 2015년 시점이며 현재 기준이 아님. 필자 1인의 사례."
+  },
+  {
+    "id": "snu-2026-scholarship",
+    "title": "교내장학금 - 서울대학교 학생처",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://student.snu.ac.kr/%EB%8C%80%ED%95%99%EC%83%9D%ED%99%9C/%EC%9E%A5%ED%95%99/%EA%B5%90%EB%82%B4%EC%9E%A5%ED%95%99%EA%B8%88/",
+    "checked_on": "2026-10-13",
+    "note": "대학원 교내장학금(맞춤형, 생활지원, 강의연구지원, 기초학문분야 학문후속세대, 강의조교 등). 2026학년도 기준 문구(2026.3.1., 2026.9.1. 날짜 언급). 학부대학 항목에는 학문후속세대 금액이 다르게 나와 있음(본 기록은 대학원 표 기준)."
+  },
+  {
+    "id": "snu-2026-scholarship-2",
+    "title": "2026학년도 대학원 대통령과학장학금 신규장학생 신청 및 선발 안내",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://snupharm.snu.ac.kr/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/?mod=document&uid=8811",
+    "checked_on": "2026-10-13",
+    "note": "서울대 약학대학 공지사항 페이지(한국장학재단 사업 안내). 금액, 최대 학기, 신청 자격. 사업 주체는 한국장학재단이며 서울대 자체 장학금이 아님."
+  },
+  {
+    "id": "snu-2026-scholarship-3",
+    "title": "2026학년도 (이공계)박사우수장학금, 석사우수장학금 신규장학생 신청 안내",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://ie.snu.ac.kr/notice/?mod=document&uid=6206",
+    "checked_on": "2026-10-13",
+    "note": "서울대 산업공학과 공지 페이지(공과대학 배정 안내). 이공계 박사우수장학금 금액/최대 학기/성적 기준. 한국장학재단 온라인 신청."
+  },
+  {
+    "id": "snu-2026-tuition",
+    "title": "2026학년도 제1학기 등록금 일람표",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2026/02/2026_tuition.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 3쪽. '대학원' 표: 일반대학원(인문대, 사회대, 자연대, 공대, 농생대 등) 신입생·1학년 입학금/수업료/계 및 3학기 이상 수업료. 석사/박사 구분 없이 일반대학원 동일 금액. 학과 단위 세부(컴퓨터공학부, 생명과학부 등)는 표에 없고 단과대/계열 단위만 있음. 단위 원, 학기당."
+  },
+  {
+    "id": "snu-2027-phd-admission-guide",
+    "title": "2027학년도 서울대학교 대학원 신입생 전기모집 안내",
+    "publisher": "서울대학교 입학본부(대학원)",
+    "year": 2027,
+    "url": "https://admission.snu.ac.kr/graduate/general/notice?md=v&bbsidx=174422",
+    "checked_on": "2026-10-13",
+    "note": "공지 첨부 PDF(32쪽)를 내려받아 '2. 모집단위 및 모집인원'(PDF 4~9쪽, 문서 표기 p.3~8)과 <별표 3> 등록금 일람표(p.31)를 읽음. 박사 모집인원이 1명 이상인 단위만 박사 모집으로 취급. 2027학년도 전기, 접수 2026.9.28~10.2."
+  },
+  {
+    "id": "sogang-2026-scholarship",
+    "title": "일반대학원 학사 - 장학금 (gradsch04_3_2)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch04_3_2.html",
+    "checked_on": "2026-10-13",
+    "note": "Official 일반대학원 scholarship table (Albatross, 서강 Scholarship, 타대학, 석·박사 연계, TA, RA, 서강 글로벌 등). Page shows no date; read on 2026-10-13 as the current page. Page does not say which items apply to 박사."
+  },
+  {
+    "id": "sogang-2026-scholarship-2",
+    "title": "일반대학원 - 대학원혁신센터 (BK21 연구장학금 안내)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch004_03.html",
+    "checked_on": "2026-10-13",
+    "note": "Official page: 인력양성사업 연구장학금 석사 월 100만, 박사 월 160만, 박사수료 월 130만 이상; project period 2020.9~2027.8. Page undated; page does not name 'BK21' explicitly."
+  },
+  {
+    "id": "sogang-2026-tuition",
+    "title": "2026학년도 후기 일반2차전형 합격자 등록금 안내 (일반대학원 장학·등록 게시판, 2026.08.03)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/front/cmsboardview.do?siteId=gradsch&bbsConfigFK=402&pkid=938929",
+    "checked_on": "2026-10-13",
+    "note": "Official 일반대학원 notice with 2026 신입생 입학금/수업료/학생회비 by 계열. Table does not split 석사/박사 for 일반 계열 (EIC 전공만 구분). 계열: 인문사회, 이학, 공학/융합."
+  },
+  {
+    "id": "sogang-2026-tuition-2",
+    "title": "2026학년도 2학기 재학생(학점등록 포함), 논문(연구)등록생 등록금 납부 안내 (일반대학원, 2026.08.07)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/front/cmsboardview.do?siteId=gradsch&bbsConfigFK=402&pkid=939117",
+    "checked_on": "2026-10-13",
+    "note": "Official 2026-2학기 재학생 수업료와 논문등록생 금액 by 계열 (내국인/외국인). No 입학금 column; 총액 shown by the fetch tool was computed, not stated."
+  },
+  {
+    "id": "sogang-2027-phd-admission-guide",
+    "title": "2027학년도 전기 대학원 일반전형 모집요강",
+    "publisher": "서강대학교 일반대학원",
+    "year": 2027,
+    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch03_1_1.html",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 입학 페이지(2027학년도 전기 일반1차전형 선발 안내)에 붙은 PDF(2027학년도 전기 대학원 일반전형 모집요강.pdf)를 내려받아 '2. 모집과정 및 모집단위' 표(PDF 4~5쪽)를 직접 읽음. 열은 석사/석박사통합/박사 순(○ 모집, X 모집안함)."
+  },
+  {
+    "id": "sp-2025-acceptance",
+    "title": "IEEE TC on Security and Privacy Business Meeting report 2025",
+    "publisher": "IEEE Computer Society Technical Committee on Security and Privacy",
+    "year": 2025,
+    "url": "https://www.ieee-security.org/TC/Reports/2025/ieee-sp-tc-business-2025.pdf",
+    "checked_on": "2026-10-13",
+    "note": "TC 사업 보고서 표(Event/Dates/Modality/Attendees/Submissions/Accepted)의 'S&P/SPW 2025' 행. 제출 1,740편, 채택 256편. 행 이름이 S&P와 SPW(워크숍)를 함께 적어 메인 트랙 단독 수치인지 불명확."
+  },
+  {
+    "id": "unipress-2026-kedi-rr2025-35-faculty",
+    "title": "4년제 대학 교원 현황 (대학지성 In&Out 2026-01-29, KEDI 연구보고서 RR2025-35 소개 기사)",
+    "publisher": "대학지성 In&Out (원자료: 한국교육개발원 데이터 기반 대학 교육 혁신 모니터링 연구(Ⅲ) 대학교원 혁신 실태 분석)",
+    "year": 2026,
+    "url": "https://www.unipress.co.kr/news/articleView.html?idxno=13942",
+    "checked_on": "2026-10-13",
+    "note": "2차 자료. 보고서 원문은 열람하지 못함. 기사에 따르면 원자료는 고등교육기관 기본통계조사와 대학연구활동실태조사 등 행정통계이나 수치별 출처는 밝히지 않음. 신규 전임교원은 계열별·직급별 분석이 없음. 학년도 표기(2020~2024학년도)."
+  },
+  {
+    "id": "unist-2026-scholarship",
+    "title": "대학원 장학",
+    "publisher": "울산과학기술원",
+    "year": 2026,
+    "url": "https://www.unist.ac.kr/unist/admissions/scholarship-info-grad.do",
+    "checked_on": "2026-10-13",
+    "note": "UNIST 대학원 장학 분류 페이지. 국비장학생(등록금 전액 면제, 학연장려금 지급), UNIST장학생(등록금 전액 지원, 지도교수 연구비로 보충; 학연장려금 지급), 일반장학생(학연장려금 미지급). 금액은 이 페이지에 없음. 이중수혜 불가, 수업연한 초과자 제외, 학적변동 시 전액 환수."
+  },
+  {
+    "id": "unist-2026-scholarship-2",
+    "title": "2026학년도 후기2차 대학원과정 신입생 모집요강 - 양자대학원 양자과학기술 전공",
+    "publisher": "울산과학기술원",
+    "year": 2026,
+    "url": "https://adm-g.unist.ac.kr/admg/community/notice.do?mode=download&articleNo=285863&attachNo=577391",
+    "checked_on": "2026-10-13",
+    "note": "UNIST 대학원 입학처 공지 첨부 PDF (13쪽). 해당 모집 분야(양자대학원)는 국비 장학생으로만 선발. PDF 10쪽(인쇄 쪽번호 9): 국비 장학생 지원 내용 - 등록금 전액 면제(2025년 5월 기준 1학기 3,840,000원), 학연장려금 이공계열 기준 박사 연 13,200,000원 이상(월 1,100,000원 이상), 석사 연 9,600,000원 이상(월 800,000원 이상). 양자대학원 모집요강이라 다른 학과에도 동일 적용되는지는 이 문서만으로 확정할 수 없음. 입학금 항목 없음."
+  },
+  {
+    "id": "unist-2026-tuition",
+    "title": "대학원행정 > 등록 개요 > 등록 금액",
+    "publisher": "울산과학기술원",
+    "year": 2026,
+    "url": "https://www.unist.ac.kr/unist/education/academic/grad-registration.do",
+    "checked_on": "2026-10-13",
+    "note": "UNIST 대학원 행정 페이지. 일반대학원 이공계열 3,840,000원, 융합경영대학원 4,950,000원, 기술경영전문대학원 석사전일/박사전일제 6,500,000원 등. 기간(학기/연)과 연도는 페이지에 명시되지 않으며, 2026학년도 후기2차 모집요강(unist-2026-scholarship-2)이 '2025년 5월 기준, 1학기 3,840,000원'으로 학기당임을 명시. 입학금은 이 페이지에 없음. 실납부액은 사전감면·분할납부·초과학기 등으로 다를 수 있다고 안내."
+  },
+  {
+    "id": "unist-2027-phd-admission-guide",
+    "title": "2027학년도 전기 2차 대학원과정 신입생 모집요강",
+    "publisher": "UNIST 대학원 입학처",
+    "year": 2027,
+    "url": "https://adm-g.unist.ac.kr/admg/admission/secondary-electric.do?mode=download&articleNo=254640&attachNo=591664",
+    "checked_on": "2026-10-13",
+    "note": "국문 모집요강 PDF(32쪽)를 내려받아 p.5 '모집단위' 표를 이미지로 읽음. 2027학년도 전기 2차(원서접수 2026-10-06~10-15). 박사과정 열(국비/UNIST/일반) 기준. 등록금은 학과별 차이가 확인되지 않아 생략."
+  },
+  {
+    "id": "uos-2024-tuition",
+    "title": "2024학년도 후기 일반대학원 일반전형 신입학 모집요강, 7-2. 2024학년도 등록금 (단위: 원, 학기당)",
+    "publisher": "서울시립대학교 일반대학원",
+    "year": 2024,
+    "url": "https://graduate.uos.ac.kr/files/graduate/graduate/admission/2024%ED%95%99%EB%85%84%EB%8F%84%20%ED%9B%84%EA%B8%B0%20%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90%20%EC%9D%BC%EB%B0%98%EC%A0%84%ED%98%95%20%EC%8B%A0%EC%9E%85%ED%95%99%20%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95.pdf",
+    "checked_on": "2026-10-13",
+    "note": "LATEST OFFICIAL TABLE READABLE, academic year 2024 (not 2026). Per-semester 입학금 + 수업료 by 계열; not split by master/doctor. The 2026학년도 대학원 등록금 책정표 on uos.ac.kr / graduate.uos.ac.kr sits behind an SSO redirect or a placeholder download link and could not be retrieved. Source id carries 2024 on purpose."
+  },
+  {
+    "id": "uos-2026-scholarship",
+    "title": "교내장학 < 장학금지급 및 학자금 대출 < 학생지원 < 서울시립대학교 일반대학원",
+    "publisher": "서울시립대학교 일반대학원",
+    "year": 2026,
+    "url": "https://www.uos.ac.kr/graduateNew/html/support/scholarship/scholarship.do?menuid=3000004001001000000&identified=anonymous",
+    "checked_on": "2026-10-13",
+    "note": "Graduate 교내장학 list (총장/수업지원/연구지원/학·석사연계/원장/강의조교/외국인/연구비 장학 etc.). Benefits are given as codes (A 수업료전액감면(입학금포함), B 반액, G 일정액지급) with no KRW amounts. Academic year is not printed on the page; the same benefit codes appear in the official 2025학년도 후기 신입생 학사안내 PDF on graduate.uos.ac.kr."
+  },
+  {
+    "id": "uos-2027-phd-admission-guide",
+    "title": "2027학년도 전기1차 일반대학원 일반전형 신입생 모집요강 (26.9.30.)",
+    "publisher": "서울시립대학교 일반대학원",
+    "year": 2027,
+    "url": "https://graduate.uos.ac.kr/files/graduate/graduate/admission/%EB%B6%99%EC%9E%844.2027%ED%95%99%EB%85%84%EB%8F%84%20%EC%A0%84%EA%B8%B01%EC%B0%A8%20%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90%20%EC%9D%BC%EB%B0%98%EC%A0%84%ED%98%95%20%EC%8B%A0%EC%9E%85%EC%83%9D%20%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%2826.9.30.%29.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 전체를 내려받아 읽음(38쪽). 1-1 일반과정 및 학과 간 협동과정, 1-2 첨단학과 표(인쇄 쪽 4-5)와 7-2 2026학년도 등록금(계열별) 표 확인. 진입 페이지 https://graduate.uos.ac.kr/graduateNew/html/admission/general/regular.do?menuid=3000002001001000000 (서버가 일반 접근 시 SSO로 보내므로 파일은 /files/graduate/... 경로로 직접 수신)."
+  },
+  {
+    "id": "veritas-2017-professor-pay-moe",
+    "title": "상위17개대학 교수 평균연봉 1억1710만원..성대 1억7150만원 1위",
+    "publisher": "베리타스알파(2017-11-02)",
+    "year": 2017,
+    "url": "https://www.veritas-a.com/news/articleView.html?idxno=99826",
+    "checked_on": "2026-10-13",
+    "note": "2017년 교육부가 유은혜 의원실에 제출한 전국 4년제 대학 교원 급여 자료. 대학별 정교수 평균과 설립유형별 직급 평균. 세전·수당 포함 여부 미기재(기사는 휴직자 일시수당이 급여로 잘못 집계된 사례를 지적). 같은 기사 안에서 상위17개대 정교수 평균이 1억1406만1천원과 1억1710만5천원으로 불일치. 2차 보도이며 8년 전 자료."
+  },
+  {
+    "id": "wage-2026-portal",
+    "title": "임금직무정보시스템",
+    "publisher": "고용노동부",
+    "year": 2026,
+    "url": "https://www.wage.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 직종별 임금 분포(기업 연구직). 2026-10-13 자동 접속 실패(ECONNRESET), 수집 시 재확인."
+  },
+  {
+    "id": "yonsei-2026-scholarship",
+    "title": "연세대학교 대학원 > 학사안내 > 장학 > 교내장학금",
+    "publisher": "연세대학교",
+    "year": 2026,
+    "url": "https://graduate.yonsei.ac.kr/graduate/academic/scholarship.do",
+    "checked_on": "2026-10-13",
+    "note": "Official 교내장학금 table. Lists 연세 동행 장학금 and 연세 박사과정 특별 장학금 as 정액 (fixed amount) without stating the amount; eligibility 박사 정규등록학기 and 통합 4~6학기, 내국인 and 일반전형 외국인."
+  },
+  {
+    "id": "yonsei-2026-scholarship-2",
+    "title": "2026학년도 2학기 일반대학원 연세 동행 장학금 등 관련 안내 (공지, 게시 2025.09.09)",
+    "publisher": "연세대학교",
+    "year": 2026,
+    "url": "https://graduate.yonsei.ac.kr/graduate/board/notice.do?mode=view&articleNo=454682",
+    "checked_on": "2026-10-13",
+    "note": "Official notice giving the per-semester amount (120만원/학기, 등록금성외 장학금) for 연세 동행 장학금 & 연세 박사과정 특별 장학금, and 연세 외국인 동행 장학금 amounts. Amounts may change each year per the notice."
+  },
+  {
+    "id": "yonsei-2026-tuition",
+    "title": "연세대학교 2026학년도 일반대학원 등록금 명세표 (2026_fee2.pdf)",
+    "publisher": "연세대학교",
+    "year": 2026,
+    "url": "https://www.yonsei.ac.kr/sites/sc/down/2026_fee2.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 등록금 명세표 PDF, 4 pages; page 1 = 일반대학원 table (입학금, 학기당 수업료 by 계열). Table does not distinguish 석사/박사 and does not list which department belongs to which 계열. Text read from the PDF text layer (extracted locally because WebFetch could not decode it). The identical 일반대학원 table also appears in the Mirae (Wonju) campus PDF; only the Sinchon PDF is cited."
+  },
+  {
+    "id": "yonsei-2027-grad-dept-list",
+    "title": "연세대학교 일반대학원 학과목록",
+    "publisher": "연세대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.yonsei.ac.kr/graduate/intro/departlist.do",
+    "checked_on": "2026-10-13",
+    "note": "학과·협동과정 명칭 목록만 확인(석박사 구분 없음). 단위의 박사 모집 여부는 요강 PDF로 확인."
+  },
+  {
+    "id": "yonsei-2027-phd-admission-guide",
+    "title": "2027학년도 전기 연세대학교 대학원 입학전형 일반전형 모집요강 - 서울(신촌/국제) 캠퍼스",
+    "publisher": "연세대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.yonsei.ac.kr/_res/graduate/etc/s_guide_2027-1.pdf",
+    "checked_on": "2026-10-13",
+    "note": "요강 PDF를 내려받아 pdftotext로 읽음. 인쇄 p.6-8 '가-1 모집단위 및 과정(신촌캠퍼스)', '가-2(국제캠퍼스)'와 p.17 '일반전형[계약학과]' 표에서 박사 칸 ○ 확인. 원서접수 2026-10-07~10-14. 등록금 표(p.36)는 텍스트 추출이 어긋나 학과별 금액을 확정하지 못해 반영하지 않음. 미래캠퍼스 요강(m_guide_2027-1.pdf)은 읽지 않음."
   }
 ]

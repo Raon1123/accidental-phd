@@ -6,8 +6,8 @@
 
 **파일.**
 - `records.json` — 분류 코드 레코드. `value`는 분류 수준(1=대, 2=중, 3=소), `unit`은 `level`, `id`는 `taxonomy-nrf-<code>`. `note`에 한글 명칭과 상위 코드.
-- `mapping-kedi.json` — `[{kedi_code, kedi_name, nrf_code, confidence, note}]` (Wave 1에서 생성)
-- `mapping-tracks.json` — `[{track, nrf_code, nrf_name, confidence, note}]`. 트랙 26개는 `docs/oracle/v35-recon.md` 참고. 1:N 매핑은 전부 나열하고 `needs-judge`.
+- `mapping-kedi.json` — `[{kedi_code, kedi_name, kedi_level, nrf_code, nrf_name, nrf_level, confidence, primary, 계열, note}]`. KEDI 코드당 primary 1행 = KEDI 단위 전체를 담는 가장 좁은 NRF 코드(결정 기록 0009). NRF→KEDI 조회는 primary nrf_code가 조상인 행 중 kedi_level이 가장 깊은 것.
+- `mapping-tracks.json` — `[{track, nrf_code, nrf_name, level, confidence, primary, 계열, note}]`. 트랙당 primary 1행(중분류면 그 소분류가 세부전공 선택지), 보조 후보는 primary=false. 판정은 결정 기록 0008.
 
 **id 규칙.** `taxonomy-<scheme>-<code>`.
 

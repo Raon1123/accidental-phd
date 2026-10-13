@@ -126,10 +126,10 @@ web/                                 정적 사이트, localStorage (Wave 5)
 |---|---|---|---|
 | 판정·스펙 감사·모호한 결정 재판정 | fable | Astra | high |
 | 엮기·회고·결정 기록 작성 | opus | Sol | medium~high |
-| 출처 독해·통계 추출 초안 | sonnet | Sol (사용자 확인 필요) | medium |
+| 출처 독해·통계 추출 초안 | sonnet | Luna | medium |
 | 스키마 검증·일괄 정형화 | haiku | Luna | low |
 
-Sonnet의 ChatGPT 대응은 사용자가 지정하지 않았다. 확정 전까지 Sol로 두고 프롬프트 파일에 "확인 필요"로 표시한다. wave별 effort는 wave 파일 표에서 조정한다. Claude 쪽 spawn은 사용자 CLAUDE.md 규칙대로 literal `model:`을 항상 넘긴다.
+Sonnet의 ChatGPT 대응은 Luna다(사용자 확정 2026-10-13, 결정 기록 0006). wave별 effort는 wave 파일 표에서 조정한다. Claude 쪽 spawn은 사용자 CLAUDE.md 규칙대로 literal `model:`을 항상 넘긴다.
 
 **프롬프트 파일 구성.** 붙여넣을 맥락 블록, 과제, 출력 계약(issue에 바로 붙일 markdown 또는 스키마에 맞는 JSON), 자기 검증 체크리스트, handoff 형식. ChatGPT는 `gh`가 없으므로 출력은 사람이 붙여넣는 형태로 통일한다.
 
