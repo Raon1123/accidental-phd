@@ -28,3 +28,4 @@
 - [0004 학교 표시명 가상 유지](0004-fictional-school-display-names.md)
 - [0005 무작위보다 선택](0005-agency-over-randomness.md)
 - [0006 Sonnet의 ChatGPT 대응 등급은 Luna](0006-sonnet-chatgpt-tier-luna.md)
+- [0007 분류 기준은 NRF 학술연구분야분류, 계열은 대분류에서 유도](0007-nrf-classification-backbone.md)

@@ -16,5 +16,23 @@
     "url": "https://www.hrstpolicy.re.kr/kistep/upload/file/202406177_1397100000.pdf",
     "checked_on": "2026-10-13",
     "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
+  },
+  {
+    "id": "nrf-2024-classification",
+    "title": "학술표준분류표 (학술 연구분야 분류표) 2024년 개정 반영본",
+    "publisher": "한국연구재단(NRF)",
+    "year": 2024,
+    "url": "https://www.nrf.re.kr/page/323?menuNo=323",
+    "checked_on": "2026-10-13",
+    "note": "NRF 사업자료실 > 연구분야분류표 > 학술표준분류. 현행 공식 명칭은 학술표준분류(교육부 학술표준분류체계를 NRF가 관리). 2024년 개정 반영(KCI 적용 2024-11-30). 표 파일 info_2_4.xlsx 시트 major-final, 표제 '학술표준분류표 (2025. 11.)', 파일 수정일 2025-11-25(https://www.nrf.re.kr/file/generalFileDownload?downFileName=info_2_4.xlsx). 4단계(대8·중153·소1,556·세2,515). 개정 이력: 2012 확립, 2013~2016 6차례 일부 개정, 2023~2025 수요 접수 일부 개정, 2024 개정 반영. 표 주석: 2024년 개정 내용 시스템 반영 과정에서 분야코드가 변경될 수 있음. 해설서 PDF: info_2_5.pdf."
+  },
+  {
+    "id": "kci-2024-classification-notice",
+    "title": "[★중요] 학술표준분류체계 개정 알림(2024. 11. 30. 적용)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2024,
+    "url": "https://www.kci.go.kr/kciportal/mobile/bbs/bbsNoticeView.kci?boardBean.bullScriSequ=000000039527",
+    "checked_on": "2026-10-13",
+    "note": "2024-11-13 게시. 학술표준분류 개정을 KCI가 2024-11-30 적용. 붙임2 '학술표준분류표(변경 후_총괄표).xlsx'는 파일 ID만 노출되어 직접 내려받지 못함. 개정 연도·적용일 교차 확인용이며 레코드의 source_id는 NRF 원본을 쓴다."
   }
 ]
