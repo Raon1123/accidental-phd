@@ -16,5 +16,527 @@
     "url": "https://www.hrstpolicy.re.kr/kistep/upload/file/202406177_1397100000.pdf",
     "checked_on": "2026-10-13",
     "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
+  },
+  {
+    "id": "snu-2026-tuition",
+    "title": "2026학년도 제1학기 등록금 일람표",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://www.snu.ac.kr/webdata/uploads/kor/file/2026/02/2026_tuition.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 3쪽. '대학원' 표: 일반대학원(인문대, 사회대, 자연대, 공대, 농생대 등) 신입생·1학년 입학금/수업료/계 및 3학기 이상 수업료. 석사/박사 구분 없이 일반대학원 동일 금액. 학과 단위 세부(컴퓨터공학부, 생명과학부 등)는 표에 없고 단과대/계열 단위만 있음. 단위 원, 학기당."
+  },
+  {
+    "id": "snu-2026-scholarship",
+    "title": "교내장학금 - 서울대학교 학생처",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://student.snu.ac.kr/%EB%8C%80%ED%95%99%EC%83%9D%ED%99%9C/%EC%9E%A5%ED%95%99/%EA%B5%90%EB%82%B4%EC%9E%A5%ED%95%99%EA%B8%88/",
+    "checked_on": "2026-10-13",
+    "note": "대학원 교내장학금(맞춤형, 생활지원, 강의연구지원, 기초학문분야 학문후속세대, 강의조교 등). 2026학년도 기준 문구(2026.3.1., 2026.9.1. 날짜 언급). 학부대학 항목에는 학문후속세대 금액이 다르게 나와 있음(본 기록은 대학원 표 기준)."
+  },
+  {
+    "id": "snu-2026-scholarship-2",
+    "title": "2026학년도 대학원 대통령과학장학금 신규장학생 신청 및 선발 안내",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://snupharm.snu.ac.kr/%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD/?mod=document&uid=8811",
+    "checked_on": "2026-10-13",
+    "note": "서울대 약학대학 공지사항 페이지(한국장학재단 사업 안내). 금액, 최대 학기, 신청 자격. 사업 주체는 한국장학재단이며 서울대 자체 장학금이 아님."
+  },
+  {
+    "id": "snu-2026-scholarship-3",
+    "title": "2026학년도 (이공계)박사우수장학금, 석사우수장학금 신규장학생 신청 안내",
+    "publisher": "서울대학교",
+    "year": 2026,
+    "url": "https://ie.snu.ac.kr/notice/?mod=document&uid=6206",
+    "checked_on": "2026-10-13",
+    "note": "서울대 산업공학과 공지 페이지(공과대학 배정 안내). 이공계 박사우수장학금 금액/최대 학기/성적 기준. 한국장학재단 온라인 신청."
+  },
+  {
+    "id": "kaist-2026-tuition",
+    "title": "2026학년도 봄학기(재학/복학생/학사과정 신입생) 등록금 납부안내 (붙임1 석·박사과정 재학생 납입금 등 책정표)",
+    "publisher": "한국과학기술원 (KAIST)",
+    "year": 2026,
+    "url": "https://www.kaist.ac.kr/kr/html/footer/0802.html?mode=D&no=9f98a5467d7457b5adbc219fc3c00d94&file_id=68729",
+    "checked_on": "2026-10-13",
+    "note": "KAIST 교무처 PDF(10쪽, 2026.1.16.). 석·박사과정 재학생 납입금 책정표는 PDF 8쪽(인쇄 6쪽). 단위 천원/학기. 입학금 항목은 이 표에 없음. 일부 전공(MBA/MS 특수전공, 경영공학부 연차초과)은 별도 기준."
+  },
+  {
+    "id": "kaist-2026-scholarship",
+    "title": "장학금 종류별 세부 지급 기준 (학연장려금 Stipend 제도, 학자금 및 수당)",
+    "publisher": "한국과학기술원 (KAIST)",
+    "year": 2026,
+    "url": "https://www.kaist.ac.kr/kr/html/edu/03110503.html",
+    "checked_on": "2026-10-13",
+    "note": "KAIST 장학안내 페이지. 학연장려금(자연과학·생명과학·공학·AI 단과대 석·박사, 국비 또는 KAIST장학생), 박사 일반조교수당, 국비TA수당. 명시적 학년도 표기 없음(교비장학금 표가 '10~'26년 입학생 기준)."
+  },
+  {
+    "id": "postech-2025-tuition",
+    "title": "포항공과대학교 대학원 컴퓨터공학과 (김박사넷)",
+    "publisher": "김박사넷 (phdkim.net) - 비공식 집계, 원자료 2025 대학알리미 공시(포항공과대학교)",
+    "year": 2025,
+    "url": "https://phdkim.net/gradinfo/school/118/department/8",
+    "checked_on": "2026-10-13",
+    "note": "제3자 집계 사이트. 2025년 대학알리미 등록금 현황 공시를 가공한 값이라고 페이지에 적혀 있음. 등록금은 '연간'으로 표기, 입학금은 기간 미표기. 석사/박사/통합 구분 없음. 포스텍 공식 페이지에서는 금액을 찾지 못해 indexed로만 사용."
+  },
+  {
+    "id": "postech-2026-scholarship",
+    "title": "재정지원 (2026년도 학생조교수당 기준금액)",
+    "publisher": "포항공과대학교",
+    "year": 2026,
+    "url": "https://adm-g.postech.ac.kr/graduate-info/support-policy/",
+    "checked_on": "2026-10-13",
+    "note": "POSTECH 대학원 입학 홈페이지 재정지원 안내(한글). 학생조교수당 월 기준금액(가이드라인, 지도교수 재량으로 변동), 펠로우십(K-탑티어), 생활비 지원 장학금. 최대 지원 학기, 등록금/입학금 금액은 이 페이지에 없음."
+  },
+  {
+    "id": "gist-2026-tuition",
+    "title": "2026학년도 대학원 가을학기 최종합격자 입학등록 안내 2026. 6. (첨부 PDF)",
+    "publisher": "광주과학기술원",
+    "year": 2026,
+    "url": "https://www.gist.ac.kr/gadm/html/sub04/0401.html?mode=D&no=221820&file_id=82195",
+    "checked_on": "2026-10-13",
+    "note": "GIST 대학원 입학 공지의 첨부 PDF (13쪽). 5쪽: 입학금 680,000원. 8쪽: 대학원과정 신입생 납입금(수업료) 2026학년도 기준 3,805,000원/학기; 국비/과기원 장학생은 납입금 전액 면제, 일반장학생은 고지서 납부. 학과·계열별 구분 없이 단일 금액으로 게시. PDF 텍스트 추출 시 한글이 깨져 숫자와 표 구조로 확인했고, 한글 문구는 같은 GIST 공식 웹페이지(gadm/html/sub02/0201.html)와 대조함."
+  },
+  {
+    "id": "gist-2026-scholarship",
+    "title": "국비·과기원 장학 < 장학안내",
+    "publisher": "광주과학기술원",
+    "year": 2026,
+    "url": "https://www.gist.ac.kr/gadm/html/sub02/0201.html",
+    "checked_on": "2026-10-13",
+    "note": "GIST 대학원 입학 홈페이지 장학안내. 입학생 전원 국비 또는 과기원 장학생으로 선발해 등록금 전액 지원; 박사 연간 혜택표(납입금 7,610,000원/년, 조교수당 3,540,000원/년, 연구장려금 2025년 평균 약 17,480,000원/년 등); 입학등록 시 입학금 680,000원; 박사(통합)과정 총장장학금; GIST-IREF 해외 공동연구 파견 장학금. 최대 지원 기간은 이 페이지에 명시되지 않음."
+  },
+  {
+    "id": "gist-2026-scholarship-2",
+    "title": "학생지원경비 및 Stipend 보장제도",
+    "publisher": "광주과학기술원",
+    "year": 2026,
+    "url": "https://ewww.gist.ac.kr/kr/html/sub05/05020606.html",
+    "checked_on": "2026-10-13",
+    "note": "GIST 학사정보. 국비장학생 박사 조교수당 295,000원/월(8학기 이내, 통합 12학기), 급식비 3,300원/일; Stipend 기본장려금 보장: 박사 최저 100만원/월, 매월 23일 지급. 기준 연도는 페이지에 표기되지 않음(현행 게시)."
+  },
+  {
+    "id": "gist-2026-scholarship-3",
+    "title": "(대학원) 교내장학금",
+    "publisher": "광주과학기술원",
+    "year": 2026,
+    "url": "https://ewww.gist.ac.kr/kr/html/sub05/05020605.html",
+    "checked_on": "2026-10-13",
+    "note": "GIST 학사정보. 기본장학금(국비 및 과기원 장학생 전원, 수업료 전액, 수업연한 내), 지스트총장장학금(통합·박사과정 신입생 성적우수자, 입학금 면제 + 학기당 1,500,000원/6회), RA장학금과 발전기금 장학금은 금액 미표기."
+  },
+  {
+    "id": "dgist-2025-tuition",
+    "title": "대학원 입학 > 대학원 안내 > 장학제도 (sub01_02_03)",
+    "publisher": "대구경북과학기술원",
+    "year": 2025,
+    "url": "https://www.dgist.ac.kr/gadm/sub01_02_03.do",
+    "checked_on": "2026-10-13",
+    "note": "DGIST 대학원 입학 홈페이지. 일반장학생 열에 '등록금 납부(학기당 3,845,000원*)', 각주 '2025년 기준 금액이므로 추후 변동 가능'. 2026학년도 금액은 찾지 못함. 입학금은 이 페이지에 없음. 계열별 구분 없이 단일 금액 표기, 다른 장학제도 페이지에는 '학과(전공)별 등록금이 상이하므로 확인 요망'이라는 문구가 있음."
+  },
+  {
+    "id": "dgist-2025-scholarship",
+    "title": "대학원 입학 > 대학원 안내 > 장학제도 (sub01_02_01)",
+    "publisher": "대구경북과학기술원",
+    "year": 2025,
+    "url": "https://www.dgist.ac.kr/gadm/sub01_02_01.do",
+    "checked_on": "2026-10-13",
+    "note": "DGIST 대학원 입학 홈페이지 장학제도. 국비장학생 등록금 전액면제(학기당 3,845,000원, 2025년 기준), 학생맞춤형 장려금 최소 연 석사 7,800,000원 / 박사 14,040,000원 + 별도 가산액; 디지스트장학생 연 석사 15,000,000원 / 박사 22,000,000원 이상(연구과제 참여 전제). 모든 금액 2025년 기준. 같은 내용이 sub01_02.do에도 게시됨."
+  },
+  {
+    "id": "dgist-2025-scholarship-2",
+    "title": "대학원 < 장학안내 < 학사정보 < 대학생활",
+    "publisher": "대구경북과학기술원",
+    "year": 2023,
+    "url": "https://www.dgist.ac.kr/kor/sub05_01_04_01.do",
+    "checked_on": "2026-10-13",
+    "note": "DGIST 재학생용 학사정보 장학안내. 페이지에 '2023년 9월 기준'으로 표기되어 오래된 값일 수 있음. 학생지원경비(국비장학생, 박사 645,000원/월, 최대 8학기), 학생맞춤형 장려금 기본 지급액표(국비 박사 1,170,000원/월, 디지스트장학생 박사 1,834,000원/월), 교수평의회장학금 250,000원/월. 등록금 정보는 이 페이지에 없음."
+  },
+  {
+    "id": "unist-2026-tuition",
+    "title": "대학원행정 > 등록 개요 > 등록 금액",
+    "publisher": "울산과학기술원",
+    "year": 2026,
+    "url": "https://www.unist.ac.kr/unist/education/academic/grad-registration.do",
+    "checked_on": "2026-10-13",
+    "note": "UNIST 대학원 행정 페이지. 일반대학원 이공계열 3,840,000원, 융합경영대학원 4,950,000원, 기술경영전문대학원 석사전일/박사전일제 6,500,000원 등. 기간(학기/연)과 연도는 페이지에 명시되지 않으며, 2026학년도 후기2차 모집요강(unist-2026-scholarship-2)이 '2025년 5월 기준, 1학기 3,840,000원'으로 학기당임을 명시. 입학금은 이 페이지에 없음. 실납부액은 사전감면·분할납부·초과학기 등으로 다를 수 있다고 안내."
+  },
+  {
+    "id": "unist-2026-scholarship",
+    "title": "대학원 장학",
+    "publisher": "울산과학기술원",
+    "year": 2026,
+    "url": "https://www.unist.ac.kr/unist/admissions/scholarship-info-grad.do",
+    "checked_on": "2026-10-13",
+    "note": "UNIST 대학원 장학 분류 페이지. 국비장학생(등록금 전액 면제, 학연장려금 지급), UNIST장학생(등록금 전액 지원, 지도교수 연구비로 보충; 학연장려금 지급), 일반장학생(학연장려금 미지급). 금액은 이 페이지에 없음. 이중수혜 불가, 수업연한 초과자 제외, 학적변동 시 전액 환수."
+  },
+  {
+    "id": "unist-2026-scholarship-2",
+    "title": "2026학년도 후기2차 대학원과정 신입생 모집요강 - 양자대학원 양자과학기술 전공",
+    "publisher": "울산과학기술원",
+    "year": 2026,
+    "url": "https://adm-g.unist.ac.kr/admg/community/notice.do?mode=download&articleNo=285863&attachNo=577391",
+    "checked_on": "2026-10-13",
+    "note": "UNIST 대학원 입학처 공지 첨부 PDF (13쪽). 해당 모집 분야(양자대학원)는 국비 장학생으로만 선발. PDF 10쪽(인쇄 쪽번호 9): 국비 장학생 지원 내용 - 등록금 전액 면제(2025년 5월 기준 1학기 3,840,000원), 학연장려금 이공계열 기준 박사 연 13,200,000원 이상(월 1,100,000원 이상), 석사 연 9,600,000원 이상(월 800,000원 이상). 양자대학원 모집요강이라 다른 학과에도 동일 적용되는지는 이 문서만으로 확정할 수 없음. 입학금 항목 없음."
+  },
+  {
+    "id": "yonsei-2026-tuition",
+    "title": "연세대학교 2026학년도 일반대학원 등록금 명세표 (2026_fee2.pdf)",
+    "publisher": "연세대학교",
+    "year": 2026,
+    "url": "https://www.yonsei.ac.kr/sites/sc/down/2026_fee2.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 등록금 명세표 PDF, 4 pages; page 1 = 일반대학원 table (입학금, 학기당 수업료 by 계열). Table does not distinguish 석사/박사 and does not list which department belongs to which 계열. Text read from the PDF text layer (extracted locally because WebFetch could not decode it). The identical 일반대학원 table also appears in the Mirae (Wonju) campus PDF; only the Sinchon PDF is cited."
+  },
+  {
+    "id": "yonsei-2026-scholarship",
+    "title": "연세대학교 대학원 > 학사안내 > 장학 > 교내장학금",
+    "publisher": "연세대학교",
+    "year": 2026,
+    "url": "https://graduate.yonsei.ac.kr/graduate/academic/scholarship.do",
+    "checked_on": "2026-10-13",
+    "note": "Official 교내장학금 table. Lists 연세 동행 장학금 and 연세 박사과정 특별 장학금 as 정액 (fixed amount) without stating the amount; eligibility 박사 정규등록학기 and 통합 4~6학기, 내국인 and 일반전형 외국인."
+  },
+  {
+    "id": "yonsei-2026-scholarship-2",
+    "title": "2026학년도 2학기 일반대학원 연세 동행 장학금 등 관련 안내 (공지, 게시 2025.09.09)",
+    "publisher": "연세대학교",
+    "year": 2026,
+    "url": "https://graduate.yonsei.ac.kr/graduate/board/notice.do?mode=view&articleNo=454682",
+    "checked_on": "2026-10-13",
+    "note": "Official notice giving the per-semester amount (120만원/학기, 등록금성외 장학금) for 연세 동행 장학금 & 연세 박사과정 특별 장학금, and 연세 외국인 동행 장학금 amounts. Amounts may change each year per the notice."
+  },
+  {
+    "id": "korea-2026-tuition",
+    "title": "2026학년도 일반대학원 재학생 등록금 일람표 (2026_Registration_fee(grad).pdf)",
+    "publisher": "고려대학교",
+    "year": 2026,
+    "url": "https://www.korea.ac.kr/sites/ko/files/2026_Registration_fee(grad).pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 등록금 일람표 (대학원 재학생), 1 page, unit 천원 (thousand KRW). Gives 입학금, 수업료, 의료공제, 보건비, 학생회비, 고연전필승기금 by 계열 and by 입학연도 (24학번~ vs 23학번 이전), and lists departments per 계열. Linked from https://www.korea.ac.kr/ko/582/subview.do (등록금 일람표). Values below are for 2024학번 이후 입학. Table covers 석사, 박사 with the same fee."
+  },
+  {
+    "id": "korea-2026-scholarship",
+    "title": "고려대학교 일반대학원 > 장학제도 > 4단계 BK21 연구장학금",
+    "publisher": "고려대학교",
+    "year": 2026,
+    "url": "https://graduate.korea.ac.kr/scholarship/bk21.html",
+    "checked_on": "2026-10-13",
+    "note": "Official page; 지급액 per month by 석사/박사/박사수료. No date on page (4단계 BK21 period). Max semesters not stated (eligibility window in years)."
+  },
+  {
+    "id": "korea-2026-scholarship-2",
+    "title": "고려대학교 일반대학원 > 장학제도 > 교내 장학금",
+    "publisher": "고려대학교",
+    "year": 2026,
+    "url": "https://graduate.korea.ac.kr/scholarship/school.html",
+    "checked_on": "2026-10-13",
+    "note": "Official 교내 장학금 list. Page footer says Copyright 2022 and carries no academic-year date, so treat as undated. Many programs have amount '소정금액' (unspecified)."
+  },
+  {
+    "id": "skku-2026-tuition",
+    "title": "2026학년도 후기 일반대학원 일반전형 모집요강 (수정3차; 10. 등록금 안내, 12. 장학금 안내)",
+    "publisher": "성균관대학교",
+    "year": 2026,
+    "url": "https://gradschool.skku.edu/grad/mojip/regul.htm?bbsid=grad_dataroom&ctg_cd=REGUL&page=1&skey=&keyword=&mode=view&bltn_seq=58820",
+    "checked_on": "2026-10-13",
+    "note": "Official 모집요강 PDF attached to this notice page (file '2026학년도 후기 일반대학원 일반전형 모집요강_대학원팀 작업_260317_업로드용_수정3차.pdf', 37 pages; downloaded through the site's POST file endpoint). Records cite PDF page numbers: PDF page 22 = 등록금 안내 (입학금, 학기당 수업료 by 계열; note: 학과별로 등록금이 다를 수 있음), PDF pages 24-25 = 특별 장학금. The 2026학년도 전기 요강 stated its tuition was 2025 basis; this 후기 table is the 2026 one. Table not split by 석사/박사."
+  },
+  {
+    "id": "hanyang-2026-tuition",
+    "title": "2026학년도 한양대학교 등록금 명세서(내국인) (첨부 PDF, 1쪽)",
+    "publisher": "한양대학교",
+    "year": 2026,
+    "url": "https://nursing.hanyang.ac.kr/front/noti/Notice/file-load?id=2043&fileId=2612",
+    "checked_on": "2026-10-13",
+    "note": "Official tuition sheet attached to the university's 2026학년도 등록금 책정 안내 notice (posted 2026-02-03, hosted on the 간호대학 site). 내국인 only. 일반대학원 table has rows by 계열 only; it does not separate 석사 and 박사."
+  },
+  {
+    "id": "hanyang-2026-tuition-2",
+    "title": "2026학년도 한양대학교 등록금 책정 안내 (공지)",
+    "publisher": "한양대학교",
+    "year": 2026,
+    "url": "https://nursing.hanyang.ac.kr/front/noti/Notice/view?id=2043&BoardArticleSearch%5Bcategory%5D=1",
+    "checked_on": "2026-10-13",
+    "note": "Notice page (2026-02-03) that carries the tuition sheet; states 입학금 동결, 연구등록금 동결, 수업료 인상(안) 2.6%."
+  },
+  {
+    "id": "hanyang-2026-scholarship",
+    "title": "일반대학원 장학 내규 (2025.7.31. 공포) - 2026학년도 전기 신입생부터 적용",
+    "publisher": "한양대학교",
+    "year": 2026,
+    "url": "http://www.sgs.hanyang.ac.kr/board/data.php?ptype=view&idx=10290&page=1&code=data",
+    "checked_on": "2026-10-13",
+    "note": "Hanyang graduate school scholarship table (장학구분/장학조건/장학금액/유지조건). Page text read over HTTP with the site's mismatched TLS certificate ignored. The attached 내규 PDF itself was not read; the page says the 내규 prevails over the board table."
+  },
+  {
+    "id": "hanyang-2026-scholarship-2",
+    "title": "한양대학교 BK21사업 - 사업 방향 (대학원생 연구장학금)",
+    "publisher": "한양대학교",
+    "year": 2026,
+    "url": "https://research.hanyang.ac.kr/bk21/direction.php",
+    "checked_on": "2026-10-13",
+    "note": "Hanyang research office BK21 page; lists 연구장학금 per month. Page is undated. Other Hanyang BK21 pages (not fetchable) were reported by search to say 박사생 월 160만원, so the amount may be stale."
+  },
+  {
+    "id": "sogang-2026-tuition",
+    "title": "2026학년도 후기 일반2차전형 합격자 등록금 안내 (일반대학원 장학·등록 게시판, 2026.08.03)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/front/cmsboardview.do?siteId=gradsch&bbsConfigFK=402&pkid=938929",
+    "checked_on": "2026-10-13",
+    "note": "Official 일반대학원 notice with 2026 신입생 입학금/수업료/학생회비 by 계열. Table does not split 석사/박사 for 일반 계열 (EIC 전공만 구분). 계열: 인문사회, 이학, 공학/융합."
+  },
+  {
+    "id": "sogang-2026-tuition-2",
+    "title": "2026학년도 2학기 재학생(학점등록 포함), 논문(연구)등록생 등록금 납부 안내 (일반대학원, 2026.08.07)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/front/cmsboardview.do?siteId=gradsch&bbsConfigFK=402&pkid=939117",
+    "checked_on": "2026-10-13",
+    "note": "Official 2026-2학기 재학생 수업료와 논문등록생 금액 by 계열 (내국인/외국인). No 입학금 column; 총액 shown by the fetch tool was computed, not stated."
+  },
+  {
+    "id": "sogang-2026-scholarship",
+    "title": "일반대학원 학사 - 장학금 (gradsch04_3_2)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch04_3_2.html",
+    "checked_on": "2026-10-13",
+    "note": "Official 일반대학원 scholarship table (Albatross, 서강 Scholarship, 타대학, 석·박사 연계, TA, RA, 서강 글로벌 등). Page shows no date; read on 2026-10-13 as the current page. Page does not say which items apply to 박사."
+  },
+  {
+    "id": "sogang-2026-scholarship-2",
+    "title": "일반대학원 - 대학원혁신센터 (BK21 연구장학금 안내)",
+    "publisher": "서강대학교",
+    "year": 2026,
+    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch004_03.html",
+    "checked_on": "2026-10-13",
+    "note": "Official page: 인력양성사업 연구장학금 석사 월 100만, 박사 월 160만, 박사수료 월 130만 이상; project period 2020.9~2027.8. Page undated; page does not name 'BK21' explicitly."
+  },
+  {
+    "id": "khu-2026-tuition",
+    "title": "2026학년도 전기 일반대학원 정원내 신(편)입학 모집요강(안) - 2. 2026학년도 등록금 안내 (p.37)",
+    "publisher": "경희대학교",
+    "year": 2026,
+    "url": "https://iphak.khu.ac.kr/file/download.do?sfn=20250925042145187_2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf&ofn=2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 입학처 PDF (file name ends '(안)'). p.37 table by 계열 x 과정(석사/박사/석박사통합) for 서울/국제캠퍼스. Page states: '본 등록금은 2025학년도 등록금 기준으로, 변경 될 수 있습니다.' So values are the 2025학년도 basis shown for 2026 admission, not confirmed 2026 rates. 입학금 and 수업료 are 필수납부; 기타회비 선택납부."
+  },
+  {
+    "id": "khu-2026-scholarship",
+    "title": "2026학년도 전기 일반대학원 정원내 신(편)입학 모집요강(안) - 4. 장학금 안내 (p.40-41)",
+    "publisher": "경희대학교",
+    "year": 2026,
+    "url": "https://iphak.khu.ac.kr/file/download.do?sfn=20250925042145187_2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf&ofn=2026%ED%95%99%EB%85%84%EB%8F%84+%EC%A0%84%EA%B8%B0+%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90+%EC%A0%95%EC%9B%90%EB%82%B4+%EC%8B%A0%28%ED%8E%B8%29%EC%9E%85%ED%95%99+%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%28%EC%95%88%29.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Same official PDF; pp.38-39 list 대외 연구비 사업(BK21 etc.), p.40-41 장학금 현황 table and 경희학부우수졸업생 장학. BK21 생활비 amount not given. Many items say only '수업료 일부'."
+  },
+  {
+    "id": "ewha-2026-tuition",
+    "title": "2026학년도 후기 외국인특별전형 모집요강(국제학생팀 안내문) - Ⅷ 등록금",
+    "publisher": "이화여자대학교",
+    "year": 2026,
+    "url": "https://isa.ewha.ac.kr/bbs/oisa/251/13688/download.do",
+    "checked_on": "2026-10-13",
+    "note": "국제학생팀(isa.ewha.ac.kr) PDF, PDF p.27. 일반대학원 등록금을 계열 범위와 '약 ○○만원'으로만 제시 (2026학년도 1학기 기준, 추후 변경 가능). 인문사회계열은 단일값, 자연과학·공학/예체능/의학계열은 범위(자연과학·공학 약 736~858만원)라서 단일 학과별 값은 없음. 외국인특별전형 문서이나 같은 대학원 등록금표를 싣고 있음."
+  },
+  {
+    "id": "ewha-2026-scholarship",
+    "title": "장학금 (대학원 장학금 안내, 2026학년도 후기 입학생 기준)",
+    "publisher": "이화여자대학교",
+    "year": 2026,
+    "url": "https://graduate.ewha.ac.kr/graduate/scholarship/scholarship.do",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 교내 대학원장학금 표(최우수이화인, 우수박사(N), 이화연구엑셀런스, 우수이화과학인, 우월김활란21세기, 우수연구, 이화플러스, 학생조교 등) 및 교외·외국인 장학금. 4단계 BK21 연구장학금은 이 페이지에 금액 없음. 장학금 내용은 변경될 수 있음."
+  },
+  {
+    "id": "ewha-2026-scholarship-2",
+    "title": "이화여자대학교 4단계 BK21 사업 '미래대응 LIFE 인재 양성팀' 자체 운영규정 (2024년 8월 9일)",
+    "publisher": "이화여자대학교",
+    "year": 2024,
+    "url": "https://cmsfox.ewha.ac.kr/_res/ewha/bk4life/etc/%EC%9A%B4%EC%98%81%EB%82%B4%EA%B7%9C.pdf",
+    "checked_on": "2026-10-13",
+    "note": "한 BK21 사업팀(LIFE 인재 양성팀)의 내규이며 전교 공통 기준이 아님. 2024-08 문서(최신 공개본, 2026 개정 여부 미확인). 연구장학금 월별 지급: 석사 월 100만원 이상, 박사 월 160만원 이상, 박사수료 월 130만원 이상."
+  },
+  {
+    "id": "ewha-2025-indexed-phdkim",
+    "title": "이화여자대학교 대학원 수학과 (phdkim.net 대학원 정보)",
+    "publisher": "phdkim.net (대학알리미 2025 공시 데이터 가공 제3자 사이트, 대학 공식 출처 아님)",
+    "year": 2025,
+    "url": "https://phdkim.net/gradinfo/school/12/department/30",
+    "checked_on": "2026-10-13",
+    "note": "제3자 집계 사이트. 2025 대학알리미 공시(항목 129)에서 가공한 값: 입학금 1,027,000원, 등록금 6,201,000원('연간 등록금'으로 표기, 학기 환산 여부 불명). 사이트 자체가 오류 가능성을 경고. 이화 공식 2026 값과 불일치(공식 인문사회 약 635만원 대 사이트 인문사회 5,448,000원 등)하므로 참고용(indexed)."
+  },
+  {
+    "id": "cau-2026-tuition",
+    "title": "2026학년도 전반기 일반대학원 특별추천전형 합격자 유의사항",
+    "publisher": "중앙대학교 대학원",
+    "year": 2025,
+    "url": "https://graduate.cau.ac.kr/_attach/gradcau/file/2025/11/wTIsRiaXUNkenbmpcfsBZxgiWZ.pdf",
+    "checked_on": "2026-10-13",
+    "note": "2025-11-06 작성. '등록금액: 미정 [2025학년도 등록금 참고]'라며 2025학년도 계열별 입학금·수업료(한 학기)표를 제시. 2026학년도 확정액은 확인된 공식 문서에 없음. 표는 일반대학원 공통(석사/박사 구분 없음)."
+  },
+  {
+    "id": "cau-2026-scholarship",
+    "title": "2026학년도 전반기 특별추천전형 모집요강 (9. 등록금 및 환불규정, 11. 장학제도)",
+    "publisher": "중앙대학교 대학원",
+    "year": 2026,
+    "url": "http://graduate.cau.ac.kr/graduate/info/notice.do?mode=download&articleNo=45623&attachNo=57280",
+    "checked_on": "2026-10-13",
+    "note": "PDF p.11 등록금표(2026 미정, 2025 참고), p.12 CAU GRS 장학금(금액·지급기간), p.13 BK21 장학금. 장학인원·금액은 예산범위 내 대학원 장학위원회 결정. 규정 개정 시 변동 가능."
+  },
+  {
+    "id": "cau-2026-scholarship-2",
+    "title": "장학안내 > 장학 > 학사안내",
+    "publisher": "중앙대학교 대학원",
+    "year": 2026,
+    "url": "http://graduate.cau.ac.kr/graduate/bachelors-guide/scholarship-information.do",
+    "checked_on": "2026-10-13",
+    "note": "대학원 장학 종류 표(CAU GRS, 우수재학생, 중앙사랑연구, CAYSS, BK21, 직계, 부속기관, 외국인 등). 페이지에 게시 연도 표기 없음(현행 안내)."
+  },
+  {
+    "id": "konkuk-2026-tuition",
+    "title": "2026학년도 전기 대학원 일반전형 (추가)모집요강 - Ⅺ 등록금 안내, Ⅻ 장학 안내",
+    "publisher": "건국대학교 대학원",
+    "year": 2026,
+    "url": "https://www.konkuk.ac.kr/bbs/edutech/4092/1201390/download.do",
+    "checked_on": "2026-10-13",
+    "note": "PDF p.20 등록금표(입학금·수업료·등록금·기타납입금(학생회비)), p.21 장학 안내. 이 요강은 박사과정 및 통합과정만 모집(석사 미모집). '신규 대학원 등록금 책정표에 따라 변경 가능'. 교육공학과·산업경영융합학부는 이학계열 적용."
+  },
+  {
+    "id": "konkuk-2026-scholarship",
+    "title": "장학안내 (건국대학교 대학원)",
+    "publisher": "건국대학교 대학원",
+    "year": 2026,
+    "url": "https://www.konkuk.ac.kr/grad/10293/subview.do",
+    "checked_on": "2026-10-13",
+    "note": "교내 장학 표(연구조교, 석박통합 특별장학, 수업조교 A/C, 복지, 외국인 등). 모두 등록금 범위 내 지급, 별도 등록금표 없음. 게시 연도 불명(현행 안내)."
+  },
+  {
+    "id": "konkuk-2026-scholarship-2",
+    "title": "[한국장학재단] 2026년 석사 및 박사우수장학금(이공계) 안내",
+    "publisher": "건국대학교 대학원",
+    "year": 2026,
+    "url": "https://grad.konkuk.ac.kr/grad/10301/subview.do;jsessionid=B8660290FD0676F3CDBBD17FAC90CDF3?enc=Zm5jdDF8QEB8JTJGYmJzJTJGZ3JhZCUyRjI2MiUyRjExNzQ5MTUlMkZhcnRjbFZpZXcuZG8lM0Y%3D",
+    "checked_on": "2026-10-13",
+    "note": "대학원 공지(신청 마감 2026-06-04). 한국장학재단(국가) 이공계 석사·박사 우수장학금 교내 추천 안내: 석사 9명 학기당 250만원, 박사 6명 학기당 375만원. 마감된 공지이며 학교 자체 프로그램이 아님."
+  },
+  {
+    "id": "pusan-2026-tuition",
+    "title": "[학사]2026학년도 등록금 책정 안내 (재료공학부 게시, 2026.01.14)",
+    "publisher": "부산대학교",
+    "year": 2026,
+    "url": "https://mse.pusan.ac.kr/mse/50822/subview.do?enc=Zm5jdDF8QEB8JTJGYmJzJTJGbXNlJTJGMTIyNjUlMkYxNzU0MzAwJTJGYXJ0Y2xWaWV3LmRvJTNG",
+    "checked_on": "2026-10-13",
+    "note": "Department page on pusan.ac.kr reproducing the 2026학년도 등록금 책정표: 입학금, 수업료Ⅰ, 수업료Ⅱ per 계열 for 일반대학원 (석사, 박사과정 및 석·박사통합과정 combined; not split by degree). The page does not state the billing period explicitly; amounts are per-term figures (1학년 row includes 입학금, 2~4학년 row has 입학금 0). The university's own 책정표 file on onestop.pusan.ac.kr was not retrievable (download link only)."
+  },
+  {
+    "id": "pusan-2026-scholarship",
+    "title": "PNU 이공계 연구생활장려금(Stipend) 지원사업 2026학년도 2학기 운영계획(안), 2026. 8.",
+    "publisher": "부산대학교 산학협력단",
+    "year": 2026,
+    "url": "https://fashion.pusan.ac.kr/bbs/fashion/979/1526944/download.do",
+    "checked_on": "2026-10-13",
+    "note": "PDF hosted on a pusan.ac.kr department board. The PDF text extractor dropped Hangul glyphs, so only digits and some symbols were machine-read directly: the 기준금액(월) line (석사 80, 박사 110, in 만원), the period 2026.9~2027.2 (6개월), the program span '25.5.1~'34.2.28 and the application deadline 2026.9.11. Eligibility and funding-source wording could not be read from the PDF; they are taken from search-result text of the same PDF and from the MSIT program description (석사 80만원, 박사 110만원 기준금액)."
+  },
+  {
+    "id": "uos-2024-tuition",
+    "title": "2024학년도 후기 일반대학원 일반전형 신입학 모집요강, 7-2. 2024학년도 등록금 (단위: 원, 학기당)",
+    "publisher": "서울시립대학교 일반대학원",
+    "year": 2024,
+    "url": "https://graduate.uos.ac.kr/files/graduate/graduate/admission/2024%ED%95%99%EB%85%84%EB%8F%84%20%ED%9B%84%EA%B8%B0%20%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90%20%EC%9D%BC%EB%B0%98%EC%A0%84%ED%98%95%20%EC%8B%A0%EC%9E%85%ED%95%99%20%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95.pdf",
+    "checked_on": "2026-10-13",
+    "note": "LATEST OFFICIAL TABLE READABLE, academic year 2024 (not 2026). Per-semester 입학금 + 수업료 by 계열; not split by master/doctor. The 2026학년도 대학원 등록금 책정표 on uos.ac.kr / graduate.uos.ac.kr sits behind an SSO redirect or a placeholder download link and could not be retrieved. Source id carries 2024 on purpose."
+  },
+  {
+    "id": "uos-2026-scholarship",
+    "title": "교내장학 < 장학금지급 및 학자금 대출 < 학생지원 < 서울시립대학교 일반대학원",
+    "publisher": "서울시립대학교 일반대학원",
+    "year": 2026,
+    "url": "https://www.uos.ac.kr/graduateNew/html/support/scholarship/scholarship.do?menuid=3000004001001000000&identified=anonymous",
+    "checked_on": "2026-10-13",
+    "note": "Graduate 교내장학 list (총장/수업지원/연구지원/학·석사연계/원장/강의조교/외국인/연구비 장학 etc.). Benefits are given as codes (A 수업료전액감면(입학금포함), B 반액, G 일정액지급) with no KRW amounts. Academic year is not printed on the page; the same benefit codes appear in the official 2025학년도 후기 신입생 학사안내 PDF on graduate.uos.ac.kr."
+  },
+  {
+    "id": "knu-2026-tuition",
+    "title": "경북대학교 대학원 등록금표(2026학년도) (tuition_2026(2).xls, sheet 2026학년도 등록금표_대학원)",
+    "publisher": "경북대학교",
+    "year": 2026,
+    "url": "https://knu.ac.kr/wbbs/wbbs/download/tuition_2026(2).xls",
+    "checked_on": "2026-10-13",
+    "note": "Official 등록금표 file linked from the 등록금 차등납부제도 page of knu.ac.kr (menu_url=edu/academic03_04_02). Per-semester 입학금, 수업료Ⅰ/Ⅱ, (구)부가징수금, 수업료 합계 by 대학원/등록계열/학과. Not split by master/doctor except a few named programs (e.g. 보건학과(박사)). File last saved 2026-08-03."
+  },
+  {
+    "id": "knu-2026-scholarship",
+    "title": "경북대, 전일제 박사과정생 등록금 전액 장학금 지원 (경북대 대학소식, 등록 2025-05-29)",
+    "publisher": "경북대학교",
+    "year": 2026,
+    "url": "https://www.knu.ac.kr/wbbs/wbbs/bbs/btin/viewBtin.action?bbs_cde=28&btin.bbs_cde=28&btin.doc_no=1334585&btin.appl_no=000000&btin.page=1&btin.search_type=&btin.search_text=&popupDeco=&btin.note_div=row&menu_idx=214",
+    "checked_on": "2026-10-13",
+    "note": "University news item (page text is very long; first 100000 characters read). States a full-tuition scholarship for 전일제 박사 and 석·박사통합 students from 2025학년도 2학기. No max semesters, amounts, or 입학금/수업료 breakdown on the page. A second KNU news item (doc_no=1335408) says '대부분에게' (most students)."
+  },
+  {
+    "id": "knu-2024-scholarship",
+    "title": "2024년 대학원 대통령과학장학금사업 학생 온라인 신청 안내",
+    "publisher": "경북대학교",
+    "year": 2024,
+    "url": "https://www.knu.ac.kr/wbbs/wbbs/bbs/btin/viewBtin.action?bbs_cde=1&btin.bbs_cde=1&btin.doc_no=1331191&btin.appl_no=000000&menu_idx=67",
+    "checked_on": "2026-10-13",
+    "note": "KNU notice (2024-02-14) of the national 대통령과학장학금 (Korea Student Aid Foundation, kosaf.go.kr) for 이공계 일반대학원. 2024 figures; no 2026 version found. National program, not KNU-funded; max period and extra conditions are in an HWP attachment that could not be read."
+  },
+  {
+    "id": "jnu-2026-tuition",
+    "title": "등록금내역 (2026학년도 대학원 등록금, 학기당)",
+    "publisher": "전남대학교",
+    "year": 2026,
+    "url": "https://www.jnu.ac.kr/MainUniLife/UniInfor/Registration/ListFees",
+    "checked_on": "2026-10-13",
+    "note": "Official 재무과 page, 2026학년도 대학원 학기별 등록금 일람표. 일반대학원 row is labelled (석사,박사), i.e. the same amount for master and doctoral. Page states 일반대학원 2.5% 인상(수업료Ⅱ기준) and 2018학년도부터 입학금 폐지. Department-to-계열 assignment is not listed on the page. (The 2026 모집요강 copy of the table is labelled 2025학년도 기준 reference with the same 공학계 3,327,000.)"
+  },
+  {
+    "id": "jnu-2026-scholarship",
+    "title": "2026학년도 후기 일반대학원 신입생 모집 홍보자료 (각종 지원제도 및 혜택)",
+    "publisher": "전남대학교",
+    "year": 2026,
+    "url": "https://cloudweb.jnu.ac.kr/bbs/biology/2113/839804/download.do",
+    "checked_on": "2026-10-13",
+    "note": "Official 대학원혁신본부 promotional PDF (hosted on a department board). 장학사업 table (PDF p.4) and 4단계 BK21 연구장학금 (PDF p.6). States amounts may change with scholarship-system revision and budget; BK21 stipends selected per 교육연구단(팀) 내규."
+  },
+  {
+    "id": "jnu-2026-scholarship-2",
+    "title": "2026학년도 후기(2차) 일반대학원 입학전형 모집요강 (대학원 장학제도)",
+    "publisher": "전남대학교",
+    "year": 2026,
+    "url": "https://cs.jnu.ac.kr/bbs/cs/1043/845406/download.do",
+    "checked_on": "2026-10-13",
+    "note": "Official 일반대학원 모집요강 PDF. 대학원 장학제도 table (PDF p.43) with announcement timing and eligibility; BK21 연구장학금 box (PDF p.42). Text extraction of the 근로장학 row was partly garbled, so amounts were cross-checked against the 홍보자료 (jnu-2026-scholarship)."
+  },
+  {
+    "id": "jnu-2026-scholarship-3",
+    "title": "2026학년도 전기(추가) 일반대학원 입학전형 모집요강",
+    "publisher": "전남대학교",
+    "year": 2026,
+    "url": "https://admgraduate.jnu.ac.kr/bbs/admgraduate/1150/824733/download.do",
+    "checked_on": "2026-10-13",
+    "note": "Official 모집요강 PDF for the 전기 (추가) intake. Used only for the first-semester tuition waiver wording, which is narrower here (본교 출신 내국인 석사과정 졸업자 중 전일제 박사과정 신입생) than in the 후기 materials."
+  },
+  {
+    "id": "cnu-2026-tuition",
+    "title": "2026학년도 등록금 책정 공고 (붙임1 2026학년도 충남대학교 등록금 일람표.xlsx)",
+    "publisher": "충남대학교",
+    "year": 2026,
+    "url": "https://plus.cnu.ac.kr/_prog/_board/?mode=V&no=2511699&code=sub07_0702&site_dvs_cd=kr&menu_dvs_cd=&skey=&sval=&site_dvs=&ntt_tag=&GotoPage=",
+    "checked_on": "2026-10-13",
+    "note": "Official 재무과 notice dated 2026-02-09 (대학원 일반/전문/특수 2.5% 인상). Figures come from attachment 1 (xlsx, sheet '2026 학부, 대학원', unit 원/학기), rows 일반대학원(박사). 수업료 excludes 입학금; the 신입생 수업료 column = 수업료 + 입학금. No separate 기성회비 column."
+  },
+  {
+    "id": "cnu-2026-scholarship",
+    "title": "2026학년도 전기2차 일반대학원 모집요강 (7. 대학원 장학제도, 8. 4단계 BK21사업)",
+    "publisher": "충남대학교",
+    "year": 2026,
+    "url": "https://ipsi.cnu.ac.kr/Upl/gadm/yokang/0103_A_0_1764044261.pdf",
+    "checked_on": "2026-10-13",
+    "note": "Official 입학본부 모집요강 PDF (42 pages). Scholarship table PDF pp.32-33, BK21 pp.34-35. States 선발기준·인원·지급 내역 may change at the paying body's discretion. Its tuition table is 2025학년도 후기 based, so tuition was taken from the 2026 일람표 instead."
   }
 ]
