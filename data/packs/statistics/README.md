@@ -8,4 +8,6 @@
 
 **id 규칙.** `statistics-<topic>-<key>`. 예: `statistics-employed-cs`, `statistics-form-permanent`, `statistics-leave-stem`, `statistics-faculty-new-hires-humanities`. 비율은 `unit: ratio`, `denominator` 필수.
 
+**사용 시 주의(#12).** 취업률 계열은 한국표준교육분류 10계열이며 NRF 계열과 다르다. 판정 항목은 [needs-judge-employment.md](needs-judge-employment.md) → Wave 3(#18).
+
 **담당 issue.** Wave 2 — employment: #12 · progress: #13 · faculty-market: #14
