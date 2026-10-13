@@ -22,7 +22,7 @@ Wave 2 종료 조건. 단, 상태 모델 스펙은 Wave 2와 병행 가능.
 |---|---|---|---|---|
 | 스펙 초안·엮기 | opus | Sol | high | `../prompts/weaver-retro-any.md`(초안 모드) |
 | 스펙 감사·판정 | fable | Astra | high | `../prompts/judge-any.md` |
-| 근거 레코드 조회·표 작성 | sonnet | Sol (확인 필요) | medium | — |
+| 근거 레코드 조회·표 작성 | sonnet | Luna | medium | — |
 
 ## 회고
 ### 실패한 체크리스트 항목
