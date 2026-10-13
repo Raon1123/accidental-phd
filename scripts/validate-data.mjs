@@ -35,6 +35,87 @@ function walk(dir, pred, out = []) {
   return out;
 }
 
+// --- Record-id existence check (Wave 3 retro: decision 0013 once cited a non-existent id) ---
+const ID_TOKEN_RE = /^(schools|departments|salaries|statistics|venues|taxonomy|nar-hs|nar-stem)-[^` ]+$/;
+const MAX_EXPANSION = 200;
+
+function collectRecordIds(root) {
+  const ids = new Set();
+  const files = new Set(walk(join(root, 'data/packs'), p => p.endsWith('records.json')));
+  for (const p of walk(join(root, 'data/packs/narratives'), p => p.endsWith('.json'))) files.add(p);
+  for (const f of files) {
+    let recs;
+    try { recs = readJson(f); } catch { continue; }
+    if (Array.isArray(recs)) for (const r of recs) if (r && typeof r.id === 'string') ids.add(r.id);
+  }
+  return ids;
+}
+
+// Expands explicit alternations into concrete patterns: {a,b,c}, {a/b}, {1..5}, (a|b).
+// Placeholders such as {school}, {…}, <field> are left for patternToRegex.
+function expandAlternations(token) {
+  const m = token.match(/\{([^{}]*)\}|\(([^()]*\|[^()]*)\)/);
+  if (!m) return [token];
+  const body = m[1] ?? m[2];
+  let alts = null;
+  const range = m[1] !== undefined && body.match(/^(\d+)\.\.(\d+)$/);
+  if (range) {
+    const [lo, hi] = [Number(range[1]), Number(range[2])];
+    if (hi >= lo && hi - lo < 100) alts = Array.from({ length: hi - lo + 1 }, (_, i) => String(lo + i));
+  } else if (m[2] !== undefined) alts = body.split('|');
+  else if (/[,/]/.test(body)) alts = body.split(/[,/]/).map(a => a.trim());
+  if (!alts) {
+    // placeholder: keep the text, protect it from re-matching, restore afterwards
+    const hold = m[0].replace(/[{}()]/g, c => ({ '{': '\u0001', '}': '\u0002', '(': '\u0003', ')': '\u0004' })[c]);
+    return expandAlternations(token.replace(m[0], hold)).map(t => t.replace(/[\u0001-\u0004]/g, c => '{}()'[c.charCodeAt(0) - 1]));
+  }
+  const out = [];
+  for (const a of alts) for (const rest of expandAlternations(token.replace(m[0], a))) out.push(rest);
+  return out;
+}
+
+// Translates one placeholder-bearing pattern to an anchored RegExp.
+// Wildcards -> .+ : <…> <field> {…} {...} {school} {n} * … ...  Trailing -N -> digits; NNNN -> 4 digits.
+function patternToRegex(pat) {
+  const prefixOnly = pat.endsWith('-');
+  const parts = pat.split(/(<[^<>]*>|\{[^{}]*\}|\*|…|\.{3}|NNNN|-N$)/);
+  const src = parts.map((part, i) => {
+    if (i % 2 === 0) return part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (part === 'NNNN') return '\\d{4}';
+    if (part === '-N') return '-\\d+';
+    return '.+';
+  }).join('');
+  return new RegExp(`^${src}${prefixOnly ? '' : '$'}`);
+}
+
+function checkRecordIdMentions(root, errors) {
+  const ids = collectRecordIds(root);
+  const idList = [...ids];
+  const files = [
+    ...walk(join(root, 'docs/design/decisions'), p => p.endsWith('.md')),
+    ...walk(join(root, 'docs/superpowers/specs'), p => p.endsWith('.md'))
+  ];
+  for (const file of files) {
+    const rel = file.slice(root.length + 1);
+    const text = readFileSync(file, 'utf8').replace(/^(`{3,})[^\n]*\n[\s\S]*?^\1[ \t]*$/gm, '');
+    const seen = new Set();
+    for (const m of text.matchAll(/`([^`\n]+)`/g)) {
+      const token = m[1];
+      if (!ID_TOKEN_RE.test(token) || seen.has(token)) continue;
+      seen.add(token);
+      if (ids.has(token)) continue;
+      const expansions = expandAlternations(token);
+      const pats = expansions.length <= MAX_EXPANSION ? expansions : [token];
+      for (const pat of pats) {
+        const re = patternToRegex(pat);
+        if (!idList.some(id => re.test(id))) {
+          errors.push(`${rel}: no record matches id pattern ${pat === token ? token : `${pat} (from ${token})`}`);
+        }
+      }
+    }
+  }
+}
+
 export function validate(root) {
   const errors = [];
   const regPath = join(root, 'data/sources/registry.json');
@@ -87,6 +168,7 @@ export function validate(root) {
       if (!existsSync(resolve(dirname(file), clean))) errors.push(`${file.slice(root.length + 1)}: broken link ${target}`);
     }
   }
+  checkRecordIdMentions(root, errors);
   return { errors };
 }
 

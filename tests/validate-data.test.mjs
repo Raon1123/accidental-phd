@@ -12,7 +12,7 @@ const REC = {
 };
 const SRC = { id: 'krivet-2025-phd', title: 't', publisher: 'KRIVET', year: 2025, url: 'https://x', checked_on: '2026-10-13' };
 
-function fixture({ records = [], sources = [SRC], decision = null, md = null } = {}) {
+function fixture({ records = [], sources = [SRC], decision = null, md = null, spec = null, narratives = null } = {}) {
   const root = mkdtempSync(join(tmpdir(), 'aphd-'));
   mkdirSync(join(root, 'data/sources'), { recursive: true });
   mkdirSync(join(root, 'data/packs/statistics'), { recursive: true });
@@ -21,6 +21,14 @@ function fixture({ records = [], sources = [SRC], decision = null, md = null } =
   writeFileSync(join(root, 'data/packs/statistics/records.json'), JSON.stringify(records));
   if (decision !== null) writeFileSync(join(root, 'docs/design/decisions/0001-x.md'), decision);
   if (md !== null) writeFileSync(join(root, 'docs/a.md'), md);
+  if (spec !== null) {
+    mkdirSync(join(root, 'docs/superpowers/specs'), { recursive: true });
+    writeFileSync(join(root, 'docs/superpowers/specs/x.md'), spec);
+  }
+  if (narratives !== null) {
+    mkdirSync(join(root, 'data/packs/narratives/humanities-social'), { recursive: true });
+    writeFileSync(join(root, 'data/packs/narratives/humanities-social/x.json'), JSON.stringify(narratives));
+  }
   return root;
 }
 
@@ -127,4 +135,30 @@ test('duplicate source id across registry.json and registry.d fails', () => {
   writeFileSync(join(root, 'data/sources/registry.d/issue-99.json'), JSON.stringify([SRC]));
   const r = validate(root);
   assert.ok(r.errors.some(e => e.includes('duplicate id')));
+});
+
+const NAR_HS = {
+  id: 'nar-hs-funding-4', track: '인문사회', stage: 'funding', theme: 'x',
+  summary: 's', quote: '', source_id: 'krivet-2025-phd', page_or_url: 'p.1', year: 2024, checked_on: '2026-10-13', confidence: 'verified'
+};
+test('spec citing a record id pattern that matches no record fails', () => {
+  const r = validate(fixture({ records: [REC], spec: 'ratio is `statistics-regular-share-<field>` here' }));
+  assert.ok(r.errors.some(e => e.includes('no record matches id pattern') && e.includes('statistics-regular-share-<field>')));
+});
+test('spec id patterns with {a,b} alternation match existing records and narratives', () => {
+  const rec = id => ({ ...REC, id });
+  const root = fixture({
+    records: [rec('statistics-employed-ict'), rec('statistics-employed-social')],
+    narratives: [NAR_HS, { ...NAR_HS, id: 'nar-hs-funding-6' }],
+    spec: 'see `statistics-employed-{ict,social}`, `nar-hs-funding-{4,6}`, `statistics-employed-*` and `statistics-employed-ict`.'
+  });
+  assert.deepEqual(validate(root).errors, []);
+});
+test('an alternative that matches no record fails even when its sibling exists', () => {
+  const r = validate(fixture({ records: [{ ...REC, id: 'statistics-employed-ict' }], spec: '`statistics-employed-{ict,social}`' }));
+  assert.ok(r.errors.some(e => e.includes('statistics-employed-social')));
+});
+test('id mentions inside code fences and non-id backticks are ignored', () => {
+  const r = validate(fixture({ spec: '```\n`statistics-nope-1`\n```\n`other-token` `ratio`' }));
+  assert.deepEqual(r.errors, []);
 });
