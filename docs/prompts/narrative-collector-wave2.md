@@ -74,7 +74,7 @@ waves: 2 (수집 모드), 5 (창작 모드)
 ### Handoff <YYYY-MM-DD>
 - 한 일: <track> 장면 N건, 출처 M건
 - 남은 일: stage별 미수집(어떤 stage가 비었나)
-- 막힌 것:
+- 막힌 것: <접근 불가 출처 등> · 보조 agent <N>명 중 결과 회수 <M>명, 미회수 범위 <…>
 - 다음 사람이 처음 읽을 파일: data/packs/narratives/README.md, 이 댓글의 JSON
 - 브랜치/worktree: stats/narratives-<hs|stem>
 ```
