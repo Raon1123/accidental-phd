@@ -17,6 +17,8 @@ export interface TriggerEvents {
   qualResult?: boolean;
   fundingExpired: boolean;
   scholarshipFailed: boolean;
+  /** 장학 유지 판정이 실패했을 때, 기한을 당기기 전의 원래 기한(funding-expiry context 의 originalUntil 로 실린다). */
+  scholarshipOriginalUntil?: number;
 }
 
 function prompt(dp: DecisionId, month: number, context: Record<string, unknown>, keys: readonly string[]): PendingDecision {
@@ -26,24 +28,19 @@ function prompt(dp: DecisionId, month: number, context: Record<string, unknown>,
 const ABC = LETTERS.slice(0, 3);
 const BCD = LETTERS.slice(1, 4);
 
-/** 틱이 밀린 첫 판정에 남기는 log 표지. tags = ['verdict', 'deferred', paperId, verdict]. */
+/** 틱이 밀린 첫 판정에 남기는 log 기록(상태가 아니라 기록이다. 상태는 phd.deferredFirstVerdict). tags = ['verdict', 'deferred', paperId, verdict]. */
 export const FIRST_VERDICT_DEFERRED = 'log.first-verdict-deferred';
 
 /**
  * 첫 판정을 받았지만 같은 달에 더 높은 우선순위 결정이 걸려 결정 지점이 열리지 않은 논문.
- * resolveVerdicts 는 첫 판정이면 상태만 판정대로 바꾸고 dueMonth 를 비우므로, 틱이 밀린 판정을 log 표지(FIRST_VERDICT_DEFERRED)로 남기고
- * 다음 달 이후 틱이 이 표지를 읽어 다시 건다. 첫 번째 결정이 기록되면(decisions) 더는 읽지 않는다.
+ * resolveVerdicts 는 첫 판정이면 상태만 판정대로 바꾸고 dueMonth 를 비우므로, 틱이 밀린 판정을 `phd.deferredFirstVerdict` 에 싣고
+ * 다음 달 이후 틱이 이를 읽어 다시 건다(프롬프트를 열 때 틱이 지운다). log 는 기록일 뿐 읽지 않는다(상태 §3.1). 첫 번째 결정이 기록되면(decisions) 더는 걸지 않는다.
  */
 function awaitingFirstVerdict(state: LifeState): { paperId: string; verdict: Verdict } | undefined {
   if (state.decisions.some(d => d.dp === 'first-paper-verdict')) return undefined;
-  for (let i = state.log.length - 1; i >= 0; i--) {
-    const entry = state.log[i]!;
-    if (entry.textKey !== FIRST_VERDICT_DEFERRED) continue;
-    const [, , paperId, verdict] = entry.tags;
-    const paper = state.phd?.papers.find(p => p.id === paperId);
-    if (paper && (verdict === 'accepted' || verdict === 'revision' || verdict === 'rejected') && paper.status === verdict) return { paperId: paper.id, verdict };
-  }
-  return undefined;
+  const d = state.phd?.deferredFirstVerdict;
+  const paper = d && state.phd?.papers.find(p => p.id === d.paperId);
+  return d && paper && paper.status === d.verdict ? { paperId: d.paperId, verdict: d.verdict } : undefined;
 }
 
 /**
@@ -79,7 +76,8 @@ export function checkTriggers(state: LifeState, _data: DataBundle, events: Trigg
   if (crisis || events.fundingExpired || events.scholarshipFailed) {
     const cause: FundingExpiryCause = crisis ? 'crisis' : events.scholarshipFailed ? 'scholarship-review' : 'until';
     const retry = !crisis && !events.scholarshipFailed && events.fundingExpired && afterFailedExtension(state);
-    const ctx: FundingExpiryContext = retry ? { cause, retry: true } : { cause };
+    const ctx: FundingExpiryContext = retry ? { cause, retry: true }
+      : cause === 'scholarship-review' && events.scholarshipOriginalUntil !== undefined ? { cause, originalUntil: events.scholarshipOriginalUntil } : { cause };
     return prompt('funding-expiry', month, { ...ctx }, retry ? BCD : LETTERS);
   }
 

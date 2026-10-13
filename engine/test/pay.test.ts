@@ -167,6 +167,25 @@ describe('yearEnd (선택권 §9.1·§9.3, 상태 §7.2)', () => {
     let k = 0; for (let m = 1; m <= 600; m++) if (yearEnd({ ...strong, month: m }, data).career!.careerPapers > 0) k++;
     expect(k / 600).toBeGreaterThan(0.6);
   });
+  it('research-focus year (career-10y B) draws with paperP0 and the flag is cleared after the draw', () => {
+    let n = 0, differs = 0;
+    for (let m = 1; m <= 600; m++) {
+      const s = emp('professor', 50_000_000, { employer: { kind: 'university', national: false }, rank: 'associate', researchFocusYear: true }, { month: m });
+      const c = yearEnd(s, data).career!;
+      const u = draw(SEED, 'paper', m, 'career-paper');
+      const hit = u < odds(ASSUMED.CAREER_10Y_RESEARCH.paperP0, 0);
+      expect(c.careerPapers).toBe(hit ? 1 : 0);
+      expect(c.researchFocusYear).toBeUndefined();
+      if (hit) n++;
+      if (u >= ASSUMED.CAREER_PAPER.p0 && hit) differs++;
+    }
+    expect(differs).toBeGreaterThan(0);   // 0.50 이었다면 안 맞았을 추첨이 0.70 으로는 맞는다
+    expect(Math.abs(n / 600 - ASSUMED.CAREER_10Y_RESEARCH.paperP0)).toBeLessThan(0.07);
+    const next = yearEnd(yearEnd(emp('professor', 50_000_000, { employer: { kind: 'university', national: false }, rank: 'associate', researchFocusYear: true }, { month: 7 }), data), data).career!;
+    expect('researchFocusYear' in next).toBe(false);
+    // 논문 경로가 아니어도 그해가 지나면 지운다
+    expect('researchFocusYear' in yearEnd(emp('industry', 60_000_000, { researchFocusYear: true }), data).career!).toBe(false);
+  });
   it('industry and public routes write no career papers', () => {
     for (let m = 1; m <= 100; m++) {
       expect(yearEnd(emp('industry', 60_000_000, {}, { month: m }), data).career!.careerPapers).toBe(0);

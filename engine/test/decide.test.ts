@@ -256,10 +256,30 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
     const m2 = findMonth(48, k => draw(SEED, 'funding', k, 'funding:extend') < 0.5);
     expect(choose(retarget(expiry(scholarship, 48), m2), 'A').phd!.fundingState.until).toBe(m2 + ASSUMED.SCHOLARSHIP_MONTHS);
   });
-  it('A on a self-funded student changes nothing', () => {
+  it('A after a failed scholarship review restores the original end (48), not month + 48', () => {
+    // 학기 경계 24 에서 유지 판정이 실패해 until 을 24 로 당겼다. 원래 기한 48 은 context 의 originalUntil 이 들고 있다.
+    const failed = { ...scholarship, until: 24 };
+    const m = findMonth(24, k => draw(SEED, 'funding', k, 'funding:extend') < 0.5);
+    const s = retarget(expiry(failed, 24, {}, { cause: 'scholarship-review', originalUntil: 48 }), m);
+    expect(choose(s, 'A').phd!.fundingState.until).toBe(48);
+    expect(fundingExpired(choose(s, 'A'))).toBe(false);
+    // originalUntil 이 없으면(기한이 그냥 끝난 경우) 재선발로 보고 새 기한을 준다
+    expect(choose(retarget(expiry(failed, 24, {}, { cause: 'until' }), m), 'A').phd!.fundingState.until).toBe(m + ASSUMED.SCHOLARSHIP_MONTHS);
+    // 실패하면 기한은 이번 달로 남는다
+    const mf = findMonth(24, k => draw(SEED, 'funding', k, 'funding:extend') >= 0.5);
+    expect(choose(retarget(expiry(failed, 24, {}, { cause: 'scholarship-review', originalUntil: 48 }), mf), 'A').phd!.fundingState.until).toBe(mf);
+  });
+  it('A is unavailable on a self-funded student, and on funding with no end date; decide throws', () => {
     const self = { route: 'self' as const, monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] };
     const s = withPending(phdFixture({ phd: { fundingState: self } }), 'funding-expiry', { cause: 'crisis' });
-    expect(choose(s, 'A').phd!.fundingState).toEqual(self);
+    expect(optionUnavailable(s, s.pending!, 'A')).toBe('no-funding');
+    expect(optionUnavailable(s, s.pending!, 'B')).toBeUndefined();
+    expect(describeOptions(s, data).find(o => o.key === 'A')!.unavailable).toBe('no-funding');
+    expect(() => decide(s, data, 0)).toThrow(/unavailable \(no-funding\)/);
+    const ta = { ...project, until: -1 };
+    const t = expiry(ta, 24, {}, { cause: 'crisis' });
+    expect(optionUnavailable(t, t.pending!, 'A')).toBe('no-funding');
+    expect(optionUnavailable(expiry(project, 24), expiry(project, 24).pending!, 'A')).toBeUndefined();
   });
   it('B: teaching assistant — the school TA stipend, 10 duty hours, no end date, project route', () => {
     const r = choose(expiry(project, 24), 'B');
@@ -367,11 +387,12 @@ describe('decide: career-10y (선택권 §3.6)', () => {
     const r = choose({ ...base, month: win, pending: { ...base.pending!, month: win } }, 'A');
     expect(r.career!.rank).toBe('professor');
   });
-  it('B: research focus — skill +5, network −3, and a log marker for the career-paper bump (no field to store it)', () => {
+  it('B: research focus — skill +5, network −3, researchFocusYear set, and a log marker', () => {
     const r = choose(career('career-10y', associate), 'B');
     expect(r.stats.skill).toBe(55);
     expect(r.stats.network).toBe(47);
     expect(r.log.some(l => l.tags.includes('career-paper-p0'))).toBe(true);
+    expect(r.career!.researchFocusYear).toBe(true);
     expect(ASSUMED.CAREER_10Y_RESEARCH.paperP0 - ASSUMED.CAREER_PAPER.p0).toBeCloseTo(0.2, 12);
   });
   it('C: change path (×0.8), same as the 5-year option B', () => {

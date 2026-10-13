@@ -368,8 +368,15 @@ describe('decision points', () => {
       const a = advanceMonth(both(sd), data);
       expect(a.pending!.dp).toBe('post-qualifying');
       expect(a.phd!.papers[0]!.status).not.toBe('submitted');   // 판정은 이미 났다
+      expect(a.phd!.deferredFirstVerdict).toEqual({ paperId: 'p1', verdict: a.phd!.papers[0]!.status });
+      expect(a.log.some(l => l.textKey === 'log.first-verdict-deferred')).toBe(true);   // 기록은 남는다
       const b = advanceMonth(decide(a, data, 0), data);
       expect(b.pending).toMatchObject({ dp: 'first-paper-verdict', month: 12, context: { paperId: 'p1', verdict: a.phd!.papers[0]!.status } });
+      expect('deferredFirstVerdict' in b.phd!).toBe(false);   // 프롬프트가 열리며 지워진다
+      // log 는 기록일 뿐이다: 기록을 지워도 상태만으로 다시 걸린다
+      const decided = decide(a, data, 0);
+      const noLog = advanceMonth({ ...decided, log: decided.log.filter(l => l.textKey !== 'log.first-verdict-deferred') }, data);
+      expect(noLog.pending).toMatchObject({ dp: 'first-paper-verdict', month: 12 });
     });
   });
 
@@ -414,7 +421,10 @@ describe('decision points', () => {
       const keep = odds(ASSUMED.SCHOLARSHIP_SELECT_P0, ASSUMED.SCHOLARSHIP_SELECT_BETA_SKILL * z(MEAN.skill));
       const failSeed = findSeed('SF', x => draw(x, 'funding', 6, 'scholarship:keep') >= keep && advanceMonth(sch(x), data).pending?.dp === 'funding-expiry');
       const out = advanceMonth(sch(failSeed), data);
-      expect(out.pending).toMatchObject({ dp: 'funding-expiry', month: 6, context: { cause: 'scholarship-review' } });
+      expect(out.pending).toMatchObject({ dp: 'funding-expiry', month: 6, context: { cause: 'scholarship-review', originalUntil: 48 } });
+      // 같은 달 연장 신청(A)이 성공하면 장학은 원래 기한(48)으로 돌아간다. month + 48 이 아니다
+      const backSeed = findSeed('SX', x => { const o = advanceMonth(sch(x), data); return o.pending?.dp === 'funding-expiry' && decide(o, data, 0).phd!.fundingState.until > 6; });
+      expect(decide(advanceMonth(sch(backSeed), data), data, 0).phd!.fundingState.until).toBe(48);
       expect(out.phd!.fundingState.until).toBe(6);
       expect(out.log.map(l => l.textKey)).toContain('log.scholarship-review-failed');
       const keepSeed = findSeed('SK', x => draw(x, 'funding', 6, 'scholarship:keep') < keep && advanceMonth(sch(x), data).stage === 'phd');

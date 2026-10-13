@@ -29,6 +29,7 @@ export interface PhdState {
   papers: Paper[]; requiredPapers: number; advisor: { type: AdvisorType; support: number; rigor: number; network: number };
   fundingState: FundingState; focus: Focus; focusHistory: { from: number; focus: Focus }[]; path?: Path;
   crisisMonths: number; postCrisisMonths: number; familySupport: number; nextDefenseMonth?: number; graduationMonth?: number;
+  deferredFirstVerdict?: { paperId: string; verdict: 'accepted' | 'revision' | 'rejected' };   // 같은 달 더 높은 우선순위 결정에 밀린 첫 판정. 프롬프트를 열 때 지운다
   statCarry: Stats;   // 능력치의 소수 변화 누적분(stats 는 정수). |carry| ≥ 1 이면 stats 로 옮긴다
 }
 export interface CareerState {
@@ -37,6 +38,7 @@ export interface CareerState {
   annualPay: number; step?: number; yearsInRoute: number; workYears: number; academicMonths: number;
   searching?: { routes: Route[]; since: number; penalty: number }; retireAge?: number; pensionMonthly?: number;
   contractUntil?: number; paperScore: number; careerPapers: number; postRetireResearchUntil?: number;
+  researchFocusYear?: boolean;   // career-10y B(연구 집중)가 켠다. 그해 yearEnd 의 경력 논문 추첨이 paperP0 를 쓰고, 추첨 뒤 지운다
 }
 export interface NewsEffect { id: string; type: string; startMonth: number; untilMonth: number; effect: number; target: { kind: 'group' | 'kedi' | 'track' | 'nrf2' | 'all'; values: string[] }; routes: Route[] }
 export interface PendingDecision { dp: DecisionId; month: number; context: Record<string, unknown>; options: { key: string; textKey: string }[] }

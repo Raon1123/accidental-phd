@@ -71,7 +71,7 @@ function retiredYear(s: LifeState): LifeState {
  * 경력 연 틱. 순서: 월 하위 단계 12회(뉴스 → 구직 → 현금) → 연말 처리 → 은퇴 확인 → 결정 지점 트리거 → 기록.
  * 스펙은 트리거를 은퇴 확인 앞에 두지만, 이미 은퇴 나이가 된 해에는 결정 지점을 열지 않고 바로 은퇴시킨다(열어 봐야 효과가 없다).
  * 결정 지점은 한 틱에 하나이고 우선순위는 pre-retirement > career-10y > career-5y 이며, 걸리면 snapshot 을 먼저 쌓고 `pending` 을 채운다.
- * 결정 처리(`decide`)와 자동 정책은 여기서 하지 않는다.
+ * 결정 처리(`decide`)는 호출하는 쪽의 몫이다. 단 `auto` 이면 걸린 결정을 정책(`policyDecision`)으로 이 틱 안에서 바로 닫는다.
  */
 export function advanceYear(state: LifeState, data: DataBundle, input?: { apply?: Partial<Record<Route, boolean>> }): LifeState {
   if (state.pending) throw new Error('advanceYear: decision pending');

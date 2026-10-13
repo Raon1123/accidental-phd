@@ -90,6 +90,12 @@ const lostJob = (c: CareerState, month: number, routes: Route[]): CareerState =>
   return { ...rest, route: 'none', annualPay: 0, yearsInRoute: 0, searching: { routes, since: month, penalty: 1 }, retireAge: undefined };
 };
 
+/** 경력 논문 한 해 확률 odds(p0, 1.0·z(skill)). 연구 집중 해(career-10y B, 0014#38)는 p0 를 CAREER_10Y_RESEARCH.paperP0 로 바꾼다. */
+export function careerPaperProbability(skill: number, researchFocus: boolean): number {
+  const p0 = researchFocus ? ASSUMED.CAREER_10Y_RESEARCH.paperP0 : ASSUMED.CAREER_PAPER.p0;
+  return odds(p0, ASSUMED.CAREER_PAPER.beta * z(skill));
+}
+
 /**
  * 연말 처리(상태 §7.2 2단계, 선택권 §9). 나이는 월 틱이 올린다.
  * 순서: 근속 → 호봉·연봉 인상 → 계약 만료 → 창업 존속 → 경력 논문.
@@ -126,12 +132,13 @@ export function yearEnd(state: LifeState, data: DataBundle): LifeState {
   }
 
   if (PAPER_ROUTES.includes(c.route)) {
-    const p = odds(ASSUMED.CAREER_PAPER.p0, ASSUMED.CAREER_PAPER.beta * z(state.stats.skill));
+    const p = careerPaperProbability(state.stats.skill, c.researchFocusYear === true);
     if (draw(state.seed, 'paper', month, 'career-paper') < p) {
       c.paperScore += ASSUMED.PAPER_SCORE_WEIGHT[ASSUMED.CAREER_PAPER.tier];
       c.careerPapers += 1;
     }
   }
+  delete c.researchFocusYear;   // 연구 집중은 그해 한 번뿐이다(경로가 논문 경로가 아니어도 지운다)
   return { ...next, career: c };
 }
 

@@ -23,8 +23,11 @@ import { pickUniform } from './util';
 export interface PostQualifyingContext { passed: boolean }
 export interface FirstPaperVerdictContext { paperId: string; verdict: Verdict }
 export type FundingExpiryCause = 'until' | 'scholarship-review' | 'crisis';
-/** retry: 연장 신청(A)이 실패해 다음 달 다시 연 경우. 이때 선택지는 B–D 만 싣는다(선택권 §3.3). */
-export interface FundingExpiryContext { cause: FundingExpiryCause; retry?: boolean }
+/**
+ * retry: 연장 신청(A)이 실패해 다음 달 다시 연 경우. 이때 선택지는 B–D 만 싣는다(선택권 §3.3).
+ * originalUntil: cause 가 'scholarship-review' 일 때 유지 판정이 기한을 이번 달로 당기기 전의 기한. A 성공이면 이 기한으로 되돌려 "남은 학기 유지"(§3.3)를 지킨다.
+ */
+export interface FundingExpiryContext { cause: FundingExpiryCause; retry?: boolean; originalUntil?: number }
 export type PreGraduationPathContext = Record<string, never>;
 /** career-5y·career-10y·pre-retirement 공통. career/tick 이 {route, rank} 를 싣는다. target 은 경로 변경(5년 B, 10년 C)의 목표 경로(기본값은 changePath). */
 export interface CareerContext { route: Route; rank?: string; target?: Exclude<Path, 'startup'> }
@@ -109,6 +112,10 @@ export function optionUnavailable(s: LifeState, p: PendingDecision, key: string)
   if (p.dp === 'post-qualifying' && key === 'B' && leaveBlocked(s, ASSUMED.POST_QUAL_REST_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'D' && leaveBlocked(s, FUNDING_D_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'A' && ctxOf<FundingExpiryContext>(p).retry) return 'already-tried';
+  if (p.dp === 'funding-expiry' && key === 'A') {   // 연장할 자금이 없다: 자비, 또는 끝나는 날이 없는 자금(조교 등)
+    const f = s.phd?.fundingState;
+    if (!f || f.route === 'self' || f.until < 0) return 'no-funding';
+  }
   return undefined;
 }
 
@@ -221,14 +228,16 @@ export function extensionProbability(s: LifeState): number {
   return odds(E.p0, E.betaRelation * z(s.stats.relation) + E.betaSkill * z(s.stats.skill) + E.gammaPapers * Math.min(accepted, E.papersCap), E.lo, E.hi);
 }
 
-function fundingExpiry(s: LifeState, data: DataBundle, _p: PendingDecision, key: string): LifeState {
+function fundingExpiry(s: LifeState, data: DataBundle, p: PendingDecision, key: string): LifeState {
   const f = phdOf(s).fundingState;
   if (key === 'A') {
-    if (f.route === 'self') return s;   // 연장할 자금이 없다
     if (draw(s.seed, 'funding', s.month, 'funding:extend') < extensionProbability(s)) {
       const expired = f.until >= 0 && s.month >= f.until;
-      // 과제는 24개월 연장(0014#26), 장학은 남은 학기 유지(기한 안이면 그대로). 기한이 이미 끝난 장학은 재선발로 보고 새 기한을 준다(스펙이 정하지 않은 부분).
+      // 과제는 24개월 연장(0014#26), 장학은 남은 학기 유지(기한 안이면 그대로). 유지 판정 실패로 당겨진 기한은 원래 기한으로 되돌린다(originalUntil).
+      // 기한이 그냥 끝난 장학은 재선발로 보고 새 기한을 준다(스펙이 정하지 않은 부분).
       if (f.route === 'project') return patchPhd(s, { fundingState: { ...f, until: Math.max(f.until, s.month) + ASSUMED.PROJECT_MONTHS } });
+      const original = ctxOf<FundingExpiryContext>(p).originalUntil;
+      if (original !== undefined && (original < 0 || original > s.month)) return patchPhd(s, { fundingState: { ...f, until: original } });
       return expired ? patchPhd(s, { fundingState: { ...f, until: s.month + ASSUMED.SCHOLARSHIP_MONTHS } }) : s;
     }
     // 실패: 자금이 이번 달로 끝난다. 다음 달 fundingExpired 가 참이라 Task 7 이 B–D 로 다시 연다(retry).
@@ -279,9 +288,9 @@ function career5y(s: LifeState, data: DataBundle, p: PendingDecision, key: strin
 function career10y(s: LifeState, data: DataBundle, p: PendingDecision, key: string): LifeState {
   if (key === 'A') return promotion(s, data, 'career-10y').state;
   if (key === 'B') {
-    // 연구 집중. 그해 경력 논문 확률 p0 0.50 → 0.70 (CAREER_10Y_RESEARCH.paperP0)은 저장할 필드가 없어 로그 표지로만 남긴다(yearEnd 는 CAREER_PAPER.p0 를 쓴다).
+    // 연구 집중. 그해 경력 논문 확률 p0 0.50 → 0.70 (CAREER_10Y_RESEARCH.paperP0): researchFocusYear 를 켜 두면 yearEnd 가 그 확률로 추첨하고 지운다.
     const R = ASSUMED.CAREER_10Y_RESEARCH;
-    return addLog(addStats(s, { skill: R.skill, network: R.network }), 'decision.career-10y.B.paper-p0', ['decision', 'career-10y', 'career-paper-p0']);
+    return addLog(patchCareer(addStats(s, { skill: R.skill, network: R.network }), { researchFocusYear: true }), 'decision.career-10y.B.paper-p0', ['decision', 'career-10y', 'career-paper-p0']);
   }
   if (key === 'C') return changePath(s, p);
   // D: 독립. 이미 창업 중이면 그대로 둔다.
