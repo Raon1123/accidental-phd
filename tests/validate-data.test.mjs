@@ -109,3 +109,8 @@ test('a backtick triple inside a fenced line does not close the fence', () => {
   const r = validate(fixture({ md: "```js\nconst s = '```\\n[x](./missing.md)';\n[y](./gone.md)\n```\n" }));
   assert.deepEqual(r.errors, []);
 });
+test("record citing a -portal source_id fails", () => {
+  const portal = { ...SRC, id: "kci-2026-portal" };
+  const r = validate(fixture({ records: [{ ...REC, source_id: "kci-2026-portal" }], sources: [SRC, portal] }));
+  assert.ok(r.errors.some(e => e.includes("portal")));
+});
