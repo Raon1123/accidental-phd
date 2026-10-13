@@ -93,17 +93,17 @@ export function advanceYear(state: LifeState, data: DataBundle, input?: { apply?
   retire = retireAge(s, data);
 
   if (ageYears(s) >= retire) {
-    s = { ...s, stage: 'retired', career: { ...s.career!, pensionMonthly: pensionMonthly(s) } };
+    // 이미 정해진 노후 월수입(예: pre-retirement B 조기 은퇴 ×0.85)은 덮어쓰지 않는다
+    s = { ...s, stage: 'retired', career: { ...s.career!, pensionMonthly: s.career!.pensionMonthly ?? pensionMonthly(s) } };
     return addLog(s, 'log.retired', ['career', 'retire']);
   }
   const dp = nextTrigger(s, retire);
   s = addLog(s, 'log.career-year', ['career', 'year']);
   if (dp) {
-    const snapshot = { dp, month: s.month, decisionIndex: s.decisions.length, state: structuredClone({ ...s, snapshots: [] }) };
-    s = {
-      ...s, snapshots: [...s.snapshots, snapshot],
-      pending: { dp, month: s.month, context: { route: s.career!.route, rank: s.career!.rank }, options: optionsFor(dp, s.career!.route) },
-    };
+    const pending = { dp, month: s.month, context: { route: s.career!.route, rank: s.career!.rank }, options: optionsFor(dp, s.career!.route) };
+    // 스냅샷 계약(상태 §6.3, branch.ts): 결정 직전 상태 + 그 결정의 pending 프롬프트, decisions 에는 그 결정이 없다
+    const snapshot = { dp, month: s.month, decisionIndex: s.decisions.length, state: structuredClone({ ...s, snapshots: [], pending }) };
+    s = { ...s, snapshots: [...s.snapshots, snapshot], pending };
   }
   return s;
 }

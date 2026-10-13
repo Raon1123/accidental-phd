@@ -119,7 +119,9 @@ describe('advanceYear: decision points', () => {
     expect(s1.snapshots).toHaveLength(1);
     const snap = s1.snapshots[0]!;
     expect(snap).toMatchObject({ dp: 'career-5y', month: 107, decisionIndex: 0 });
-    expect(snap.state.pending).toBeNull(); expect(snap.state.snapshots).toEqual([]);
+    // 스냅샷 계약(branch.ts): 스냅샷 상태는 그 결정의 pending 프롬프트를 담고 decisions 에는 그 결정이 없다
+    expect(snap.state.pending).toMatchObject({ dp: 'career-5y', month: 107 }); expect(snap.state.snapshots).toEqual([]);
+    expect(snap.state.decisions).toEqual([]);
     expect(snap.state.month).toBe(107);
     // 결정을 닫은 뒤에는 다시 걸리지 않는다
     const s2 = advanceYear(resolve(s1), data);
