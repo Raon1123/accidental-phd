@@ -30,3 +30,4 @@
 - [0006 Sonnet의 ChatGPT 대응 등급은 Luna](0006-sonnet-chatgpt-tier-luna.md)
 - [0007 분류 기준은 NRF 학술연구분야분류, 계열은 대분류에서 유도](0007-nrf-classification-backbone.md)
 - [0008 트랙 26개 ↔ NRF 코드 매핑 판정](0008-track-mapping-judgments.md)
+- [0009 KEDI 학과 분류 ↔ NRF 코드 매핑 판정](0009-kedi-mapping-judgments.md)
