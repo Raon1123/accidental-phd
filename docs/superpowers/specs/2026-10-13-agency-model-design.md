@@ -326,7 +326,7 @@ h_dropout(k) = 0.5 × hazard_month(r_drop,k) × exp(−0.8·z(mind) − 0.5·z(r
 | 목표 | 기준값 | 근거 | 허용 범위 |
 |---|---|---|---|
 | 학위 기간 중앙값 | 계열별 T_k | `statistics-phd-duration-mean-years-{…}` (v) | ± 0.5년 |
-| 연간 휴학 경험 비율 | 계열별 연 휴학률 | `statistics-phd-leave-rate-{…}` (v) | ± 30% |
+| 휴학 비율(레코드와 같은 스톡 정의: 휴학 달 ÷ 재적 달; 보조 지표로 12개월 창 안 휴학 경험 비율) | 계열별 연 휴학률(휴학생 ÷ 재적) | `statistics-phd-leave-rate-{…}` (v) | ± 30% |
 | 연간 이탈 비율(모든 경로 합) | 계열별 연 중도탈락률 | `statistics-phd-dropout-rate-{…}` (v) | ± 30% |
 | 학위 취득 후 1년 안 취업 비율 | KSCED 계열별 취업률 | `statistics-employed-{…}` (v) | ± 0.10 |
 

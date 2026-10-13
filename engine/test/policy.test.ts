@@ -50,7 +50,7 @@ describe('policyFocus (선택권 §4.4)', () => {
     expect(focusFreq(life({ phd: { papers: [draft(100)] } }))).toEqual({ research: 1 });
     expect(focusFreq(life({ phd: { papers: [{ ...draft(100), status: 'submitted' }] } }))).toEqual({ research: 1 });
   });
-  it('after the exam: thesis 0.5, research 0.2, write 0.2, network 0.1', () => {
+  it('after the exam: weights follow ASSUMED.POLICY.postQualFocus (보정 2026-10-14: thesis 0.3, research 0.1, write 0.5, network 0.1)', () => {
     const f = focusFreq(life({ phd: { qualified: true } }));
     for (const [k, p] of Object.entries(ASSUMED.POLICY.postQualFocus)) expect(Math.abs((f[k] ?? 0) - p), k).toBeLessThan(TOL);
   });
