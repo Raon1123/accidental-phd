@@ -39,7 +39,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "[협]정보보호전공 · 종류 전공 · field cs · track computer · NRF D132000 정보보호 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 수집자 메모: 협동과정, 정보보안 분야라 가장 가까운 트랙을 computer로 둠. 박사 1 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 computer (묶음 1)"
+    "note": "[협]정보보호전공 · 종류 전공 · field cs · track computer · NRF D132000 정보보호 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 수집자 메모: 협동과정, 정보보안 분야라 가장 가까운 트랙을 computer로 둠. 박사 1 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-snu-mathematics",
@@ -123,7 +123,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "[협]뇌과학전공 · 종류 전공 · field bio · track neuroscience · NRF C070600 신경생물학 · KEDI U050201 생명과학 (KEDI에 신경과학 소계열이 없어 생명과학으로 둠) · v3.5에 없던 단위(추가) · 협동과정. 박사 1 · same_unit_as:  · 대표 neuroscience (묶음 2)"
+    "note": "[협]뇌과학전공 · 종류 전공 · field bio · track neuroscience · NRF C070600 신경생물학 · KEDI U050201 생명과학 (KEDI에 신경과학 소계열이 없어 생명과학으로 둠) · v3.5에 없던 단위(추가) · 협동과정. 박사 1"
   },
   {
     "id": "departments-snu-bioengineering",
@@ -151,7 +151,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "응용바이오공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 융합과학기술대학원(광교캠퍼스). 박사 7, 석박통합 22 · same_unit_as:  · 대표 bioengineering (묶음 3)"
+    "note": "응용바이오공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 융합과학기술대학원(광교캠퍼스). 박사 7, 석박통합 22"
   },
   {
     "id": "departments-snu-bioengineering-2-tuition",
@@ -193,7 +193,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "[협]유전공학전공 · 종류 전공 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수집자 메모: 협동과정, 유전공학이라 life_science에 가장 가깝다고 판단. 박사 1 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 life_science (묶음 4)"
+    "note": "[협]유전공학전공 · 종류 전공 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수집자 메모: 협동과정, 유전공학이라 life_science에 가장 가깝다고 판단. 박사 1 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-snu-mechanical",
@@ -291,7 +291,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "항공우주공학과 · 종류 학과 · field engineering · track mechanical · NRF D040000 항공우주공학 · KEDI U040302 항공학· v3.5에 없던 단위(추가) · 수집자 메모: 항공우주공학은 별도 트랙이 없어 mechanical에 가장 가깝다고 판단. 박사 10 · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 mechanical (묶음 5)"
+    "note": "항공우주공학과 · 종류 학과 · field engineering · track mechanical · NRF D040000 항공우주공학 · KEDI U040302 항공학· v3.5에 없던 단위(추가) · 수집자 메모: 항공우주공학은 별도 트랙이 없어 mechanical에 가장 가깝다고 판단. 박사 10 · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-snu-mechanical-3",
@@ -305,7 +305,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "조선해양공학과 · 종류 학과 · field engineering · track mechanical · NRF D190000 조선공학 · KEDI U040303 해양공학· v3.5에 없던 단위(추가) · 수집자 메모: 조선해양공학은 별도 트랙이 없어 mechanical에 가장 가깝다고 판단. 박사 4 · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 mechanical (묶음 6)"
+    "note": "조선해양공학과 · 종류 학과 · field engineering · track mechanical · NRF D190000 조선공학 · KEDI U040303 해양공학· v3.5에 없던 단위(추가) · 수집자 메모: 조선해양공학은 별도 트랙이 없어 mechanical에 가장 가깝다고 판단. 박사 4 · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-snu-environmental",
@@ -417,7 +417,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "국제학과 · 종류 학과 · field social · track political · NRF B020500 국제정치 · KEDI U020302 국제학 · v3.5에 없던 단위(추가) · 수집자 메모: 국제대학원 국제학과, 국제관계 전공이라 political에 가장 가깝다고 판단. 박사 3 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 political (묶음 7)"
+    "note": "국제학과 · 종류 학과 · field social · track political · NRF B020500 국제정치 · KEDI U020302 국제학 · v3.5에 없던 단위(추가) · 수집자 메모: 국제대학원 국제학과, 국제관계 전공이라 political에 가장 가깝다고 판단. 박사 3 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-snu-history",
@@ -445,7 +445,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "동양사학과 · 종류 학과 · field humanities · track history · NRF A020000 역사학 · KEDI U010204 역사·고고학 · v3.5에 없던 단위(추가) · 박사 1 · same_unit_as:  · 대표 history (묶음 8)"
+    "note": "동양사학과 · 종류 학과 · field humanities · track history · NRF A020000 역사학 · KEDI U010204 역사·고고학 · v3.5에 없던 단위(추가) · 박사 1"
   },
   {
     "id": "departments-snu-history-3",
@@ -459,7 +459,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "서양사학과 · 종류 학과 · field humanities · track history · NRF A020000 역사학 · KEDI U010204 역사·고고학 · v3.5에 없던 단위(추가) · 박사 1 · same_unit_as:  · 대표 history (묶음 9)"
+    "note": "서양사학과 · 종류 학과 · field humanities · track history · NRF A020000 역사학 · KEDI U010204 역사·고고학 · v3.5에 없던 단위(추가) · 박사 1"
   },
   {
     "id": "departments-snu-philosophy",
@@ -557,7 +557,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "AI컴퓨팅학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · AI대학 소속. 박사 국비·KAIST·일반 모두 ○ · same_unit_as:  · 대표 ai (묶음 10)"
+    "note": "AI컴퓨팅학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · AI대학 소속. 박사 국비·KAIST·일반 모두 ○"
   },
   {
     "id": "departments-kaist-ai-3",
@@ -571,7 +571,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "AI시스템학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · AI대학 소속. 박사 국비·KAIST·일반 모두 ○ · same_unit_as:  · 대표 ai (묶음 11)"
+    "note": "AI시스템학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · AI대학 소속. 박사 국비·KAIST·일반 모두 ○"
   },
   {
     "id": "departments-kaist-ai-4",
@@ -585,7 +585,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "AX학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: AI대학 소속, 산업 AI 전환(AX) 학과로 ai에 가장 가깝다고 판단. 박사 국비·KAIST·일반 모두 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 12)"
+    "note": "AX학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: AI대학 소속, 산업 AI 전환(AX) 학과로 ai에 가장 가깝다고 판단. 박사 국비·KAIST·일반 모두 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-kaist-ai-5",
@@ -599,7 +599,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "AI미래학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · AI대학 소속. 박사 국비·KAIST·일반 모두 ○ · same_unit_as:  · 대표 ai (묶음 13)"
+    "note": "AI미래학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · AI대학 소속. 박사 국비·KAIST·일반 모두 ○"
   },
   {
     "id": "departments-kaist-computer-2",
@@ -613,7 +613,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "정보보호대학원 · 종류 대학원 · field cs · track computer · NRF D132000 정보보호 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 수집자 메모: 전산학부 산하 프로그램, 정보보안이라 computer에 가장 가깝다고 판단. 박사 국비·KAIST·일반 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 computer (묶음 14)"
+    "note": "정보보호대학원 · 종류 대학원 · field cs · track computer · NRF D132000 정보보호 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 수집자 메모: 전산학부 산하 프로그램, 정보보안이라 computer에 가장 가깝다고 판단. 박사 국비·KAIST·일반 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-kaist-ai-6",
@@ -627,7 +627,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "데이터사이언스대학원 · 종류 대학원 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 공과대학 소속, 데이터사이언스라 ai에 가장 가깝다고 판단. 박사 국비·KAIST·일반 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 15)"
+    "note": "데이터사이언스대학원 · 종류 대학원 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 공과대학 소속, 데이터사이언스라 ai에 가장 가깝다고 판단. 박사 국비·KAIST·일반 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-kaist-mathematics",
@@ -697,7 +697,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "공학생물학대학원 · 종류 대학원 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 생명과학기술대학 소속. 박사 국비·KAIST·일반 ○ · same_unit_as:  · 대표 bioengineering (묶음 16)"
+    "note": "공학생물학대학원 · 종류 대학원 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 생명과학기술대학 소속. 박사 국비·KAIST·일반 ○"
   },
   {
     "id": "departments-kaist-mechanical",
@@ -725,7 +725,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "항공우주공학과 · 종류 학과 · field engineering · track mechanical · NRF D040000 항공우주공학 · KEDI U040302 항공학· v3.5에 없던 단위(추가) · 수집자 메모: 항공우주공학은 별도 트랙이 없어 mechanical에 가장 가깝다고 판단. 박사 국비·KAIST·일반 ○ · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 mechanical (묶음 17)"
+    "note": "항공우주공학과 · 종류 학과 · field engineering · track mechanical · NRF D040000 항공우주공학 · KEDI U040302 항공학· v3.5에 없던 단위(추가) · 수집자 메모: 항공우주공학은 별도 트랙이 없어 mechanical에 가장 가깝다고 판단. 박사 국비·KAIST·일반 ○ · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-kaist-electrical",
@@ -781,7 +781,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "환경에너지공학학제전공 · 종류 전공 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 건설및환경공학과 산하 학제전공, environmental과 energy 중 environmental로 둠. 박사 KAIST장학생만 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 environmental (묶음 18)"
+    "note": "환경에너지공학학제전공 · 종류 전공 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 건설및환경공학과 산하 학제전공, environmental과 energy 중 environmental로 둠. 박사 KAIST장학생만 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-kaist-chemical",
@@ -851,7 +851,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "인공지능반도체대학원 · 종류 대학원 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 전기및전자공학부 산하 프로그램. 박사 KAIST장학생·일반 ○ · same_unit_as:  · 대표 semiconductor (묶음 19)"
+    "note": "인공지능반도체대학원 · 종류 대학원 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 전기및전자공학부 산하 프로그램. 박사 KAIST장학생·일반 ○"
   },
   {
     "id": "departments-kaist-environmental-3",
@@ -865,7 +865,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "녹색성장지속가능대학원 · 종류 대학원 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 공과대학 직속, 에너지·환경 혼합이라 environmental로 둠. 박사 KAIST장학생·일반 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 environmental (묶음 20)"
+    "note": "녹색성장지속가능대학원 · 종류 대학원 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 공과대학 직속, 에너지·환경 혼합이라 environmental로 둠. 박사 KAIST장학생·일반 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-postech-computer",
@@ -963,7 +963,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "융합대학원 합성생물학전공 · 종류 전공 · field bio · track systems_biology · NRF C071600 생물정보학 · KEDI U050201 생명과학 (KEDI에 시스템생물학·생물정보학 소계열이 없어 생명과학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 합성생물학이라 systems_biology에 가장 가깝다고 판단. 표에서 박사 ○. 융합대학원 전공 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 systems_biology (묶음 21)"
+    "note": "융합대학원 합성생물학전공 · 종류 전공 · field bio · track systems_biology · NRF C071600 생물정보학 · KEDI U050201 생명과학 (KEDI에 시스템생물학·생물정보학 소계열이 없어 생명과학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 합성생물학이라 systems_biology에 가장 가깝다고 판단. 표에서 박사 ○. 융합대학원 전공 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-postech-materials",
@@ -991,7 +991,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "첨단재료과학부 · 종류 학부 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 수집자 메모: 신소재공학과와 별도 모집단위로 표에 있음. 박사 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 materials (묶음 22)"
+    "note": "첨단재료과학부 · 종류 학부 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 수집자 메모: 신소재공학과와 별도 모집단위로 표에 있음. 박사 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-postech-mechanical",
@@ -1089,7 +1089,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "배터리공학과(친환경소재대학원) · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 전문대학원인 친환경소재대학원 소속, 이차전지라 energy에 가장 가깝다고 판단. 박사 ○. 친환경소재대학원은 별도 모집요강 확인 필요 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 23)"
+    "note": "배터리공학과(친환경소재대학원) · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 전문대학원인 친환경소재대학원 소속, 이차전지라 energy에 가장 가깝다고 판단. 박사 ○. 친환경소재대학원은 별도 모집요강 확인 필요 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-postech-materials-3",
@@ -1103,7 +1103,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "철강전공(친환경소재대학원 친환경소재학과) · 종류 전공 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 수집자 메모: 전문대학원인 친환경소재대학원 소속, 철강 소재라 materials에 가장 가깝다고 판단. 박사 ○. 별도 모집요강 확인 필요 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 materials (묶음 24)"
+    "note": "철강전공(친환경소재대학원 친환경소재학과) · 종류 전공 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 수집자 메모: 전문대학원인 친환경소재대학원 소속, 철강 소재라 materials에 가장 가깝다고 판단. 박사 ○. 별도 모집요강 확인 필요 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-gist-computer",
@@ -1145,7 +1145,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "AX학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: AI대학 소속, 산업 AI 전환(AX) 학과로 ai에 가장 가깝다고 판단. 박사 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 25)"
+    "note": "AX학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: AI대학 소속, 산업 AI 전환(AX) 학과로 ai에 가장 가깝다고 판단. 박사 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-gist-life_science",
@@ -1229,7 +1229,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "반도체특성화대학원 · 종류 대학원 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 수집자 메모: 반도체공학과와 별도 모집분야로 표에 있음. 박사 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 semiconductor (묶음 26)"
+    "note": "반도체특성화대학원 · 종류 대학원 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 수집자 메모: 반도체공학과와 별도 모집분야로 표에 있음. 박사 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-gist-materials",
@@ -1579,7 +1579,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "원자력공학과 · 종류 학과 · field engineering · track energy · NRF D180000 원자력공학 · KEDI U040602 에너지공학 (KEDI에 원자력 소계열이 없어 에너지공학으로 둠)· v3.5에 없던 단위(추가) · 수집자 메모: 원자력은 energy로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 27)"
+    "note": "원자력공학과 · 종류 학과 · field engineering · track energy · NRF D180000 원자력공학 · KEDI U040602 에너지공학 (KEDI에 원자력 소계열이 없어 에너지공학으로 둠)· v3.5에 없던 단위(추가) · 수집자 메모: 원자력은 energy로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-unist-energy-3",
@@ -1593,7 +1593,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "탄소중립대학원 · 종류 대학원 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 세부 탄소중립융합(에너지공학), (화학공학), (환경). 수집자 메모: 주로 energy이나 chemical/environmental 혼합. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 28)"
+    "note": "탄소중립대학원 · 종류 대학원 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 세부 탄소중립융합(에너지공학), (화학공학), (환경). 수집자 메모: 주로 energy이나 chemical/environmental 혼합. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-unist-semiconductor",
@@ -1943,7 +1943,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "도시공학과 · 종류 학과 · field engineering · track civil · NRF D140000 토목공학 · KEDI U040202 도시공학 · v3.5에 없던 단위(추가) · 수집자 메모: 도시공학을 civil로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 civil (묶음 29)"
+    "note": "도시공학과 · 종류 학과 · field engineering · track civil · NRF D140000 토목공학 · KEDI U040202 도시공학 · v3.5에 없던 단위(추가) · 수집자 메모: 도시공학을 civil로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-yonsei-civil-3",
@@ -1957,7 +1957,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "건축공학과 · 종류 학과 · field engineering · track civil · NRF D150000 건축공학 · KEDI U040101 건축·설비공학· v3.5에 없던 단위(추가) · 수집자 메모: 건축공학을 civil로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 civil (묶음 30)"
+    "note": "건축공학과 · 종류 학과 · field engineering · track civil · NRF D150000 건축공학 · KEDI U040101 건축·설비공학· v3.5에 없던 단위(추가) · 수집자 메모: 건축공학을 civil로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-yonsei-mechanical-2",
@@ -1971,7 +1971,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "항공우주공학과 · 종류 학과 · field engineering · track mechanical · NRF D040000 항공우주공학 · KEDI U040302 항공학· v3.5에 없던 단위(추가) · 수집자 메모: 항공우주를 mechanical로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 mechanical (묶음 31)"
+    "note": "항공우주공학과 · 종류 학과 · field engineering · track mechanical · NRF D040000 항공우주공학 · KEDI U040302 항공학· v3.5에 없던 단위(추가) · 수집자 메모: 항공우주를 mechanical로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-yonsei-energy",
@@ -1999,7 +1999,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "기후변화에너지융합기술협동과정 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 요강 표기 '협동과정'(kind 목록에 없어 학과로 표기). 석사 X, 박사 ○, 통합 ☓. 공과대학 주관. · same_unit_as:  · 대표 energy (묶음 32)"
+    "note": "기후변화에너지융합기술협동과정 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 요강 표기 '협동과정'(kind 목록에 없어 학과로 표기). 석사 X, 박사 ○, 통합 ☓. 공과대학 주관."
   },
   {
     "id": "departments-yonsei-semiconductor",
@@ -2027,7 +2027,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "융합반도체협동과정 · 종류 학과 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 요강 표기 '협동과정'(kind 목록에 없어 학과로 표기). 이과대학 주관, 석사 ☓, 박사 ○, 통합 ○. · same_unit_as:  · 대표 semiconductor (묶음 33)"
+    "note": "융합반도체협동과정 · 종류 학과 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 요강 표기 '협동과정'(kind 목록에 없어 학과로 표기). 이과대학 주관, 석사 ☓, 박사 ○, 통합 ○."
   },
   {
     "id": "departments-yonsei-semiconductor-3",
@@ -2041,7 +2041,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "시스템반도체공학과 · 종류 학과 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 계약학과(채용조건형), 박사 ○, 통합 ○. 계약기관 지원 조건은 요강 별도 절. 등록금은 일반 학과와 다를 수 있으나 확인하지 못함. · same_unit_as:  · 대표 semiconductor (묶음 34)"
+    "note": "시스템반도체공학과 · 종류 학과 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 계약학과(채용조건형), 박사 ○, 통합 ○. 계약기관 지원 조건은 요강 별도 절. 등록금은 일반 학과와 다를 수 있으나 확인하지 못함."
   },
   {
     "id": "departments-yonsei-energy-3",
@@ -2055,7 +2055,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "이차전지융합공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 계약학과(채용조건형, LG에너지솔루션 등), 박사 ○, 통합 ○. 수집자 메모: 이차전지를 energy로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 35)"
+    "note": "이차전지융합공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 계약학과(채용조건형, LG에너지솔루션 등), 박사 ○, 통합 ○. 수집자 메모: 이차전지를 energy로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-korea-computer",
@@ -2377,7 +2377,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "융합생명공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 생명과학대학. 요강 표기 '융합생명공'. 전공 의약나노바이오시스템, 분자생체공학, 시스템식품생명공학, 화학분자생명. 박사 ○. 수집자 메모: 생명과학과 중복 가능. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 bioengineering (묶음 36)"
+    "note": "융합생명공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 생명과학대학. 요강 표기 '융합생명공'. 전공 의약나노바이오시스템, 분자생체공학, 시스템식품생명공학, 화학분자생명. 박사 ○. 수집자 메모: 생명과학과 중복 가능. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-korea-neuroscience",
@@ -2433,7 +2433,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "컴퓨터공학과(일반트랙) · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 모집. · same_unit_as:  · 대표 computer (묶음 37)"
+    "note": "컴퓨터공학과(일반트랙) · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 모집."
   },
   {
     "id": "departments-skku-ai",
@@ -2461,7 +2461,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "AI시스템공학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 모집. · same_unit_as:  · 대표 ai (묶음 38)"
+    "note": "AI시스템공학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 모집."
   },
   {
     "id": "departments-skku-ai-3",
@@ -2475,7 +2475,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "AI응용공학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 모집(석박사 ○). 수집자 메모: AI 응용 성격 단위를 ai로 분류. 이 문서만으로는 계약·특수 성격 여부를 알 수 없음. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 39)"
+    "note": "AI응용공학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 모집(석박사 ○). 수집자 메모: AI 응용 성격 단위를 ai로 분류. 이 문서만으로는 계약·특수 성격 여부를 알 수 없음. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-skku-ai-4",
@@ -2489,7 +2489,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "인공지능융합학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 서울캠퍼스(인문사회과학캠퍼스) 공학계열. 박사 모집. 수집자 메모: 인공지능융합 성격. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 40)"
+    "note": "인공지능융합학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 서울캠퍼스(인문사회과학캠퍼스) 공학계열. 박사 모집. 수집자 메모: 인공지능융합 성격. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-skku-mathematics",
@@ -2573,7 +2573,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "융합생명공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 ○. 수집자 메모: 융합생명공학을 bioengineering으로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 bioengineering (묶음 41)"
+    "note": "융합생명공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 ○. 수집자 메모: 융합생명공학을 bioengineering으로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-skku-bioengineering-3",
@@ -2587,7 +2587,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "바이오메카트로닉스학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 ○. 수집자 메모: 바이오메카트로닉스는 bioengineering과 mechanical 사이. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 bioengineering (묶음 42)"
+    "note": "바이오메카트로닉스학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 ○. 수집자 메모: 바이오메카트로닉스는 bioengineering과 mechanical 사이. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-skku-mechanical",
@@ -2685,7 +2685,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "저탄소에너지공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 ○. · same_unit_as:  · 대표 energy (묶음 43)"
+    "note": "저탄소에너지공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스. 박사 ○."
   },
   {
     "id": "departments-skku-energy-3",
@@ -2699,7 +2699,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "에너지과학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스 자연과학계열. 박사 ○. 수집자 메모: 에너지과학(자연과학)을 energy로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 44)"
+    "note": "에너지과학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수원캠퍼스 자연과학계열. 박사 ○. 수집자 메모: 에너지과학(자연과학)을 energy로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-skku-sociology",
@@ -2839,7 +2839,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "정보시스템학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 정보시스템을 computer로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 computer (묶음 45)"
+    "note": "정보시스템학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 정보시스템을 computer로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-ai",
@@ -2867,7 +2867,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "데이터사이언스학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 데이터사이언스를 ai로 분류(computer일 수도 있음). · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 46)"
+    "note": "데이터사이언스학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 데이터사이언스를 ai로 분류(computer일 수도 있음). · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-mathematics",
@@ -2951,7 +2951,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "미래자동차공학과 · 종류 학과 · field engineering · track mechanical · NRF D030000 자동차공학 · KEDI U040403 자동차공학· v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 미래자동차를 mechanical로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 mechanical (묶음 47)"
+    "note": "미래자동차공학과 · 종류 학과 · field engineering · track mechanical · NRF D030000 자동차공학 · KEDI U040403 자동차공학· v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 미래자동차를 mechanical로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-electrical",
@@ -2979,7 +2979,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "전기공학과 · 종류 학과 · field engineering · track electrical · NRF D090000 전기공학 · KEDI U040501 전기공학 · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. · same_unit_as:  · 대표 electrical (묶음 48)"
+    "note": "전기공학과 · 종류 학과 · field engineering · track electrical · NRF D090000 전기공학 · KEDI U040501 전기공학 · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯."
   },
   {
     "id": "departments-hanyang-chemical",
@@ -3021,7 +3021,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "유기나노공학과 · 종류 학과 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 유기나노를 materials로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 materials (묶음 49)"
+    "note": "유기나노공학과 · 종류 학과 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 유기나노를 materials로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-energy",
@@ -3049,7 +3049,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "원자력공학과 · 종류 학과 · field engineering · track energy · NRF D180000 원자력공학 · KEDI U040602 에너지공학 (KEDI에 원자력 소계열이 없어 에너지공학으로 둠)· v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 50)"
+    "note": "원자력공학과 · 종류 학과 · field engineering · track energy · NRF D180000 원자력공학 · KEDI U040602 에너지공학 (KEDI에 원자력 소계열이 없어 에너지공학으로 둠)· v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-energy-3",
@@ -3063,7 +3063,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "배터리공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 배터리를 energy로 분류(materials일 수도 있음). · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 51)"
+    "note": "배터리공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 서울 공과대학. 박사 ◯. 수집자 메모: 배터리를 energy로 분류(materials일 수도 있음). · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-civil",
@@ -3105,7 +3105,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "환경과학과 · 종류 학과 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · v3.5에 없던 단위(추가) · 서울 자연과학대학. 박사 ◯. 수집자 메모: 자연과학 성격이나 environmental로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 environmental (묶음 52)"
+    "note": "환경과학과 · 종류 학과 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · v3.5에 없던 단위(추가) · 서울 자연과학대학. 박사 ◯. 수집자 메모: 자연과학 성격이나 environmental로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-semiconductor",
@@ -3133,7 +3133,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "나노반도체공학과 · 종류 학과 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 서울 공과대학 학과간협동과정. 박사 ◯. · same_unit_as:  · 대표 semiconductor (묶음 53)"
+    "note": "나노반도체공학과 · 종류 학과 · field engineering · track semiconductor · NRF D120100 반도체 · KEDI U040701 반도체·세라믹공학 · v3.5에 없던 단위(추가) · 서울 공과대학 학과간협동과정. 박사 ◯."
   },
   {
     "id": "departments-hanyang-sociology",
@@ -3203,7 +3203,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "정책학과 · 종류 학과 · field social · track public_administration · NRF B150000 정책학 · KEDI U020307 행정학· v3.5에 없던 단위(추가) · 서울 정책과학대학. 박사 ◯. 수집자 메모: 정책학을 public_administration으로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 public_administration (묶음 54)"
+    "note": "정책학과 · 종류 학과 · field social · track public_administration · NRF B150000 정책학 · KEDI U020307 행정학· v3.5에 없던 단위(추가) · 서울 정책과학대학. 박사 ◯. 수집자 메모: 정책학을 public_administration으로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-hanyang-psychology",
@@ -3567,7 +3567,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "소프트웨어융합학과 · 종류 학과 · field cs · track computer · NRF D131000 소프트웨어공학 · KEDI U040802 응용소프트웨어공학 · v3.5에 없던 단위(추가) · 국제캠퍼스. 박사 ○. · same_unit_as:  · 대표 computer (묶음 55)"
+    "note": "소프트웨어융합학과 · 종류 학과 · field cs · track computer · NRF D131000 소프트웨어공학 · KEDI U040802 응용소프트웨어공학 · v3.5에 없던 단위(추가) · 국제캠퍼스. 박사 ○."
   },
   {
     "id": "departments-khu-ai",
@@ -3623,7 +3623,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "유전생명공학과 · 종류 학과 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · 국제캠퍼스. 박사 ○. · same_unit_as:  · 대표 life_science (묶음 56)"
+    "note": "유전생명공학과 · 종류 학과 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · 국제캠퍼스. 박사 ○."
   },
   {
     "id": "departments-khu-neuroscience",
@@ -3693,7 +3693,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "전자정보융합공학과 · 종류 학과 · field engineering · track electrical · NRF D120000 전자/정보통신공학 · KEDI U040502 전자공학· v3.5에 없던 단위(추가) · 국제캠퍼스. 박사 ○. 세부전공 전자공학, 생체의공학, 의료인공지능. 수집자 메모: 전자공학 계열이라 electrical로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 electrical (묶음 57)"
+    "note": "전자정보융합공학과 · 종류 학과 · field engineering · track electrical · NRF D120000 전자/정보통신공학 · KEDI U040502 전자공학· v3.5에 없던 단위(추가) · 국제캠퍼스. 박사 ○. 세부전공 전자공학, 생체의공학, 의료인공지능. 수집자 메모: 전자공학 계열이라 electrical로 분류. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-khu-chemical",
@@ -3945,7 +3945,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "데이터사이언스학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 박사 전공 데이터사이언스(스마트팩토리융합, 인공지능AX융합 등). ai와 statistics 사이에서 애매해 ai로 둠 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 58)"
+    "note": "데이터사이언스학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 박사 전공 데이터사이언스(스마트팩토리융합, 인공지능AX융합 등). ai와 statistics 사이에서 애매해 ai로 둠 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-ewha-mathematics",
@@ -4001,7 +4001,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "바이오융합과학과 · 종류 학과 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수집자 메모: 박사 전공 바이오융합과학(생명과학)만 모집(약학/화학 전공은 2027 전기 미선발) · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 life_science (묶음 59)"
+    "note": "바이오융합과학과 · 종류 학과 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수집자 메모: 박사 전공 바이오융합과학(생명과학)만 모집(약학/화학 전공은 2027 전기 미선발) · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-ewha-neuroscience",
@@ -4477,7 +4477,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "지능형에너지산업융합학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 공학계열 일반과정. AI/IoT/빅데이터 기반 에너지 신산업 등, 경영·서비스 세부전공 포함 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 60)"
+    "note": "지능형에너지산업융합학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 수집자 메모: 공학계열 일반과정. AI/IoT/빅데이터 기반 에너지 신산업 등, 경영·서비스 세부전공 포함 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-cau-political",
@@ -4687,7 +4687,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "생명공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · 수집자 메모: v35는 life_science였으나 학과명이 생명공학이라 bioengineering으로 변경. 자연과학계열 생명공학과, 박사 ○ · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 bioengineering (묶음 61)"
+    "note": "생명공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · 수집자 메모: v35는 life_science였으나 학과명이 생명공학이라 bioengineering으로 변경. 자연과학계열 생명공학과, 박사 ○ · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-konkuk-bioengineering",
@@ -4715,7 +4715,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "생물공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수집자 메모: 공학계열(*표 학과). 전공 화장품공학, 첨단소재융합 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 bioengineering (묶음 62)"
+    "note": "생물공학과 · 종류 학과 · field bio · track bioengineering · NRF D070000 생물공학 · KEDI U050201 생명과학 · v3.5에 없던 단위(추가) · 수집자 메모: 공학계열(*표 학과). 전공 화장품공학, 첨단소재융합 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-konkuk-mechanical",
@@ -4953,7 +4953,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "전자전기컴퓨터공학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가)· 판정 2026-10-13 (결정 기록 0011)· 대표 departments-uos-electrical (묶음 17) · same_unit_as:  · 대표 computer (묶음 63)"
+    "note": "전자전기컴퓨터공학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가)· 판정 2026-10-13 (결정 기록 0011) · same_unit_as: departments-uos-electrical · 대표 departments-uos-electrical (묶음 17)"
   },
   {
     "id": "departments-uos-ai",
@@ -5135,7 +5135,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "도시행정학과 · 종류 학과 · field social · track public_administration · NRF B140500 도시/지방행정 · KEDI U020307 행정학 · v3.5에 없던 단위(추가) · 수집자 메모: 인문사회계열 도시행정. 행정학과와 별도 학과 · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 public_administration (묶음 64)"
+    "note": "도시행정학과 · 종류 학과 · field social · track public_administration · NRF B140500 도시/지방행정 · KEDI U020307 행정학 · v3.5에 없던 단위(추가) · 수집자 메모: 인문사회계열 도시행정. 행정학과와 별도 학과 · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-uos-political",
@@ -5555,7 +5555,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "화학소재학과 · 종류 학과 · field engineering · track chemical · NRF D050000 화학공학 · KEDI U041001 화학공학 · v3.5에 없던 단위(추가) · 박사 ○(특차). 수집자 메모: 화학공학보다 소재(materials)에 가까울 수 있음. BK21 참여학과. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 chemical (묶음 65)"
+    "note": "화학소재학과 · 종류 학과 · field engineering · track chemical · NRF D050000 화학공학 · KEDI U041001 화학공학 · v3.5에 없던 단위(추가) · 박사 ○(특차). 수집자 메모: 화학공학보다 소재(materials)에 가까울 수 있음. BK21 참여학과. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-pusan-bioengineering",
@@ -5821,7 +5821,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "소프트웨어학과 · 종류 학과 · field cs · track computer · NRF D131000 소프트웨어공학 · KEDI U040802 응용소프트웨어공학 · v3.5에 없던 단위(추가) · 상주캠퍼스. 박사 ○(1차). 수집자 메모: 컴퓨터 트랙 해당 여부는 판단 필요. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 computer (묶음 66)"
+    "note": "소프트웨어학과 · 종류 학과 · field cs · track computer · NRF D131000 소프트웨어공학 · KEDI U040802 응용소프트웨어공학 · v3.5에 없던 단위(추가) · 상주캠퍼스. 박사 ○(1차). 수집자 메모: 컴퓨터 트랙 해당 여부는 판단 필요. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-knu-ai-2",
@@ -5835,7 +5835,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "데이터융합컴퓨팅학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 대구캠퍼스, 융합계 공학. 박사 ○(1차), 석박통합 ×. 수집자 메모: 컴퓨터와 인공지능 트랙 경계. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 67)"
+    "note": "데이터융합컴퓨팅학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 대구캠퍼스, 융합계 공학. 박사 ○(1차), 석박통합 ×. 수집자 메모: 컴퓨터와 인공지능 트랙 경계. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-knu-semiconductor",
@@ -5877,7 +5877,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "에너지융합 및 기후변화학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 학과간 협동과정, 박사 ○(1차), 석박통합 ×. 수집자 메모: 에너지·환경 경계. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 energy (묶음 68)"
+    "note": "에너지융합 및 기후변화학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 학과간 협동과정, 박사 ○(1차), 석박통합 ×. 수집자 메모: 에너지·환경 경계. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-knu-materials",
@@ -5905,7 +5905,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "첨단소재공학부 금속재료공학전공 · 종류 전공 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 대구캠퍼스. 박사 ○(1차). · same_unit_as:  · 대표 materials (묶음 69)"
+    "note": "첨단소재공학부 금속재료공학전공 · 종류 전공 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 대구캠퍼스. 박사 ○(1차)."
   },
   {
     "id": "departments-knu-materials-3",
@@ -5919,7 +5919,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "고분자공학과 · 종류 학과 · field engineering · track materials · NRF D060000 고분자공학 · KEDI U040704 재료공학 (KEDI에 고분자 소계열이 없어 재료공학으로 둠)· v3.5에 없던 단위(추가) · 대구캠퍼스. 박사 ○(1차). 수집자 메모: 소재 트랙으로 분류했으나 화학공학과 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 materials (묶음 70)"
+    "note": "고분자공학과 · 종류 학과 · field engineering · track materials · NRF D060000 고분자공학 · KEDI U040704 재료공학 (KEDI에 고분자 소계열이 없어 재료공학으로 둠)· v3.5에 없던 단위(추가) · 대구캠퍼스. 박사 ○(1차). 수집자 메모: 소재 트랙으로 분류했으나 화학공학과 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-knu-civil",
@@ -5961,7 +5961,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "정밀기계공학과 · 종류 학과 · field engineering · track mechanical · NRF D020000 기계공학 · KEDI U040401 기계공학 · v3.5에 없던 단위(추가) · 상주캠퍼스. 박사 ○(1차). 기계공학과가 1차 미모집이므로 대체 후보. · same_unit_as:  · 대표 mechanical (묶음 71)"
+    "note": "정밀기계공학과 · 종류 학과 · field engineering · track mechanical · NRF D020000 기계공학 · KEDI U040401 기계공학 · v3.5에 없던 단위(추가) · 상주캠퍼스. 박사 ○(1차). 기계공학과가 1차 미모집이므로 대체 후보."
   },
   {
     "id": "departments-knu-bioengineering",
@@ -5989,7 +5989,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "의용생체공학과 · 종류 학과 · field bio · track bioengineering · NRF D250000 의공학 · KEDI 해당 없음 (KEDI에 의공학 소계열이 없음)· v3.5에 없던 단위(추가) · 학과간 협동과정. 박사 ○(1차), 석박통합 ×. 수집자 메모: 협동과정 학과. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 bioengineering (묶음 72)"
+    "note": "의용생체공학과 · 종류 학과 · field bio · track bioengineering · NRF D250000 의공학 · KEDI 해당 없음 (KEDI에 의공학 소계열이 없음)· v3.5에 없던 단위(추가) · 학과간 협동과정. 박사 ○(1차), 석박통합 ×. 수집자 메모: 협동과정 학과. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-jnu-computer",
@@ -6073,7 +6073,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "생명과학기술학과 · 종류 학과 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · 광주캠퍼스, 자연과학대학. 박사 ○. · same_unit_as:  · 대표 life_science (묶음 73)"
+    "note": "생명과학기술학과 · 종류 학과 · field bio · track life_science · NRF C070000 생물학 · KEDI U050201 생명과학 · 광주캠퍼스, 자연과학대학. 박사 ○."
   },
   {
     "id": "departments-jnu-mechanical",
@@ -6213,7 +6213,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "전자컴퓨터공학과(전자공학전공) · 종류 학과 · field engineering · track electrical · NRF D120000 전자/정보통신공학 · KEDI U040502 전자공학· v3.5에 없던 단위(추가) · 광주캠퍼스. 같은 모집단위의 전자공학전공. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)· 대표 departments-jnu-computer (묶음 20) · same_unit_as:  · 대표 electrical (묶음 74)"
+    "note": "전자컴퓨터공학과(전자공학전공) · 종류 학과 · field engineering · track electrical · NRF D120000 전자/정보통신공학 · KEDI U040502 전자공학· v3.5에 없던 단위(추가) · 광주캠퍼스. 같은 모집단위의 전자공학전공. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as: departments-jnu-computer · 대표 departments-jnu-computer (묶음 20)"
   },
   {
     "id": "departments-jnu-computer-2",
@@ -6227,7 +6227,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "지능전자컴퓨터공학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 광주캠퍼스, 공과대학. 박사 ○. 문서 비고: 전자공학과·컴퓨터정보통신공학과와 관련 있음. 수집자 메모: 컴퓨터와 전자 트랙 경계. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 computer (묶음 75)"
+    "note": "지능전자컴퓨터공학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 광주캠퍼스, 공과대학. 박사 ○. 문서 비고: 전자공학과·컴퓨터정보통신공학과와 관련 있음. 수집자 메모: 컴퓨터와 전자 트랙 경계. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-jnu-computer-3",
@@ -6241,7 +6241,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "컴퓨터공학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 여수캠퍼스, 공학대학. 박사 ○, 석박통합 ○. v35 목록에는 광주 '전자컴퓨터공학과'만 있었음. · same_unit_as:  · 대표 computer (묶음 76)"
+    "note": "컴퓨터공학과 · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · v3.5에 없던 단위(추가) · 여수캠퍼스, 공학대학. 박사 ○, 석박통합 ○. v35 목록에는 광주 '전자컴퓨터공학과'만 있었음."
   },
   {
     "id": "departments-jnu-ai-2",
@@ -6255,7 +6255,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "빅데이터과학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 광주캠퍼스, AI융합대학(자연과학계열). 박사 ○. 수집자 메모: 인공지능과 통계 경계. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 ai (묶음 77)"
+    "note": "빅데이터과학과 · 종류 학과 · field cs · track ai · NRF D131100 인공지능 · KEDI U040801 전산학·컴퓨터공학 (KEDI에 인공지능 소계열이 없어 가장 가까운 전산학·컴퓨터공학으로 둠) · v3.5에 없던 단위(추가) · 광주캠퍼스, AI융합대학(자연과학계열). 박사 ○. 수집자 메모: 인공지능과 통계 경계. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-jnu-bioengineering",
@@ -6297,7 +6297,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "고분자공학과 · 종류 학과 · field engineering · track materials · NRF D060000 고분자공학 · KEDI U040704 재료공학 (KEDI에 고분자 소계열이 없어 재료공학으로 둠)· v3.5에 없던 단위(추가) · 광주캠퍼스, 공과대학. 박사 ○. 수집자 메모: 소재 트랙으로 분류했으나 화학공학 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 materials (묶음 78)"
+    "note": "고분자공학과 · 종류 학과 · field engineering · track materials · NRF D060000 고분자공학 · KEDI U040704 재료공학 (KEDI에 고분자 소계열이 없어 재료공학으로 둠)· v3.5에 없던 단위(추가) · 광주캠퍼스, 공과대학. 박사 ○. 수집자 메모: 소재 트랙으로 분류했으나 화학공학 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-jnu-energy",
@@ -6339,7 +6339,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "환경에너지공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 에너지 트랙으로도 해당. · 판정 2026-10-13 (결정 기록 0011)· 대표 departments-jnu-environmental (묶음 22) · same_unit_as:  · 대표 energy (묶음 79)"
+    "note": "환경에너지공학과 · 종류 학과 · field engineering · track energy · NRF D020700 에너지및동력공학 · KEDI U040602 에너지공학 (KEDI 정밀·에너지 중 에너지공학으로 둠) · v3.5에 없던 단위(추가) · 에너지 트랙으로도 해당. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as: departments-jnu-environmental · 대표 departments-jnu-environmental (묶음 22)"
   },
   {
     "id": "departments-jnu-civil",
@@ -6409,7 +6409,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "건설·환경공학과 · 종류 학과 · field engineering · track civil · NRF D140000 토목공학 · KEDI U040201 토목공학 · v3.5에 없던 단위(추가) · 여수캠퍼스, 공학대학. 박사 ○, 석박통합 ○. 수집자 메모: 토목과 환경 트랙 걸침. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 civil (묶음 80)"
+    "note": "건설·환경공학과 · 종류 학과 · field engineering · track civil · NRF D140000 토목공학 · KEDI U040201 토목공학 · v3.5에 없던 단위(추가) · 여수캠퍼스, 공학대학. 박사 ○, 석박통합 ○. 수집자 메모: 토목과 환경 트랙 걸침. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-cnu-computer",
@@ -6647,7 +6647,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "국사학과 · 종류 학과 · field humanities · track history · NRF A020000 역사학 · KEDI U010204 역사·고고학 · v3.5에 없던 단위(추가) · 인문대학. 박사 ○. 수집자 메모: 사학과와 별도 학과로 한국사 중심이라 같은 history 트랙으로 분류. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 history (묶음 81)"
+    "note": "국사학과 · 종류 학과 · field humanities · track history · NRF A020000 역사학 · KEDI U010204 역사·고고학 · v3.5에 없던 단위(추가) · 인문대학. 박사 ○. 수집자 메모: 사학과와 별도 학과로 한국사 중심이라 같은 history 트랙으로 분류. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-cnu-economics",
@@ -6703,7 +6703,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "전기공학과 · 종류 학과 · field engineering · track electrical · NRF D090000 전기공학 · KEDI U040501 전기공학 · v3.5에 없던 단위(추가) · 공과대학. 박사 ○. · same_unit_as:  · 대표 electrical (묶음 82)"
+    "note": "전기공학과 · 종류 학과 · field engineering · track electrical · NRF D090000 전기공학 · KEDI U040501 전기공학 · v3.5에 없던 단위(추가) · 공과대학. 박사 ○."
   },
   {
     "id": "departments-cnu-electrical-3",
@@ -6717,7 +6717,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "전파정보통신공학과 · 종류 학과 · field engineering · track electrical · NRF D120000 전자/정보통신공학 · KEDI U040803 정보·통신공학· v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 전자·통신 계열. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 electrical (묶음 83)"
+    "note": "전파정보통신공학과 · 종류 학과 · field engineering · track electrical · NRF D120000 전자/정보통신공학 · KEDI U040803 정보·통신공학· v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 전자·통신 계열. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-cnu-materials",
@@ -6745,7 +6745,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "유기응용재료공학과 · 종류 학과 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 소재와 화학공학 경계. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 materials (묶음 84)"
+    "note": "유기응용재료공학과 · 종류 학과 · field engineering · track materials · NRF D100000 재료공학 · KEDI U040704 재료공학 · v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 소재와 화학공학 경계. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-cnu-materials-3",
@@ -6759,7 +6759,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "고분자공학과 · 종류 학과 · field engineering · track materials · NRF D060000 고분자공학 · KEDI U040704 재료공학 (KEDI에 고분자 소계열이 없어 재료공학으로 둠)· v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 소재와 화학공학 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 materials (묶음 85)"
+    "note": "고분자공학과 · 종류 학과 · field engineering · track materials · NRF D060000 고분자공학 · KEDI U040704 재료공학 (KEDI에 고분자 소계열이 없어 재료공학으로 둠)· v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 소재와 화학공학 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-cnu-civil",
@@ -6801,7 +6801,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "메카트로닉스공학과 · 종류 학과 · field engineering · track mechanical · NRF D020000 기계공학 · KEDI U041101 기전공학 · v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 기계와 전자 경계. · 판정 2026-10-13 (결정 기록 0011) · same_unit_as:  · 대표 mechanical (묶음 86)"
+    "note": "메카트로닉스공학과 · 종류 학과 · field engineering · track mechanical · NRF D020000 기계공학 · KEDI U041101 기전공학 · v3.5에 없던 단위(추가) · 공과대학. 박사 ○. 수집자 메모: 기계와 전자 경계. · 판정 2026-10-13 (결정 기록 0011)"
   },
   {
     "id": "departments-cnu-life_science-2",
@@ -6815,7 +6815,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "생화학과 · 종류 학과 · field bio · track life_science · NRF C060500 생화학 · KEDI U050205 화학· v3.5에 없던 단위(추가) · 자연과학대학. 박사 ○. 수집자 메모: 화학과 생명과학 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011) · same_unit_as:  · 대표 life_science (묶음 87)"
+    "note": "생화학과 · 종류 학과 · field bio · track life_science · NRF C060500 생화학 · KEDI U050205 화학· v3.5에 없던 단위(추가) · 자연과학대학. 박사 ○. 수집자 메모: 화학과 생명과학 경계. · 판정 2026-10-13: 학과명에 맞는 NRF 코드로 확정(결정 기록 0011)"
   },
   {
     "id": "departments-cnu-life_science-2-tuition",
