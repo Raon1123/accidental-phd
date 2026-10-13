@@ -133,5 +133,212 @@
     "url": "https://www.academyinfo.go.kr/mjrinfo/mjrinfo0460/doInit.do",
     "checked_on": "2026-10-13",
     "note": "KEDI 학과(전공) 분류와 별개인 교육부 체계. 5대 계열(인문·사회, 자연과학, 공학, 예·체능, 의학)과 광역, 대분류 A~F·중분류 2자리·소분류 3자리 코드. 2026 공시 194건(2025 공시 191건에 산업디자인·시각디자인·생활디자인 소분류 3건 추가). 선택 목록 조회 엔드포인트 selectPopUpList.do에서 JSON으로 전체를 받을 수 있음. 이번 매핑에서는 쓰지 않음(KEDI 교육통계는 U 코드 체계). 다음 사람이 다시 찾지 않도록 기록함."
+  },
+  {
+    "id": "snu-2027-phd-admission-guide",
+    "title": "2027학년도 서울대학교 대학원 신입생 전기모집 안내",
+    "publisher": "서울대학교 입학본부(대학원)",
+    "year": 2027,
+    "url": "https://admission.snu.ac.kr/graduate/general/notice?md=v&bbsidx=174422",
+    "checked_on": "2026-10-13",
+    "note": "공지 첨부 PDF(32쪽)를 내려받아 '2. 모집단위 및 모집인원'(PDF 4~9쪽, 문서 표기 p.3~8)과 <별표 3> 등록금 일람표(p.31)를 읽음. 박사 모집인원이 1명 이상인 단위만 박사 모집으로 취급. 2027학년도 전기, 접수 2026.9.28~10.2."
+  },
+  {
+    "id": "kaist-2027-phd-admission-guide",
+    "title": "KAIST 2027학년도 봄학기 입학 1차 대학원 신입생 모집요강",
+    "publisher": "KAIST 대학원입학팀",
+    "year": 2027,
+    "url": "https://admission.kaist.ac.kr/graduate/reference/sub01",
+    "checked_on": "2026-10-13",
+    "note": "자료실 모집요강 게시물(pstNo 2232, 2026.5.28 게시) 첨부 PDF(25쪽, 이미지형)를 내려받아 '4. 모집분야 및 학위과정' 개요(PDF 8쪽, 표기 p.6)와 '1지망 모집분야 일람표'(PDF 9쪽, 표기 p.7)의 박사과정 열을 읽음. 직접 파일: https://admission.kaist.ac.kr/wz/api/board/58/2232/download/0 . 봄학기 2차 모집요강(pstNo 2251)은 받았으나 읽지 않음. 서버가 중간 인증서를 보내지 않아 GlobalSign 중간 인증서를 추가해 TLS 검증을 유지한 채 접근."
+  },
+  {
+    "id": "postech-2027-phd-admission-guide",
+    "title": "2026-27학년도 포항공과대학교 대학원 신입생 모집요강 (2026학년도 2학기·2027학년도 1학기 입학)",
+    "publisher": "포항공과대학교 대학원 입학팀",
+    "year": 2027,
+    "url": "https://adm-g.postech.ac.kr/wp-content/uploads/2026/09/20260903161555_dlYjLIFjmN.pdf",
+    "checked_on": "2026-10-13",
+    "note": "98쪽 PDF의 '모집 학과와 학위 과정' 표(PDF 6쪽)를 이미지로 확인해 박사과정 열을 읽음. 2027학년도 1학기(전기) 입학분이며 박사는 일반전형에서만 선발(특차전형 박사 없음). 문서 안내문에 따르면 내용은 변경될 수 있음."
+  },
+  {
+    "id": "gist-2027-phd-admission-guide",
+    "title": "2027학년도 봄학기(1-2차) GIST 대학원 신입생 모집요강",
+    "publisher": "광주과학기술원 입학팀",
+    "year": 2027,
+    "url": "https://www.gist.ac.kr/download/?file_id=plgwf3bghac8lcmvk1tbc4psnsnm53",
+    "checked_on": "2026-10-13",
+    "note": "입학 홈페이지 전형안내>봄학기 2차>모집요강 다운로드(https://www.gist.ac.kr/gadm/html/sub01/010203.html)의 16쪽 이미지형 PDF. '02. 모집분야 및 학위과정' 표(PDF 4쪽, 표기 p.04)를 읽음. 1차(2026.6)·2차(2026.10.12~21 접수) 공통 문서."
+  },
+  {
+    "id": "dgist-2027-phd-admission-guide",
+    "title": "2027 Graduate School Admission Guide (2027학년도 대학원 모집요강)",
+    "publisher": "DGIST 대학원 입학팀",
+    "year": 2027,
+    "url": "https://www.dgist.ac.kr/gadm/sub02_01.do",
+    "checked_on": "2026-10-13",
+    "note": "모집요강 PDF(20쪽, https://www.dgist.ac.kr/cmm/fms/FileDown.do?atchFileId=FILE_000000169951Fh5&fileSn=0)를 내려받아 직접 읽음. 2027학년도 봄학기(전기) 1~3차와 가을학기 공통 요강. 인쇄 p.8 'Ⅰ 모집과정' 표에서 박사 칸(국비/디지스트/일반장학생)이 ○인 학과만 units에 반영. 등록금 정보는 확인하지 않음."
+  },
+  {
+    "id": "unist-2027-phd-admission-guide",
+    "title": "2027학년도 전기 2차 대학원과정 신입생 모집요강",
+    "publisher": "UNIST 대학원 입학처",
+    "year": 2027,
+    "url": "https://adm-g.unist.ac.kr/admg/admission/secondary-electric.do?mode=download&articleNo=254640&attachNo=591664",
+    "checked_on": "2026-10-13",
+    "note": "국문 모집요강 PDF(32쪽)를 내려받아 p.5 '모집단위' 표를 이미지로 읽음. 2027학년도 전기 2차(원서접수 2026-10-06~10-15). 박사과정 열(국비/UNIST/일반) 기준. 등록금은 학과별 차이가 확인되지 않아 생략."
+  },
+  {
+    "id": "yonsei-2027-phd-admission-guide",
+    "title": "2027학년도 전기 연세대학교 대학원 입학전형 일반전형 모집요강 - 서울(신촌/국제) 캠퍼스",
+    "publisher": "연세대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.yonsei.ac.kr/_res/graduate/etc/s_guide_2027-1.pdf",
+    "checked_on": "2026-10-13",
+    "note": "요강 PDF를 내려받아 pdftotext로 읽음. 인쇄 p.6-8 '가-1 모집단위 및 과정(신촌캠퍼스)', '가-2(국제캠퍼스)'와 p.17 '일반전형[계약학과]' 표에서 박사 칸 ○ 확인. 원서접수 2026-10-07~10-14. 등록금 표(p.36)는 텍스트 추출이 어긋나 학과별 금액을 확정하지 못해 반영하지 않음. 미래캠퍼스 요강(m_guide_2027-1.pdf)은 읽지 않음."
+  },
+  {
+    "id": "yonsei-2027-grad-dept-list",
+    "title": "연세대학교 일반대학원 학과목록",
+    "publisher": "연세대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.yonsei.ac.kr/graduate/intro/departlist.do",
+    "checked_on": "2026-10-13",
+    "note": "학과·협동과정 명칭 목록만 확인(석박사 구분 없음). 단위의 박사 모집 여부는 요강 PDF로 확인."
+  },
+  {
+    "id": "korea-2027-phd-admission-guide",
+    "title": "2027학년도 전기 고려대학교 대학원 학생모집 안내(입시요강, 내국인전형 신입학)",
+    "publisher": "고려대학교 일반대학원",
+    "year": 2027,
+    "url": "https://graduate.korea.ac.kr/ft_board/download.html?fd=freshman&fname=20261002154382248975.pdf",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 신입학 안내 페이지(https://graduate.korea.ac.kr/matriculate/koreans_n.html)의 '입시요강 다운로드' PDF(20쪽)를 내려받아 8-1 '계열별 모집학과: 신입학' 표(요강 p.12-24)를 이미지로 읽음. 원서접수 2026-09-29~10-07(예정). 표의 열은 석사/박사/석·박사통합 × 구술시험/서류전형. 서울캠퍼스 학과와 세종캠퍼스(세종) 표기가 함께 있음. 등록금은 표에 없어 생략."
+  },
+  {
+    "id": "skku-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 일반전형 모집요강(수정 7차, 2026.09.18판)",
+    "publisher": "성균관대학교 대학원",
+    "year": 2027,
+    "url": "https://gradschool.skku.edu/grad/mojip/regul.htm?bbsid=grad_dataroom&ctg_cd=REGUL&page=1&skey=&keyword=&mode=view&bltn_seq=59065",
+    "checked_on": "2026-10-13",
+    "note": "게시물 첨부 PDF(2027학년도 전기 일반대학원 일반전형 모집요강_260918_홈페이지 첨부_수정7차.pdf)를 내려받아 '2. 모집학과(신입학)' 표(PDF 4~8쪽, 인쇄 2~6쪽)를 직접 읽음. 열은 석사/박사/석박사. 계약학과 표(PDF 8쪽)는 범위 밖으로 제외."
+  },
+  {
+    "id": "hanyang-2027-phd-admission-guide",
+    "title": "2027학년도 일반대학원 신입학 전기 특별전형 모집요강(수정, 2026.09.21 기준)",
+    "publisher": "한양대학교 대학원",
+    "year": 2027,
+    "url": "http://grad.hanyang.ac.kr/board/data.php?ptype=view&idx=10548&page=1&code=data&category=119",
+    "checked_on": "2026-10-13",
+    "note": "자료실 게시물 첨부 PDF(/admin/bbs/down.php?code=data&idx=10548&no=1)를 내려받아 '1-1. 계열별 모집학과: 일반학과', '1-2. 학과간협동과정' 표(PDF 3~13쪽)를 직접 읽음. 열은 석사/박사/석박통합이며 ◯ 모집, ✕ 모집안함. 서울캠퍼스 학과만 사용하고 (ERICA) 표기 학과는 제외."
+  },
+  {
+    "id": "sogang-2027-phd-admission-guide",
+    "title": "2027학년도 전기 대학원 일반전형 모집요강",
+    "publisher": "서강대학교 일반대학원",
+    "year": 2027,
+    "url": "https://gradsch.sogang.ac.kr/gradsch/gradsch03_1_1.html",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 입학 페이지(2027학년도 전기 일반1차전형 선발 안내)에 붙은 PDF(2027학년도 전기 대학원 일반전형 모집요강.pdf)를 내려받아 '2. 모집과정 및 모집단위' 표(PDF 4~5쪽)를 직접 읽음. 열은 석사/석박사통합/박사 순(○ 모집, X 모집안함)."
+  },
+  {
+    "id": "khu-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 정원내 신(편)입학 모집요강",
+    "publisher": "경희대학교 입학처(일반대학원)",
+    "year": 2027,
+    "url": "https://iphak.khu.ac.kr/submenu.do?menuurl=2YmZUZGvsmKEoKRLPZRjqw%3d%3d&",
+    "checked_on": "2026-10-13",
+    "note": "입학처 일반대학원(내국인) 모집요강 페이지의 PDF(2027학년도 전기 일반대학원 정원내 신(편)입학 모집요강_fv.pdf)를 내려받아 '2 모집학과 및 과정' 표(PDF 7~12쪽)를 직접 읽음. 열은 신입학 석사/박사/석박통합이며 l 모집, X 모집하지 않음. 캠퍼스는 표 제목(서울캠퍼스/국제캠퍼스)."
+  },
+  {
+    "id": "ewha-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 신입생 모집요강 (2027 Spring Admission Guide)",
+    "publisher": "이화여자대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.ewha.ac.kr/_res/ewha/graduate/etc/2027%20Spring%20Admission%20Guide.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 전체를 내려받아 읽음. Ⅱ.모집학과(학부) 및 전공 표(인쇄 쪽 3-6)와 모집하지 않는 전공 표(쪽 7)를 확인. 학과별 박사 등록금표는 이 문서에 없음. 진입 페이지 https://graduate.ewha.ac.kr/graduate/admission/guide.do"
+  },
+  {
+    "id": "cau-2027-phd-admission-guide",
+    "title": "2027학년도 전반기 대학원 일반전형 모집요강",
+    "publisher": "중앙대학교 대학원",
+    "year": 2027,
+    "url": "https://graduate.cau.ac.kr/_attach/gradcau/file/2026/10/TdVGpWqHBjIJdyzKnRdeSEHqQH.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 전체를 내려받아 읽음(38쪽). 4-1.모집학과(일반과정, 협동과정) 표(인쇄 쪽 3-5)에서 석사/박사/석박통합 개설 여부 확인. 진입 페이지 https://graduate.cau.ac.kr/graduate/admission/recruitment-guidelines.do (게시물 51131). 이 문서에서 학과별 등록금표는 확인하지 못함."
+  },
+  {
+    "id": "konkuk-2027-phd-admission-guide",
+    "title": "2027학년도 전기 대학원 일반전형 모집요강",
+    "publisher": "건국대학교 대학원",
+    "year": 2027,
+    "url": "https://www.konkuk.ac.kr/sites/grad/files/260910.pdf",
+    "checked_on": "2026-10-13",
+    "note": "이미지 PDF(텍스트 층 없음, 25쪽)라 모집단위 표(Ⅳ.모집단위, 인쇄 쪽 5-8)를 쪽 이미지로 직접 읽음. 박사 60개 학과 + 학과간 협동과정 8개 + 학연산 협동과정 4개 중 범위 내 단위를 기록. 진입 페이지 https://www.konkuk.ac.kr/grad/10313/subview.do"
+  },
+  {
+    "id": "uos-2027-phd-admission-guide",
+    "title": "2027학년도 전기1차 일반대학원 일반전형 신입생 모집요강 (26.9.30.)",
+    "publisher": "서울시립대학교 일반대학원",
+    "year": 2027,
+    "url": "https://graduate.uos.ac.kr/files/graduate/graduate/admission/%EB%B6%99%EC%9E%844.2027%ED%95%99%EB%85%84%EB%8F%84%20%EC%A0%84%EA%B8%B01%EC%B0%A8%20%EC%9D%BC%EB%B0%98%EB%8C%80%ED%95%99%EC%9B%90%20%EC%9D%BC%EB%B0%98%EC%A0%84%ED%98%95%20%EC%8B%A0%EC%9E%85%EC%83%9D%20%EB%AA%A8%EC%A7%91%EC%9A%94%EA%B0%95%2826.9.30.%29.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PDF 전체를 내려받아 읽음(38쪽). 1-1 일반과정 및 학과 간 협동과정, 1-2 첨단학과 표(인쇄 쪽 4-5)와 7-2 2026학년도 등록금(계열별) 표 확인. 진입 페이지 https://graduate.uos.ac.kr/graduateNew/html/admission/general/regular.do?menuid=3000002001001000000 (서버가 일반 접근 시 SSO로 보내므로 파일은 /files/graduate/... 경로로 직접 수신)."
+  },
+  {
+    "id": "pusan-2027-phd-admission-guide",
+    "title": "2027학년도 특차 일반대학원 신입생 모집요강",
+    "publisher": "부산대학교 입학처(일반대학원)",
+    "year": 2027,
+    "url": "https://go.pusan.ac.kr/graduate/pages/index.asp?p=91&b=B_1_16&bn=49773&m=read",
+    "checked_on": "2026-10-13",
+    "note": "공고(2026.08.04) 첨부 PDF(/_common/new_download_file.asp?menu=boardfile&file_no=4422, 61쪽)를 내려받아 박사과정 모집단위표(PDF 9~11쪽, 인쇄 7~9쪽)를 읽음. 특차 모집요강이며 '특차에서 선발하지 않는 모집단위는 전기·후기에서 선발, 11월 공고 전기 모집요강 확인' 문구가 있음. 전기 모집요강은 아직 미공고라 읽지 못함. 모집여부 표기: ○ 특차 모집, × 특차 미모집."
+  },
+  {
+    "id": "knu-2027-phd-admission-guide",
+    "title": "2027학년도 경북대학교 일반대학원 1학기 1차 모집요강",
+    "publisher": "경북대학교 대학원 입학처",
+    "year": 2027,
+    "url": "https://ipsi2.knu.ac.kr/upload_data/mojib/20260826134550_68.pdf",
+    "checked_on": "2026-10-13",
+    "note": "입학처 모집요강 페이지(https://ipsi2.knu.ac.kr/mojib/) 게시 PDF(70쪽, 2027학년도 1학기=전기 1차)를 읽음. 모집단위 표는 PDF 13~18쪽(인쇄 2~7쪽): 대구캠퍼스, 상주캠퍼스, 전공별(영어영문학과·교육학과) 표. 문서에 'X'는 해당 차수 미모집이며 1학기 2차, 2학기 모집이 별도로 있음. 학과별 등록금 표는 이 PDF에 없음."
+  },
+  {
+    "id": "knu-2027-grad-dept-list",
+    "title": "경북대학교 대학원 학과소개(인문사회·자연과학·공학·예체능·융합·학과간 협동과정)",
+    "publisher": "경북대학교 대학원",
+    "year": 2027,
+    "url": "https://home.knu.ac.kr/HOME/grad/sub.htm?nav_code=gra1626678009",
+    "checked_on": "2026-10-13",
+    "note": "학과별 학위과정(석사, 박사) 표기를 읽은 학과 목록 페이지(nav_code=gra1626678009, 1626678024, 1626678033, 1626678041, 1626678065). 모집요강 대조용 보조 근거이며 차수별 모집 여부는 모집요강이 정본."
+  },
+  {
+    "id": "jnu-2027-phd-admission-guide",
+    "title": "2027학년도 전기 일반대학원 신입생 모집요강(공고)",
+    "publisher": "전남대학교 대학원 입시(admgraduate)",
+    "year": 2027,
+    "url": "http://admgraduate.jnu.ac.kr/bbs/admgraduate/1150/854459/download.do",
+    "checked_on": "2026-10-13",
+    "note": "2027학년도 전기(1차) 공고 게시글(/bbs/admgraduate/1150/1055093/artclView.do, 2026.09.15 작성·10.01 수정) 첨부 PDF(59쪽, 이미지 PDF)를 내려받아 쪽 이미지로 직접 읽음. 모집단위표는 PDF 10~13쪽(인쇄 8~11쪽): 광주캠퍼스, 여수캠퍼스; 석사·박사·석박사통합 O 표기, 음영은 미모집. 등록금(PDF 55쪽, 인쇄 53쪽)은 계열 단위 2026학년도 참고표."
+  },
+  {
+    "id": "jnu-2027-grad-dept-list",
+    "title": "전남대학교 일반대학원 학과 목록",
+    "publisher": "전남대학교 일반대학원",
+    "year": 2027,
+    "url": "https://graduate.jnu.ac.kr/IndexMain.aspx",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 메인의 '학과' 메뉴 목록(학과 명칭)만 읽음. 학위과정·차수별 모집 여부는 없으며 모집요강이 정본."
+  },
+  {
+    "id": "cnu-2027-phd-admission-guide",
+    "title": "2027학년도 전기 대학원 1차 신입생 모집요강",
+    "publisher": "충남대학교 입학본부(일반대학원)",
+    "year": 2027,
+    "url": "https://ipsi.cnu.ac.kr/Upl/gadm/yokang/0102_A_0_1790645155.pdf",
+    "checked_on": "2026-10-13",
+    "note": "일반대학원 입학정보 '전기 1차 모집요강' 페이지(https://ipsi.cnu.ac.kr/html/gadm/sub01/sub01_0102.html)의 PDF(34쪽)를 읽음. 모집학과 및 모집여부 표는 PDF 6~8쪽(인쇄 2~4쪽), 2027학년도 신입생 등록금액은 PDF 30~31쪽(인쇄 26~27쪽). △는 2차 모집(원서접수 2026.12.3~12.8) 예정. 등록금은 2026학년도 전기 기준이며 변동 가능."
   }
 ]
