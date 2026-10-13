@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "accidental-phd/source",
+  "title": "출처",
+  "description": "data/sources/registry.json의 원소.",
+  "type": "object",
+  "required": ["id", "title", "publisher", "year", "url", "checked_on"],
+  "properties": {
+    "id": { "type": "string", "description": "<publisher>-<year>-<slug>. 예: krivet-2025-phd-jobs", "pattern": "^[a-z0-9]+(-[a-z0-9_]+)+$" },
+    "title": { "type": "string" },
+    "publisher": { "type": "string", "description": "발행 기관 정식 명칭. 약어는 괄호 안에" },
+    "year": { "type": "integer", "description": "발행 연도" },
+    "url": { "type": "string", "format": "uri" },
+    "checked_on": { "type": "string", "format": "date" },
+    "note": { "type": "string", "description": "조사 범위, 표본, 한계" }
+  },
+  "additionalProperties": true
+}

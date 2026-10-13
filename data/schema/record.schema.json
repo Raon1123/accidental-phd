@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "accidental-phd/record",
+  "title": "수치 레코드",
+  "description": "data/packs/<pack>/records.json의 원소. 검증기(scripts/validate-data.mjs)가 같은 규칙을 검사한다. 이 파일은 사람과 ChatGPT가 참고하는 문서다.",
+  "type": "object",
+  "required": ["id", "value", "unit", "source_id", "table", "page", "population", "denominator", "year", "checked_on", "confidence", "note"],
+  "properties": {
+    "id": { "type": "string", "description": "<pack>-<topic>-<key>. 예: statistics-employed-cs", "pattern": "^[a-z0-9]+(-[a-z0-9_]+)+$" },
+    "value": { "type": "number", "description": "수치. 비율은 0~1, 금액은 KRW 또는 만원 단위를 unit에 명시" },
+    "unit": { "type": "string", "description": "ratio | percent | krw | krw-10k | count | months | years | level | code 등. ratio·percent는 denominator 필수" },
+    "source_id": { "type": "string", "description": "data/sources/registry.json의 id" },
+    "table": { "type": "string", "description": "출처 안의 표·그림 번호. 없으면 '본문'" },
+    "page": { "type": ["integer", "string"], "description": "쪽 번호 또는 URL 조각" },
+    "population": { "type": "string", "description": "누구에 대한 수치인가. 예: 2024 학업전념 박사, 내국인" },
+    "denominator": { "type": "string", "description": "비율의 분모. 예: 유효 응답자 36,402명. 비율이 아니면 빈 문자열 허용" },
+    "year": { "type": "integer", "description": "수치가 가리키는 연도(발행 연도가 아님)" },
+    "checked_on": { "type": "string", "format": "date", "description": "출처를 직접 확인한 날짜 YYYY-MM-DD" },
+    "confidence": { "type": "string", "enum": ["verified", "indexed", "assumed"], "description": "verified=원문 확인, indexed=2차 자료로 확인, assumed=설계 가정(UI에 '게임 설정'으로 표시)" },
+    "note": { "type": "string", "description": "출처의 캐비앗을 그대로 옮긴다. 예: 졸업자 조사이며 종단조사가 아님" }
+  },
+  "additionalProperties": true
+}
