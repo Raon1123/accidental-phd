@@ -17,4 +17,6 @@
 
 **id 규칙.** `salaries-<class>-<grade>-<step>`. 예: `salaries-public-research-5`(연구직 5호봉), `salaries-faculty-assistant-mean`. `unit`은 `krw`(연봉 원) 또는 `krw-10k`(월 만원). `note`에 연도·세전/세후·수당 포함 여부.
 
+**faculty 하위 집합 규칙(2026-10-13, #10 판정).** 대학알리미에는 교원 급여 공시 항목이 없다(강사 강의료만 공시). 직급별 교원 급여는 교육부가 의원실에 제출한 자료의 언론 보도만 있어 `indexed`이며 연도가 섞여 있다(2017 직급·설립별 전국표, 2021 일부 학교, 2024·2025 전국 평균). 강사 시간당 강의료는 2026 공시 학교별 `verified`(DGIST·UNIST는 강사 0명). 전국·국공립·사립 평균 6건은 학교값을 수집자가 합산한 파생값이라 `assumed`(2022 공표값과 0.8% 이내 일치). 게임은 교원 급여에 2025 전국 평균(1억 98만 원)과 2017 직급 비율을 조합해 쓰되 Wave 3에서 `assumed`로 표시한다. 대학알리미 접근 경로: POST /popup/pubinfo0420/selectSearchDataList.do → /popup/pubinfo2020/selectGraphDataList.do (schlId, svyYr, menuIdx=04).
+
 **담당 issue.** Wave 2 — public: #8 · institutes: #9 · faculty: #10 · entry: #11
