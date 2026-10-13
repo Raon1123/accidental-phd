@@ -34,5 +34,68 @@
     "url": "https://www.kci.go.kr/kciportal/mobile/bbs/bbsNoticeView.kci?boardBean.bullScriSequ=000000039527",
     "checked_on": "2026-10-13",
     "note": "2024-11-13 게시. 학술표준분류 개정을 KCI가 2024-11-30 적용. 붙임2 '학술표준분류표(변경 후_총괄표).xlsx'는 파일 ID만 노출되어 직접 내려받지 못함. 개정 연도·적용일 교차 확인용이며 레코드의 source_id는 NRF 원본을 쓴다."
+  },
+  {
+    "id": "academyinfo-2026-portal",
+    "title": "대학알리미 (대학 정보공시 포털)",
+    "publisher": "교육부·한국대학교육협의회",
+    "year": 2026,
+    "url": "https://www.academyinfo.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 대학 공시. 등록금·교원 급여·신규 임용 공시의 입구. 개별 수치는 하위 id(academyinfo-<year>-<topic>)로 등록. 2026-10-13 포털 접속 확인(제목만 확인)."
+  },
+  {
+    "id": "scimago-2026-portal",
+    "title": "Scimago Journal & Country Rank",
+    "publisher": "SCImago Lab",
+    "year": 2026,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 저널 지표(SJR 사분위). 개별 저널 수치는 하위 id로. 2026-10-13 자동 접속은 HTTP 403(봇 차단), 수집 시 브라우저로 확인."
+  },
+  {
+    "id": "kci-2026-portal",
+    "title": "한국학술지인용색인(KCI)",
+    "publisher": "한국연구재단(NRF)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 국내 저널 등재 여부. 2026-10-13 포털 접속 확인."
+  },
+  {
+    "id": "core-2026-portal",
+    "title": "CORE Conference Ranking Portal",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2026,
+    "url": "https://portal.core.edu.au/conf-ranks/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 학회 등급 A*/A/B/C. 2026-10-13 자동 접속은 HTTP 403, 수집 시 브라우저로 확인하고 edition 연도를 note에."
+  },
+  {
+    "id": "alio-2026-portal",
+    "title": "공공기관 경영정보 공개시스템(ALIO)",
+    "publisher": "기획재정부",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 출연연 임직원 보수 공시. 2026-10-13 자동 접속 실패(연결 종료), 수집 시 재확인."
+  },
+  {
+    "id": "wage-2026-portal",
+    "title": "임금직무정보시스템",
+    "publisher": "고용노동부",
+    "year": 2026,
+    "url": "https://www.wage.go.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 직종별 임금 분포(기업 연구직). 2026-10-13 자동 접속 실패(ECONNRESET), 수집 시 재확인."
+  },
+  {
+    "id": "kess-2026-portal",
+    "title": "교육통계서비스(KESS)",
+    "publisher": "한국교육개발원(KEDI)",
+    "year": 2026,
+    "url": "https://kess.kedi.re.kr/",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 고등교육통계(학생·졸업·교원, 학과 분류). 2026-10-13 포털 접속 확인(프레임 셸)."
   }
 ]
