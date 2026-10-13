@@ -154,8 +154,9 @@ describe('applyCashflow: interest (선택권 §5.4)', () => {
   });
   it('interest is not capped by the loan limit (the cap applies to new borrowing only)', () => {
     const s = applyCashflow(base({ debt: ASSUMED.LOAN_LIMIT }), data);
-    expect(s.money.debt).toBe(ASSUMED.LOAN_LIMIT + 75_000);
-    expect(kind(s, 'interest')).toEqual([{ month: 1, kind: 'interest', amount: -75_000 }]);
+    const interest = Math.round(ASSUMED.LOAN_LIMIT * ASSUMED.LOAN_RATE_ANNUAL / 12);   // 4,200만 → 105,000
+    expect(s.money.debt).toBe(ASSUMED.LOAN_LIMIT + interest);
+    expect(kind(s, 'interest')).toEqual([{ month: 1, kind: 'interest', amount: -interest }]);
   });
 });
 
@@ -171,10 +172,12 @@ describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () =>
   it('borrows only up to the limit; cash stays negative and the month counts as a crisis month', () => {
     const s0 = base({ cash: 0, debt: ASSUMED.LOAN_LIMIT - 1_000_000 });
     const s = applyCashflow(s0, data);
-    // 이자: 29,000,000 × 0.03 / 12 = 72,500 → 부채 29,072,500, 대출 가능 927,500
+    // 이자: (한도 − 100만) × 0.03 / 12 → 부채에 더해지고, 남은 한도만큼만 빌린다 (한도 4,200만이면 이자 102,500, 대출 가능 897,500)
+    const interest = Math.round((ASSUMED.LOAN_LIMIT - 1_000_000) * ASSUMED.LOAN_RATE_ANNUAL / 12);
+    const room = 1_000_000 - interest;
     expect(s.money.debt).toBe(ASSUMED.LOAN_LIMIT);
-    expect(kind(s, 'loan')).toEqual([{ month: 1, kind: 'loan', amount: 927_500 }]);
-    expect(s.money.cash).toBe(-1_600_000 + 927_500);
+    expect(kind(s, 'loan')).toEqual([{ month: 1, kind: 'loan', amount: room }]);
+    expect(s.money.cash).toBe(-1_600_000 + room);
     expect(s.phd!.crisisMonths).toBe(1);
     expect(s.ledger.some(e => e.kind === 'unpaid')).toBe(false);
   });

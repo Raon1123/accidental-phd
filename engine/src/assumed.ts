@@ -106,14 +106,14 @@ export const ASSUMED = {
     natural: 'statistics-phd-duration-mean-years-natural',                             // 0014#44
     engineering: 'statistics-phd-duration-mean-years-engineering',                     // 0014#44
   } satisfies Record<Kedi, string>,
-  G_PREP_MONTHS: 6, G_MBAR_INIT: 0.68, PROJECT_MAX: 100,                               // 0014#45 g = 100 / ((12·T − 6) × M̄)
-  G_INIT: { humanities: 2.23, social: 2.72, natural: 2.45, engineering: 2.45 } satisfies Record<Kedi, number>, // 0014#45 보정 출발점(Wave 4 모의실험으로 고정)
+  G_PREP_MONTHS: 6, G_MBAR_INIT: 0.40, PROJECT_MAX: 100,                               // 0014#45 g = 100 / ((12·T − 6) × M̄); 보정 2026-10-14: M̄ 0.68 → 0.40 (실현 평균 0.46–0.48, 중앙값 맞춤 상수; calibration-wave4.md)
+  G_INIT: { humanities: 3.79, social: 4.63, natural: 4.17, engineering: 4.17 } satisfies Record<Kedi, number>, // 0014#45 M̄ 0.40 에서의 g (초안 M̄ 0.68: 2.23/2.72/2.45/2.45)
 
   // ── 자동 진행 정책·위험률 (0014 #46–#52) ──
   POLICY: {
     restThreshold: 30,                                                                 // 0014#46 체력·마음 < 30 → rest
     writeP: 0.6,                                                                       // 0014#46 활성 초고 writing < 100 → write 확률
-    postQualFocus: { thesis: 0.5, research: 0.2, write: 0.2, network: 0.1 },           // 0014#46 자격시험 합격 후
+    postQualFocus: { thesis: 0.3, research: 0.1, write: 0.5, network: 0.1 },           // 0014#46 자격시험 합격 후 (보정 2026-10-14: 0.5/0.2/0.2/0.1 → 집필 가중, calibration-wave4.md)
     jobSearchFocus: { network: 0.3, thesis: 0.7 },                                     // 0014#46 졸업 직전 구직 중
     decisions: {                                                                       // 0014#46 선택지 순서 A, B, C(, D)의 고정 가중치
       'post-qualifying:pass': [0.7, 0.2, 0.1],                                         // 0014#46
@@ -149,7 +149,7 @@ export const ASSUMED = {
   LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60
   CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos'], // 0014#60 수도권
   REGIONAL_SCHOOLS: ['kaist', 'postech', 'gist', 'dgist', 'unist', 'pusan', 'knu', 'jnu', 'cnu'], // 0014#60 비수도권
-  LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 30_000_000,                                      // 0014#61
+  LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 42_000_000,                                      // 0014#61 (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; calibration-wave4.md)
   CRISIS_MONTHS: 3, POST_CRISIS_MONTHS: 3,                                             // 0014#62
 
   // ── 논문 (0014 #63–#71) ──
@@ -300,14 +300,14 @@ export const ASSUMED = {
     { id: 'bio-cluster', headlineKey: 'news.bio-cluster', target: { kind: 'track', values: ['life_science', 'bioengineering', 'systems_biology', 'neuroscience'] }, routes: ['industry', 'postdoc'], effect: [0.10, 0.20], months: [6, 9], weight: 4 }, // 0014#119 바이오 클러스터 새로 지정
     { id: 'climate-program', headlineKey: 'news.climate-program', target: { kind: 'track', values: ['environmental', 'civil', 'energy'] }, routes: ['institute', 'public'], effect: [0.10, 0.20], months: [6, 9], weight: 3 }, // 0014#119 기후 대응 연구사업 시작
     { id: 'data-demand', headlineKey: 'news.data-demand', target: { kind: 'track', values: ['statistics', 'mathematics', 'economics'] }, routes: ['industry', 'public'], effect: [0.10, 0.20], months: [3, 6], weight: 3 }, // 0014#119 데이터·통계 전문 인력 수요 증가
-    { id: 'dept-merger', headlineKey: 'news.dept-merger', target: { kind: 'kedi', values: ['humanities', 'social'] }, routes: ['professor', 'lecturer'], effect: [-0.30, -0.15], months: [6, 12], weight: 5 }, // 0014#119 학령인구 감소로 학과 통폐합 확산
-    { id: 'humanities-fund', headlineKey: 'news.humanities-fund', target: { kind: 'kedi', values: ['humanities'] }, routes: ['professor', 'postdoc', 'lecturer'], effect: [0.05, 0.15], months: [3, 6], weight: 3 }, // 0014#119 인문학 진흥 사업 선정
+    { id: 'dept-merger', headlineKey: 'news.dept-merger', target: { kind: 'kedi', values: ['humanities', 'social'] }, routes: ['professor', 'lecturer'], effect: [-0.30, -0.15], months: [6, 12], weight: 1 }, // 0014#119 학령인구 감소로 학과 통폐합 확산 (보정 2026-10-14: 5 → 1)
+    { id: 'humanities-fund', headlineKey: 'news.humanities-fund', target: { kind: 'kedi', values: ['humanities'] }, routes: ['professor', 'postdoc', 'lecturer'], effect: [0.05, 0.15], months: [3, 6], weight: 6 }, // 0014#119 인문학 진흥 사업 선정 (보정 2026-10-14: 3 → 6)
     { id: 'socsci-project', headlineKey: 'news.socsci-project', target: { kind: 'track', values: ['sociology', 'political', 'public_administration', 'psychology'] }, routes: ['postdoc', 'institute'], effect: [0.10, 0.20], months: [6, 9], weight: 3 }, // 0014#119 사회과학 대형 공동연구 착수
-    { id: 'lecturer-policy', headlineKey: 'news.lecturer-policy', target: { kind: 'all', values: [] }, routes: ['lecturer'], effect: [0.10, 0.20], months: [6, 12], weight: 3 }, // 0014#119 강사 강의 배정 확대 방침
-    { id: 'univ-freeze', headlineKey: 'news.univ-freeze', target: { kind: 'all', values: [] }, routes: ['professor', 'nontenure'], effect: [-0.20, -0.10], months: [3, 6], weight: 4 }, // 0014#119 대학 재정 동결, 교원 채용 줄어
+    { id: 'lecturer-policy', headlineKey: 'news.lecturer-policy', target: { kind: 'all', values: [] }, routes: ['lecturer'], effect: [0.10, 0.20], months: [6, 12], weight: 2 }, // 0014#119 강사 강의 배정 확대 방침 (보정 2026-10-14: 3 → 2)
+    { id: 'univ-freeze', headlineKey: 'news.univ-freeze', target: { kind: 'all', values: [] }, routes: ['professor', 'nontenure'], effect: [-0.20, -0.10], months: [3, 6], weight: 3 }, // 0014#119 대학 재정 동결, 교원 채용 줄어 (보정 2026-10-14: 4 → 3)
     { id: 'inst-expand', headlineKey: 'news.inst-expand', target: { kind: 'group', values: ['이공'] }, routes: ['institute'], effect: [0.10, 0.25], months: [6, 12], weight: 3 }, // 0014#119 출연연 연구인력 정원 확대
     { id: 'inst-freeze', headlineKey: 'news.inst-freeze', target: { kind: 'group', values: ['이공'] }, routes: ['institute'], effect: [-0.25, -0.10], months: [6, 9], weight: 3 }, // 0014#119 출연연 신규 채용 동결
-    { id: 'hiring-chill', headlineKey: 'news.hiring-chill', target: { kind: 'all', values: [] }, routes: ['industry'], effect: [-0.25, -0.10], months: [6, 9], weight: 4 }, // 0014#119 기업 연구소 채용 한파
+    { id: 'hiring-chill', headlineKey: 'news.hiring-chill', target: { kind: 'all', values: [] }, routes: ['industry'], effect: [-0.25, -0.10], months: [6, 9], weight: 2 }, // 0014#119 기업 연구소 채용 한파 (보정 2026-10-14: 4 → 2)
     { id: 'policy-research', headlineKey: 'news.policy-research', target: { kind: 'track', values: ['economics', 'public_administration'] }, routes: ['institute', 'public'], effect: [0.10, 0.20], months: [6, 9], weight: 3 }, // 0014#119 정책 연구 수요 증가
   ] as const satisfies readonly NewsTypeShape[],
 

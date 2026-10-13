@@ -261,13 +261,15 @@ T_k: statistics-phd-duration-mean-years-{humanities = 6, social = 5, natural = 5
 6: 심사·졸업 준비로 남겨 두는 개월
 M̄: 자동 진행 정책에서 g 외 배수들의 기댓값. 초기 추정 0.68 → g = 인문 2.23, 사회 2.72, 자연·공학 2.45
 Wave 4는 1,000개 seed 모의실험으로 M̄를 추정하고, 동기 중앙 학위 기간이 T_k ± 0.5년에 들도록 g_k를 고정한다.
+보정(2026-10-14, docs/oracle/calibration-wave4.md): M̄ = 0.40 → g = 인문 3.79, 사회 4.63, 자연·공학 4.17. 실현된 g 외 배수 평균은 0.46–0.48이므로
+이 M̄는 측정값이 아니라 학위 기간 중앙값을 T_k에 맞추는 상수다(논문 요건이 병목이라 §4.4 합격 후 포커스 가중치와 함께 바꿨다).
 ```
 
 | 항목 | 값 | 근거 | 계열 체계 | conf |
 |---|---|---|---|---|
 | 학위 소요 기간 | 인문 6, 사회 5, 자연 5.5, 공학 5.5년 | `statistics-phd-duration-mean-years-{humanities,social,natural,engineering}` | KRIVET 2015 구 7계열을 [KEDI7] 키로 대응 | v |
 | 구 7계열 → KEDI 키 대응, 2015 값을 2027 입학자에 적용 | — | assumed (결정 기록 0014 #44) | — | a |
-| 준비 개월·M̄ 초기값 | 6, 0.68 | assumed (결정 기록 0014 #45) | — | a |
+| 준비 개월·M̄ | 6, 0.40 (초안 0.68; 보정 2026-10-14) | assumed (결정 기록 0014 #45) | — | a |
 
 ### 4.3 수입과 시간
 
@@ -280,7 +282,7 @@ Wave 4는 1,000개 seed 모의실험으로 M̄를 추정하고, 동기 중앙 �
 ```
 포커스: 체력 < 30 또는 마음 < 30 → rest
         활성 초고가 있고 writing < 100 → write (확률 0.6), 아니면 research
-        자격시험 합격 후 → thesis 0.5, research 0.2, write 0.2, network 0.1
+        자격시험 합격 후 → thesis 0.3, research 0.1, write 0.5, network 0.1   (보정 2026-10-14: 0.5/0.2/0.2/0.1에서 집필 가중으로, docs/oracle/calibration-wave4.md)
         졸업 직전 구직 중 → network 0.3, thesis 0.7
 결정 지점: 각 선택지의 표시 확률로 기대 효용을 매기지 않고, 선택지별 고정 가중치로 뽑는다
         post-qualifying 합격 (A 0.7, B 0.2, C 0.1) · 불합격 (A 0.7, B 0.2, C 0.1)
@@ -381,10 +383,10 @@ h_dropout(k) = 0.5 × hazard_month(r_drop,k) × exp(−0.8·z(mind) − 0.5·z(r
 ```
 매월: cash < 0 이면 부족분을 대출(debt += −cash, cash = 0), debt ≤ loanLimit
 이자: debt × 0.03 / 12 를 매월 debt에 더한다
-loanLimit = 3,000만 원
+loanLimit = 4,200만 원   (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; docs/oracle/calibration-wave4.md)
 ```
 
-이자율 3%와 한도는 assumed (결정 기록 0014 #61). v3.5는 연 3%, 한도 1,800·3,000·4,200만 원 세 단계다.
+이자율 3%와 한도는 assumed (결정 기록 0014 #61). v3.5는 연 3%, 한도 1,800·3,000·4,200만 원 세 단계다. 초안은 중간값 3,000만 원이었고, Wave 4 보정이 최상위 4,200만 원으로 올렸다(0015 §4).
 
 ### 5.5 재정 위기와 종료
 

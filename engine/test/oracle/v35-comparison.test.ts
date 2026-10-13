@@ -250,18 +250,18 @@ describe('v3.5 oracle vs engine: 29 comparison rows', () => {
     }
   });
 
-  it('row 12 대출·이자: monthly interest equals v3.5 (3%/yr = 0.0025/month); credit limit 3,000만 원 is the middle v3.5 tier', () => {
+  it('row 12 대출·이자: monthly interest equals v3.5 (3%/yr = 0.0025/month); credit limit 4,200만 원 is the top v3.5 tier (보정 2026-10-14, 초안 3,000만)', () => {
     const debt = 10_000_000;
     const out = applyCashflow(moneyState(100_000_000, debt), data);
     const interest = out.ledger.find(e => e.kind === 'interest')!;
     expect(-interest.amount).toBe(v35.loanInterest(debt));
     expect(out.money.debt).toBe(debt + v35.loanInterest(debt));
-    expect(ASSUMED.LOAN_LIMIT).toBe(v35.CREDIT_LIMITS_MANWON[1]! * KRW_PER_MANWON);
+    expect(ASSUMED.LOAN_LIMIT).toBe(v35.CREDIT_LIMITS_MANWON[2]! * KRW_PER_MANWON);
     expect(v35.CREDIT_LIMITS_MANWON).toContain(ASSUMED.LOAN_LIMIT / KRW_PER_MANWON);
     expect(moneyState(0, 0).money.loanLimit).toBe(ASSUMED.LOAN_LIMIT);
     // 현금이 크게 모자라면 한도까지만 빌린다.
-    const short = applyCashflow(moneyState(-40_000_000, 0), data);
-    expect(short.money.debt).toBe(v35.CREDIT_LIMITS_MANWON[1]! * KRW_PER_MANWON);
+    const short = applyCashflow(moneyState(-60_000_000, 0), data);
+    expect(short.money.debt).toBe(v35.CREDIT_LIMITS_MANWON[2]! * KRW_PER_MANWON);
   });
 
   it('row 13 등록금 범위: engine uses real school × field records; private engineering exceeds the v3.5 upper bound (7,507,000 > 5,900,000)', () => {

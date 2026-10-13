@@ -20,10 +20,10 @@ describe('ASSUMED numbering (decision 0014)', () => {
 
 describe('ASSUMED.NEWS_TYPES (labor spec 5.3, 0014#119)', () => {
   const types = ASSUMED.NEWS_TYPES;
-  it('has 17 types with unique ids and weight sum 67', () => {
+  it('has 17 types with unique ids and weight sum 62 (초안 67, 보정 2026-10-14)', () => {
     expect(types.length).toBe(17);
     expect(new Set(types.map(t => t.id)).size).toBe(17);
-    expect(sum(types.map(t => t.weight))).toBe(67);
+    expect(sum(types.map(t => t.weight))).toBe(62);
   });
   it('keeps effects within [-0.30, 0.30] and months within [3, 12]', () => {
     for (const t of types) {
