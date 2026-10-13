@@ -154,7 +154,7 @@
     "year": 2018,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "decision_point": "qualifying-result"
+    "decision_point": "post-qualifying"
   },
   {
     "id": "nar-hs-qualifying-3",
@@ -168,7 +168,7 @@
     "year": 2021,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "decision_point": "qualifying-result"
+    "decision_point": "post-qualifying"
   },
   {
     "id": "nar-hs-first-paper-1",

@@ -34,3 +34,4 @@
 - [0010 Wave 운영 규칙 보완](0010-wave-operating-rules.md)
 - [0011 모집 단위 범위 483개와 NRF 코드 판정](0011-departments-scope-judgments.md)
 - [0012 출처 등록부를 issue 단위 파일로 분할](0012-registry-split-per-issue.md)
+- [0013 Wave 3 스펙 작성 전 판정](0013-wave3-pre-spec-judgments.md)

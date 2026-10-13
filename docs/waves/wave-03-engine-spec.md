@@ -17,8 +17,8 @@ Wave 2 종료 조건. 단, 상태 모델 스펙은 Wave 2와 병행 가능.
 ### Wave 2 회고에서 이관
 출처: [wave-02 §회고](wave-02-statistics-packs.md).
 
-- [ ] 이관 전달: 이 목록에서 #18 또는 #19를 지목한 항목은 해당 issue에 댓글로도 남긴다. — 완료 조건: #18·#19 각각에 이 절을 링크하고 해당 항목을 나열한 댓글이 claim 댓글보다 먼저 있다.
-- [ ] 브랜치 기준점: #18·#19 작업 브랜치는 이 회고 PR이 머지된 main에서 갈라지고, claim 댓글에 기준 커밋 해시를 적는다. — 완료 조건: #18·#19 claim 댓글에 커밋 해시가 있고, 그 커밋의 `docs/waves/wave-03-engine-spec.md`에 "Wave 2 회고에서 이관" 절이 있다.
+- [x] (2026-10-13 #18·#19 댓글, claim보다 먼저) 이관 전달: 이 목록에서 #18 또는 #19를 지목한 항목은 해당 issue에 댓글로도 남긴다. — 완료 조건: #18·#19 각각에 이 절을 링크하고 해당 항목을 나열한 댓글이 claim 댓글보다 먼저 있다.
+- [x] (기준 커밋 146aae8, claim 댓글에 기재) 브랜치 기준점: #18·#19 작업 브랜치는 이 회고 PR이 머지된 main에서 갈라지고, claim 댓글에 기준 커밋 해시를 적는다. — 완료 조건: #18·#19 claim 댓글에 커밋 해시가 있고, 그 커밋의 `docs/waves/wave-03-engine-spec.md`에 "Wave 2 회고에서 이관" 절이 있다.
 - [ ] (#18) 계열 대응표: 게임 계열·트랙(NRF 대분류에서 유도, 결정 기록 0007), 한국표준교육분류(KSCED) 10계열(statistics-employment #12), KEDI 7 대계열(statistics-progress #13·faculty-market #14) 사이의 대응표를 스펙에 넣는다. — 완료 조건: 스펙에 세 체계를 잇는 표가 있고, statistics 레코드를 인용하는 스펙 행마다 어느 계열 체계의 값인지 적혀 있다.
 - [ ] (#18) `data/packs/statistics/needs-judge-employment.md`의 7항목을 판정한다. — 완료 조건: 새 결정 기록에 7항목 각각의 판정과 이유가 있고, needs-judge-employment.md 각 행이 그 결정 기록을 링크한다.
 - [ ] (#18) Wave 2 판정이 Wave 3으로 넘긴 `assumed` 규칙 세 개를 assumed 목록에 넣는다. (a) 교원 급여 = `salaries-faculty-all-fulltime-mean`(2025 전국 평균) × 2017 직급 비율(`salaries-faculty-{national,private}-{professor,associate-professor,assistant-professor}-mean-2017` 6건). (b) 국립대 교원 초임 호봉 = 별표 24 경력연수 가감(`salaries-public-univ-career-adjust-*`), 박사 가산은 규정에 없음. (c) cs 계열을 공시하지 않는 6개교(hanyang·sogang·khu·pusan·uos·ewha)의 cs 등록금 = 공학 값. 이화(ewha)는 등록금 레코드가 인문·사회 두 건뿐이라 공학 값도 없다. — 완료 조건: 스펙 assumed 목록에 세 행이 있고 각 행에 근거 레코드 id와 가정 사유가 있으며, (c) 행이 ewha에 쓸 레코드 id를 따로 지정한다.
