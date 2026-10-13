@@ -8,4 +8,6 @@
 
 **id 규칙.** `statistics-<topic>-<key>`. 예: `statistics-employed-cs`, `statistics-form-permanent`, `statistics-leave-stem`, `statistics-faculty-new-hires-humanities`. 비율은 `unit: ratio`, `denominator` 필수.
 
+**id 규칙 보충(2026-10-13, #14 판정).** 시계열은 `statistics-<topic>-<key>-<field>-<year>`처럼 연도 접미사를 붙인다(검증기가 id 중복을 거부하므로). 단년 레코드는 연도 접미사 없이 둔다. 같은 수치에 출처가 둘이면 `-a`(1차 출처: 연보·공시)와 `-b`(2차: 기사·보고서 요약)로 두고 게임은 `-a`를 쓴다. 계열은 교원 소속 학과의 7 대계열이며 교원 본인의 전공계열(연보 표 13-8)이 아니다. 비전임교원에는 명예교수가 포함되므로 수요 추정 시 `honorary-all`을 뺀다.
+
 **담당 issue.** Wave 2 — employment: #12 · progress: #13 · faculty-market: #14
