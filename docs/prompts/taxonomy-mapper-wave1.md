@@ -1,6 +1,6 @@
 ---
 role: taxonomy-mapper
-model: sonnet | Sol (확인 필요)
+model: sonnet | Luna
 effort: medium
 waves: 1
 ---
@@ -24,8 +24,8 @@ waves: 1
 ## 과제
 
 1. 분류표에서 대·중·소분류 코드와 한글명을 읽어 레코드를 만든다. `value`는 수준(1·2·3), `unit`은 `level`, `note`에 한글명과 상위 코드.
-2. 각 KEDI 학과 코드에 NRF 코드를 1개 이상 붙인다.
-3. 각 게임 트랙에 NRF 소분류 코드를 붙인다. 소분류가 없으면 중분류.
+2. 각 KEDI 학과 코드에 primary NRF 코드 1개를 붙인다. primary는 KEDI 단위 전체를 담는 가장 좁은 NRF 코드이고 중분류·대분류도 허용한다. 횡단 후보는 primary=false 행으로 나열한다(결정 기록 0009).
+3. 각 게임 트랙에 primary NRF 코드 1개를 붙인다. 트랙이 중분류 하나를 통째로 덮으면 중분류를, 일부만 가리키면 소분류를 primary로 둔다. 나머지 후보는 primary=false 행으로 전부 나열한다(결정 기록 0008).
 4. 매핑 confidence: 명칭이 일치하면 `verified`, 설명으로 추론하면 `indexed`, 추측이면 `assumed` + `needs-judge`.
 
 하지 않는 것: 분류 체계를 새로 만들기, 코드를 추측해서 지어내기(분류표에 없는 코드는 쓰지 않는다).
@@ -46,8 +46,11 @@ waves: 1
 
 ```json
 // (3) data/packs/taxonomy/mapping-tracks.json 또는 mapping-kedi.json
-[{ "track": "computer", "nrf_code": "...", "nrf_name": "...", "confidence": "verified", "note": "" },
- { "track": "ai", "nrf_code": "...", "nrf_name": "...", "confidence": "assumed", "note": "needs-judge: 후보 2개 — ..., ..." }]
+// 트랙
+[{ "track": "computer", "nrf_code": "...", "nrf_name": "...", "level": 2, "confidence": "verified", "primary": true, "계열": "이공", "note": "" },
+ { "track": "ai", "nrf_code": "...", "nrf_name": "...", "level": 3, "confidence": "assumed", "primary": false, "계열": "이공", "note": "needs-judge: 후보 2개 — ..., ..." }]
+// KEDI
+[{ "kedi_code": "...", "kedi_name": "...", "kedi_level": 3, "nrf_code": "...", "nrf_name": "...", "nrf_level": 2, "confidence": "indexed", "primary": true, "계열": "이공", "note": "" }]
 ```
 
 끝에 `needs-judge` 항목 목록을 markdown 표로 따로 붙인다(트랙/코드 후보/이유).
@@ -68,5 +71,5 @@ waves: 1
 - 남은 일: needs-judge K건 판정 대기, 나머지 대분류
 - 막힌 것:
 - 다음 사람이 처음 읽을 파일: data/packs/taxonomy/README.md, 이 댓글의 JSON
-- 브랜치/worktree: stats/taxonomy
+- 브랜치/worktree: stats/taxonomy-<nrf|kedi|tracks>
 ```
