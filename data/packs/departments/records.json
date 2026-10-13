@@ -753,7 +753,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "건설및환경공학과 · 종류 학과 · field engineering · track civil · NRF D140000 토목공학 · KEDI U040201 토목공학 · 박사 국비·KAIST·일반 ○ · same_unit_as: 같은 학과가 다른 트랙 항목으로도 있음(결정 기록 0013 §4 보완) · same_unit_as: departments-kaist-environmental · 대표 departments-kaist-civil (묶음 1)"
+    "note": "건설및환경공학과 · 종류 학과 · field engineering · track civil · NRF D140000 토목공학 · KEDI U040201 토목공학 · 박사 국비·KAIST·일반 ○ · same_unit_as(구 표기): 같은 학과가 다른 트랙 항목으로도 있음(결정 기록 0013 §4 보완) · same_unit_as: departments-kaist-environmental · 대표 departments-kaist-civil (묶음 1)"
   },
   {
     "id": "departments-kaist-environmental",
@@ -1271,7 +1271,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "환경·에너지공학과 · 종류 학과 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · 공과대학. 박사 ○. 문서 각주: 대학원 전형 합격 후 AI·수학·경제 클러스터링 연계전공 신청 가능 · same_unit_as: 같은 학과가 다른 트랙 항목으로도 있음(결정 기록 0013 §4 보완) · same_unit_as: departments-gist-energy · 대표 departments-gist-energy (묶음 3)"
+    "note": "환경·에너지공학과 · 종류 학과 · field engineering · track environmental · NRF D110000 환경공학 · KEDI U050206 환경학 (KEDI 환경학(자연계열)으로 둠) · 공과대학. 박사 ○. 문서 각주: 대학원 전형 합격 후 AI·수학·경제 클러스터링 연계전공 신청 가능 · same_unit_as(구 표기): 같은 학과가 다른 트랙 항목으로도 있음(결정 기록 0013 §4 보완) · same_unit_as: departments-gist-energy · 대표 departments-gist-energy (묶음 3)"
   },
   {
     "id": "departments-gist-energy",
@@ -5233,7 +5233,7 @@
     "year": 2027,
     "checked_on": "2026-10-13",
     "confidence": "verified",
-    "note": "정보융합공학과(컴퓨터공학전공) · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · 부산캠퍼스. 모집단위는 정보융합공학과, 전공 '컴퓨터공학' 박사 ○(특차). BK21 참여학과. · same_unit_as: 같은 학과가 다른 트랙 항목으로도 있음(결정 기록 0013 §4 보완) · same_unit_as: departments-pusan-ai, departments-pusan-bioengineering · 대표 departments-pusan-ai (묶음 18)"
+    "note": "정보융합공학과(컴퓨터공학전공) · 종류 학과 · field cs · track computer · NRF D130000 컴퓨터학 · KEDI U040801 전산학·컴퓨터공학 · 부산캠퍼스. 모집단위는 정보융합공학과, 전공 '컴퓨터공학' 박사 ○(특차). BK21 참여학과. · same_unit_as(구 표기): 같은 학과가 다른 트랙 항목으로도 있음(결정 기록 0013 §4 보완) · same_unit_as: departments-pusan-ai, departments-pusan-bioengineering · 대표 departments-pusan-ai (묶음 18)"
   },
   {
     "id": "departments-pusan-ai",
