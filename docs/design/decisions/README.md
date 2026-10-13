@@ -36,3 +36,4 @@
 - [0012 출처 등록부를 issue 단위 파일로 분할](0012-registry-split-per-issue.md)
 - [0013 Wave 3 스펙 작성 전 판정](0013-wave3-pre-spec-judgments.md)
 - [0014 Wave 3 엔진 스펙의 설계 가정(assumed) 전체 목록](0014-assumed-probabilities.md)
+- [0015 Wave 3 회고 반영: 감사 변경 반영 주체, 데이터 수정 검사, 감사자 독립성, 보정 값 변경 절차, 결정 기록 승인 시점](0015-wave3-retro-rules.md)

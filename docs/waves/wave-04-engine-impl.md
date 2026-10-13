@@ -39,7 +39,7 @@ Wave 3 종료 조건.
 - [x] (2026-10-13 커밋 95de056: 7개 팩 README에 `## 판정 로그`; 둘째·셋째 조건은 f6e713f에서 충족) (Wave 2 회고에서, Wave 3 부분 완료) 결정 기록 0012 잔여 반영: 7개 팩 README 끝에 `## 판정 로그` 절을 만들고, `docs/workflow.md`의 수집 예시를 `registry.d/`로 고치며, 0012 §맥락의 충돌 수를 12로 고친다. f6e713f 기준으로 둘째·셋째 조건은 이미 충족했고 첫째(0/7)가 남았다. — 완료 조건: `grep -l "^## 판정 로그" data/packs/*/README.md`가 7개 파일을 돌려주고, `docs/workflow.md`·두 수집 프롬프트에서 "registry.json에 추가" 문구가 0건이며, 0012 §맥락에 "13번"이 없다.
 
 ## 종료 조건
-테스트 전부 통과, CI 녹색, 엔진 API 문서(`engine/README.md`).
+테스트 전부 통과, CI 녹색, 엔진 API 문서(`engine/README.md`), 보정 결과표 `docs/oracle/calibration-wave4.md` 커밋(결정 기록 0015 §4).
 
 ## 모델·effort 표
 | 역할 | Claude | ChatGPT | effort | 프롬프트 파일 |
@@ -47,6 +47,7 @@ Wave 3 종료 조건.
 | 구현(TDD) | sonnet | Luna | medium | — |
 | 코드 리뷰·엮기 | opus | Sol | high | — |
 | 스펙 불일치 판정 | fable | Astra | high | `../prompts/judge-any.md` |
+| 스펙·코드 감사(감사 대상에 판정자 자신의 작업이 있으면 새 세션 또는 다른 모델, 결정 기록 0015 §3) | fable (새 세션) | Astra | high | `../prompts/judge-any.md` |
 
 ## 회고
 ### 실패한 체크리스트 항목
