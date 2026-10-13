@@ -38,7 +38,10 @@ function walk(dir, pred, out = []) {
 export function validate(root) {
   const errors = [];
   const regPath = join(root, 'data/sources/registry.json');
-  const sources = existsSync(regPath) ? readJson(regPath) : [];
+  // Sources may also live one file per collection issue under data/sources/registry.d/ (decision 0012).
+  const regDir = join(root, 'data/sources/registry.d');
+  const sources = (existsSync(regPath) ? readJson(regPath) : [])
+    .concat(...walk(regDir, p => p.endsWith('.json')).sort().map(p => readJson(p)));
   const ids = new Set();
   sources.forEach((s, i) => {
     for (const f of SOURCE_FIELDS) if (!(f in s)) errors.push(`registry[${i}]: missing ${f}`);
