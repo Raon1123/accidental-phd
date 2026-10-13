@@ -17,4 +17,6 @@
 
 **id 규칙.** `salaries-<class>-<grade>-<step>`. 예: `salaries-public-research-5`(연구직 5호봉), `salaries-faculty-assistant-mean`. `unit`은 `krw`(연봉 원) 또는 `krw-10k`(월 만원). `note`에 연도·세전/세후·수당 포함 여부.
 
+**public 하위 집합 규칙(2026-10-13, #8).** 국립대 교원 봉급표(별표 12)는 직급 열이 없어 `salaries-public-univ-faculty-<호봉>` 하나로 둔다. 직급은 초임 호봉 산정(별표 24 경력연수 가감: 교수 −10, 부교수 −7, 조교수 −4, 조교 0 → `salaries-public-univ-career-adjust-*`, unit `years`)으로만 반영된다. 박사 학위 가산은 규정에 없으므로 게임의 초임 호봉 규칙은 Wave 3에서 `assumed`로 정한다. 조교 공제(별표 12 비고 3)는 `salaries-public-univ-assistant-deduction`. 별표 15·16 초임호봉 획정 규칙과 전문대학 열은 미수집.
+
 **담당 issue.** Wave 2 — public: #8 · institutes: #9 · faculty: #10 · entry: #11
