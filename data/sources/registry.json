@@ -16,5 +16,185 @@
     "url": "https://www.hrstpolicy.re.kr/kistep/upload/file/202406177_1397100000.pdf",
     "checked_on": "2026-10-13",
     "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
+  },
+  {
+    "id": "brunch-2018-phd-for-working-adults",
+    "title": "박사과정 입학을 생각하는 직장인들에게",
+    "publisher": "브런치(Brunch)",
+    "year": 2018,
+    "url": "https://brunch.co.kr/@shincoach/23",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 개인 블로그 수기. 공개 게시(2018-08-10). 인적자원개발 전공 수료생(사회과학) 본인 표기. 입학 판단·학비·수업·자격시험·등재지 논문·지도교수 갈등 서술. 필자 1인의 사례."
+  },
+  {
+    "id": "learnercentered-2024-counselor-doctoral-narrative",
+    "title": "중년 상담자의 박사과정 학업경험에 대한 자전적 내러티브 탐구",
+    "publisher": "학습자중심교과교육연구",
+    "year": 2024,
+    "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003056342",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 질적 연구 논문(KCI 등재지). 초록 서지 페이지만 열람, 면담 발췌는 확인하지 못함. 참여자 5명, 상담 분야 박사과정생. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "cultureconvergence-2020-social-science-qualitative-dissertation",
+    "title": "사회과학분야 박사학위자의 질적 연구 경험",
+    "publisher": "문화와융합",
+    "year": 2020,
+    "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002582373",
+    "checked_on": "2026-10-13",
+    "note": "질적 연구 논문(KCI 등재지). 초록 서지 페이지만 열람, 면담 발췌 없음. 참여자 수와 전공은 초록에 표기되지 않음. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "slownews-2015-i-am-a-lecturer",
+    "title": "나는 시간강사다: 88만원 세대보다 힘든 '젊은 교수님'",
+    "publisher": "슬로우뉴스",
+    "year": 2015,
+    "url": "https://slownews.kr/36378",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 연재 수기(필명 기고, 인문학 시간강사). 공개 게시, 연재 중 1회분. 금액과 조건은 2015년 시점이며 현재 기준이 아님. 필자 1인의 사례."
+  },
+  {
+    "id": "sisajournal-2002-humanities-phd-jobless",
+    "title": "\"공부한 게 아까워 장사하기도 힘들다\"",
+    "publisher": "시사저널",
+    "year": 2002,
+    "url": "https://www.sisajournal.com/news/articleView.html?idxno=80983",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 주간지 기획 기사(인문학 박사 실업 인터뷰). 공개. 2002년 자료로 현재 상황과 다름. 인터뷰이는 익명 처리해 기록."
+  },
+  {
+    "id": "kyosu-2012-retired-professor-isolation",
+    "title": "\"은퇴 직후 극한의 소외 느꼈다\"",
+    "publisher": "교수신문",
+    "year": 2012,
+    "url": "http://www.kyosu.net/news/articleView.html?idxno=25309",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 인터뷰 기사(사회학 분야 퇴직 교수). 공개. 2012년 자료. 인터뷰이는 역할명으로만 기록."
+  },
+  {
+    "id": "kyosu-2017-retired-professor-registry",
+    "title": "깨지는 교수 神話 … 지자체별로 퇴임교수 등록제 시행한다면?",
+    "publisher": "교수신문",
+    "year": 2017,
+    "url": "https://www.kyosu.net/news/articleView.html?idxno=40224",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 기획 기사(퇴임 교수 다수 의견). 공개. 2017년 자료. 인문사회와 이공 퇴임자가 섞여 있음. 인물은 역할명으로만 기록."
+  },
+  {
+    "id": "ksocedu-2013-non-tenure-track-faculty-life",
+    "title": "비정년트랙 전임교수의 삶에 관한 연구",
+    "publisher": "교육사회학연구",
+    "year": 2013,
+    "url": "https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001778439",
+    "checked_on": "2026-10-13",
+    "note": "질적 연구 논문(KCI 등재지, 심층면담과 인사규정 분석). 초록만 열람, 면담 인원은 초록에 표기되지 않음. 2013년 자료. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "koreanteachered-2019-junior-faculty-teaching-adaptation",
+    "title": "사범대학 신임교수의 교수활동 적응과정에 관한 연구",
+    "publisher": "한국교원교육연구",
+    "year": 2019,
+    "url": "https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART002450610",
+    "checked_on": "2026-10-13",
+    "note": "질적 연구 논문(KCI 등재지). 교육학 계열 단과대학 신임교수 8명 반구조화 면담. 초록만 열람, 면담 발췌 없음. 초록 수준의 구조만 기록."
+  },
+  {
+    "id": "kyosu-2023-humsoc-phd-research-capacity",
+    "title": "\"인문사회 대학원은 '석사대학원'…박사과정 때 귀동냥하며 논문 써\"",
+    "publisher": "교수신문",
+    "year": 2023,
+    "url": "https://www.kyosu.net/news/articleView.html?idxno=100416",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 인문사회 박사과정생 연구력 실태조사 보도 기사(온라인 설문과 포커스그룹 면담 기반). 공개. 조사 원문이 아니라 기사 기준."
+  },
+  {
+    "id": "sbs-2014-humanities-fulltime-phd-scholarship",
+    "title": "서울대 인문대, '전업' 박사과정 학생에 장학금 지원",
+    "publisher": "SBS 뉴스",
+    "year": 2014,
+    "url": "https://news.sbs.co.kr/news/endPage.do?news_id=N1002398842",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 방송 뉴스 기사(인문대 박사과정 집필 장학금). 공개. 2014년 제도로 현재 지원 조건과 다를 수 있음."
+  },
+  {
+    "id": "khan-2015-non-tenure-track-20-years",
+    "title": "\"20년 근속해도 단기 계약직…'비정년'은 교수가 아닙니다\"",
+    "publisher": "경향신문",
+    "year": 2015,
+    "url": "https://www.khan.co.kr/article/201508282309185",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 기획 기사(비정년트랙 교원 인터뷰). 공개. 2015년 자료로 강사법 이전 상황. 인터뷰이는 역할명으로만 기록."
+  },
+  {
+    "id": "brunch-2021-phd-retail-management",
+    "title": "영혼을 갈아 넣는 박사학위 도전기!!!",
+    "publisher": "브런치(Brunch)",
+    "year": 2021,
+    "url": "https://brunch.co.kr/@ddc8fafd53894cb/47",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 개인 블로그 수기. 공개 게시(2021-03-04). 유통·경영 분야(사회과학) 실무자의 석박사 경로. 필자 1인의 사례."
+  },
+  {
+    "id": "brunch-2019-polisci-phd-application",
+    "title": "정치학 박사 유학 원서 준비 방법 및 자료 모음",
+    "publisher": "브런치(Brunch)",
+    "year": 2019,
+    "url": "https://brunch.co.kr/@mastad90/53",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 개인 블로그 글. 공개 게시(2019-10-30). 정치학 박사 유학 지원 경험. 필자 1인의 사례."
+  },
+  {
+    "id": "ohmynews-2026-mentor-outside-university",
+    "title": "대학 밖에서 찾은 지도교수, 마음을 고쳐먹기 시작했다",
+    "publisher": "오마이뉴스",
+    "year": 2026,
+    "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0003271546",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 인터뷰 기사(인문사회 분야 박사과정 수료 후 학계를 떠난 독립 연구자). 공개(2026-09-30). 인물은 역할명으로만 기록."
+  },
+  {
+    "id": "pressian-2019-current-lecturer",
+    "title": "\"현직 강사입니다. 교수 처우 바라는 게 아닙니다\"",
+    "publisher": "프레시안",
+    "year": 2019,
+    "url": "https://www.pressian.com/pages/articles/253552",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 기고문(영화·미디어 분야 시간강사). 공개(2019-08-19). 강사법 시행 직전 시점의 보수·계약 서술이며 이후 달라졌을 수 있음."
+  },
+  {
+    "id": "brunch-2025-polisci-publications",
+    "title": "[특별기획 6.0] 공식기록: Publications",
+    "publisher": "브런치(Brunch)",
+    "year": 2025,
+    "url": "https://brunch.co.kr/@boyish-aaron/113",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 연재 글('정치학 선수가 되기 위한 훈련' 26화). 공개 게시(2025-04-27). 정치학 박사과정 경험. 필자 1인의 사례."
+  },
+  {
+    "id": "ohmynews-2022-lecturers-where-gone",
+    "title": "그 많던 시간강사들은 어디로 갔을까?",
+    "publisher": "오마이뉴스",
+    "year": 2022,
+    "url": "https://www.ohmynews.com/NWS_Web/View/at_pg.aspx?CNTN_CD=A0002834520",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 시민기자 칼럼(사회복지 분야 질적 연구자). 공개(2022-05-12). 강사법 이후 시간강사 감소를 다루는 해설 글."
+  },
+  {
+    "id": "brunch-2024-law-phd-application",
+    "title": "박사과정 입시 (1) - 학업계획서 작성과 서류 준비",
+    "publisher": "브런치(Brunch)",
+    "year": 2024,
+    "url": "https://brunch.co.kr/@nonsideproject/40",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 개인 블로그 수기. 공개 게시(2024-01-13). 직장을 병행하는 파트타임 법학 박사과정 지원 경험. 필자 1인의 사례."
+  },
+  {
+    "id": "brunch-2017-thesis-planning-tips",
+    "title": "박사 논문을 준비하며 상상하는 후기! 시행착오를 줄이자",
+    "publisher": "브런치(Brunch)",
+    "year": 2017,
+    "url": "https://brunch.co.kr/@utoskin/53",
+    "checked_on": "2026-10-13",
+    "note": "출처 계급: 수필·수기 · 개인 블로그 조언 글. 공개 게시(2017-06-10). 필자 전공은 명시되지 않으나 경영·마케팅 계열 연구를 맥락으로 서술. 실제 경험보다 준비 단계의 조언 형식."
   }
 ]
