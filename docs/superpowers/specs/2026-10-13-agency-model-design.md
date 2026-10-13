@@ -346,7 +346,7 @@ h_dropout(k) = 0.5 × hazard_month(r_drop,k) × exp(−0.8·z(mind) − 0.5·z(r
 | 학교 | cs·engineering에 쓰는 값 | math·bio에 쓰는 값 | 근거 | conf |
 |---|---|---|---|---|
 | hanyang, sogang, khu, pusan, uos | `schools-{school}-engineering-tuition` | 레코드 그대로 | assumed (결정 기록 0014 #57) | v (입력) |
-| ewha | 8,729,223원 = `schools-ewha-social-tuition` 6,350,000 × 1.3747 | 7,618,028원 = 6,350,000 × 1.1997 | assumed (결정 기록 0014 #58, 결정 기록 0014 #59) | v (입력) |
+| ewha | 7,342,000원 = 서울 사립 8곳 공학 등록금 중앙값 (감사 변경, 0014 #58) | 6,298,000원 = 같은 8곳 math 등록금 중앙값 (감사 변경, 0014 #59) | assumed (결정 기록 0014 #58, 결정 기록 0014 #59) | v (입력) |
 
 ewha 비율의 계산. 금액은 반올림하지 않은 중앙값(1.37468…, 1.19969…)으로 계산했으므로 표에 적은 네 자리 비율로 곱한 값과 수십 원 다르다. "서울 사립대"는 공학·사회 등록금 레코드가 모두 있는 서울 소재 사립 8곳(yonsei, korea, skku, hanyang, sogang, khu, cau, konkuk)이다. uos는 공립이라 빼고, ewha는 대상이라 뺀다. 8곳에서 math와 bio 등록금은 학교마다 같다.
 
@@ -529,7 +529,7 @@ F_r: 비정규직(박사후 등) 일자리의 경로 배분 = 박사후 재원 �
 
 | 경로 | 시작 연봉 | 근거 | conf | 해마다 |
 |---|---|---|---|---|
-| 교수(사립) 조교수 / 부교수 / 교수 | 6,708.4만 / 10,183.9만 / 13,137.1만 | 규칙 (a): `salaries-faculty-all-fulltime-mean` 100,098,000 × ratio(사립) | i (입력 7건) | 직급 안에서 고정 (결정 기록 0014 #78) |
+| 교수(사립) 조교수 / 부교수 / 교수 | 5,177만 / 7,860만 / 10,139만 | 규칙 (a) 감사 수정(0014 #87): 교수 = `salaries-faculty-private-professor-mean`(2024), 아래 직급 = 교수 × 2017 직급 비(4,918/9,631, 7,466/9,631) | i (입력 7건) | 직급 안에서 고정 (결정 기록 0014 #78) |
 | 교수(국립) | 호봉 n의 월봉 × 12 × 1.3 | 규칙 (b): `salaries-public-univ-faculty-{n}`, `salaries-public-univ-career-adjust-{assistant-professor,associate-professor,professor}` | v (입력) / a (규칙) | +1호봉 (결정 기록 0014 #79) |
 | 비정년트랙 교원 | 3,871만 | `salaries-faculty-private-nontenure-mean` | i (결정 기록 0014 #80) | +3% (결정 기록 0014 #78) |
 | 박사후(출연연) | 5,172만 | `salaries-institutes-kribb-postdoc` | v | 계약 기간 고정 |
@@ -789,3 +789,10 @@ retireAge: 교수(국립·사립) 65, 출연연 61, 연구직 공무원 60, 그 
 | `schools-hanyang-all-scholarship-living-bk21` | i | §5.2 | 결정 기록 0014 #28 |
 | `departments-pusan-psychology`, `departments-knu-mechanical`, `departments-knu-philosophy` | i | §2.4 | 이월 항목 "모집요강 재확인" |
 | `nar-hs-early-career-5`, `nar-hs-early-career-6`, `nar-hs-mid-career-5` | i | §3 서사 | 서사는 확률에 쓰지 않음(장면 근거만) |
+
+## 13. 감사 변경 요약 (2026-10-13, fable)
+
+- §5.1 ewha 등록금: 비율 곱 대신 서울 사립 8곳 관측 중앙값(공학 7,342,000 · math 6,298,000). 0014 #58·#59.
+- §9.1 규칙 (a) 사립 교원: 교수를 관측 평균(10,139만, 2024)에 고정하고 부교수·조교수는 2017 직급 비로 산출. 전 직급 평균 × 1.31 방식은 폐기. 국립대 값은 호봉표(규칙 b) 그대로. 0014 #87.
+- 교수 채용 확률 상한 0.10 (노동 §2.3, 0014 #104).
+- 감사 표: `docs/superpowers/specs/2026-10-13-wave3-audit.md`.
