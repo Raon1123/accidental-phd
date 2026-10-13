@@ -22,7 +22,7 @@ Wave 3 종료 조건.
 ## 모델·effort 표
 | 역할 | Claude | ChatGPT | effort | 프롬프트 파일 |
 |---|---|---|---|---|
-| 구현(TDD) | sonnet | Sol (확인 필요) | medium | — |
+| 구현(TDD) | sonnet | Luna | medium | — |
 | 코드 리뷰·엮기 | opus | Sol | high | — |
 | 스펙 불일치 판정 | fable | Astra | high | `../prompts/judge-any.md` |
 

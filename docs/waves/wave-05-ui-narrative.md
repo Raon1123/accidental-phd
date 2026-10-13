@@ -23,7 +23,7 @@ Wave 4 종료 조건.
 ## 모델·effort 표
 | 역할 | Claude | ChatGPT | effort | 프롬프트 파일 |
 |---|---|---|---|---|
-| 서사·뉴스 초안 | sonnet | Sol (확인 필요) | medium | `../prompts/narrative-collector-wave2.md`(창작 모드) |
+| 서사·뉴스 초안 | sonnet | Luna | medium | `../prompts/narrative-collector-wave2.md`(창작 모드) |
 | UI 구현·엮기 | opus | Sol | high | — |
 | 톤·창작 표시 감사 | fable | Astra | high | `../prompts/judge-any.md` |
 | 문자열 정형화·i18n 키 추출 | haiku | Luna | low | — |
