@@ -114,3 +114,17 @@ test("record citing a -portal source_id fails", () => {
   const r = validate(fixture({ records: [{ ...REC, source_id: "kci-2026-portal" }], sources: [SRC, portal] }));
   assert.ok(r.errors.some(e => e.includes("portal")));
 });
+test('sources in data/sources/registry.d/*.json are accepted as source_ids', () => {
+  const root = fixture({ sources: [] });
+  mkdirSync(join(root, 'data/sources/registry.d'), { recursive: true });
+  writeFileSync(join(root, 'data/sources/registry.d/issue-99.json'), JSON.stringify([SRC]));
+  writeFileSync(join(root, 'data/packs/statistics/records.json'), JSON.stringify([REC]));
+  assert.deepEqual(validate(root).errors, []);
+});
+test('duplicate source id across registry.json and registry.d fails', () => {
+  const root = fixture({ sources: [SRC] });
+  mkdirSync(join(root, 'data/sources/registry.d'), { recursive: true });
+  writeFileSync(join(root, 'data/sources/registry.d/issue-99.json'), JSON.stringify([SRC]));
+  const r = validate(root);
+  assert.ok(r.errors.some(e => e.includes('duplicate id')));
+});

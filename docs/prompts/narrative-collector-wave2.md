@@ -24,11 +24,12 @@ waves: 2 (수집 모드), 5 (창작 모드)
 
 ## 과제 (수집 모드)
 
-1. 출처마다 registry 항목을 만든다.
+1. 출처마다 registry 항목을 `data/sources/registry.d/<issue>-<topic>.json`에 만든다(결정 기록 0012). 팩 README에 문단을 더할 때는 파일 끝 `## 판정 로그` 절에 날짜순으로 덧붙인다.
 2. 장면을 찾는다. 장면 = 특정 시점에 인물이 선택을 하고 결과가 따르는 단위.
-3. 각 장면을 레코드로 만든다. `summary`는 2~3문장, 저자의 문장을 쓰지 않고 구조만. `quote`는 15단어 이하 1개 이하, 없으면 빈 문자열.
+3. 각 장면을 레코드로 만든다. `summary`는 2~3문장, 저자의 문장을 쓰지 않고 구조만. `quote`는 직접 열람한 원문 페이지(`page_or_url`)에서 그대로 옮긴 15단어 이하 1개 이하이고, 없으면 빈 문자열이다. 검색 결과 스니펫이나 요약 도구 출력에서 가져온 문구는 quote로 쓰지 않는다.
 4. 어느 결정 지점에 쓸 수 있는지 `decision_point`에 적는다(모르면 생략).
 5. 실명 제3자(지도교수·동료)에 대한 서술은 역할명으로 바꾼다.
+6. 보조 agent를 띄우면 각 보조에게 결과를 worktree 안 `data/packs/narratives/_inbox/<보조 이름>.json` 파일로 쓰게 하고, 메시지 회신에만 기대지 않는다. 파일이 없는 보조의 범위는 미수집으로 적는다. `_inbox/`는 합친 뒤 지우고 커밋하지 않는다.
 
 하지 않는 것: 원문 문단 복사, 비공개 글·내부 게시판 사용, 사적 정보 수집, 특정 기관·인물을 알아볼 수 있는 세부 유지.
 
@@ -41,7 +42,7 @@ waves: 2 (수집 모드), 5 (창작 모드)
 ## 출력 계약
 
 ```json
-// (1) data/sources/registry.json에 추가
+// (1) data/sources/registry.d/<issue>-<topic>.json에 추가
 [{ "id": "<publisher>-<year>-<slug>", "title": "", "publisher": "", "year": 2023, "url": "", "checked_on": "YYYY-MM-DD", "note": "글의 종류(수필/수기/인터뷰/질적 연구), 공개 여부" }]
 ```
 
@@ -73,7 +74,7 @@ waves: 2 (수집 모드), 5 (창작 모드)
 ### Handoff <YYYY-MM-DD>
 - 한 일: <track> 장면 N건, 출처 M건
 - 남은 일: stage별 미수집(어떤 stage가 비었나)
-- 막힌 것:
+- 막힌 것: <접근 불가 출처 등> · 보조 agent <N>명 중 결과 회수 <M>명, 미회수 범위 <…>
 - 다음 사람이 처음 읽을 파일: data/packs/narratives/README.md, 이 댓글의 JSON
 - 브랜치/worktree: stats/narratives-<hs|stem>
 ```
