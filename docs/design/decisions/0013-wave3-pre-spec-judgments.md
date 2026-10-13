@@ -14,7 +14,7 @@
 | 전공계열 매핑 | 한국표준교육분류(KSCED) 10계열 → 게임 트랙: computer·ai → 정보통신기술; mathematics·statistics·life_science·systems_biology·neuroscience → 자연과학·수학·통계; 공학 트랙 전부(mechanical·electrical·chemical·materials·civil·environmental·energy·semiconductor·bioengineering) → 공학·제조·건설; sociology·political·psychology → 사회과학·언론·정보학; economics·public_administration → 경영·행정·법; history·philosophy·korean_literature·english_literature·linguistics → 예술 및 인문학. 교육·보건·농림어업·수의학은 미사용. |
 | 연도 | 2024 단년(`statistics-employed-<field>`)을 기본값으로 쓰고, 2021–2024 합산(`-2021-2024`)은 UI의 변동폭 표시에만 쓴다. |
 | 취업 정의 | 게임의 "취업"은 출처와 같이 박사후연구원·시간강사를 포함한 임금 있는 자리다. 자리의 종류(교수·박사후·강사·기업·출연연·공공)는 별도 분기 확률로 정한다(§5). |
-| 고용형태 | 정규/비정규 전일/시간제 비율(`statistics-form-*`)은 계열 공통값으로 쓴다. 계열별 차이는 그림 11 정규직 비율(`statistics-regular-share-<field>`)로만 반영한다. |
+| 고용형태 | 정규/비정규 전일/시간제 비율(`statistics-form-*`)은 계열 공통값으로 쓴다. 계열별 차이는 그림 11 정규직 비율(`statistics-form-permanent-<field>-2021-2024`, 2021–2024 합산값만 존재하므로 "2024 단년 기본"의 예외)로만 반영한다. |
 | 휴학 | 엔진은 KEDI 연간 휴학률(`statistics-phd-leave-rate-<계열>-<year>`, 재적 분모, verified)을 월 단위 위험률로 환산해 쓴다. 한국과학기술기획평가원(KISTEP) 휴학 경험률(.125/.188)은 서사 톤에만 쓰고 확률에 쓰지 않는다. |
 | 박사후 재원 | 과학기술인력 비율은 이공 계열에만 적용한다. 인문사회 박사후 재원 분포는 `assumed`로 두고 대학 비율을 높인 가정값을 쓴다(스펙이 수치 제안). |
 | 분모 미공개 | 레코드 그대로 쓰고 UI 출처 표기에 "표본 미공개"를 붙인다. |
