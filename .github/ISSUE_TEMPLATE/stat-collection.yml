@@ -52,7 +52,7 @@ body:
     attributes:
       label: 권장 모델·effort
       options:
-        - "sonnet / Sol · medium"
+        - "sonnet / Luna · medium"
         - "haiku / Luna · low"
         - "opus / Sol · high"
         - "fable / Astra · high"
