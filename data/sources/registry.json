@@ -351,6 +351,24 @@
     "note": "파일 '2025년 고등 학과별 학과수 입학정원 지원 입학 학생 외국학생 졸업 교원_250828H.xlsx', 시트 '학과별 교육통계'. 조사 기준일 2025.4.1. 공표 후 변동 없음이며 대학알리미 공시 자료와 다를 수 있음(파일 안내). 전임교원은 총(학)장 및 전임교원(교수·부교수·조교수)으로 휴직자 포함·퇴직자 제외, 국공립 기금교수 포함. 비전임교원은 겸임·초빙·석좌·명예·대우·객원·강의·예우·교환·특임·원로교수·강사 등. 시간강사 열은 2020년 이후 사실상 비어 있고 강사는 비전임교원에 포함됨. 학과 계열은 학과(전공)분류자료집의 대계열을 따름. 2025년부터 무전공 계열이 추가됨."
   },
   {
+    "id": "kedi-2025-higher-ed-analysis",
+    "title": "2025 교육통계 분석자료집 - 고등교육통계편 (제Ⅲ장 대학원)",
+    "publisher": "교육부·한국교육개발원(KEDI)",
+    "year": 2025,
+    "url": "https://kess.kedi.re.kr/publ/view?survSeq=2025&publSeq=44&menuSeq=0&itemCode=02&language=",
+    "checked_on": "2026-10-13",
+    "note": "교육통계서비스(KESS) 통계간행물 2025년판. 조사기준일 2025.4.1, 학생변동(휴학·중도탈락)은 전년도 3.1~조사연도 2.말. 장별 PDF는 /publ/fileView?publItemId=<id>&survSeq=2025&publSeq=44 (대학원 학생: 109224 재적·109225 입학·109226 휴학/중도탈락·109227 학위취득). 이 표는 석사·박사 구분과 계열(KEDI 7대)·성별 분해를 제공. 학생 수=재적학생 수. 박사과정은 석/박사통합 포함. 2026년 조사 결과(2026-08-25 공표)는 이 판에 없음."
+  },
+  {
+    "id": "kedi-2025-yearbook",
+    "title": "2025 교육통계연보 (제17장 대학원 표 17-8 연령별 졸업생수)",
+    "publisher": "교육부·한국교육개발원(KEDI)",
+    "year": 2025,
+    "url": "https://kess.kedi.re.kr/publ/view?survSeq=2025&publSeq=2&menuSeq=0&itemCode=02&language=",
+    "checked_on": "2026-10-13",
+    "note": "KESS 통계간행물 통합 PDF(publItemId=107733, 1,116쪽). 대학원 연령별 졸업생수(표 17-8)는 박사과정에서 33세 이상이 단일 최상위 구간이라 평균 연령 산출 불가."
+  },
+  {
     "id": "kedi-2025-yearbook-t13-12",
     "title": "2025 교육통계연보 13-12 교원변동 (고등교육기관)",
     "publisher": "한국교육개발원(KEDI) 교육통계센터",
@@ -367,6 +385,15 @@
     "url": "https://kess.kedi.re.kr/publ/fileView?publItemId=107528&survSeq=2025&publSeq=2",
     "checked_on": "2026-10-13",
     "note": "고등교육기관 현황 장 표 13-6. 조사 기준일 2025.4.1. 쪽 788-789(2쪽 표). 전임교원은 총(학)장과 교수·부교수·조교수로 구분하고, 비전임은 강사·시간강사·겸임교원·명예교수·기타로 구분. 국공립 전임교원수에 기금교수 포함. 파일은 영문 병기판 PDF."
+  },
+  {
+    "id": "kedi-2026-basic-stats-press",
+    "title": "2026년 교육기본통계 조사 결과 발표 (보도자료 및 별첨)",
+    "publisher": "교육부·한국교육개발원(KEDI)",
+    "year": 2026,
+    "url": "https://kess.kedi.re.kr/post/6876965?itemCode=04&menuId=m_02_04_02",
+    "checked_on": "2026-10-13",
+    "note": "2026-08-25 공표. 조사기준일 2026.4.1. 별첨 HWPX는 https://kess.kedi.re.kr/userfile/6876972 (본문 표)와 /userfile/6876971 이며 쪽 번호가 없어 표 번호로 인용. 대학원은 석사·박사 구분 없는 합계만 있고 박사과정 재적·졸업자 수는 없음. 표 22(외국 학생 수)만 학위과정 박사 열을 제공. 본문 설명 자료이며 분석자료집(kedi-2025-higher-ed-analysis)의 2026년판이 나오면 그것으로 대체해야 함."
   },
   {
     "id": "kedi-2026-dataset-dept",
@@ -457,6 +484,24 @@
     "url": "https://www.kribb.re.kr/kor/sub03/sub03_01_01_view.jsp?b_idx=35441",
     "checked_on": "2026-10-13",
     "note": "접수 2026-10-08~10-23. 공고 본문은 게시판 이미지 4장(공고문 PDF 첨부). 4. 근무요건 라. 보수 항목을 이미지에서 직접 읽음."
+  },
+  {
+    "id": "krivet-2014-stem-phd-employment-brief",
+    "title": "국내 이공계 신규 박사학위 취득자의 고용 현황 (패널 브리프, THE HRD REVIEW 2014년 1월)",
+    "publisher": "한국직업능력연구원(KRIVET)",
+    "year": 2014,
+    "url": "https://krivet.re.kr/repository/bitstream/202405/8824/2/P31701_12_fulltext.pdf",
+    "checked_on": "2026-10-13",
+    "note": "송창용·김혜정. 박사조사(2013: 2012.8·2013.2 졸업자). 표 3이 학위 취득 소요기간(개월; 석·박사통합자 제외). 졸업자 조사이며 입학자 종단조사가 아님. 저장소 직접 내려받기는 브라우저 User-Agent와 Referer가 필요."
+  },
+  {
+    "id": "krivet-2017-phd-labor-transition-brief",
+    "title": "국내 신규 박사인력 노동시장 이행실태 (패널 브리프, THE HRD REVIEW 2017년 1월)",
+    "publisher": "한국직업능력연구원(KRIVET)",
+    "year": 2017,
+    "url": "https://krivet.re.kr/repository/bitstream/202405/9115/2/P32001_10_fulltext.pdf",
+    "checked_on": "2026-10-13",
+    "note": "유한구·김혜정. 박사조사(2015) 응답자 7,938명(2015.8·2016.2 박사학위 취득자, 외국인 제외). 표 4가 입학·취득 평균 연령과 학위 취득 소요기간(전체·성별·계열·학업전념/직장병행). 졸업자 조사이며 입학자 종단조사가 아님. 저장소 직접 내려받기는 브라우저 User-Agent와 Referer가 있어야 403을 피함."
   },
   {
     "id": "krivet-2025-hrd-review-brief",
