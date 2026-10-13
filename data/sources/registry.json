@@ -1275,7 +1275,7 @@
     "year": 2026,
     "url": "https://kess.kedi.re.kr/post/6876965?itemCode=04&menuId=m_02_04_02",
     "checked_on": "2026-10-13",
-    "note": "2026-08-25 공표. 조사기준일 2026.4.1. 별첨 HWPX는 https://kess.kedi.re.kr/userfile/6876972 (본문 표)와 /userfile/6876971 이며 쪽 번호가 없어 표 번호로 인용. 대학원은 석사·박사 구분 없는 합계만 있고 박사과정 재적·졸업자 수는 없음. 표 22(외국 학생 수)만 학위과정 박사 열을 제공. 본문 설명 자료이며 분석자료집(kedi-2025-higher-ed-analysis)의 2026년판이 나오면 그것으로 대체해야 함."
+    "note": "2026-08-25 공표. 조사기준일 2026.4.1. 별첨 HWPX는 https://kess.kedi.re.kr/userfile/6876972 (본문 표)와 /userfile/6876971 이며 쪽 번호가 없어 표 번호로 인용. 대학원은 석사·박사 구분 없는 합계만 있고 박사과정 재적·졸업자 수는 없음. 표 22(외국 학생 수)만 학위과정 박사 열을 제공. 본문 설명 자료이며 분석자료집(kedi-2025-higher-ed-analysis)의 2026년판이 나오면 그것으로 대체해야 함. · 병합 2026-10-13: 같은 보도자료의 중복 항목 kedi-2026-press-basic-stats(url https://www.kedi.re.kr/khome/main/announce/selectBroadAnnounceForm.do?selectTp=0&board_sq_no=3&article_sq_no=36467)을 합침(Wave 2 회고 이관)."
   },
   {
     "id": "kedi-2026-dataset-dept",
@@ -1285,15 +1285,6 @@
     "url": "https://kess.kedi.re.kr/contents/dataset?itemCode=04&menuId=m_02_04_03_02&tabId=m1",
     "checked_on": "2026-10-13",
     "note": "파일 '2026년 고등 학과별 학과수 입학정원 지원 입학 학생 외국학생 졸업 교원_260826H.xlsx', 시트 '학과별 교육통계'. 조사 기준일 2026.4.1. 공표 후 변동 없음이며 대학알리미 공시 자료와 다를 수 있음(파일 안내). 전임교원은 총(학)장 및 전임교원(교수·부교수·조교수)으로 휴직자 포함·퇴직자 제외, 국공립 기금교수 포함. 비전임교원은 겸임·초빙·석좌·명예·대우·객원·강의·예우·교환·특임·원로교수·강사 등. 시간강사 열은 2020년 이후 사실상 비어 있고 강사는 비전임교원에 포함됨. 학과 계열은 학과(전공)분류자료집의 대계열을 따름. 2025년부터 무전공 계열이 추가됨."
-  },
-  {
-    "id": "kedi-2026-press-basic-stats",
-    "title": "2026년 교육기본통계 조사 결과 발표 (보도자료)",
-    "publisher": "한국교육개발원(KEDI)·교육부",
-    "year": 2026,
-    "url": "https://www.kedi.re.kr/khome/main/announce/selectBroadAnnounceForm.do?selectTp=0&board_sq_no=3&article_sq_no=36467",
-    "checked_on": "2026-10-13",
-    "note": "보도 2026.8.26. 조사 기준일 2026.4.1. 전체 고등교육기관(전문대학·대학원 등 포함) 전임교원 86,628명(전년 대비 73명 감소), 비전임교원 159,205명(5,282명 증가), 전체 교원 245,833명. 첨부 한글 파일은 열람하지 못했고 게시 페이지 본문 수치를 읽음. 직위별·계열별 분해 없음."
   },
   {
     "id": "kess-2026-portal",
