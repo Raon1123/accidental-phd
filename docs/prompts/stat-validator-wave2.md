@@ -22,7 +22,7 @@ waves: 1, 2
 ## 과제
 
 1. 필드 누락 검사: 수치 레코드 12개, 서사 레코드 11개.
-2. enum 검사: confidence ∈ verified|indexed|assumed; track ∈ 인문사회|이공; stage ∈ README 목록.
+2. enum 검사: confidence ∈ verified|indexed|assumed; track ∈ 인문사회|이공; stage ∈ README 목록(검증기 STAGES 상수와 동일).
 3. 중복 id 검사(기존 목록 포함).
 4. 비율(ratio·percent)에 denominator 있는지.
 5. 서사 quote 단어 수 ≤ 15.

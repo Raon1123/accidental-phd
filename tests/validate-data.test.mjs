@@ -47,6 +47,18 @@ test('bad confidence fails', () => {
   const r = validate(fixture({ records: [{ ...REC, confidence: 'maybe' }] }));
   assert.ok(r.errors.some(e => e.includes('confidence')));
 });
+test('whitespace-only denominator on a ratio fails', () => {
+  const r = validate(fixture({ records: [{ ...REC, denominator: '   ' }] }));
+  assert.ok(r.errors.some(e => e.includes('denominator')));
+});
+test('non-integer year fails', () => {
+  const r = validate(fixture({ records: [{ ...REC, year: '2024' }] }));
+  assert.ok(r.errors.some(e => e.includes('year')));
+});
+test('checked_on not YYYY-MM-DD fails', () => {
+  const r = validate(fixture({ records: [{ ...REC, checked_on: 'yesterday' }] }));
+  assert.ok(r.errors.some(e => e.includes('checked_on')));
+});
 test('decision missing heading fails', () => {
   const r = validate(fixture({ decision: '# 0001. x\n\n## 상태\n승인됨\n\n## 맥락\nc\n\n## 결정\nd\n' }));
   assert.ok(r.errors.some(e => e.includes('결과')));
@@ -72,6 +84,10 @@ test('narrative record passes', () => {
 test('narrative long quote fails', () => {
   const r = validate(narFixture({ ...NAR, quote: 'a b c d e f g h i j k l m n o p' }));
   assert.ok(r.errors.some(e => e.includes('quote')));
+});
+test('narrative stage outside the list fails', () => {
+  const r = validate(narFixture({ ...NAR, stage: 'not-a-stage' }));
+  assert.ok(r.errors.some(e => e.includes('stage')));
 });
 test('narrative bad track fails', () => {
   const r = validate(narFixture({ ...NAR, track: '예체능' }));

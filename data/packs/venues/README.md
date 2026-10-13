@@ -1,6 +1,6 @@
 # venues 팩
 
-**목적.** 분야별 target 저널·학회와 공개 지표. 저널은 Scimago SJR 사분위와 KCI 등재 여부, 학회는 CORE 등급. 공개된 채택률만 기록한다. Journal Impact Factor는 수집하지 않는다(결정 기록 0003).
+**목적.** 분야별 target 저널·학회와 공개 지표. 저널은 Scimago Journal Rank(SJR) 사분위와 한국학술지인용색인(KCI) 등재 여부, 학회는 CORE(Computing Research and Education Association of Australasia) 등급. 공개된 채택률만 기록한다. Journal Impact Factor(Clarivate JCR)는 수집하지 않는다(결정 기록 0003). 약어는 [용어집](../../../docs/workflow.md#용어집).
 
 **1차 출처 계급.** Scimago Journal & Country Rank, 한국연구재단 KCI, CORE Conference Ranking, 학회 공식 공지(채택률).
 

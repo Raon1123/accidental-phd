@@ -77,6 +77,28 @@ PR은 `validate-data`와 `test` 워크플로우를 통과해야 한다. 수치 �
 
 ChatGPT는 `gh`와 git에 접근하지 못한다. [프롬프트 세트](prompts/README.md)의 파일 하나를 통째로 붙여넣고 맥락 블록을 채우면, 출력은 issue 댓글이나 PR에 사람이 붙여넣을 수 있는 markdown·JSON으로 나온다. `chatgpt-ready` 라벨이 붙은 issue가 대상이다.
 
+## 용어집
+
+독립 단위(issue 본문, 프롬프트 파일, 팩 README)에서 약어는 첫 등장에 풀어쓰거나 이 절을 링크한다.
+
+| 약어 | 뜻 |
+|---|---|
+| NRF | 한국연구재단(National Research Foundation of Korea). 학술연구분야분류와 KCI 운영 |
+| KEDI | 한국교육개발원. 교육통계(학과 분류, 교원·학생 통계) |
+| KRIVET | 한국직업능력연구원. 국내 신규 박사학위 취득자 조사 |
+| KISTEP | 한국과학기술기획평가원. 이공계인력 지표집 |
+| KCI | 한국학술지인용색인(Korea Citation Index). 국내 학술지 등재 여부 |
+| SJR | Scimago Journal Rank. 공개 저널 지표, 사분위 Q1~Q4 |
+| CORE | Computing Research and Education Association of Australasia. 학회 등급 A*/A/B/C |
+| JCR | Journal Citation Reports(Clarivate). 유료, 이 프로젝트는 쓰지 않음(결정 기록 0003) |
+| BK21 | 두뇌한국21(Brain Korea 21). 교육부 대학원 지원 사업, 연구장려금 하한의 출처 |
+| ALIO | 공공기관 경영정보 공개시스템. 출연연 보수 공시 |
+| ADR | 결정 기록(architecture decision record). `docs/design/decisions/` |
+| CI | 지속적 통합(continuous integration). GitHub Actions 워크플로우 |
+| TDD | 테스트 주도 개발(test-driven development). 실패하는 테스트 → 구현 → 통과 |
+| i18n | 국제화(internationalization). 문자열을 코드와 분리해 다국어 지원 |
+| PR | pull request. 브랜치 병합 요청 |
+
 ## effort 조절
 
 기본값은 위 역할 표다. wave마다 난이도가 다르므로 각 wave 파일의 모델·effort 표에서 덮어쓴다. 프롬프트 파일 머리의 `effort:` 줄도 wave 파일이 우선한다. 올리는 기준: 판정이 필요하거나 출처가 충돌할 때. 내리는 기준: 정형화·검증·반복 작업.

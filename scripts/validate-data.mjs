@@ -11,8 +11,17 @@ export const CONFIDENCE = ['verified','indexed','assumed'];
 export const DECISION_HEADINGS = ['## 상태','## 맥락','## 결정','## 결과'];
 export const NARRATIVE_FIELDS = ['id','track','stage','theme','summary','quote','source_id','page_or_url','year','checked_on','confidence'];
 export const TRACKS = ['인문사회','이공'];
+export const STAGES = ['admission','coursework','qualifying','first-paper','funding','thesis','defense','early-career','mid-career','retirement'];
 const RATIO_UNITS = ['ratio','percent'];
 const QUOTE_MAX_WORDS = 15;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function checkCommon(r, at, ids, errors) {
+  if (!ids.has(r.source_id)) errors.push(`${at}: unknown source_id ${r.source_id}`);
+  if (!CONFIDENCE.includes(r.confidence)) errors.push(`${at}: confidence must be one of ${CONFIDENCE.join('|')}`);
+  if (!Number.isInteger(r.year)) errors.push(`${at}: year must be an integer`);
+  if (typeof r.checked_on !== 'string' || !DATE_RE.test(r.checked_on)) errors.push(`${at}: checked_on must be YYYY-MM-DD`);
+}
 
 function readJson(p) { return JSON.parse(readFileSync(p, 'utf8')); }
 function walk(dir, pred, out = []) {
@@ -45,17 +54,16 @@ export function validate(root) {
       if (isNarrative) {
         for (const f of NARRATIVE_FIELDS) if (!(f in r)) errors.push(`${at}: missing ${f}`);
         if (!TRACKS.includes(r.track)) errors.push(`${at}: track must be one of ${TRACKS.join('|')}`);
+        if (!STAGES.includes(r.stage)) errors.push(`${at}: stage must be one of ${STAGES.join('|')}`);
         if (typeof r.quote === 'string' && r.quote.trim() && r.quote.trim().split(/\s+/).length > QUOTE_MAX_WORDS) errors.push(`${at}: quote exceeds ${QUOTE_MAX_WORDS} words`);
-        if (!ids.has(r.source_id)) errors.push(`${at}: unknown source_id ${r.source_id}`);
-        if (!CONFIDENCE.includes(r.confidence)) errors.push(`${at}: confidence must be one of ${CONFIDENCE.join('|')}`);
+        checkCommon(r, at, ids, errors);
         if (r.id) { if (seen.has(r.id)) errors.push(`${at}: duplicate id ${r.id}`); seen.add(r.id); }
         return;
       }
       for (const f of RECORD_FIELDS) if (!(f in r)) errors.push(`${at}: missing ${f}`);
       if (typeof r.value !== 'number') errors.push(`${at}: value must be a number`);
-      if (!ids.has(r.source_id)) errors.push(`${at}: unknown source_id ${r.source_id}`);
-      if (!CONFIDENCE.includes(r.confidence)) errors.push(`${at}: confidence must be one of ${CONFIDENCE.join('|')}`);
-      if (RATIO_UNITS.includes(r.unit) && !r.denominator) errors.push(`${at}: ${r.unit} needs denominator`);
+      checkCommon(r, at, ids, errors);
+      if (RATIO_UNITS.includes(r.unit) && !String(r.denominator ?? '').trim()) errors.push(`${at}: ${r.unit} needs denominator`);
       if (r.id) { if (seen.has(r.id)) errors.push(`${at}: duplicate id ${r.id}`); seen.add(r.id); }
     });
   }

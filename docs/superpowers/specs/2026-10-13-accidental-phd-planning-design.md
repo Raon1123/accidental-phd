@@ -114,7 +114,7 @@ web/                                 정적 사이트, localStorage (Wave 5)
 
 ## 7. Hold-safe 협업 규약
 
-- 라벨: `wave/N`, `area/{taxonomy,schools,departments,venues,salaries,statistics,engine,ui,workflow,docs}`, `claimed`, `blocked`, `needs-judge`, `stale`, `chatgpt-ready`.
+- 라벨: `wave/N`, `area/{taxonomy,schools,departments,venues,salaries,statistics,narratives,engine,ui,workflow,docs}`, `claimed`, `blocked`, `needs-judge`, `stale`, `chatgpt-ready`.
 - claim: assignee 지정 + "claimed by <이름> on <날짜>" 댓글. 7일 무활동이면 `stale`로 바꾸고 누구나 이어간다.
 - 세션 종료 시 issue에 handoff 댓글: 한 일, 남은 일, 막힌 것, 다음 사람이 처음 읽을 파일.
 - `needs-judge`: 모호한 판정은 Fable(Astra)이 재판정하고 결정 기록으로 남긴다.

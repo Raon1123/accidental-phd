@@ -11,7 +11,7 @@
 
 회고의 "다음 wave 체크리스트에 추가할 항목"은 다음 wave 파일 체크리스트에 **반드시** 옮긴다. 이것이 self-improve 루프다. 회고는 [weaver 프롬프트](../prompts/weaver-retro-any.md)로 작성하고, 회고가 비어 있는 wave는 종료된 것으로 치지 않는다.
 
-현재 상태는 [STATUS.md](STATUS.md).
+현재 상태는 [STATUS.md](STATUS.md). 약어는 [용어집](../workflow.md#용어집).
 
 | 파일 | 내용 |
 |---|---|

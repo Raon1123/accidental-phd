@@ -11,7 +11,7 @@
 3. 비공개 글, 사적 정보, 실명 제3자에 대한 서술은 수집하지 않는다.
 4. 시나리오에 쓸 때는 창작임을 UI에 표시한다(어쩌다 박사 v3.5 research-tracks 관례).
 
-**1차 출처 계급.** 출판 수필·에세이집, 대학원생 수기 공모 수상작, 공개 블로그·브런치, 질적 연구 논문(면담 발췌), 언론 인터뷰.
+**1차 출처 계급.** 출판 수필·에세이집, 대학원생 수기 공모 수상작, 공개 블로그·브런치, 질적 연구 논문(면담 발췌), 언론 인터뷰. 약어는 [용어집](../../../docs/workflow.md#용어집).
 
 **필드.** `data/schema/narrative.schema.json`. `stage` 값: `admission, coursework, qualifying, first-paper, funding, thesis, defense, early-career, mid-career, retirement`. `theme`는 자유 태그. 선택 필드 `decision_point`에 어느 결정 지점에 쓸 수 있는지 적는다.
 

@@ -18,7 +18,8 @@
 - `confidence` ∈ `verified | indexed | assumed`.
 - 분모 없는 비율, source_id 없는 수치는 CI에서 거부 (spec §5).
 - 결정 기록은 `## 상태`, `## 맥락`, `## 결정`, `## 결과` 4개 헤딩 필수 (spec §3).
-- 라벨 집합: `wave/0`…`wave/6`, `area/{taxonomy,schools,departments,venues,salaries,statistics,engine,ui,workflow,docs}`, `claimed`, `blocked`, `needs-judge`, `stale`, `chatgpt-ready` (spec §7).
+- 라벨 집합: `wave/0`…`wave/6`, `area/{taxonomy,schools,departments,venues,salaries,statistics,narratives,engine,ui,workflow,docs}`, `claimed`, `blocked`, `needs-judge`, `stale`, `chatgpt-ready` (spec §7; `area/narratives`는 스펙 §5 개정으로 추가).
+- 실행 중 판정(2026-10-13): `npm test`는 bare `node --test`(Node 20 CI는 glob·디렉터리 인자를 받지 않음). 펜스 정규식은 줄 머리 펜스만 인식. 상세는 `docs/waves/wave-00-planning.md` §회고.
 - 모델 표: fable↔Astra high, opus↔Sol medium~high, sonnet↔Sol(확인 필요) medium, haiku↔Luna low (spec §8).
 - 학교 표시명은 가상 유지. 친구 코드 복사 금지 (spec §10).
 - 커밋 메시지 끝: `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
@@ -194,7 +195,7 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
   "type": "module",
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test tests/",
+    "test": "node --test",
     "validate": "node scripts/validate-data.mjs"
   }
 }

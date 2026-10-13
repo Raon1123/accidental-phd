@@ -15,6 +15,8 @@ Claude와 ChatGPT가 같은 출력 계약으로 기여하기 위한 프롬프트
 
 "Sol (확인 필요)": Sonnet에 대응하는 ChatGPT 등급을 사용자가 아직 지정하지 않았다. 확정되면 이 표와 각 파일 머리의 `model:` 줄을 바꾼다.
 
+약어(NRF, KEDI, KRIVET, KISTEP, KCI, SJR, CORE, JCR, BK21, ALIO)는 [협업 계약의 용어집](../workflow.md#용어집)에 정의한다. 프롬프트 파일을 ChatGPT에 붙여넣을 때 용어집 표도 함께 붙여넣는다.
+
 ## 사용법
 
 **ChatGPT.** 파일 전체를 새 대화에 붙여넣는다. `<<맥락>>` 블록 안의 항목을 repo에서 복사해 채운다(ChatGPT는 repo를 읽지 못한다). 출력은 issue 댓글이나 PR에 사람이 붙여넣을 수 있는 markdown·JSON이다. 파일 머리의 `model:`에 적힌 ChatGPT 등급을 고른다.

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "accidental-phd/record",
   "title": "수치 레코드",
-  "description": "data/packs/<pack>/records.json의 원소. 검증기(scripts/validate-data.mjs)가 같은 규칙을 검사한다. 이 파일은 사람과 ChatGPT가 참고하는 문서다.",
+  "description": "data/packs/<pack>/records.json의 원소. 검증기(scripts/validate-data.mjs)는 필수 필드, value 숫자형, year 정수, checked_on 날짜 형식, confidence enum, 비율의 분모, source_id 존재, id 중복을 검사한다. id 패턴과 unit 어휘는 이 문서의 권고이며 검증기가 강제하지 않는다. 이 파일은 사람과 ChatGPT가 참고하는 문서다.",
   "type": "object",
   "required": ["id", "value", "unit", "source_id", "table", "page", "population", "denominator", "year", "checked_on", "confidence", "note"],
   "properties": {
