@@ -1,0 +1,33 @@
+name: 설계 결정
+description: 모호한 판정이나 설계 선택을 결정 기록(docs/design/decisions)으로 만든다
+title: "[adr] <topic>"
+labels: ["needs-judge"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: 맥락
+      description: 왜 결정이 필요한가. 충돌하는 출처·수치가 있으면 링크
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: 선택지
+      description: 각 선택지의 얻는 것·잃는 것
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: 추천
+  - type: input
+    id: affects
+    attributes:
+      label: 영향 받는 팩·문서
+      placeholder: data/packs/taxonomy, docs/waves/wave-01-taxonomy-sources.md
+  - type: dropdown
+    id: model
+    attributes:
+      label: 판정 모델·effort
+      options:
+        - "fable / Astra · high"
+        - "opus / Sol · high"

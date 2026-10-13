@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 협업 계약 읽기
+    url: https://github.com/Raon1123/accidental-phd/blob/main/docs/workflow.md
+    about: 라벨·claim·handoff·모델 표. issue를 열기 전에 읽는다.
