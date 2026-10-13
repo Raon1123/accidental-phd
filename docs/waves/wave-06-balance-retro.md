@@ -18,7 +18,7 @@ Wave 5 종료 조건.
 ## 모델·effort 표
 | 역할 | Claude | ChatGPT | effort | 프롬프트 파일 |
 |---|---|---|---|---|
-| 분포 분석·표 작성 | sonnet | Sol (확인 필요) | medium | — |
+| 분포 분석·표 작성 | sonnet | Luna | medium | — |
 | 회고·다음 계획 엮기 | opus | Sol | high | `../prompts/weaver-retro-any.md` |
 | 밸런스 판정 | fable | Astra | high | `../prompts/judge-any.md` |
 
