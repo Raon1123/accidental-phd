@@ -21,6 +21,15 @@ describe('calibration harness (N=20 smoke)', () => {
     for (const r of result.table) expect(r.pass === null, `${r.target} ${r.label}`).toBe(r.target === 'professor10y');
   });
 
+  it('leave target is the stock share (leave months / phd months); the 12-month window is the secondary value', () => {
+    for (const row of result.table.filter(r => r.target === 'leaveRate')) {
+      const rs = result.records.filter(r => r.kedi === row.label);
+      const months = rs.reduce((a, r) => a + r.phdMonths, 0);
+      expect(row.sim).toBeCloseTo(rs.reduce((a, r) => a + r.leaveMonths, 0) / months, 12);
+      expect(row.alt).not.toBeUndefined();
+    }
+  });
+
   it('records the PhD outcome at the moment the phd stage ends and keeps the books consistent', () => {
     for (const r of result.records) {
       expect(['degree', 'dropout', 'residence', 'financial', 'exit-master']).toContain(r.outcome);
@@ -37,8 +46,8 @@ describe('calibration harness (N=20 smoke)', () => {
 
   it('renders markdown with the six-column table, diagnostics and the provenance line last', () => {
     const md = renderMarkdown({ result, command: 'npm run calibrate -- --seeds 20', commit: 'test', date: '2026-10-14', causes: '## 원인 후보\n\n(없음)', candidates: [], baselines: {}, data });
-    expect(md).toContain('| 목표 | 계열 | 모의값 | 기준값 (레코드 id) | 허용 범위 (0014 #52) | 통과 |');
-    expect(md).toContain('## 2. 진단');
+    expect(md).toContain('| 목표 | 계열 | 모의값 | 기준값 (레코드 id) | 허용 범위 (0014 #52) | 통과 | 창(12개월) |');
+    expect(md).toContain('### 진단');
     expect(md.trimEnd().split('\n').pop()).toBe('Provenance: 91_Handoffs/_HANDOFF-2026-10-13.md (APD)');
   });
 
