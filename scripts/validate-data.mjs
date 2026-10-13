@@ -18,6 +18,7 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 function checkCommon(r, at, ids, errors) {
   if (!ids.has(r.source_id)) errors.push(`${at}: unknown source_id ${r.source_id}`);
+  if (typeof r.source_id === 'string' && r.source_id.endsWith('-portal')) errors.push(`${at}: source_id ${r.source_id} is a portal entry; cite the document actually read (decision 0010)`);
   if (!CONFIDENCE.includes(r.confidence)) errors.push(`${at}: confidence must be one of ${CONFIDENCE.join('|')}`);
   if (!Number.isInteger(r.year)) errors.push(`${at}: year must be an integer`);
   if (typeof r.checked_on !== 'string' || !DATE_RE.test(r.checked_on)) errors.push(`${at}: checked_on must be YYYY-MM-DD`);

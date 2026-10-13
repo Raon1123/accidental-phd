@@ -8,12 +8,12 @@ Claude와 ChatGPT가 같은 출력 계약으로 기여하기 위한 프롬프트
 |---|---|---|---|---|
 | 판정·스펙 감사·모호한 결정 재판정 | fable | Astra | high | [judge-any.md](judge-any.md) |
 | 엮기·회고·결정 기록 작성 | opus | Sol | high | [weaver-retro-any.md](weaver-retro-any.md) |
-| 분류 수집·매핑 초안 | sonnet | Sol (확인 필요) | medium | [taxonomy-mapper-wave1.md](taxonomy-mapper-wave1.md) |
-| 출처 독해·수치 추출 초안 | sonnet | Sol (확인 필요) | medium | [stat-collector-wave2.md](stat-collector-wave2.md) |
-| 서사 장면 추출 초안 | sonnet | Sol (확인 필요) | medium | [narrative-collector-wave2.md](narrative-collector-wave2.md) |
+| 분류 수집·매핑 초안 | sonnet | Luna | medium | [taxonomy-mapper-wave1.md](taxonomy-mapper-wave1.md) |
+| 출처 독해·수치 추출 초안 | sonnet | Luna | medium | [stat-collector-wave2.md](stat-collector-wave2.md) |
+| 서사 장면 추출 초안 | sonnet | Luna | medium | [narrative-collector-wave2.md](narrative-collector-wave2.md) |
 | 정형화·기계 검증 | haiku | Luna | low | [stat-validator-wave2.md](stat-validator-wave2.md) |
 
-"Sol (확인 필요)": Sonnet에 대응하는 ChatGPT 등급을 사용자가 아직 지정하지 않았다. 확정되면 이 표와 각 파일 머리의 `model:` 줄을 바꾼다.
+Sonnet↔Luna는 사용자가 2026-10-13에 확정했다(결정 기록 0006, issue #17).
 
 약어(NRF, KEDI, KRIVET, KISTEP, KCI, SJR, CORE, JCR, BK21, ALIO)는 [협업 계약의 용어집](../workflow.md#용어집)에 정의한다. 프롬프트 파일을 ChatGPT에 붙여넣을 때 용어집 표도 함께 붙여넣는다.
 

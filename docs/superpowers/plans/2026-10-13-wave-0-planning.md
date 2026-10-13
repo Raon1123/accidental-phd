@@ -20,7 +20,7 @@
 - 결정 기록은 `## 상태`, `## 맥락`, `## 결정`, `## 결과` 4개 헤딩 필수 (spec §3).
 - 라벨 집합: `wave/0`…`wave/6`, `area/{taxonomy,schools,departments,venues,salaries,statistics,narratives,engine,ui,workflow,docs}`, `claimed`, `blocked`, `needs-judge`, `stale`, `chatgpt-ready` (spec §7; `area/narratives`는 스펙 §5 개정으로 추가).
 - 실행 중 판정(2026-10-13): `npm test`는 bare `node --test`(Node 20 CI는 glob·디렉터리 인자를 받지 않음). 펜스 정규식은 줄 머리 펜스만 인식. 상세는 `docs/waves/wave-00-planning.md` §회고.
-- 모델 표: fable↔Astra high, opus↔Sol medium~high, sonnet↔Sol(확인 필요) medium, haiku↔Luna low (spec §8).
+- 모델 표: fable↔Astra high, opus↔Sol medium~high, sonnet↔Luna medium, haiku↔Luna low (spec §8).
 - 학교 표시명은 가상 유지. 친구 코드 복사 금지 (spec §10).
 - 커밋 메시지 끝: `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
 - Claude `Agent()` 호출은 literal `model:` 필수 (사용자 CLAUDE.md).
@@ -477,7 +477,7 @@ body:
     id: model
     attributes:
       label: 권장 모델·effort
-      options: ["sonnet / Sol · medium", "haiku / Luna · low", "opus / Sol · high", "fable / Astra · high"]
+      options: ["sonnet / Luna · medium", "haiku / Luna · low", "opus / Sol · high", "fable / Astra · high"]
 ```
 
 - [ ] **Step 4: `design-decision.yml`** — 필드: 제목, 맥락(textarea, required), 선택지(textarea), 추천(textarea), 영향 받는 팩/문서(input). labels `["needs-judge"]`. title `"[adr] <topic>"`.
@@ -599,13 +599,13 @@ Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>"
 
 - [ ] **Step 1: `README.md`** — 모델 매핑 표(spec §8, Sonnet 행 "확인 필요"), 사용법(ChatGPT: 파일 전체를 붙여넣고 `<<맥락>>` 블록을 채움; Claude: `Agent(model: <표의 값>, effort: <표의 값>)`), 공통 구조 5부: ① 맥락 블록(붙여넣을 것 목록) ② 과제 ③ 출력 계약 ④ 자기 검증 체크리스트 ⑤ handoff 형식(`docs/workflow.md` §5 그대로). effort 조절 규칙: 파일 머리의 `effort:` 줄을 wave 파일 표가 덮어쓴다.
 
-- [ ] **Step 2: `stat-collector-wave2.md`** — 머리: `model: sonnet | Sol(확인 필요)`, `effort: medium`. 맥락 블록: issue 본문, `data/schema/record.schema.json`, `data/sources/registry.json` 발췌, 해당 팩 README. 과제: 후보 출처를 읽고 레코드 초안 작성. 출력 계약: ① `registry.json`에 추가할 출처 JSON 배열 ② `records.json`에 추가할 레코드 JSON 배열(12필드 전부, 비율은 분모) ③ 캐비앗 목록 ④ 확신 없는 값은 `assumed`. 자기 검증: 필드 12개, source_id 일치, 연도·확인일, 표·쪽 번호, 분모. handoff 형식.
+- [ ] **Step 2: `stat-collector-wave2.md`** — 머리: `model: sonnet | Luna`, `effort: medium`. 맥락 블록: issue 본문, `data/schema/record.schema.json`, `data/sources/registry.json` 발췌, 해당 팩 README. 과제: 후보 출처를 읽고 레코드 초안 작성. 출력 계약: ① `registry.json`에 추가할 출처 JSON 배열 ② `records.json`에 추가할 레코드 JSON 배열(12필드 전부, 비율은 분모) ③ 캐비앗 목록 ④ 확신 없는 값은 `assumed`. 자기 검증: 필드 12개, source_id 일치, 연도·확인일, 표·쪽 번호, 분모. handoff 형식.
 
 - [ ] **Step 3: `stat-validator-wave2.md`** — `model: haiku | Luna`, `effort: low`. 과제: 수집자 출력을 받아 기계 검사(필드 누락·enum·중복 id·분모)와 정형화(id 명명 규칙, 숫자형). 출력: 수정된 JSON + 거부 사유 목록. 판단이 필요한 항목은 `needs-judge`로 표시만.
 
-- [ ] **Step 3b: `narrative-collector-wave2.md`** — `model: sonnet | Sol(확인 필요)`, `effort: medium`. 맥락: `data/packs/narratives/README.md`, 대상 track. 과제: 공개된 수필·수기·인터뷰·질적 연구에서 박사과정·연구자 생활의 장면을 찾아 레코드 초안 작성. 출력 계약: ① registry 출처 배열 ② 서사 레코드 배열(11필드, summary는 상황·갈등·선택·결과, quote 15단어 이하 1개 이하) ③ 시나리오 후보 메모(어느 결정 지점에 쓸 수 있는지). 금지: 원문 문단 복사, 비공개 글, 실명 사적 정보.
+- [ ] **Step 3b: `narrative-collector-wave2.md`** — `model: sonnet | Luna`, `effort: medium`. 맥락: `data/packs/narratives/README.md`, 대상 track. 과제: 공개된 수필·수기·인터뷰·질적 연구에서 박사과정·연구자 생활의 장면을 찾아 레코드 초안 작성. 출력 계약: ① registry 출처 배열 ② 서사 레코드 배열(11필드, summary는 상황·갈등·선택·결과, quote 15단어 이하 1개 이하) ③ 시나리오 후보 메모(어느 결정 지점에 쓸 수 있는지). 금지: 원문 문단 복사, 비공개 글, 실명 사적 정보.
 
-- [ ] **Step 4: `taxonomy-mapper-wave1.md`** — `model: sonnet | Sol(확인 필요)`, `effort: medium`. 맥락: NRF 분류표, 트랙 26개 목록(`docs/oracle/v35-recon.md`). 출력: `mapping-tracks.json` 항목(`{track, nrf_code, nrf_name, confidence, note}`). 1:N 매핑은 전부 나열하고 `needs-judge`.
+- [ ] **Step 4: `taxonomy-mapper-wave1.md`** — `model: sonnet | Luna`, `effort: medium`. 맥락: NRF 분류표, 트랙 26개 목록(`docs/oracle/v35-recon.md`). 출력: `mapping-tracks.json` 항목(`{track, nrf_code, nrf_name, confidence, note}`). 1:N 매핑은 전부 나열하고 `needs-judge`.
 
 - [ ] **Step 5: `judge-any.md`** — `model: fable | Astra`, `effort: high`. 과제: `needs-judge` 항목 재판정. 출력: 결정 기록 4헤딩 형식 초안 + 판정 근거 + 반대 근거. 금지: 새 데이터 수집.
 
