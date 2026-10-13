@@ -6,4 +6,4 @@
 
 **id 규칙.** `departments-<school_id>-<slug>`. 예: `departments-snu-computer`. `value`는 1(존재 확인), `unit`은 `count`. `note`에 한글 학과명·모집 단위 종류·NRF 코드. 학과별 등록금이 학교 기본값과 다르면 `departments-<school_id>-<slug>-tuition` 레코드를 따로 둔다.
 
-**담당 issue.** Wave 2 — issue: #N
+**담당 issue.** Wave 2 — #5

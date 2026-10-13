@@ -17,4 +17,4 @@
 
 **id 규칙.** `nar-<track>-<stage>-<n>`. track은 `hs`(인문사회) 또는 `stem`. 예: `nar-hs-funding-2`.
 
-**담당 issue.** Wave 2 — humanities-social: #N · stem: #N
+**담당 issue.** Wave 2 — humanities-social: #15 · stem: #16

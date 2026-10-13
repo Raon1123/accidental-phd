@@ -11,4 +11,4 @@
 
 **id 규칙.** `taxonomy-<scheme>-<code>`.
 
-**담당 issue.** Wave 1 — issue: #N (Wave 0 PR 이후 기입)
+**담당 issue.** Wave 1 — NRF 코드: #1 · KEDI 매핑: #2 · 트랙 매핑: #3

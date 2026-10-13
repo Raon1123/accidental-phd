@@ -7,9 +7,9 @@
 Wave 0 PR 머지.
 
 ## 체크리스트
-- [ ] NRF 학술연구분야분류 대·중·소분류 코드 수집 → `data/packs/taxonomy/records.json` (value=수준, unit=level, note에 한글명·상위 코드). 완료 조건: 대분류 전부, 중·소분류는 인문사회·이공 계열 전부. 출처 URL·고시 연도 registry 등록. — issue #?
-- [ ] 교육통계(KEDI) 학과 분류 ↔ NRF 매핑 → `taxonomy/mapping-kedi.json`. 완료 조건: 241개 학과가 쓰는 모든 KEDI 코드에 NRF 코드 1개 이상. — issue #?
-- [ ] 게임 트랙 26개 ↔ NRF 소분류 매핑 → `taxonomy/mapping-tracks.json`. 완료 조건: 26개 전부, 1:N은 전부 나열 후 `needs-judge` 판정 완료. — issue #?
+- [ ] NRF 학술연구분야분류 대·중·소분류 코드 수집 → `data/packs/taxonomy/records.json` (value=수준, unit=level, note에 한글명·상위 코드). 완료 조건: 대분류 전부, 중·소분류는 인문사회·이공 계열 전부. 출처 URL·고시 연도 registry 등록. — issue #1
+- [ ] 교육통계(KEDI) 학과 분류 ↔ NRF 매핑 → `taxonomy/mapping-kedi.json`. 완료 조건: 241개 학과가 쓰는 모든 KEDI 코드에 NRF 코드 1개 이상. — issue #2
+- [ ] 게임 트랙 26개 ↔ NRF 소분류 매핑 → `taxonomy/mapping-tracks.json`. 완료 조건: 26개 전부, 1:N은 전부 나열 후 `needs-judge` 판정 완료. — issue #3
 - [ ] `registry.json`에 출처 계급 7종(NRF/KEDI, 대학 공시, 모집요강, Scimago/KCI/CORE, 인사혁신처/ALIO/대학알리미/KRIVET, KRIVET/KISTEP/KEDI 통계, 수필·수기) 각 1건 이상. 완료 조건: `npm run validate` 통과.
 - [ ] 결정 기록 0006: 분류 기준으로 NRF를 택한 이유와 계열(인문사회·이공) 유도 규칙.
 

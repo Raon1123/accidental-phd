@@ -31,4 +31,4 @@
 | jnu | 전남대학교 | 전낭대학교 |
 | cnu | 충남대학교 | 충낭대학교 |
 
-**담당 issue.** Wave 2 — issue: #N
+**담당 issue.** Wave 2 — #4

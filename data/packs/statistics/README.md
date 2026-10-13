@@ -8,4 +8,4 @@
 
 **id 규칙.** `statistics-<topic>-<key>`. 예: `statistics-employed-cs`, `statistics-form-permanent`, `statistics-leave-stem`, `statistics-faculty-new-hires-humanities`. 비율은 `unit: ratio`, `denominator` 필수.
 
-**담당 issue.** Wave 2 — employment: #N · progress: #N · faculty-market: #N
+**담당 issue.** Wave 2 — employment: #12 · progress: #13 · faculty-market: #14

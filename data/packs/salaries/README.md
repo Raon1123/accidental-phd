@@ -17,4 +17,4 @@
 
 **id 규칙.** `salaries-<class>-<grade>-<step>`. 예: `salaries-public-research-5`(연구직 5호봉), `salaries-faculty-assistant-mean`. `unit`은 `krw`(연봉 원) 또는 `krw-10k`(월 만원). `note`에 연도·세전/세후·수당 포함 여부.
 
-**담당 issue.** Wave 2 — public: #N · institutes: #N · faculty: #N · entry: #N
+**담당 issue.** Wave 2 — public: #8 · institutes: #9 · faculty: #10 · entry: #11
