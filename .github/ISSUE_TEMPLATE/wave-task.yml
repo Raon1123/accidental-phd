@@ -1,0 +1,44 @@
+name: Wave 작업
+description: wave 파일 체크리스트의 항목 하나
+title: "[wave N] <task>"
+labels: []
+body:
+  - type: dropdown
+    id: wave
+    attributes:
+      label: Wave
+      options: ["0", "1", "2", "3", "4", "5", "6"]
+    validations:
+      required: true
+  - type: input
+    id: item
+    attributes:
+      label: 체크리스트 항목
+      description: docs/waves/wave-NN-*.md의 항목 문장 그대로
+    validations:
+      required: true
+  - type: input
+    id: output
+    attributes:
+      label: 산출 파일
+  - type: textarea
+    id: done
+    attributes:
+      label: 완료 조건
+      description: 검증 가능한 문장으로
+    validations:
+      required: true
+  - type: input
+    id: prompt
+    attributes:
+      label: 프롬프트 파일
+      placeholder: docs/prompts/<role>-<wave>.md
+  - type: dropdown
+    id: model
+    attributes:
+      label: 권장 모델·effort
+      options:
+        - "sonnet / Sol · medium"
+        - "haiku / Luna · low"
+        - "opus / Sol · high"
+        - "fable / Astra · high"

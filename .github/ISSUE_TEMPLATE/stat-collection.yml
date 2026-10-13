@@ -1,0 +1,58 @@
+name: 통계·서사 수집
+description: 데이터 팩 한 주제를 별도 세션에서 수집한다 (issue 1건 = 세션 1개 = worktree 1개 = PR 1개)
+title: "[stats] <pack>/<topic>"
+labels: ["wave/2", "chatgpt-ready"]
+body:
+  - type: input
+    id: pack
+    attributes:
+      label: 대상 팩 파일
+      placeholder: data/packs/salaries/records.json
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 수집 범위
+      description: 어떤 수치를, 어떤 분해(분야·연도·기관)로
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: 후보 출처
+      description: 발행처·제목·연도·URL. data/sources/registry.json에 없으면 함께 추가
+    validations:
+      required: true
+  - type: input
+    id: branch
+    attributes:
+      label: worktree 브랜치
+      placeholder: stats/salaries-public
+    validations:
+      required: true
+  - type: input
+    id: prompt
+    attributes:
+      label: 프롬프트 파일
+      placeholder: docs/prompts/stat-collector-wave2.md
+  - type: checkboxes
+    id: acceptance
+    attributes:
+      label: 수용 체크리스트
+      options:
+        - label: 모든 레코드에 필수 필드가 있고 `npm run validate`가 통과한다
+        - label: 비율 레코드에 분모·모집단이 적혀 있다
+        - label: 출처 캐비앗(조사 한계)을 note에 옮겼다
+        - label: 추정값은 confidence=assumed로 표시했다
+        - label: 서사 레코드는 원문을 담지 않고 quote는 15단어 이하다
+        - label: 세션 종료 시 handoff 댓글을 남겼다
+  - type: dropdown
+    id: model
+    attributes:
+      label: 권장 모델·effort
+      options:
+        - "sonnet / Sol · medium"
+        - "haiku / Luna · low"
+        - "opus / Sol · high"
+        - "fable / Astra · high"

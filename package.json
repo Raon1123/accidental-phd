@@ -1,0 +1,10 @@
+{
+  "name": "accidental-phd",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test",
+    "validate": "node scripts/validate-data.mjs"
+  }
+}
