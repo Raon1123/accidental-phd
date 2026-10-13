@@ -11,15 +11,15 @@ Wave 0 PR 머지.
 - [ ] 교육통계(KEDI) 학과 분류 ↔ NRF 매핑 → `taxonomy/mapping-kedi.json`. 완료 조건: 241개 학과가 쓰는 모든 KEDI 코드에 NRF 코드 1개 이상. — issue #2
 - [ ] 게임 트랙 26개 ↔ NRF 소분류 매핑 → `taxonomy/mapping-tracks.json`. 완료 조건: 26개 전부, 1:N은 전부 나열 후 `needs-judge` 판정 완료. — issue #3
 - [ ] `registry.json`에 출처 계급 7종(NRF/KEDI, 대학 공시, 모집요강, Scimago/KCI/CORE, 인사혁신처/ALIO/대학알리미/KRIVET, KRIVET/KISTEP/KEDI 통계, 수필·수기) 각 1건 이상. 완료 조건: `npm run validate` 통과.
-- [ ] 결정 기록 0006: 분류 기준으로 NRF를 택한 이유와 계열(인문사회·이공) 유도 규칙.
+- [ ] 결정 기록 0007: 분류 기준으로 NRF를 택한 이유와 계열(인문사회·이공) 유도 규칙.
 
 ## 종료 조건
-`npm run validate` 통과, 매핑 표에 26개 트랙 전부, 결정 기록 0006 승인.
+`npm run validate` 통과, 매핑 표에 26개 트랙 전부, 결정 기록 0007 승인.
 
 ## 모델·effort 표
 | 역할 | Claude | ChatGPT | effort | 프롬프트 파일 |
 |---|---|---|---|---|
-| 분류 수집·매핑 초안 | sonnet | Sol (확인 필요) | medium | `../prompts/taxonomy-mapper-wave1.md` |
+| 분류 수집·매핑 초안 | sonnet | Luna | medium | `../prompts/taxonomy-mapper-wave1.md` |
 | 1:N 매핑 판정 | fable | Astra | high | `../prompts/judge-any.md` |
 | 정형화·검증 | haiku | Luna | low | `../prompts/stat-validator-wave2.md` |
 | 회고 | opus | Sol | medium | `../prompts/weaver-retro-any.md` |

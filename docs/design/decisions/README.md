@@ -27,3 +27,4 @@
 - [0003 공개 학술지·학회 지표만 사용](0003-open-venue-metrics.md)
 - [0004 학교 표시명 가상 유지](0004-fictional-school-display-names.md)
 - [0005 무작위보다 선택](0005-agency-over-randomness.md)
+- [0006 Sonnet의 ChatGPT 대응 등급은 Luna](0006-sonnet-chatgpt-tier-luna.md)

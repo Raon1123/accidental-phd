@@ -29,8 +29,8 @@ Wave 1 종료 조건(매핑 표 26개, 결정 기록 0006). 단, 출처가 분�
 ## 모델·effort 표
 | 역할 | Claude | ChatGPT | effort | 프롬프트 파일 |
 |---|---|---|---|---|
-| 출처 독해·수치 추출 초안 | sonnet | Sol (확인 필요) | medium | `../prompts/stat-collector-wave2.md` |
-| 서사 장면 추출 초안 | sonnet | Sol (확인 필요) | medium | `../prompts/narrative-collector-wave2.md` |
+| 출처 독해·수치 추출 초안 | sonnet | Luna | medium | `../prompts/stat-collector-wave2.md` |
+| 서사 장면 추출 초안 | sonnet | Luna | medium | `../prompts/narrative-collector-wave2.md` |
 | 정형화·기계 검증 | haiku | Luna | low | `../prompts/stat-validator-wave2.md` |
 | 출처 충돌·분류 판정 | fable | Astra | high | `../prompts/judge-any.md` |
 | 회고 | opus | Sol | medium | `../prompts/weaver-retro-any.md` |

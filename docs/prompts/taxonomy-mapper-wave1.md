@@ -1,6 +1,6 @@
 ---
 role: taxonomy-mapper
-model: sonnet | Sol (확인 필요)
+model: sonnet | Luna
 effort: medium
 waves: 1
 ---
