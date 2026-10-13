@@ -263,7 +263,7 @@ test('decision with all headings passes', () => {
 const NAR = {
   id: 'nar-stem-qual-exam-1', track: '이공', stage: 'qualifying', theme: 'exam-anxiety',
   summary: '자격시험 전날 실험 장비가 고장나 지도교수와 일정을 조정한다.', quote: '',
-  source_id: 'krivet-2025-phd-jobs', page_or_url: 'p.12', year: 2024, checked_on: '2026-10-13', confidence: 'verified'
+  source_id: 'krivet-2025-phd', page_or_url: 'p.12', year: 2024, checked_on: '2026-10-13', confidence: 'verified'
 };
 function narFixture(rec) {
   const root = fixture();
@@ -288,6 +288,10 @@ test('broken relative link fails', () => {
 });
 test('external and anchor links are ignored', () => {
   const r = validate(fixture({ md: '[a](https://x.y) [b](#sec)' }));
+  assert.deepEqual(r.errors, []);
+});
+test('links inside code fences and inline code are ignored', () => {
+  const r = validate(fixture({ md: '```\n[x](./missing.md)\n```\nand `[y](./gone.md)`' }));
   assert.deepEqual(r.errors, []);
 });
 ```
@@ -363,7 +367,7 @@ export function validate(root) {
     for (const h of DECISION_HEADINGS) if (!text.includes(h)) errors.push(`${file.slice(root.length + 1)}: missing heading ${h}`);
   }
   for (const file of walk(join(root, 'docs'), p => p.endsWith('.md'))) {
-    const text = readFileSync(file, 'utf8');
+    const text = readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
     for (const m of text.matchAll(/\]\(([^)\s]+)\)/g)) {
       const target = m[1];
       if (/^(https?:|mailto:|#)/.test(target)) continue;
@@ -382,7 +386,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
 }
 ```
 
-- [ ] **Step 5: 통과 확인.** Run: `npm test`. Expected: 13 pass.
+- [ ] **Step 5: 통과 확인.** Run: `npm test`. Expected: 14 pass.
 
 - [ ] **Step 6: 출처 등록부** `data/sources/registry.json` — v3.5가 인용한 두 출처를 시드로.
 
