@@ -38,6 +38,18 @@ const resolve = (s: LifeState): LifeState => ({
 const employed = (route: Route, annualPay: number, o: Partial<CareerState> = {}, s: Overrides = {}) =>
   fixtureCareerState({ ...s, career: { route, annualPay, ...o } });
 
+describe('advanceYear: auto mode (선택권 §4.4)', () => {
+  it('resolves the career-5y decision with the policy inside the year tick', () => {
+    const s0 = employed('industry', 60_000_000, { degreeMonth: 40 }, { month: 95, auto: true });
+    const s1 = advanceYear(s0, data);
+    expect(s1.pending).toBeNull();
+    expect(s1.decisions.map(d => d.dp)).toContain('career-5y');
+    expect(s1.decisions.find(d => d.dp === 'career-5y')!.byPolicy).toBe(true);
+    expect(s1.snapshots).toHaveLength(1);
+    expect(advanceYear(s0, data)).toEqual(s1);   // 결정론
+  });
+});
+
 describe('advanceYear: career year', () => {
   it('throws while a decision is pending', () => {
     const s = { ...employed('industry', 60_000_000), pending: { dp: 'career-5y' as const, month: 100, context: {}, options: [] } };

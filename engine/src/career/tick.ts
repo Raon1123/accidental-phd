@@ -5,6 +5,8 @@ import type { DecisionId, LifeState, MonthInput, PendingDecision, Route } from '
 import { searchMonth } from './labor';
 import { updateNews } from './news';
 import { ACADEMIC_ROUTES, addLog, pensionMonthly, retireAge, yearEnd } from './pay';
+import { decide } from '../decide';
+import { policyDecision } from '../policy';
 
 // 결정 지점 트리거 시점(선택권 §3.5–§3.7). 0014 항목이 아닌 구조 상수다.
 const FIVE_YEARS_MONTHS = 5 * ASSUMED.MONTHS_PER_YEAR;
@@ -104,6 +106,8 @@ export function advanceYear(state: LifeState, data: DataBundle, input?: { apply?
     // 스냅샷 계약(상태 §6.3, branch.ts): 결정 직전 상태 + 그 결정의 pending 프롬프트, decisions 에는 그 결정이 없다
     const snapshot = { dp, month: s.month, decisionIndex: s.decisions.length, state: structuredClone({ ...s, snapshots: [], pending }) };
     s = { ...s, snapshots: [...s.snapshots, snapshot], pending };
+    // 자동 진행(동기 정책, 선택권 §4.4): 월 틱과 같이 연 틱 안에서 바로 고른다
+    if (s.auto) s = decide(s, data, policyDecision(s, data, pending), true);
   }
   return s;
 }
