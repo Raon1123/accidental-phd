@@ -12,3 +12,6 @@
 **id 규칙.** `taxonomy-<scheme>-<code>`.
 
 **담당 issue.** Wave 1 — NRF 코드: #1 · KEDI 매핑: #2 · 트랙 매핑: #3
+
+## 판정 로그
+이 팩의 레코드에 영향을 준 결정 기록: 0007(NRF 분류 기준 체계, 대분류 → 게임 계열), 0008(트랙 매핑 판정 — [needs-judge-tracks.md](needs-judge-tracks.md)), 0009(KEDI 매핑 판정 — [needs-judge-kedi.md](needs-judge-kedi.md)), 0013 §2("교육·의약·예체능 12건" 서술을 "의약 5·예체능 7"로 정정), 0014 #14(세부전공 운에 맡기기 균등).

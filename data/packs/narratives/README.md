@@ -18,3 +18,6 @@
 **id 규칙.** `nar-<track>-<stage>-<n>`. track은 `hs`(인문사회) 또는 `stem`. 예: `nar-hs-funding-2`.
 
 **담당 issue.** Wave 2 — humanities-social: #15 · stem: #16
+
+## 판정 로그
+이 팩의 레코드에 영향을 준 결정 기록: 0005(결정 지점 7종, 창작 표시), 0013 §5(결정 지점 정본 id — 인문사회 팩의 `qualifying-result`를 `post-qualifying`으로 치환). 서사는 확률 계산에 쓰지 않고 장면 근거로만 쓴다(선택권 모델 스펙 §3·§12).

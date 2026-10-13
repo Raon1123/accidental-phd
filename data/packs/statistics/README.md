@@ -12,3 +12,6 @@
 **사용 시 주의(#12).** 취업률 계열은 한국표준교육분류 10계열이며 NRF 계열과 다르다. 판정 항목은 [needs-judge-employment.md](needs-judge-employment.md) → Wave 3(#18).
 
 **담당 issue.** Wave 2 — employment: #12 · progress: #13 · faculty-market: #14
+
+## 판정 로그
+이 팩의 레코드에 영향을 준 결정 기록: 0013 §1(취업 통계 7항목 판정 — [needs-judge-employment.md](needs-judge-employment.md)), 0013 §2(계열 대응: 교육계열은 인문사회), 0013 §6(노동시장 기준값: 2024 신규채용은 `-a`, 명예교수 차감), 0014 #44·#47·#49·#76·#102–#106(학위 기간·휴학·탈락 해석, 정규직 비율 연도, 스톡 비중 배분). 노동시장·뉴스 스펙 §2·§3이 B_k·L_k 표를 이 팩에서 계산했다.
