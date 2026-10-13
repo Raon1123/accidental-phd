@@ -351,6 +351,393 @@
     "note": "2024-11-13 게시. 학술표준분류 개정을 KCI가 2024-11-30 적용. 붙임2 '학술표준분류표(변경 후_총괄표).xlsx'는 파일 ID만 노출되어 직접 내려받지 못함. 개정 연도·적용일 교차 확인용이며 레코드의 source_id는 NRF 원본을 쓴다."
   },
   {
+    "id": "kci-2026-journal-applied-chem-eng",
+    "title": "KCI 학술지 상세: 공업화학 (Jpurnal of the Korean Industrial and Engineering Chemistry)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001123&sereSearBean.sereId=000325",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-bkms",
+    "title": "KCI 학술지 상세: 대한수학회보 (Bulletin of the KMS)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000953&sereSearBean.sereId=000206",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-cheolhak-sasang",
+    "title": "KCI 학술지 상세: 철학사상",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000003068&sereSearBean.sereId=001235",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-comm-kms",
+    "title": "KCI 학술지 상세: 대한수학회논문집 (Communications of the KMS)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000953&sereSearBean.sereId=000207",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-csam",
+    "title": "KCI 학술지 상세: Communications for Statistical Applications and Methods (Communications for Statistical Applications and Methods)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000850&sereSearBean.sereId=000420",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-economy-and-society",
+    "title": "KCI 학술지 상세: 경제와 사회 (Economy and Society)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001299&sereSearBean.sereId=000107",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-exp-mol-med",
+    "title": "KCI 학술지 상세: Experimental and Molecular Medicine (Experimental and Molecular Medicine)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000951&sereSearBean.sereId=000088",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-hanguksa-yeongu",
+    "title": "KCI 학술지 상세: 한국사연구 (The Journal of Korean History)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001503&sereSearBean.sereId=000361",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ijpem",
+    "title": "KCI 학술지 상세: International Journal of Precision Engineering and Manufacturing (International Journal of Precision Engineering and Manufacturing)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001215&sereSearBean.sereId=001391",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-irpa",
+    "title": "KCI 학술지 상세: International Review of Public Administration (International Review of Public Administration)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000856&sereSearBean.sereId=000299",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-j-microbiology",
+    "title": "KCI 학술지 상세: The Journal of Microbiology (Journal of Microbiology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000970&sereSearBean.sereId=000121",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jeet",
+    "title": "KCI 학술지 상세: Journal of Electrical Engineering & Technology (Journal of Electrical Engineering & Technology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001086&sereSearBean.sereId=SER000002593",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jiec",
+    "title": "KCI 학술지 상세: Journal of Industrial and Engineering Chemistry (Journal of Industrial and Engineering Chemistry)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001123&sereSearBean.sereId=000711",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jkms",
+    "title": "KCI 학술지 상세: 대한수학회지 (Journal of the KMS)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000953&sereSearBean.sereId=000208",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jkss",
+    "title": "KCI 학술지 상세: Journal of the Korean Statistical Society (Journal of the Korean Statistical Society)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000850&sereSearBean.sereId=000337",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-jmst",
+    "title": "KCI 학술지 상세: 대한기계학회 영문 논문집 (Journal of Mechanical Science and Technology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001027&sereSearBean.sereId=000058",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kaps-policy",
+    "title": "KCI 학술지 상세: 한국정책학회보 (The Korea Association for Policy Studies)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000832&sereSearBean.sereId=000110",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kdi-jep",
+    "title": "KCI 학술지 상세: 한국개발연구",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000002605&sereSearBean.sereId=001088",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kiee-transactions",
+    "title": "KCI 학술지 상세: 전기학회논문지",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001086&sereSearBean.sereId=SER000002663",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kiise-journal",
+    "title": "KCI 학술지 상세: 정보과학회논문지 (Journal of KIISE)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001216&sereSearBean.sereId=SER000004124",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kips-transactions-b",
+    "title": "KCI 학술지 상세: 정보처리학회 논문지 (The Transactions of the Korea Information Processing Society)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000930&sereSearBean.sereId=B00564",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjas",
+    "title": "KCI 학술지 상세: 응용통계연구 (The Korean Journal of applied Statistics)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000850&sereSearBean.sereId=000408",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjche",
+    "title": "KCI 학술지 상세: Korean Journal of Chemical Engineering (Korean Journal of Chemical Engineering)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001249&sereSearBean.sereId=000406",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjes-economic-studies",
+    "title": "KCI 학술지 상세: 경제학연구 (KYONG JE HAK YON GU)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000741&sereSearBean.sereId=000214",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjmr",
+    "title": "KCI 학술지 상세: 한국재료학회지 (Korean Journal of Materials Research)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001207&sereSearBean.sereId=000279",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjp-counseling-psychotherapy",
+    "title": "KCI 학술지 상세: 한국심리학회지: 상담 및 심리치료 (Korean Journal Of Counseling And Psychotherapy)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000428&sereSearBean.sereId=000523",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjp-general",
+    "title": "KCI 학술지 상세: 한국심리학회지:일반 (Korean Journal of Psychology: General)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000678&sereSearBean.sereId=001037",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjp-social-personality",
+    "title": "KCI 학술지 상세: 한국심리학회지: 사회및성격 (Korean Journal of Social and Personality Psychology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001540&sereSearBean.sereId=000424",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kjs-sociology",
+    "title": "KCI 학술지 상세: 한국사회학 (Korean Journal of Sociology)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000799&sereSearBean.sereId=000205",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kll-korean-lang-lit",
+    "title": "KCI 학술지 상세: 국어국문학 (The Korean Language and Literature)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001396&sereSearBean.sereId=000019",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-korean-chem-eng-res",
+    "title": "KCI 학술지 상세: 화학공학 (Korean Chem. Eng. Res.)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001249&sereSearBean.sereId=000148",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kosenv-journal",
+    "title": "KCI 학술지 상세: 대한환경공학회지 (Journal of Korean Society of Environmental Engineers)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001109&sereSearBean.sereId=000098",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kosham",
+    "title": "KCI 학술지 상세: 한국방재학회논문집 (Journal of The Korean Society of Hazard Mitigation)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000392&sereSearBean.sereId=001845",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kpar",
+    "title": "KCI 학술지 상세: 한국행정학보 (Korean Public Administration Review)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000856&sereSearBean.sereId=000298",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-kpsr",
+    "title": "KCI 학술지 상세: 한국정치학회보 (Korean Political Science Review)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000834&sereSearBean.sereId=000383",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ksce-civil-env-research",
+    "title": "KCI 학술지 상세: 대한토목학회논문집(국문) (Journal of the Korean Society of Civil Engineers)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001098&sereSearBean.sereId=SER000003506",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ksce-journal",
+    "title": "KCI 학술지 상세: KSCE Journal of Civil Engineering (KSCE Journal of Civil Engineering)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001098&sereSearBean.sereId=000839",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-ksme-a",
+    "title": "KCI 학술지 상세: 대한기계학회논문집 A (Transactions of the KSME, A)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001027&sereSearBean.sereId=000056",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-molecules-and-cells",
+    "title": "KCI 학술지 상세: Molecules and Cells (Molecules and Cells)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000000972&sereSearBean.sereId=000079",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-seoul-j-economics",
+    "title": "KCI 학술지 상세: Seoul Journal of Economics",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000003026&sereSearBean.sereId=000366",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-society-and-theory",
+    "title": "KCI 학술지 상세: 사회와 이론 (Society and Theory)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000002231&sereSearBean.sereId=001910",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-studies-in-korean-lit",
+    "title": "KCI 학술지 상세: 한국문학연구 (The Studies in Korean Literature)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000004500&sereSearBean.sereId=001857",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
+    "id": "kci-2026-journal-yoksa-hakbo",
+    "title": "KCI 학술지 상세: 역사학보 (YOKSA HAKBO)",
+    "publisher": "한국연구재단(NRF) 한국학술지인용색인(KCI)",
+    "year": 2026,
+    "url": "https://www.kci.go.kr/kciportal/ci/seriesSearch/ciSereInfoView.kci?sereSearBean.insiId=INS000001484&sereSearBean.sereId=000356",
+    "checked_on": "2026-10-13",
+    "note": "KCI 학술지 검색·상세 화면에서 등재 구분을 직접 확인. 구분은 확인일 시점의 현재 값이며 평가 주기마다 바뀐다."
+  },
+  {
     "id": "kci-2026-portal",
     "title": "한국학술지인용색인(KCI)",
     "publisher": "한국연구재단(NRF)",
@@ -871,6 +1258,114 @@
     "url": "https://go.pusan.ac.kr/graduate/pages/index.asp?p=91&b=B_1_16&bn=49773&m=read",
     "checked_on": "2026-10-13",
     "note": "공고(2026.08.04) 첨부 PDF(/_common/new_download_file.asp?menu=boardfile&file_no=4422, 61쪽)를 내려받아 박사과정 모집단위표(PDF 9~11쪽, 인쇄 7~9쪽)를 읽음. 특차 모집요강이며 '특차에서 선발하지 않는 모집단위는 전기·후기에서 선발, 11월 공고 전기 모집요강 확인' 문구가 있음. 전기 모집요강은 아직 미공고라 읽지 못함. 모집여부 표기: ○ 특차 모집, × 특차 미모집."
+  },
+  {
+    "id": "scimago-2025-sjr-chem-materials-engineering",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 화학·재료공학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 화학·재료공학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-civil-env-engineering",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 토목·환경공학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 토목·환경공학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-computer-science",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 컴퓨터과학·인공지능",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 컴퓨터과학·인공지능 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-economics",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 경제학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 경제학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-history-philosophy-korean-literature",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 역사학·철학·한국문학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 역사학·철학·한국문학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-life-science",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 생명과학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 생명과학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-mathematics",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 수학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 수학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-mech-elec-engineering",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 기계·전기전자공학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 기계·전기전자공학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-polsci-public-admin",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 정치학·행정학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 정치학·행정학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-psychology",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 심리학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 심리학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-sociology",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 사회학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 사회학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
+  },
+  {
+    "id": "scimago-2025-sjr-statistics",
+    "title": "Scimago Journal & Country Rank 2025, 분야군: 통계학",
+    "publisher": "SCImago Lab (Scimago Journal & Country Rank)",
+    "year": 2025,
+    "url": "https://www.scimagojr.com/journalrank.php",
+    "checked_on": "2026-10-13",
+    "note": "분야군 통계학 저널의 SJR 2025 사분위. scimagojr.com 직접 열람은 HTTP 403으로 막혀, 같은 SJR 사분위를 연도별로 재현하는 러시아 RCSI 저널 순위 DB(journalrank.rcsi.science)의 저널별 사분위 표를 열람했다(확인일 2026-10-13). 2차 열람이므로 confidence=indexed. 사분위는 저널이 속한 Scimago 카테고리마다 따로 매겨지며 레코드 note에 주 카테고리와 나머지 2025 카테고리를 적었다. JCR 영향력 지수는 수집하지 않음(결정 기록 0003)."
   },
   {
     "id": "scimago-2026-portal",
