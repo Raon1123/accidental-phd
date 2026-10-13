@@ -1,0 +1,662 @@
+[
+  {
+    "track": "systems_biology",
+    "nrf_code": "C071600",
+    "nrf_name": "생물정보학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": true,
+    "계열": "이공",
+    "note": "소분류에 시스템생물학이 없다. 계산·모형 중심이라 생물정보학을 1순위로 가정, 분자·세포·응용생물학이 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "systems_biology",
+    "nrf_code": "C070100",
+    "nrf_name": "분자생물학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "분자 네트워크 관점의 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "systems_biology",
+    "nrf_code": "C070200",
+    "nrf_name": "세포생물학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "세포 수준 모형의 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "systems_biology",
+    "nrf_code": "C071500",
+    "nrf_name": "응용생물학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "응용생물학 일반 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "semiconductor",
+    "nrf_code": "D120100",
+    "nrf_name": "반도체",
+    "level": 3,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "같은 이름의 소분류가 전기공학(D090600)에도 있다. 소자·집적회로 쪽이라 전자/정보통신공학 쪽을 1순위로 둠 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "semiconductor",
+    "nrf_code": "D090600",
+    "nrf_name": "반도체",
+    "level": 3,
+    "confidence": "verified",
+    "primary": false,
+    "계열": "이공",
+    "note": "이름이 같은 전기공학 쪽 반도체. 어느 쪽을 쓸지 판정 필요 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "semiconductor",
+    "nrf_code": "D120700",
+    "nrf_name": "물리전자",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "반도체 소자 물리 쪽 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "semiconductor",
+    "nrf_code": "C040600",
+    "nrf_name": "고체물리",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "물리학 쪽(고체물리) 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "energy",
+    "nrf_code": "D020700",
+    "nrf_name": "에너지및동력공학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": true,
+    "계열": "이공",
+    "note": "에너지는 기계·전기·화공·원자력에 걸친다. 에너지가 이름에 들어간 소분류를 1순위로 둠 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "energy",
+    "nrf_code": "D090900",
+    "nrf_name": "발전/저장",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "전기공학의 발전/저장 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "energy",
+    "nrf_code": "D050900",
+    "nrf_name": "연소및에너지변환공학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "화학공학의 연소 및 에너지 변환 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "energy",
+    "nrf_code": "D030900",
+    "nrf_name": "대체에너지자동차공학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "대체에너지 자동차. 범위가 좁음 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "energy",
+    "nrf_code": "D150400",
+    "nrf_name": "건축환경/설비 및 에너지",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "건축 에너지. 범위가 좁음 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "energy",
+    "nrf_code": "D180000",
+    "nrf_name": "원자력공학",
+    "level": 2,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "원자력공학 중분류(소분류 전체가 원자력) · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "computer",
+    "nrf_code": "D130000",
+    "nrf_name": "컴퓨터학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "컴퓨터학 전체를 가리키는 트랙이라 소분류 하나로 좁히지 않고 중분류. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "ai",
+    "nrf_code": "D131100",
+    "nrf_name": "인공지능",
+    "level": 3,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "인공지능 소분류와 이름 일치 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "ai",
+    "nrf_code": "D091100",
+    "nrf_name": "컴퓨터/인공지능",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "전기공학의 컴퓨터/인공지능. 같은 주제가 다른 중분류에 있음 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "ai",
+    "nrf_code": "D120200",
+    "nrf_name": "신경망",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "전자/정보통신공학의 신경망. 딥러닝 쪽 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "ai",
+    "nrf_code": "D131500",
+    "nrf_name": "뉴로컴퓨터",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "뉴로컴퓨터 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "ai",
+    "nrf_code": "D131700",
+    "nrf_name": "자연언어",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "자연언어(자연어 처리) 쪽 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "mathematics",
+    "nrf_code": "C020000",
+    "nrf_name": "수학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "수학 전체. 수학일반 소분류는 잡다한 항목이라 중분류로 두고 하위 소분류를 선택지로 씀 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "statistics",
+    "nrf_code": "C030000",
+    "nrf_name": "통계학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "통계학 전체. 통계학은 자연과학(C)에 있다 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "life_science",
+    "nrf_code": "C070000",
+    "nrf_name": "생물학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "생물학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "bioengineering",
+    "nrf_code": "D070000",
+    "nrf_name": "생물공학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "생물공학 중분류를 1순위로 둠. 의공학·생물화학공학과 겹침 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "bioengineering",
+    "nrf_code": "D250000",
+    "nrf_name": "의공학",
+    "level": 2,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "의공학 중분류(biomedical engineering) · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "bioengineering",
+    "nrf_code": "D051100",
+    "nrf_name": "생물화학공학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "화학공학의 생물화학공학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "bioengineering",
+    "nrf_code": "D092000",
+    "nrf_name": "의용/생체",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "전기공학의 의용/생체 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "bioengineering",
+    "nrf_code": "D250300",
+    "nrf_name": "생체역학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "생체역학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "neuroscience",
+    "nrf_code": "C070600",
+    "nrf_name": "신경생물학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": true,
+    "계열": "이공",
+    "note": "신경과학 직접 대응 코드는 의약학(E300000, 계열 기타)과 복합학(H070000 뇌과학)에 있다. 1차 범위 안인 신경생물학을 1순위로 둠 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "neuroscience",
+    "nrf_code": "B210800",
+    "nrf_name": "신경심리",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "심리과학의 신경심리 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "mechanical",
+    "nrf_code": "D020000",
+    "nrf_name": "기계공학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "기계공학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "electrical",
+    "nrf_code": "D090000",
+    "nrf_name": "전기공학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "전기공학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "electrical",
+    "nrf_code": "D120000",
+    "nrf_name": "전자/정보통신공학",
+    "level": 2,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "전기·전자를 한 트랙으로 보면 전자/정보통신공학 중분류도 해당 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "chemical",
+    "nrf_code": "D050000",
+    "nrf_name": "화학공학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "공학 계열 트랙으로 보아 화학공학을 1순위로 둠. 화학(C060000)일 수도 있음 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "chemical",
+    "nrf_code": "C060000",
+    "nrf_name": "화학",
+    "level": 2,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "자연과학의 화학 중분류 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "materials",
+    "nrf_code": "D100000",
+    "nrf_name": "재료공학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "재료공학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "civil",
+    "nrf_code": "D140000",
+    "nrf_name": "토목공학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "이공",
+    "note": "토목공학 전체. 소분류 하나로 좁히면 나머지가 빠져 중분류. 아래 소분류는 하위 후보 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "civil",
+    "nrf_code": "D140100",
+    "nrf_name": "구조공학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "토목공학 하위: 구조공학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "civil",
+    "nrf_code": "D140600",
+    "nrf_name": "지반공학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "토목공학 하위: 지반공학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "civil",
+    "nrf_code": "D141100",
+    "nrf_name": "수리학/수력/수자원공학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "토목공학 하위: 수리학/수력/수자원공학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "civil",
+    "nrf_code": "D141000",
+    "nrf_name": "시공학/시공관리",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "이공",
+    "note": "토목공학 하위: 시공학/시공관리 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "civil",
+    "nrf_code": "D150000",
+    "nrf_name": "건축공학",
+    "level": 2,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "건축공학 중분류. 토목과 건축을 한 트랙으로 볼지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "civil",
+    "nrf_code": "D240000",
+    "nrf_name": "교통공학",
+    "level": 2,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "교통공학 중분류. 토목 인접 분야 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "environmental",
+    "nrf_code": "D110000",
+    "nrf_name": "환경공학",
+    "level": 2,
+    "confidence": "indexed",
+    "primary": true,
+    "계열": "이공",
+    "note": "공학 계열 트랙으로 보아 환경공학을 1순위로 둠. 환경과학·환경생물 등 자연과학 쪽일 수도 있음 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "environmental",
+    "nrf_code": "C080100",
+    "nrf_name": "환경지구과학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "지구과학의 환경지구과학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "environmental",
+    "nrf_code": "C070700",
+    "nrf_name": "환경생물학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "생물학의 환경생물학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "environmental",
+    "nrf_code": "C100400",
+    "nrf_name": "대기환경",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "이공",
+    "note": "대기과학의 대기환경 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "sociology",
+    "nrf_code": "B080000",
+    "nrf_name": "사회학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "사회학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "economics",
+    "nrf_code": "B030000",
+    "nrf_name": "경제학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "경제학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "political",
+    "nrf_code": "B020000",
+    "nrf_name": "정치외교학",
+    "level": 2,
+    "confidence": "indexed",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "정치외교학 중분류가 정치학을 포함. 소분류 정치학일반은 잡다한 항목이라 중분류 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "public_administration",
+    "nrf_code": "B140000",
+    "nrf_name": "행정학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "행정학 전체 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "public_administration",
+    "nrf_code": "B150000",
+    "nrf_name": "정책학",
+    "level": 2,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "정책학 중분류. 행정과 정책을 한 트랙으로 볼지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "psychology",
+    "nrf_code": "B210000",
+    "nrf_name": "심리과학",
+    "level": 2,
+    "confidence": "indexed",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "심리과학 중분류가 심리학에 해당 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "history",
+    "nrf_code": "A020000",
+    "nrf_name": "역사학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "역사학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "philosophy",
+    "nrf_code": "A030000",
+    "nrf_name": "철학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "철학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "korean_literature",
+    "nrf_code": "A110200",
+    "nrf_name": "국문학",
+    "level": 3,
+    "confidence": "indexed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "국문학이 한국문학에 해당. 같은 중분류에 국어학·한문학이 있어 후보를 나열 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "korean_literature",
+    "nrf_code": "A110100",
+    "nrf_name": "국어학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "국어학. 국어국문학과는 어학과 문학을 함께 다룸 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "korean_literature",
+    "nrf_code": "A110400",
+    "nrf_name": "한문학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "한문학. 한국 고전문학에 포함될 수 있음 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "korean_literature",
+    "nrf_code": "A101300",
+    "nrf_name": "구비문학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "구비문학. 문학 중분류 아래의 한국 구전문학 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "korean_literature",
+    "nrf_code": "A110000",
+    "nrf_name": "한국어와문학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "한국어와문학 중분류. 어학까지 포괄하려면 이쪽 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "english_literature",
+    "nrf_code": "A150200",
+    "nrf_name": "영문학",
+    "level": 3,
+    "confidence": "verified",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "영문학 소분류와 이름 일치 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "english_literature",
+    "nrf_code": "A150100",
+    "nrf_name": "영어학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "영어학. 영어영문학과는 어학과 문학을 함께 다룸 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "english_literature",
+    "nrf_code": "A150000",
+    "nrf_name": "영어와문학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "영어와문학 중분류 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "linguistics",
+    "nrf_code": "A090000",
+    "nrf_name": "언어학",
+    "level": 2,
+    "confidence": "verified",
+    "primary": true,
+    "계열": "인문사회",
+    "note": "언어학 전체. 하위 소분류가 세부전공 선택지 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "linguistics",
+    "nrf_code": "A091900",
+    "nrf_name": "전산언어학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "전산언어학. 인공지능 트랙(자연언어)과 겹침 · 판정 2026-10-13 (결정 기록 0008)"
+  },
+  {
+    "track": "linguistics",
+    "nrf_code": "A091700",
+    "nrf_name": "인지언어학",
+    "level": 3,
+    "confidence": "assumed",
+    "primary": false,
+    "계열": "인문사회",
+    "note": "인지언어학. 신경과학·인지과학 쪽과 겹침 · 판정 2026-10-13 (결정 기록 0008)"
+  }
+]

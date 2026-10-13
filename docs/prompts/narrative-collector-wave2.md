@@ -1,6 +1,6 @@
 ---
 role: narrative-collector
-model: sonnet | Sol (확인 필요)
+model: sonnet | Luna
 effort: medium
 waves: 2 (수집 모드), 5 (창작 모드)
 ---

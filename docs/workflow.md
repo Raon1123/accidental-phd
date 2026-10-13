@@ -10,7 +10,7 @@
 |---|---|---|---|
 | 판정·스펙 감사·모호한 결정 재판정 | fable | Astra | high |
 | 엮기·회고·결정 기록 작성 | opus | Sol | medium~high |
-| 출처 독해·통계 추출 초안 | sonnet | Sol (ChatGPT 대응 확인 필요, issue 참조) | medium |
+| 출처 독해·통계 추출 초안 | sonnet | Luna | medium |
 | 스키마 검증·일괄 정형화 | haiku | Luna | low |
 
 Claude에서 하위 agent를 띄울 때는 항상 literal `model:`을 넘긴다. 생략하면 세션 모델을 상속해 비용이 최상급이 된다. wave 파일의 모델·effort 표가 이 표보다 우선한다.
