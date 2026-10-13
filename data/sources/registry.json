@@ -9,6 +9,69 @@
     "note": "출처 계급: 대학 공시. 등록금·교원 급여·신규 임용 공시의 입구. 개별 수치는 하위 id(academyinfo-<year>-<topic>)로 등록. 2026-10-13 포털 접속 확인(제목만 확인)."
   },
   {
+    "id": "alio-2026-kdi-pay",
+    "title": "한국개발연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0151&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국개발연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0151. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kedi-pay",
+    "title": "한국교육개발원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0167&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국교육개발원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0167. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kihasa-pay",
+    "title": "한국보건사회연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0200&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국보건사회연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0200. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kipa-pay",
+    "title": "한국행정연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0298&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국행정연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0298. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kipf-pay",
+    "title": "한국조세재정연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0256&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국조세재정연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0256. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-kli-pay",
+    "title": "한국노동연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0179&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국노동연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0179. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
+    "id": "alio-2026-krivet-pay",
+    "title": "한국직업능력연구원 임직원 보수 공시 (직원 평균보수, 임원 연봉)",
+    "publisher": "ALIO 공공기관 경영정보 공개시스템(기획재정부)",
+    "year": 2026,
+    "url": "https://www.alio.go.kr/item/itemReportTerm.do?apbaId=C0264&reportFormRootNo=20601&disclosureNo=",
+    "checked_on": "2026-10-13",
+    "note": "한국직업능력연구원(경제·인문사회연구회 소관, 기타공공기관) 2026년 1/4분기 공시, 2025년 결산 기준. 기관 코드 C0264. 직원 평균보수 보고서(양식 20601)와 임원 연봉 보고서(양식 20501)의 공시 본문(doc.html)을 읽음. 레코드 page에는 공시 본문 URL을 적음."
+  },
+  {
     "id": "alio-2026-portal",
     "title": "공공기관 경영정보 공개시스템(ALIO)",
     "publisher": "기획재정부",
@@ -207,6 +270,15 @@
     "note": "일반대학원 신입학 안내 페이지(https://graduate.korea.ac.kr/matriculate/koreans_n.html)의 '입시요강 다운로드' PDF(20쪽)를 내려받아 8-1 '계열별 모집학과: 신입학' 표(요강 p.12-24)를 이미지로 읽음. 원서접수 2026-09-29~10-07(예정). 표의 열은 석사/박사/석·박사통합 × 구술시험/서류전형. 서울캠퍼스 학과와 세종캠퍼스(세종) 표기가 함께 있음. 등록금은 표에 없어 생략."
   },
   {
+    "id": "kribb-2026-postdoc-3rd-notice",
+    "title": "2026-3차 박사후연구원 채용공고",
+    "publisher": "한국생명공학연구원(KRIBB)",
+    "year": 2026,
+    "url": "https://www.kribb.re.kr/kor/sub03/sub03_01_01_view.jsp?b_idx=35441",
+    "checked_on": "2026-10-13",
+    "note": "접수 2026-10-08~10-23. 공고 본문은 게시판 이미지 4장(공고문 PDF 첨부). 4. 근무요건 라. 보수 항목을 이미지에서 직접 읽음."
+  },
+  {
     "id": "krivet-2025-phd-jobs",
     "title": "국내 신규 박사학위 취득자의 특성 및 일자리 변화",
     "publisher": "한국직업능력연구원(KRIVET)",
@@ -222,7 +294,7 @@
     "year": 2024,
     "url": "https://www.korea.kr/briefing/pressReleaseView.do?newsId=156667662",
     "checked_on": "2026-10-13",
-    "note": "첨부 hwpx(파일명 '[교육부 12-27(금) 조간보도자료]')에서 확인: 계열 분류에 「2023 학과(전공) 분류 자료집(한국교육개발원, 2023)」을 적용하고, 7개 계열(인문·사회·교육·공학·자연·의약·예체능)로 통계를 낸다. KEDI 교육통계가 이 자료집의 7대계열 체계를 쓴다는 근거. 2023년판 자료집 자체는 내려받지 못함."
+    "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
   },
   {
     "id": "moe-2026-academyinfo-standard-classification",
@@ -232,6 +304,15 @@
     "url": "https://www.academyinfo.go.kr/mjrinfo/mjrinfo0460/doInit.do",
     "checked_on": "2026-10-13",
     "note": "KEDI 학과(전공) 분류와 별개인 교육부 체계. 5대 계열(인문·사회, 자연과학, 공학, 예·체능, 의학)과 광역, 대분류 A~F·중분류 2자리·소분류 3자리 코드. 2026 공시 194건(2025 공시 191건에 산업디자인·시각디자인·생활디자인 소분류 3건 추가). 선택 목록 조회 엔드포인트 selectPopUpList.do에서 JSON으로 전체를 받을 수 있음. 이번 매핑에서는 쓰지 않음(KEDI 교육통계는 U 코드 체계). 다음 사람이 다시 찾지 않도록 기록함."
+  },
+  {
+    "id": "moneytoday-2023-nst-institute-pay",
+    "title": "과학 연구기관 초임 4313만원, 평균연봉 9370만원...여전한 처우개선 목소리",
+    "publisher": "머니투데이(Money Today)",
+    "year": 2023,
+    "url": "https://v.daum.net/v/yfhQzWC2B1?f=p",
+    "checked_on": "2026-10-13",
+    "note": "2023-05-24 기사. 국가과학기술연구회와 ALIO 자료 기반이라고 밝히며 2022년(기사 표현 지난해) 25개 출연연 평균연봉 9370만원, 상위 9곳 평균연봉 나열. 평균연봉의 정의(인건비 합계인지 보수인지)는 기사에 없음. 기사 본문은 WebFetch 요약으로 읽었고 원문 대조는 하지 않음."
   },
   {
     "id": "moppa-2026-pay-regulation",
@@ -250,6 +331,69 @@
     "url": "https://www.nrf.re.kr/page/323?menuNo=323",
     "checked_on": "2026-10-13",
     "note": "NRF 사업자료실 > 연구분야분류표 > 학술표준분류. 현행 공식 명칭은 학술표준분류(교육부 학술표준분류체계를 NRF가 관리). 2024년 개정 반영(KCI 적용 2024-11-30). 표 파일 info_2_4.xlsx 시트 major-final, 표제 '학술표준분류표 (2025. 11.)', 파일 수정일 2025-11-25(https://www.nrf.re.kr/file/generalFileDownload?downFileName=info_2_4.xlsx). 4단계(대8·중153·소1,556·세2,515). 개정 이력: 2012 확립, 2013~2016 6차례 일부 개정, 2023~2025 수요 접수 일부 개정, 2024 개정 반영. 표 주석: 2024년 개정 내용 시스템 반영 과정에서 분야코드가 변경될 수 있음. 해설서 PDF: info_2_5.pdf."
+  },
+  {
+    "id": "nst-2026-etri-disclosure",
+    "title": "한국전자통신연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=ETRI",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kaeri-disclosure",
+    "title": "한국원자력연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KAERI",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kimm-disclosure",
+    "title": "한국기계연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KIMM",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kist-disclosure",
+    "title": "한국과학기술연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KIST",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kisti-disclosure",
+    "title": "한국과학기술정보연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KISTI",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-kribb-disclosure",
+    "title": "한국생명공학연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KRIBB",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-28. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
+  },
+  {
+    "id": "nst-2026-krict-disclosure",
+    "title": "한국화학연구원 경영공시 (직원보수, 기관장 연봉)",
+    "publisher": "국가과학기술연구회(NST) ONE ST 경영공시",
+    "year": 2026,
+    "url": "https://onest.re.kr/mgp/open/lst/moveMngmPblntList.do?pstinstCode=KRICT",
+    "checked_on": "2026-10-13",
+    "note": "과학기술분야 정부출연연구기관 통합공시(ONE ST). 2026년 정기 공시, 기준일 2025-12-31, 제출일 2026-04-29. 항목 25 기관장 연봉, 26 직원보수(보고서 화면). ALIO 기관 목록에서 이 기관을 찾지 못했고 NST 통합공시로 공시함. 직원보수는 백만원 단위 인건비 합계와 직급별 초임만 공시하며 1인당 평균은 공시하지 않음."
   },
   {
     "id": "postech-2027-phd-admission-guide",
