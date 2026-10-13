@@ -16,5 +16,212 @@
     "url": "https://www.hrstpolicy.re.kr/kistep/upload/file/202406177_1397100000.pdf",
     "checked_on": "2026-10-13",
     "note": "2022년 국내 신규 박사 조사 재분석. 외국인 제외. 어쩌다 박사 v3.5가 표 B-3-12·B-3-15를 인용."
+  },
+  {
+    "id": "core-2026-ranking",
+    "title": "ICORE2026 Conference Rankings (CORE Conference Portal)",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2026,
+    "url": "https://portal.core.edu.au/conf-ranks/?search=&by=all&source=ICORE2026&sort=atitle&page=1&do=Export",
+    "checked_on": "2026-10-13",
+    "note": "포털 기본 판(ICORE2026, 2026-10-13 기준 최신)의 CSV 내보내기를 읽음. A*/A/B/C 외에 Multiconference, National, Unranked, TBR 등 비서수 값이 있음. 접근 경로: 포털 HTML은 일부 환경에서 403이지만 브라우저형 User-Agent의 curl로 CSV 내보내기(do=Export)가 200으로 응답한다. 학회별 상세 쪽은 가끔 빈 응답이 와 재시도가 필요했다."
+  },
+  {
+    "id": "core-2023-ranking",
+    "title": "CORE2023 Conference Rankings (CORE Conference Portal)",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2023,
+    "url": "https://portal.core.edu.au/conf-ranks/?search=&by=all&source=CORE2023&sort=atitle&page=1&do=Export",
+    "checked_on": "2026-10-13",
+    "note": "ICORE2026에서 서수 등급을 잃은 학회(ICASSP)의 직전 판 등급을 위해서만 인용. 접근 경로: 포털 HTML은 일부 환경에서 403이지만 브라우저형 User-Agent의 curl로 CSV 내보내기(do=Export)가 200으로 응답한다. 학회별 상세 쪽은 가끔 빈 응답이 와 재시도가 필요했다."
+  },
+  {
+    "id": "core-2018-ranking",
+    "title": "CORE2018 Conference Rankings (CORE Conference Portal)",
+    "publisher": "Computing Research and Education Association of Australasia (CORE)",
+    "year": 2018,
+    "url": "https://portal.core.edu.au/conf-ranks/2081/",
+    "checked_on": "2026-10-13",
+    "note": "ISSCC의 마지막 등급 판(CORE2018 A). CORE2020 이후 판에는 ISSCC 항목이 없음. 접근 경로: 포털 HTML은 일부 환경에서 403이지만 브라우저형 User-Agent의 curl로 CSV 내보내기(do=Export)가 200으로 응답한다. 학회별 상세 쪽은 가끔 빈 응답이 와 재시도가 필요했다."
+  },
+  {
+    "id": "neurips-2025-acceptance",
+    "title": "Reflections on the 2025 Review Process from the Program Committee Chairs",
+    "publisher": "NeurIPS Program Committee Chairs (blog.neurips.cc)",
+    "year": 2025,
+    "url": "https://blog.neurips.cc/2025/09/30/reflections-on-the-2025-review-process-from-the-program-committee-chairs/",
+    "checked_on": "2026-10-13",
+    "note": "공식 블로그. 'valid paper submissions' 기준 메인 트랙 채택률."
+  },
+  {
+    "id": "icml-2025-acceptance",
+    "title": "ICML 2025 acceptance notice (RIKEN AIP news item, cites icml.cc/Conferences/2025)",
+    "publisher": "RIKEN Center for Advanced Intelligence Project",
+    "year": 2025,
+    "url": "https://aip.riken.jp/?p=19952",
+    "checked_on": "2026-10-13",
+    "note": "2차 자료. 이 기사가 icml.cc/Conferences/2025를 출처로 달았으나 icml.cc 쪽 통계는 직접 확인하지 못함. ICML 2026 수치는 공식 자료가 없어 수집하지 않음."
+  },
+  {
+    "id": "iclr-2026-acceptance",
+    "title": "A Retrospective on the ICLR 2026 Review Process",
+    "publisher": "ICLR Program Chairs (blog.iclr.cc)",
+    "year": 2026,
+    "url": "https://blog.iclr.cc/2026/03/31/a-retrospective-on-the",
+    "checked_on": "2026-10-13",
+    "note": "공식 블로그. 팩트시트 https://media.iclr.cc/Conferences/ICLR2026/ICLR2026_Fact_Sheet.pdf 는 채택 5,357편, 채택률 27%로 블로그(5,355편, 27.4%)와 2편 차이."
+  },
+  {
+    "id": "cvpr-2026-acceptance",
+    "title": "CVPR 2026 Media Registration page and Closing news",
+    "publisher": "CVPR 2026 organizers (cvpr.thecvf.com)",
+    "year": 2026,
+    "url": "https://cvpr.thecvf.com/Conferences/2026/News/Media_Reg_Open",
+    "checked_on": "2026-10-13",
+    "note": "공식 사이트. 이 쪽은 제출 16,092편, 채택률 25.2%. Closing 쪽 https://cvpr.thecvf.com/Conferences/2026/News/Closing 은 제출 16,092편, 채택 발표 4,089건."
+  },
+  {
+    "id": "iccv-2025-acceptance",
+    "title": "ICCV 2025 Main Program (front matter)",
+    "publisher": "ICCV 2025 organizers (media.eventhosts.cc)",
+    "year": 2025,
+    "url": "https://media.eventhosts.cc/Conferences/ICCV2025/iccv25_main_program.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 프로그램 PDF 서문. 2차 자료 NTT https://group.ntt/en/topics/2025/10/23/iccv2025.html 은 채택 2,698편으로 2,701편과 다름(직접 확인하지 못함)."
+  },
+  {
+    "id": "eccv-2024-acceptance",
+    "title": "ECCV 2024 opening slides",
+    "publisher": "ECCV 2024 organizers (eccv2024.ecva.net)",
+    "year": 2024,
+    "url": "https://eccv2024.ecva.net/media/eccv-2024/Slides/2822.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 개회 슬라이드. 채택 2,387편(27.9%). 2차 자료는 2,395편. ECCV 2026은 공식 채택률 쪽을 찾지 못해 수집하지 않음."
+  },
+  {
+    "id": "acl-2026-acceptance",
+    "title": "Proceedings of ACL 2026 (Long Papers) front matter, Program Chairs' message",
+    "publisher": "Association for Computational Linguistics (ACL Anthology)",
+    "year": 2026,
+    "url": "https://aclanthology.org/2026.acl-long.0.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 프로시딩 서문. 분모는 ARR(ACL Rolling Review) 두 주기의 고유 제출 12,148편."
+  },
+  {
+    "id": "emnlp-2025-acceptance",
+    "title": "Proceedings of EMNLP 2025 (Main) front matter, Program Chairs' message",
+    "publisher": "Association for Computational Linguistics (ACL Anthology)",
+    "year": 2025,
+    "url": "https://aclanthology.org/2025.emnlp-main.0.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 프로시딩 서문. 철회 778편과 데스크 리젝 670편이 분모 8,174편에 포함. EMNLP 2026은 공식 수치를 찾지 못함."
+  },
+  {
+    "id": "osdi-2026-acceptance",
+    "title": "OSDI '26 Program Co-Chairs' Message",
+    "publisher": "USENIX Association",
+    "year": 2026,
+    "url": "https://www.usenix.org/sites/default/files/osdi26-message.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 PC 의장 메시지. 리뷰 대상 669편(데스크 리젝 제외), 채택 134편, 이전 해 revise-and-resubmit로 2편 추가 채택."
+  },
+  {
+    "id": "sigmod-2026-acceptance",
+    "title": "SIGMOD 2026 Changes and Final Numbers (PACMMOD V4 N3 editorial)",
+    "publisher": "ACM SIGMOD / PACMMOD",
+    "year": 2026,
+    "url": "https://www-live.dfki.de/fileadmin/user_upload/import/17620_3802001.pdf",
+    "checked_on": "2026-10-13",
+    "note": "PACMMOD 4권 3호 사설(DOI https://doi.org/10.1145/3802001)의 DFKI 미러본. 4회 라운드 합산 제출 1,049편, 게재 349편. 2025년은 제출 1,008편, 채택률 26%."
+  },
+  {
+    "id": "chi-2026-acceptance",
+    "title": "CHI 2026 Papers Chairs' Welcome",
+    "publisher": "ACM SIGCHI (CHI 2026 Proceedings front matter)",
+    "year": 2026,
+    "url": "https://repository.tudelft.nl/file/File_3348fbe3-d887-4812-95d1-fe021410b15b",
+    "checked_on": "2026-10-13",
+    "note": "델프트 공대 저장소의 공개 사본(Bozzon et al. 2026). 완료 제출 6,730편, 최종 채택 1,702편(25.3%). 2025년 제출 5,014편, 2024년 4,046편."
+  },
+  {
+    "id": "sp-2025-acceptance",
+    "title": "IEEE TC on Security and Privacy Business Meeting report 2025",
+    "publisher": "IEEE Computer Society Technical Committee on Security and Privacy",
+    "year": 2025,
+    "url": "https://www.ieee-security.org/TC/Reports/2025/ieee-sp-tc-business-2025.pdf",
+    "checked_on": "2026-10-13",
+    "note": "TC 사업 보고서 표(Event/Dates/Modality/Attendees/Submissions/Accepted)의 'S&P/SPW 2025' 행. 제출 1,740편, 채택 256편. 행 이름이 S&P와 SPW(워크숍)를 함께 적어 메인 트랙 단독 수치인지 불명확."
+  },
+  {
+    "id": "dac-2025-acceptance",
+    "title": "62nd DAC Program (Welcome message)",
+    "publisher": "Design Automation Conference executive committee",
+    "year": 2025,
+    "url": "https://confcats-siteplex.s3.amazonaws.com/dac/files/62dacprogram.860185f3fd.pdf.pdf",
+    "checked_on": "2026-10-13",
+    "note": "공식 프로그램 책자 환영사. Research Track: 제출 1,862편 중 채택 420편. Engineering Track은 건수 미공개."
+  },
+  {
+    "id": "icra-2025-acceptance",
+    "title": "ICRA 2025 Highlight Statistics (announcement)",
+    "publisher": "IEEE Robotics and Automation Society (ICRA 2025)",
+    "year": 2025,
+    "url": "https://2025.ieee-icra.org/announcements",
+    "checked_on": "2026-10-13",
+    "note": "공식 공지. 제출 4,250편, 채택 1,606편(채택률은 공지에 없음). 저널 전환 503편은 별도."
+  },
+  {
+    "id": "kiise-kcc-2026",
+    "title": "한국컴퓨터종합학술대회 2026 (KCC2026) 안내",
+    "publisher": "한국정보과학회(KIISE)",
+    "year": 2026,
+    "url": "https://www.kiise.or.kr/conference/main/index.do?CC=KCC&CS=2026",
+    "checked_on": "2026-10-13",
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개. 같은 학회의 다른 안내 쪽과 요일 표기(화/수)가 다름."
+  },
+  {
+    "id": "kiise-ksc-2025",
+    "title": "한국소프트웨어종합학술대회 2025 (KSC2025) 안내",
+    "publisher": "한국정보과학회(KIISE)",
+    "year": 2025,
+    "url": "https://www.kiise.or.kr/conference/main/index.do?CC=KSC&CS=2025",
+    "checked_on": "2026-10-13",
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개."
+  },
+  {
+    "id": "ieie-2026-summer",
+    "title": "대한전자공학회 2026년도 하계종합학술대회 안내",
+    "publisher": "대한전자공학회(IEIE)",
+    "year": 2026,
+    "url": "https://conf.theieie.org/2026s",
+    "checked_on": "2026-10-13",
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개. 추계 대회(2025년도 추계학술대회, 2025-11-28~29, 곤지암)의 명칭에는 '종합'이 빠져 있음."
+  },
+  {
+    "id": "kiee-2026-summer",
+    "title": "대한전기학회 제57회 하계학술대회 안내",
+    "publisher": "대한전기학회(KIEE)",
+    "year": 2026,
+    "url": "https://www.kiee.or.kr/pages_events/conf_events.vm",
+    "checked_on": "2026-10-13",
+    "note": "주최처 행사 목록. 논문 수와 채택률 미공개."
+  },
+  {
+    "id": "kros-kroc-2026",
+    "title": "제21회 한국로봇종합학술대회(KRoC 2026) 안내",
+    "publisher": "한국로봇학회(KROS)",
+    "year": 2026,
+    "url": "https://kros.org/",
+    "checked_on": "2026-10-13",
+    "note": "학회 홈페이지(CP949 인코딩). 홈페이지가 KRoC 2026 일자를 '2025년 2월 4일~7일'로 잘못 적었으나 2026-02-04가 수요일이어서 2026년의 오기로 판단. 논문 수와 채택률 미공개."
+  },
+  {
+    "id": "icros-2026",
+    "title": "2026 제41회 제어·로봇·시스템학회 학술대회 안내",
+    "publisher": "제어·로봇·시스템학회(ICROS)",
+    "year": 2026,
+    "url": "https://2026.icros.org/",
+    "checked_on": "2026-10-13",
+    "note": "주최처 공식 사이트. 논문 수와 채택률 미공개. 일정 페이지에 '준비 중' 표시가 남아 있음."
   }
 ]
