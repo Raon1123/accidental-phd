@@ -185,6 +185,7 @@ export const ASSUMED = {
   REVIEW_DELAY_P: 0.18, REVIEW_DELAY_MONTHS: [1, 3], REREVIEW_DIVISOR: 2,              // 0014#69 지연 확률, 지연 개월 범위, 재심은 절반(올림)
   INDEXED_VENUE_RECORDS: ['venues-conf-icml-acceptance-2025', 'venues-conf-isscc-core-rank'], // 0014#70
   PAPER_SCORE_WEIGHT: { T1: 3, T2: 2, T3: 1.5, T4: 1 } satisfies Record<Tier, number>, // 0014#71
+  FIRST_TIER: { '이공': 'T1', '인문사회': 'T3' } satisfies Record<Group, Tier>,          // 0014#120 첫 투고 계층(Wave 4 추가); 거절 뒤 기본 방침은 한 계층 낮춤
 
   // ── 자격시험·학위 심사 (0014 #72–#73) ──
   QUAL_EXAM: {

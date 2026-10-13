@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 엔진 소스의 `0014#n` 주석을 모아 결정 기록 0014 의 번호 1..119 와 대조한다.
+// 엔진 소스의 `0014#n` 주석을 모아 결정 기록 0014 의 번호 1..MAX (119 + Wave 4 추가분)와 대조한다.
 //  - 범위 밖 번호가 있으면 exit 1.
 //  - 소스에 없는 번호마다 engine/README.md 에 `| n | … | UI 전용 또는 엔진 밖 … |` 행이 있어야 한다. 없으면 exit 1.
 // Usage: node scripts/check-assumed.mjs [rootDir]
@@ -7,7 +7,7 @@ import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const MAX = 119;
+export const MAX = 120;   // 0014 #120 은 Wave 4 에서 추가(첫 투고 계층)
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {

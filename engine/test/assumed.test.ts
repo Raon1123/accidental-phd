@@ -8,12 +8,13 @@ const sum = (xs: readonly number[]) => xs.reduce((s, x) => s + x, 0);
 
 describe('ASSUMED numbering (decision 0014)', () => {
   const numbers = new Set([...source.matchAll(/0014#(\d+)/g)].map(m => Number(m[1])));
-  it('cites every row 1..119', () => {
-    const missing = Array.from({ length: 119 }, (_, i) => i + 1).filter(n => !numbers.has(n));
+  const MAX = 120;   // 119 + Wave 4 추가 #120(첫 투고 계층)
+  it('cites every row 1..120', () => {
+    const missing = Array.from({ length: MAX }, (_, i) => i + 1).filter(n => !numbers.has(n));
     expect(missing).toEqual([]);
   });
-  it('cites nothing outside 1..119', () => {
-    expect([...numbers].filter(n => n < 1 || n > 119)).toEqual([]);
+  it('cites nothing outside 1..120', () => {
+    expect([...numbers].filter(n => n < 1 || n > MAX)).toEqual([]);
   });
 });
 
