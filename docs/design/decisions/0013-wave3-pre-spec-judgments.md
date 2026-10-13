@@ -1,7 +1,7 @@
 # 0013. Wave 3 스펙 작성 전 판정 — 통계 사용 규칙과 모호점 정리
 
 ## 상태
-승인됨 · 2026-10-13 (판정자 fable/main thread; issue #18·#19 스펙이 이 규칙을 인용한다)
+승인 대기 · 2026-10-13 (PR #36 머지로 확정, 결정 기록 0010 §3; 판정자 fable/main thread; issue #18·#19 스펙이 이 규칙을 인용한다)
 
 ## 맥락
 근거 레코드 색인(`docs/superpowers/specs/2026-10-13-wave3-evidence-index.md`)이 스펙 작성 전에 판정이 필요한 항목을 드러냈다: `data/packs/statistics/needs-judge-employment.md`의 7항목(Wave 2에서 이관), 휴학률 출처 두 가지, 한국교육개발원(KEDI) 교육계열(U03)의 게임 계열, 교원 급여 2017 직급 비율의 기준, `same_unit_as` 학과 묶음의 집계 방식, 서사 팩의 결정 지점 id 불일치, 계열별 신규 임용 배분, 가상 뉴스 효과의 범위.

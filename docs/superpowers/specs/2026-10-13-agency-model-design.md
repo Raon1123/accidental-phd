@@ -346,7 +346,7 @@ h_dropout(k) = 0.5 × hazard_month(r_drop,k) × exp(−0.8·z(mind) − 0.5·z(r
 | 학교 | cs·engineering에 쓰는 값 | math·bio에 쓰는 값 | 근거 | conf |
 |---|---|---|---|---|
 | hanyang, sogang, khu, pusan, uos | `schools-{school}-engineering-tuition` | 레코드 그대로 | assumed (결정 기록 0014 #57) | v (입력) |
-| ewha | 7,342,000원 = 서울 사립 8곳 공학 등록금 중앙값 (감사 변경, 0014 #58) | 6,298,000원 = 같은 8곳 math 등록금 중앙값 (감사 변경, 0014 #59) | assumed (결정 기록 0014 #58, 결정 기록 0014 #59) | v (입력) |
+| ewha | 7,341,000원 = 서울 사립 8곳 공학 등록금 중앙값 (감사 변경, 0014 #58) | 6,367,500원 = 같은 8곳 math 등록금 중앙값 (감사 변경, 0014 #59) | assumed (결정 기록 0014 #58, 결정 기록 0014 #59) | v (입력) |
 
 ewha 비율의 계산. 금액은 반올림하지 않은 중앙값(1.37468…, 1.19969…)으로 계산했으므로 표에 적은 네 자리 비율로 곱한 값과 수십 원 다르다. "서울 사립대"는 공학·사회 등록금 레코드가 모두 있는 서울 소재 사립 8곳(yonsei, korea, skku, hanyang, sogang, khu, cau, konkuk)이다. uos는 공립이라 빼고, ewha는 대상이라 뺀다. 8곳에서 math와 bio 등록금은 학교마다 같다.
 
@@ -362,7 +362,7 @@ ewha 비율의 계산. 금액은 반올림하지 않은 중앙값(1.37468…, 1.
 | konkuk | 6,849,000 / 4,893,000 = 1.3998 | 5,868,000 / 4,893,000 = 1.1993 |
 | 중앙값(4·5번째 평균) | (1.3702 + 1.3792) / 2 = 1.3747 | (1.1993 + 1.2001) / 2 = 1.1997 |
 
-입력 레코드: `schools-{yonsei,korea,skku,hanyang,sogang,khu,cau,konkuk}-{engineering,math,social}-tuition`, `schools-ewha-social-tuition`(전부 conf v, cau는 2025, 나머지 2026). ewha 공학 값은 관측된 어느 사립대 공학 등록금(최대 cau 7,507,000)보다 크다. ewha 사회 등록금이 이미 15개교 중 최고이기 때문이며 0013 §3 규칙을 그대로 따른 결과다.
+감사(2026-10-13)에서 비율 곱 대신 관측 중앙값으로 바꿨다(0014 #58·#59, §13).
 
 ### 5.2 장려금
 
@@ -567,7 +567,7 @@ ratio_{t,r} = pay2017_{t,r} / mean(pay2017_{t,교수}, pay2017_{t,부교수}, pa
 | 설립 | 교수 2017 | 부교수 2017 | 조교수 2017 | 세 직급 평균 | ratio 교수 / 부교수 / 조교수 | 연봉 교수 / 부교수 / 조교수 |
 |---|---|---|---|---|---|---|
 | 국공립 | 9,557만 | 7,842만 | 6,519만 | 7,972.67만 | 1.1987 / 0.9836 / 0.8177 | 11,999.0만 / 9,845.7만 / 8,184.7만 (참고만, 국립은 규칙 (b)) |
-| 사립 | 9,631만 | 7,466만 | 4,918만 | 7,338.33만 | 1.3124 / 1.0174 / 0.6702 | 13,137.1만 / 10,183.9만 / 6,708.4만 |
+| 사립 | 9,631만 | 7,466만 | 4,918만 | 7,338.33만 | 1.3124 / 1.0174 / 0.6702 | (감사 전 계산값, 폐기) 13,137.1만 / 10,183.9만 / 6,708.4만 → 감사 후 10,139만 / 7,860만 / 5,177만 |
 
 연봉은 반올림하지 않은 ratio로 계산했다(네 자리 ratio로 곱하면 ±0.3만 원 차이). 입력: `salaries-faculty-{national,private}-{professor,associate-professor,assistant-professor}-mean-2017`(6건, conf i), `salaries-faculty-all-fulltime-mean`(2025, conf i). 확인 메모: 사립 교수 13,137.1만은 `salaries-faculty-private-professor-mean`(2024, i) 10,139만보다 약 30% 높다. 2025 전국 평균에는 국공립과 사립이 섞여 있고 2017 비율은 직급 간 격차를 키운다. Wave 6 분포 비교에서 다시 본다.
 
@@ -666,7 +666,7 @@ retireAge: 교수(국립·사립) 65, 출연연 61, 연구직 공무원 60, 그 
 | 21 | departments-jnu-mathematics, departments-jnu-statistics | 수학/통계학과(수학전공) | departments-jnu-mathematics | `jnu/mathematics` |
 | 22 | departments-jnu-energy-2, departments-jnu-environmental | 환경에너지공학과 | departments-jnu-environmental (사전순 첫 id와 다름) | `jnu/environmental` |
 
-**데이터 치환은 이번 스펙에서 하지 않았다.** 이월 항목의 완료 조건은 45건 note의 `same_unit_as` 대상을 레코드 id로 바꾸는 것이다. 그것은 데이터 수정이라 스펙 초안 역할의 범위 밖이다. 위 표의 구성원 → 대표 대응이 치환 입력이다(예: `departments-kaist-environmental` note → `same_unit_as departments-kaist-civil`). 근거 색인 부록 A의 42건 해석과 이 표는 모두 일치하고, 보완 3건의 대상은 `departments-kaist-civil` → `departments-kaist-environmental`, `departments-gist-environmental` → `departments-gist-energy`, `departments-pusan-computer` → `departments-pusan-ai`·`departments-pusan-bioengineering`이다.
+**데이터 치환은 감사 커밋에서 실행했다(45건, 구 표기는 `same_unit_as(구 표기)`로 보존, 검사 출력은 PR #36 본문).** 이월 항목의 완료 조건은 45건 note의 `same_unit_as` 대상을 레코드 id로 바꾸는 것이다. 그것은 데이터 수정이라 스펙 초안 역할의 범위 밖이다. 위 표의 구성원 → 대표 대응이 치환 입력이다(예: `departments-kaist-environmental` note → `same_unit_as departments-kaist-civil`). 근거 색인 부록 A의 42건 해석과 이 표는 모두 일치하고, 보완 3건의 대상은 `departments-kaist-civil` → `departments-kaist-environmental`, `departments-gist-environmental` → `departments-gist-energy`, `departments-pusan-computer` → `departments-pusan-ai`·`departments-pusan-bioengineering`이다.
 
 ## 11. 학과 엔진 키 형식
 
@@ -784,7 +784,7 @@ retireAge: 교수(국립·사립) 65, 출연연 61, 연구직 공무원 60, 그 
 | `venues-conf-isscc-core-rank` | i | §6.3 T2 | 결정 기록 0014 #70 |
 | `salaries-faculty-all-fulltime-mean`, `salaries-faculty-{national,private}-{professor,associate-professor,assistant-professor}-mean-2017` | i | §9.1 규칙 (a) | 결정 기록 0014 #87 |
 | `salaries-faculty-private-nontenure-mean` | i | §9.1 비정년 | 결정 기록 0014 #80 |
-| `salaries-faculty-private-professor-mean` | i | §9.1 확인 메모(계산에 쓰지 않음) | 결정 기록 0014 #87 |
+| `salaries-faculty-private-professor-mean` | i | §9.1 규칙 (a) 감사 수정 후 사립 교수 기준값(계산에 씀) | 결정 기록 0014 #87 |
 | `schools-postech-all-tuition`, `schools-postech-all-entrance-fee`, `schools-ewha-all-entrance-fee` | i | §5.1 | 결정 기록 0014 #56 |
 | `schools-hanyang-all-scholarship-living-bk21` | i | §5.2 | 결정 기록 0014 #28 |
 | `departments-pusan-psychology`, `departments-knu-mechanical`, `departments-knu-philosophy` | i | §2.4 | 이월 항목 "모집요강 재확인" |
@@ -792,7 +792,7 @@ retireAge: 교수(국립·사립) 65, 출연연 61, 연구직 공무원 60, 그 
 
 ## 13. 감사 변경 요약 (2026-10-13, fable)
 
-- §5.1 ewha 등록금: 비율 곱 대신 서울 사립 8곳 관측 중앙값(공학 7,342,000 · math 6,298,000). 0014 #58·#59.
+- §5.1 ewha 등록금: 비율 곱 대신 서울 사립 8곳 관측 중앙값(공학 7,341,000 · math 6,367,500). 0014 #58·#59.
 - §9.1 규칙 (a) 사립 교원: 교수를 관측 평균(10,139만, 2024)에 고정하고 부교수·조교수는 2017 직급 비로 산출. 전 직급 평균 × 1.31 방식은 폐기. 국립대 값은 호봉표(규칙 b) 그대로. 0014 #87.
 - 교수 채용 확률 상한 0.10 (노동 §2.3, 0014 #104).
 - 감사 표: `docs/superpowers/specs/2026-10-13-wave3-audit.md`.
