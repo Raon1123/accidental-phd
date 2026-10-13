@@ -253,6 +253,7 @@ export const ASSUMED = {
     lecturer: { years: 1, renewP: 0.70 },                                              // 0014#95
   },
   PATH_CHANGE_MULT: 0.8,                                                               // 0014#96
+  CAREER_5Y_STAY_MIND: -5,                                                             // 0014#121 career-5y D "한 번 더 버틴다": 마음 −5 (Wave 4 추가)
   EARLY_RETIRE_MULT: 0.85,                                                             // 0014#97
   POST_RETIRE_RESEARCH: { monthly: 500_000, years: 5, p: 0.6 },                        // 0014#98
   RETIRE_AGE: { professor: 65, institute: 61, public: 60 },                            // 0014#99 교수 65, 출연연 61, 연구직 공무원 60

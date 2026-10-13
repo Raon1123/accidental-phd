@@ -37,8 +37,8 @@ export const PATH_OPTIONS: readonly Path[] = ['academia', 'industry', 'public', 
 
 // 선택권 §3.3 D: 휴학 12개월. 근로 수입은 ASSUMED.LEAVE_JOB_INCOME(0014#36).
 const FUNDING_D_LEAVE_MONTHS = ASSUMED.MONTHS_PER_YEAR;
-// 선택권 §3.5 D: "한 번 더 버틴다 … 마음 −5". 이 값에는 0014 번호가 없다(assumed.ts 는 읽기 전용이라 여기에 두고 보고한다).
-const CAREER_5Y_STAY_MIND = -5;
+// 선택권 §3.5 D: "한 번 더 버틴다 … 마음 −5" (0014#121, Wave 4 추가).
+const CAREER_5Y_STAY_MIND = ASSUMED.CAREER_5Y_STAY_MIND;
 
 // 경로별 구직 대상(labor.ts 의 PATH_ROUTES 와 같다. 거기는 내보내지 않아 여기서 구성한다)
 const PATH_SEARCH_ROUTES: Record<Exclude<Path, 'startup'>, readonly Route[]> = {
