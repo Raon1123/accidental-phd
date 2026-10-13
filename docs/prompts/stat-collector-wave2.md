@@ -21,24 +21,25 @@ waves: 2
 
 ## 과제
 
-1. 후보 출처 각각에 대해 registry 항목을 만든다(이미 있으면 id만 쓴다). `-portal`로 끝나는 항목은 출처 계급의 입구일 뿐이므로 레코드의 `source_id`로 쓰지 않고, 수치를 읽은 문서마다 `<publisher>-<year>-<topic>` 항목을 새로 만든다. 포털 note에 접속 실패가 적혀 있으면 이번 확인 결과와 확인 수단(자동·브라우저)으로 note와 `checked_on`을 갱신한다.
+1. 후보 출처 각각에 대해 registry 항목을 만든다(이미 있으면 id만 쓴다). `-portal`로 끝나는 항목은 출처 계급의 입구일 뿐이므로 레코드의 `source_id`로 쓰지 않고, 수치를 읽은 문서마다 `<publisher>-<year>-<topic>` 항목을 새로 만든다. 새 출처는 `data/sources/registry.json`이 아니라 `data/sources/registry.d/<issue>-<topic>.json`에 issue 단위 파일로 쓴다(결정 기록 0012). 팩 README에 문단을 더할 때는 파일 끝 `## 판정 로그` 절에 날짜순으로 덧붙이고 기존 앵커 앞에 끼워 넣지 않는다. 포털 note에 접속 실패가 적혀 있으면 이번 확인 결과와 확인 수단(자동·브라우저)으로 note와 `checked_on`을 갱신한다.
 2. 수집 범위의 수치를 레코드로 옮긴다. 표 번호와 쪽을 반드시 적는다.
 3. 비율은 분모와 모집단을 적는다. "졸업자 조사는 입학자 종단조사가 아님" 같은 출처의 한계를 note에 그대로 옮긴다.
 4. 같은 수치에 출처가 둘 이상이고 값이 다르면 둘 다 레코드로 만들고(id 끝에 `-a`, `-b`) `needs-judge` 목록에 올린다.
-5. 수집하지 못한 범위를 명시한다.
+5. 수집하지 못한 범위를 명시한다. id 규칙: 같은 key에 연도가 둘 이상이면 모든 연도에 `-<year>`를 id 끝에 붙이고, 단년 레코드는 붙이지 않는다. 출처가 둘이면 `-a`(1차: 연보·공시)와 `-b`(2차: 기사·보고서 요약)를 연도 뒤에 붙인다.
+6. 보조 agent를 띄우면 각 보조에게 결과를 worktree 안 `data/packs/<pack>/_inbox/<보조 이름>.json` 파일로 쓰게 하고, 메시지 회신에만 기대지 않는다. 정해진 시간 안에 파일이 없는 보조의 범위는 미수집으로 적는다. `_inbox/`는 records.json에 합친 뒤 지우고 커밋하지 않는다.
 
 하지 않는 것: 출처 없는 수치 작성, 단위 변환(원 ↔ 만원)을 note 없이 하기, 비공개·유료 자료(Clarivate의 Journal Citation Reports(JCR) 등) 사용. 약어는 `docs/workflow.md` 용어집.
 
 ## 출력 계약
 
 ```json
-// (1) data/sources/registry.json에 추가할 출처
+// (1) data/sources/registry.d/<issue>-<topic>.json에 쓸 출처. 쓰기 전에 registry.json과 registry.d/*.json에서 같은 문서(제목·발행처·공표일)가 다른 id로 있는지 찾고, 있으면 그 id를 쓴다
 [{ "id": "<publisher>-<year>-<slug>", "title": "", "publisher": "", "year": 2025, "url": "", "checked_on": "YYYY-MM-DD", "note": "조사 범위·표본·한계" }]
 ```
 
 ```json
 // (2) data/packs/<pack>/records.json에 추가할 레코드
-[{ "id": "<pack>-<topic>-<key>", "value": 0.0, "unit": "ratio", "source_id": "", "table": "표 N", "page": 0, "population": "", "denominator": "", "year": 2024, "checked_on": "YYYY-MM-DD", "confidence": "verified", "note": "" }]
+[{ "id": "<pack>-<topic>-<key>[-<year>][-a|-b]", "value": 0.0, "unit": "ratio", "source_id": "", "table": "표 N", "page": 0, "population": "", "denominator": "", "year": 2024, "checked_on": "YYYY-MM-DD", "confidence": "verified", "note": "" }]
 ```
 
 ```markdown
@@ -67,7 +68,7 @@ waves: 2
 ### Handoff <YYYY-MM-DD>
 - 한 일: <pack> 레코드 N건, 출처 M건
 - 남은 일: 미수집 범위, needs-judge K건
-- 막힌 것: <접근 불가 출처 등>
+- 막힌 것: <접근 불가 출처 등> · 보조 agent <N>명 중 결과 회수 <M>명, 미회수 범위 <…>
 - 다음 사람이 처음 읽을 파일: data/packs/<pack>/README.md, 이 댓글의 JSON
 - 브랜치/worktree: stats/<topic>
 ```

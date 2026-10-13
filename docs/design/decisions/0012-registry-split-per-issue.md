@@ -4,7 +4,7 @@
 승인됨 · 2026-10-13 (사용자 지적: "registry.json에서 conflict이 자주 나는 것 같다")
 
 ## 맥락
-Wave 2에서 13개 수집 PR이 전부 `data/sources/registry.json` 배열 끝에 출처를 덧붙였다. 머지 순서상 두 번째 PR부터 13번 연속으로 충돌이 났고, 같은 이유로 팩별 `records.json`과 README의 같은 앵커(`**담당 issue.**` 앞)도 충돌했다. 충돌은 id 합집합·양쪽 유지로 기계적으로 풀렸지만, 사람이 GitHub에서 클릭 머지할 수 없는 상태였다.
+Wave 2에서 13개 수집 PR이 전부 `data/sources/registry.json` 배열 끝에 출처를 덧붙였다. 머지 순서상 #34를 뺀 12개 PR이 연속으로 충돌했고, 같은 이유로 팩별 `records.json`과 README의 같은 앵커(`**담당 issue.**` 앞)도 충돌했다. 충돌은 id 합집합·양쪽 유지로 기계적으로 풀렸지만, 사람이 GitHub에서 클릭 머지할 수 없는 상태였다.
 
 ## 결정
 - 새 출처는 `data/sources/registry.d/<issue-number>-<topic>.json`에 issue 단위 파일로 추가한다. 형식은 `registry.json`과 같은 배열이다. 검증기는 `registry.json`과 `registry.d/*.json`을 합쳐 읽고 id 중복을 거부한다(테스트 2건).
