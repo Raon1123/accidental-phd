@@ -169,6 +169,7 @@ export const ASSUMED = {
     psychology: 'psychology',                                                          // 0014#65 심리학
     history: 'history-philosophy-ko', philosophy: 'history-philosophy-ko', korean_literature: 'history-philosophy-ko', // 0014#65 역사학·철학·한국문학
     english_literature: null, linguistics: null,                                       // 0014#65 분야군 없음: 이름 없는 가상 학술지, 화면에 창작 표시
+    law: null,                                                                         // 0014#65 법학(#70): venues 팩에 법학 분야군이 없다 → 가상 학술지
   } as Record<string, string | null>,
   CONFERENCE_TRACKS: ['computer', 'ai'],                                               // 0014#65 학회는 이 트랙에서만 투고처로 나온다(선택권 §6.3)
   TIER_BASE: { T1: 0.25, T2: 0.35, T3: 0.45, T4: 0.60 } satisfies Record<Tier, number>, // 0014#66

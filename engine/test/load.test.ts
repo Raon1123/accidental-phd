@@ -7,9 +7,9 @@ import { loadData, get, has, find } from '../src/data/load';
 const data = loadData();
 
 describe('loadData', () => {
-  it('reads every records.json (2763 records, taxonomy included)', () => {
-    expect(data.records.size).toBe(206 + 490 + 237 + 644 + 146 + 1040);
-    expect(data.records.size).toBe(2763);
+  it('reads every records.json (2774 records, taxonomy included; 법학 학과 11 #70)', () => {
+    expect(data.records.size).toBe(206 + 501 + 237 + 644 + 146 + 1040);
+    expect(data.records.size).toBe(2774);
     expect(has(data, 'taxonomy-nrf-d131100')).toBe(true);
   });
 
