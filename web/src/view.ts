@@ -1,5 +1,5 @@
 // DOM 없이 시험할 수 있는 표시 데이터. 학교 이름은 schoolDisplayName 으로만 낸다(결정 기록 0004).
-import { applyWorkInput, growthMultiplier, lectureEligible, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type Paper, type PartTime } from '../../engine/src/browser';
+import { ASSUMED, applyWorkInput, researchMarket, growthMultiplier, lectureEligible, participationMean, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type Paper, type PartTime } from '../../engine/src/browser';
 import { schoolDisplayName } from './schoolName';
 import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
@@ -49,6 +49,19 @@ export function statBars(s: LifeState, prev: LifeState['stats'] | undefined, t: 
 /** 엔진 계산에만 쓰는 학교 키(화면 글자로 내지 않는다, 0004). */
 const schoolKey = (s: LifeState): string => { const { school } = s.choices; return school; };
 
+export type Level3 = 'high' | 'normal' | 'low';
+const HIGH = 1.1;   // 화면 문구용 구간(규칙 값이 아니다): 1.1 이상 높음, 0.9 이하 낮음
+const LOW = 0.9;
+const level = (x: number): Level3 => (x >= HIGH ? 'high' : x <= LOW ? 'low' : 'normal');
+
+/** 참여율 추첨 평균을 시장 몫과 교수 관계 몫으로 나눠 구간으로 말한다. 관계 몫 = 평균 / (0.5 × 시장) = 1 + 0.5·z(관계). */
+export function participationReason(s: LifeState): { market: Level3; relation: Level3 } {
+  const market = researchMarket(s);
+  const base = ASSUMED.PARTICIPATION.projectDefault * market;
+  const relation = base > 0 ? participationMean(s) / base : 1;
+  return { market: level(market), relation: level(relation) };
+}
+
 export type WorkDraft = Pick<MonthInput, 'partTime'>;   // 참여율은 학기마다 엔진이 정한다(사용자 결정 2026-10-15)
 export interface WorkView {
   participation: number;            // 지금 적용될 참여율(0이면 과제 경로가 아님)
@@ -57,7 +70,8 @@ export interface WorkView {
   weekHours: number;                // 근로 주당 시간(강의는 시수×3)
   cap: number;                      // 근로 상한(주당)
   hourOptions: number[];            // 아르바이트 시간 단추(5시간 단위 + 상한)
-  cleared: boolean;                 // 초안의 근로가 상한을 넘어 버려졌다(참여율만 반영)
+  cleared: boolean;                 // 초안의 근로가 상한을 넘어 버려졌다
+  reason?: { market: Level3; relation: Level3 };   // 참여율의 현재 사유(과제 경로일 때, #119)
   lecture: boolean;                 // 강의 자격
   growth: number;                   // 성장 배수(0–1)
   pay: number;                      // 근로 월 수입(원)
@@ -80,7 +94,7 @@ export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}):
   const cleared = want !== undefined && want.hours > 0 && !(pt && pt.kind === want.kind && pt.hours === want.hours);
   return {
     participation, isProject, partTime: pt, weekHours: partTimeWeekHours(pt), cap,
-    hourOptions: [...new Set(hourOptions)], cleared, lecture: lectureEligible(next),
+    hourOptions: [...new Set(hourOptions)], cleared, ...(isProject ? { reason: participationReason(next) } : {}), lecture: lectureEligible(next),
     growth: growthMultiplier(next), pay: partTimePay(pt, s.month, data, schoolKey(s)),
   };
 }

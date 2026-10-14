@@ -6,7 +6,7 @@ import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, t
 import { loadData } from '../../engine/src/index';
 import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
-import { paperView, statBars, venueLabel, workView } from '../src/view';
+import { participationReason, paperView, statBars, venueLabel, workView } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -305,5 +305,18 @@ describe('work view (#110)', () => {
     expect(over.weekHours).toBe(base.weekHours);
     expect(over.cleared).toBe(true);
     expect(base.cleared).toBe(false);
+  });
+});
+
+describe('participation reason (#119)', () => {
+  it('names the market and relation levels from the engine factors', () => {
+    const s = createLife({ track: 'computer' }, newSeed('reason'), data);
+    const hi = { ...s, stats: { ...s.stats, relation: 95 } };
+    const lo = { ...s, stats: { ...s.stats, relation: 5 } };
+    const r = participationReason(s);
+    expect(['high', 'normal', 'low']).toContain(r.market);
+    expect(participationReason(hi).relation).not.toBe('low');
+    expect(participationReason(lo).relation).not.toBe('high');
+    expect(participationReason(hi).market).toBe(r.market);
   });
 });
