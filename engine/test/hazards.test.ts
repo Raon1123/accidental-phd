@@ -49,7 +49,8 @@ describe('hazard rates (선택권 §4.5)', () => {
   });
 });
 
-describe('applyHazards, active months', () => {
+// 수천 번 추첨하는 빈도 검사라 병렬 실행 중에는 기본 제한 5초를 넘길 때가 있다(2026-10-14 두 번 5.2~5.4초). 계산은 바꾸지 않고 제한만 늘린다.
+describe('applyHazards, active months', { timeout: 30_000 }, () => {
   it('leave starts exactly when the leave draw is under the hazard; duration is 6 or 12 from leave:months', () => {
     let started = 0;
     const list = seeds('L', 4000);

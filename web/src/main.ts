@@ -25,25 +25,25 @@ let timer: ReturnType<typeof setTimeout> | undefined;
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLElementTagNameMap[K] {
   const e = document.createElement(tag);
   if (text !== undefined) e.textContent = text;
+  if (tag === 'h2' || tag === 'h3') e.tabIndex = -1;   // 스크립트가 포커스를 옮길 수 있게(Tab 순서에는 넣지 않는다)
   return e;
 }
 
-function button(text: string, onClick: () => void, disabled = false): HTMLButtonElement {
+/** `key`(data-k)는 다시 그린 뒤 키보드 포커스를 같은 조작으로 되돌릴 때 쓴다(#61). 없으면 글자. */
+function button(text: string, onClick: () => void, disabled = false, key = text): HTMLButtonElement {
   const b = el('button', text);
   b.type = 'button';
   b.disabled = disabled;
+  b.dataset.k = key;
   b.addEventListener('click', onClick);
   return b;
 }
 
 /** 눌린 상태를 보조기기에도 알린다. 같은 묶음 안에서 하나만 눌려 있다. */
-function pressed(b: HTMLButtonElement, on: boolean, key: string): HTMLButtonElement {
+function pressed(b: HTMLButtonElement, on: boolean): HTMLButtonElement {
   b.setAttribute('aria-pressed', String(on));
-  b.dataset.key = key;
-  b.addEventListener('click', () => { pendingFocus = key; });
   return b;
 }
-let pendingFocus: string | undefined;   // 다시 그린 뒤 키보드 초점을 되돌릴 버튼
 
 // ── 타이머: 한 칸 진행 뒤 멈출 일이 없을 때만 다시 건다 ──
 function stop(): void {
@@ -72,15 +72,16 @@ function renderControls(root: HTMLElement, s: LifeState): void {
   const bar = el('div');
   bar.className = 'controls';
   bar.append(
-    running ? button(t.play.pause, () => { stop(); render(); }) : button(t.play.run, run, halted(s)),
+    running ? button(t.play.pause, () => { stop(); render(); }, false, 'run') : button(t.play.run, run, halted(s), 'run'),
     button(t.play.stepOnce, () => { if (life && data) { life = step(life, data, focus); render(); } }, running || halted(s)),
   );
   const sp = el('fieldset');
   sp.append(el('legend', t.play.speed));
-  for (const v of SPEEDS) sp.append(pressed(button(`${v}×`, () => { speed = v; render(); }), speed === v, `speed:${v}`));
+  for (const v of SPEEDS) sp.append(pressed(button(`${v}×`, () => { speed = v; render(); }, false, `speed:${v}`), speed === v));
 
   const au = el('label');
   const cb = el('input');
+  cb.dataset.k = 'auto';
   cb.type = 'checkbox';
   cb.checked = s.auto;
   cb.addEventListener('change', () => { if (life && data) { life = setAuto(life, data, cb.checked); render(); } });
@@ -91,9 +92,9 @@ function renderControls(root: HTMLElement, s: LifeState): void {
   if (s.stage === 'phd' && s.phd) {
     const fl = el('fieldset');
     fl.append(el('legend', t.play.focus));
-    fl.append(pressed(button(`${t.play.focusKeep} (${t.play.focusNames[s.phd.focus]})`, () => { focus = undefined; render(); }), focus === undefined, 'focus:keep'));
+    fl.append(pressed(button(`${t.play.focusKeep} (${t.play.focusNames[s.phd.focus]})`, () => { focus = undefined; render(); }, false, 'focus:keep'), focus === undefined));
     for (const f of FOCUSES) {
-      fl.append(pressed(button(t.play.focusNames[f], () => { focus = f; render(); }, f === 'thesis' && !s.phd.qualified), focus === f, `focus:${f}`));
+      fl.append(pressed(button(t.play.focusNames[f], () => { focus = f; render(); }, f === 'thesis' && !s.phd.qualified, `focus:${f}`), focus === f));
     }
     root.append(fl);
   }
@@ -140,6 +141,8 @@ function renderNotes(root: HTMLElement, s: LifeState): void {
   if (list.length === 0) { root.append(el('p', t.play.notesEmpty)); return; }
   const ol = el('ol');
   ol.className = 'notes';
+  ol.tabIndex = 0;   // 스크롤 영역을 키보드로 내릴 수 있게
+  ol.setAttribute('aria-label', t.play.notes);
   for (const n of list) {
     const li = el('li', `${n.month}${t.play.monthSuffix} · ${n.text}`);
     if (n.creative) li.append(el('span', ` [${t.play.creative}]`));
@@ -244,7 +247,7 @@ function renderArchive(root: HTMLElement): void {
   const ul = el('ul');
   for (const e of entries) {
     const li = el('li', `${e.id} · ${t.savedAt} ${localTime(e.savedAt)} `);
-    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); render(); }));
+    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); render(); focusCurrent(); }, false, `open:${e.id}`));
     ul.append(li);
   }
   root.append(ul);
@@ -286,7 +289,7 @@ function renderBranch(root: HTMLElement): void {
   bar.className = 'controls';
   bar.append(
     button(t.cohort.branchStep, () => { if (branched && data) { branched = step(branched, data); render(); } }, halted(b)),
-    button(t.cohort.branchRun, () => { if (branched && data) { branched = runUntilHalt(branched, data); render(); } }, halted(b)),
+    button(t.cohort.branchRun, () => { if (branched && data) { branched = runUntilHalt(branched, data); render(); } }, halted(b), 'run'),
     button(t.cohort.branchClose, () => { branched = undefined; branchedFrom = undefined; render(); }),
   );
   root.append(bar);
@@ -310,7 +313,33 @@ function renderSources(root: HTMLElement): void {
   root.append(ul);
 }
 
+/** 지금 삶 제목으로 포커스를 옮긴다(새 삶·불러오기 뒤 키보드 사용자가 내용을 이어 읽도록). */
+function focusCurrent(): void {
+  const h = document.querySelector<HTMLElement>('#current h2');
+  h?.scrollIntoView();
+  h?.focus();
+}
+
+let lastPending = '';   // 직전에 그린 결정 지점(새로 걸리면 그 상자로 포커스를 옮긴다)
+
 function render(): void {
+  // 다시 그리면 DOM 이 바뀌므로, 포커스가 있던 조작(data-k)을 기억했다가 되돌린다(#61 키보드 조작).
+  const active = document.activeElement as HTMLElement | null;
+  const focusKey = active?.dataset.k;
+  const focusIn = active?.closest('section[id]')?.id;
+  renderInner();
+  const pendingKey = life?.pending ? `${life.pending.dp}:${life.pending.month}` : '';
+  if (pendingKey && pendingKey !== lastPending) {
+    document.querySelector<HTMLElement>('#current .decision h3')?.focus();
+  } else if (focusKey !== undefined && focusIn) {
+    const same = document.querySelector<HTMLElement>(`#${focusIn} [data-k="${CSS.escape(focusKey)}"]`);
+    if (same && !(same as HTMLButtonElement).disabled) same.focus();
+    else (document.querySelector<HTMLElement>(`#${focusIn} [data-k="run"]`) ?? document.querySelector<HTMLElement>(`#${focusIn} h2`))?.focus();
+  }
+  lastPending = pendingKey;
+}
+
+function renderInner(): void {
   shownIds = [];
   renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);
@@ -318,10 +347,6 @@ function render(): void {
   renderBranch(document.getElementById('branch')!);
   renderArchive(document.getElementById('archive')!);
   renderSources(document.getElementById('sources')!);
-  if (pendingFocus !== undefined) {
-    document.querySelector<HTMLElement>(`[data-key="${pendingFocus}"]`)?.focus();
-    pendingFocus = undefined;
-  }
 }
 
 /** 새 삶이나 불러온 삶: 동기를 다시 만들고 열린 분기를 닫는다. */
@@ -338,7 +363,7 @@ function startLife(track: string | null): void {
   life = createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data);
   resetSide();
   render();
-  document.getElementById('current')!.scrollIntoView();
+  focusCurrent();
 }
 
 function renderSelect(root: HTMLElement): void {
