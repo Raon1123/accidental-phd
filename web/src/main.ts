@@ -70,4 +70,7 @@ async function start(): Promise<void> {
 }
 
 document.title = t.title;
+document.getElementById('title')!.textContent = t.title;
+document.getElementById('skip')!.textContent = t.skipToMain;
+document.getElementById('notice')!.textContent = t.creativeNotice;
 void start();
