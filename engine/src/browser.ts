@@ -13,6 +13,7 @@ export type { DataBundle, DataRecord, DataValue } from './data/bundle';
 export { newSeed, cohortSeed } from './rng';
 export { policyFocus, policyDecision } from './policy';
 export { TRACKS, groupOf } from './data/taxonomy';
+export { previewCashflow } from './phd/money';
 
 import { bundleFromTexts, type DataBundle } from './data/bundle';
 

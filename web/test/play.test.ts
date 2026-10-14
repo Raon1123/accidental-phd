@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, lifeMap, noteText, notes, optionKey, setAuto, step } from '../src/play';
+import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
 
 const data = loadData();
@@ -164,5 +164,49 @@ describe('text coverage (#55)', () => {
       for (const e of s.log) expect(() => noteText(e, ko)).not.toThrow();
     }
     expect(dps.size).toBeGreaterThanOrEqual(3);
+  });
+});
+
+describe('money card', () => {
+  it('the preview for the next tick equals the ledger the tick writes (stipend, family, living, tuition)', () => {
+    let checked = 0;
+    for (let k = 0; k < 6; k++) {
+      let s = createLife({}, newSeed(`money-${k}`), data);
+      for (let i = 0; i < 40 && s.stage === 'phd' && !s.pending; i++) {
+        const v = moneyView(s, data);
+        const before = s.ledger.length;
+        const month = s.month;
+        s = step(s, data);
+        if (s.stage !== 'phd' && s.stage !== 'end') break;
+        const added = s.ledger.slice(before).filter(e => e.month === month + 1);   // 틱은 월을 먼저 올리고 정산한다
+        const sum = (kind: string) => added.filter(e => e.kind === kind).reduce((a, e) => a + e.amount, 0);
+        expect(sum('stipend')).toBe(v.flow!.stipend);
+        expect(sum('family')).toBe(v.flow!.family);
+        expect(sum('living') + 0).toBe(0 - v.flow!.living + 0);
+        expect(sum('tuition') + 0).toBe(0 - v.flow!.tuition + 0);   // -0 과 +0 을 같게 본다
+        expect(v.flow!.netWithTuition).toBe(v.flow!.net - v.flow!.tuition);
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThan(50);
+  });
+
+  it('cash and debt come from the life; ledgerRows is newest first and sums by kind', () => {
+    let s = createLife({}, newSeed('money-rows'), data);
+    for (let i = 0; i < 14 && !halted(s); i++) s = step(s, data);
+    const v = moneyView(s, data);
+    expect(v.cash).toBe(s.money.cash);
+    expect(v.debt).toBe(s.money.debt);
+    const rows = ledgerRows(s, 12);
+    expect(rows.length).toBeLessThanOrEqual(12);
+    for (let i = 1; i < rows.length; i++) expect(rows[i - 1]!.month).toBeGreaterThan(rows[i]!.month);
+    const living = s.ledger.filter(e => e.kind === 'living').reduce((a, e) => a + e.amount, 0);
+    expect(ledgerRows(s, 1000).reduce((a, r) => a + r.living, 0)).toBe(living);
+  });
+
+  it('wonText shows man-won with one decimal at most', () => {
+    expect(wonText(12_345_000, ko)).toBe('1,234.5만 원');
+    expect(wonText(-1_300_000, ko)).toBe('-130만 원');
+    expect(wonText(0, ko)).toBe('0만 원');
   });
 });
