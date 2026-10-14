@@ -2,14 +2,14 @@
 import { ASSUMED, applyWorkInput, researchMarket, growthMultiplier, lectureEligible, participationMean, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type Paper, type PartTime } from '../../engine/src/browser';
 import { calendarLabel, elapsedLabel } from './dates';
 import { schoolDisplayName } from './schoolName';
-import { notes, type NoteKind } from './play';
+import { notes, statusLine, type NoteKind } from './play';
 import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
 
 export function summaryRows(s: LifeState, t: Strings, data?: DataBundle): [string, string][] {
   return [
     [t.seed, s.seed],
-    [t.stage, t.play.stageNames[s.stage]],
+    [t.stage, statusLine(s, t)],
     [t.month, elapsedLabel(s.month, t)],
     [t.play.age, `${Math.floor(s.ageMonths / 12)}${t.play.ageUnit}`],
     [t.department, departmentLabel(s.choices, data, t)],

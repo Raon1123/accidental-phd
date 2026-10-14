@@ -4,7 +4,8 @@ import { createLife, newSeed } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { calendarLabel, elapsedLabel } from '../src/dates';
 import { ko } from '../src/strings.ko';
-import { lifeSummary } from '../src/view';
+import { statusLine } from '../src/play';
+import { glanceRows, lifeSummary } from '../src/view';
 
 const data = loadData();
 
@@ -42,5 +43,13 @@ describe('life summary (#129)', () => {
     expect(v.span).toContain('2027년 3월');
     expect(v.items.map(i => i.when)).toContain('2029년 9월');   // 30개월째 자격시험 합격
     expect(v.items.length).toBeGreaterThanOrEqual(2);
+  });
+});
+
+describe('glance status line (#132)', () => {
+  it('shows statusLine as the stage row', () => {
+    const s = createLife({ track: 'computer' }, newSeed('glance'), data);
+    const row = glanceRows(s, ko, data).find(r => r[0] === ko.stage)!;
+    expect(row[1]).toBe(statusLine(s, ko));
   });
 });
