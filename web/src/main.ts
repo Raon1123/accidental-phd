@@ -271,6 +271,8 @@ function renderMoneyCard(root: HTMLElement): void {
   const row = (k: string, val: string): void => { dl.append(el('dt', k), el('dd', val)); };
   row(M.cash, wonText(v.cash, t));
   row(M.debt, `${wonText(v.debt, t)} / ${M.loanLimit} ${wonText(v.loanLimit, t)}`);
+  if (v.tuitionLoan > 0) row(M.tuitionLoan, wonText(v.tuitionLoan, t));   // 학자금 대출은 일반 대출과 따로(#135)
+  if (v.livingLoan > 0) row(M.livingLoan, wonText(v.livingLoan, t));
   if (v.crisisMonths > 0) row(M.crisis, M.crisisMonths.replace('{n}', String(v.crisisMonths)));
   root.append(dl);
   if (v.careerFlow) { renderCareerFlow(root, v.careerFlow); return; }

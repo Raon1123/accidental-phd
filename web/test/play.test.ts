@@ -330,3 +330,14 @@ describe('student loan balances on the money card (#80)', () => {
     expect(moneyView(s, data).tuitionLoan).toBe(0);
   });
 });
+
+describe('student loan rows (#135)', () => {
+  it('moneyView exposes the two balances separately from the general debt', () => {
+    const s0 = createLife({ track: 'computer' }, newSeed('loan-view'), data);
+    const s = { ...s0, money: { ...s0.money, studentLoan: { tuition: 3_000_000, living: 1_200_000, livingSemester: 0, rate: 0.02 } } };
+    const v = moneyView(s, data);
+    expect(v.tuitionLoan).toBe(3_000_000);
+    expect(v.livingLoan).toBe(1_200_000);
+    expect(moneyView(s0, data).tuitionLoan).toBe(0);
+  });
+});

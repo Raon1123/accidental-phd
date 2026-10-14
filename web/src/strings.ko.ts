@@ -101,6 +101,8 @@ export const ko = {
       cash: '현금',
       debt: '부채',
       loanLimit: '대출 한도',
+      tuitionLoan: '등록금 대출',
+      livingLoan: '생활비 대출',
       next: '다음 한 칸 정산 예정',
       stipend: '장학·과제 지원',
       stipendIncluded: '스타이펜드 포함 · 최소 보장',
