@@ -2,6 +2,9 @@
 
 화면 디자인을 한 번에 확정하지 않고, 변형을 나란히 두고 보고 반응을 기록해 쌓는다. 코드 결정은 [결정 기록](../decisions/README.md)이, 실험의 근거와 반응은 여기가 맡는다.
 
+## 디자인 큐
+디자인 요청은 issue(`[design]` 접두, `area/ui`)로 등록하고 issue 번호 순(FIFO)으로 한 번에 하나씩 처리한다. 한 issue는 PR 하나이고, 앞 issue를 끝내기 전에 다음으로 넘어가지 않는다. 새 요청은 큐 맨 뒤에 붙는다. 큐 상태는 이 폴더의 실험 기록과 issue 댓글에 남기고 채팅에는 남기지 않는다.
+
 ## 변형 켜기
 - `web/src/variant.ts`의 `EXPERIMENTS`에 실험 이름과 변형 목록을 둔다. 첫 항목이 기준(a).
 - URL에 `?layout=b`처럼 쓰면 `<html data-layout="b">`가 되고, `style.css`의 `html[data-layout="b"]` 규칙이 켜진다. 같은 브라우저에서는 선택이 남는다.

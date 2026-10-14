@@ -41,15 +41,7 @@ button:disabled { opacity: .5; }
 .mark { color: var(--muted); font-size: .9rem; }
 #sources li { font-size: .85rem; }
 
-/* 디자인 실험(docs/design/experiments/). 변형은 src/variant.ts 가 <html data-layout> 으로 켠다. a 는 위 기준 그대로다. */
-html[data-layout="b"] h1, html[data-layout="c"] h1, html[data-layout="d"] h1 { margin: 1.25rem 0 .5rem; }
-@media (min-width: 64rem) {
-  /* b·c: 돈 패널이 비어 있는 동안 왼쪽 20rem 열을 비우지 않고 제목과 본문을 같은 한 줄에 둔다 */
-  html[data-layout="b"] main:not(:has(#money:not(:empty))), html[data-layout="c"] main:not(:has(#money:not(:empty))) { display: block; max-width: 48rem; margin: 0 auto; }
-  html[data-layout="b"] header, html[data-layout="c"] header { max-width: 48rem; margin: 0 auto; }
-}
-/* d: 기준(a)의 두 열 배치를 그대로 두고 c 의 모양만. b·c 의 열 접기가 돈 카드를 옆으로 튀게 해서 만들었다 */
-/* c: b 에 더해 분야 단추를 눌러 보고 싶은 크기와 간격으로 */
-html[data-layout="c"] fieldset, html[data-layout="d"] fieldset { gap: .6rem; padding: .75rem 1rem 1rem; border-radius: 6px; }
-html[data-layout="c"] fieldset button, html[data-layout="d"] fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
-html[data-layout="c"] h1, html[data-layout="d"] h1 { font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: .4rem; }
+/* 시작 화면 모양(#86, 실험 0001 변형 d): 두 열 배치는 그대로 두고 분야 단추를 키우고 제목을 크게 한다. */
+h1 { margin: 1.25rem 0 .5rem; font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: .4rem; }
+fieldset { gap: .6rem; padding: .75rem 1rem 1rem; border-radius: 6px; }
+fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }

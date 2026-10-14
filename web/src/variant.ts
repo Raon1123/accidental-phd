@@ -1,9 +1,8 @@
 // 디자인 실험 변형(A/B). 사용법과 기록 규약은 docs/design/experiments/README.md.
-// ?layout=b 처럼 쓰면 <html data-layout="b"> 가 되고, style.css 의 html[data-layout="b"] 규칙이 켜진다.
+// 예: 실험 이름이 layout 이면 ?layout=b 처럼 쓰면 <html data-layout="b"> 가 되고, style.css 의 html[data-layout="b"] 규칙이 켜진다.
 // 정해 두지 않으면 기준(a)이다. 선택은 같은 브라우저 안에서 localStorage 에 남는다. ?ab=1 이면 전환 막대가 뜬다.
-const EXPERIMENTS: Record<string, string[]> = {
-  layout: ['a', 'b', 'c', 'd'],
-};
+// 진행 중인 실험이 없으면 비워 둔다. 새 실험은 { 이름: ['a', 'b', ...] } 로 더한다(첫 항목이 기준).
+const EXPERIMENTS: Record<string, string[]> = {};
 const KEY = 'aphd-design-variants';
 
 function load(): Record<string, string> {
@@ -22,7 +21,7 @@ for (const [name, options] of Object.entries(EXPERIMENTS)) {
 }
 save(chosen);
 
-if (params.get('ab') === '1') {
+if (params.get('ab') === '1' && Object.keys(EXPERIMENTS).length > 0) {
   const bar = document.createElement('div');
   bar.setAttribute('role', 'group');
   bar.setAttribute('aria-label', 'variants');
