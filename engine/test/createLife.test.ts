@@ -7,6 +7,7 @@ import { scholarshipOptions } from '../src/data/funding';
 import { newSeed } from '../src/rng';
 import { pickUniform, pickWeighted } from '../src/util';
 import { createLife } from '../src/pre/createLife';
+import { subfieldsOfDepartment } from '../src/data/taxonomy';
 
 const data = loadData();
 const idx = indexDepartments(data);
@@ -263,6 +264,31 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
     const t = createLife({ track: 'ai', subfield: s.choices.subfield }, SEED, data);
     expect(t.choices.subfield).toBe(s.choices.subfield); expect(t.choices.byLuck.subfield).toBe(false);
     expect(() => createLife({ track: 'ai', subfield: 'ZZZZZZZ' }, SEED, data)).toThrow();
+  });
+
+  it('subfield by luck comes from the chosen department NRF subtree, never outside it (#68)', () => {
+    for (let i = 0; i < 300; i++) {
+      const s = createLife({}, newSeed(`t68-${i}`), data);
+      const nrf = idx.records.get(s.choices.departmentRecord)!.nrf;
+      expect(subfieldsOfDepartment(data, nrf)).toContain(s.choices.subfield);
+    }
+  });
+
+  it('every department record offers at least one subfield', () => {
+    for (const r of idx.records.values()) expect(subfieldsOfDepartment(data, r.nrf).length).toBeGreaterThan(0);
+  });
+
+  it('explicit subfield narrows the department draw; one no department offers throws', () => {
+    const base = createLife({ track: 'computer' }, SEED, data);
+    const sf = base.choices.subfield;
+    for (let i = 0; i < 50; i++) {
+      const s = createLife({ track: 'computer', subfield: sf }, newSeed(`t68-${i}`), data);
+      expect(subfieldsOfDepartment(data, idx.records.get(s.choices.departmentRecord)!.nrf)).toContain(sf);
+      expect(s.choices.subfield).toBe(sf);
+    }
+    expect(() => createLife({ track: 'computer', subfield: 'B130100' }, SEED, data)).toThrow();
+    const rec = idx.records.get(base.choices.departmentRecord)!;
+    expect(() => createLife({ department: rec.id, subfield: 'B130100' }, SEED, data)).toThrow();
   });
 
   it('unknown or inconsistent explicit values throw', () => {
