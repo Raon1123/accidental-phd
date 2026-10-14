@@ -20,6 +20,8 @@ Wave 4 종료 조건.
 - [x] (커밋 8428f02, `web/test/sources.test.ts` 6건, 헤드리스 Chrome 확인, #60) 출처 footer: registry.json과 registry.d에서 자동 생성.
 - [x] (커밋 f13daff, `web/test/a11y.test.ts` 6건, 헤드리스 Chrome 키보드 전용 조작 확인, #61) 접근성: 키보드 조작, 본문 건너뛰기, 명도 대비.
 
+- [x] (`data/packs/narratives/humanities-social/records.json` +27건, 출처 `data/sources/registry.d/81-hs-news.json` 21건, fable 감사 pass 12·revise 14·drop 3 반영, #81) 인문사회 서사 레코드 보강: 기사·인터뷰·수기에서 장려금·과제, 아르바이트·조교, 학자금대출, 시간강사·비정규직, 전직, 질병·휴학 장면을 수집했다(원문 미저장, 사용자 요청 2026-10-14). 검증기에 출처 URL 중복 검사를 더했다.
+
 ### Wave 4 회고에서 이관
 출처: [wave-04 §회고](wave-04-engine-impl.md). Wave 5 issue를 발행할 때 각 issue 본문에 이 절을 링크하고 그 issue가 맡는 항목을 나열한다(회고 프롬프트 출력 계약 (c)).
 
