@@ -1,0 +1,11 @@
+[
+  {
+    "id": "kosaf-2026-general-repayment-loan",
+    "title": "일반 상환 학자금대출 (대출금리·한도)",
+    "publisher": "한국장학재단(KOSAF)",
+    "year": 2026,
+    "url": "https://www.kosaf.go.kr/ko/tuition.do?pg=tuition04_02_01",
+    "checked_on": "2026-10-15",
+    "note": "공식 안내 페이지. 대출금리 '2026년 2학기 연 1.7%(고정금리)', 학기당 등록금 소요액 전액·생활비 200만 원, 학제별 등록금대출 총한도와 생활비대출 총한도 표. 페이지 HTML을 내려받아 표를 직접 읽음(WebFetch 요약과 대조). 다른 URL(tuition03_01_01)은 2016년 어학연수 대출 안내이며 금리 2.7% 문구는 그 상품 것이라 사용하지 않음."
+  }
+]

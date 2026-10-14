@@ -26,7 +26,8 @@ export const ASSUMED = {
   ARCHIVE_MAX: 20,                                                                     // 0014#10
 
   // ── 입학 전 선택 (0014 #11–#21) ──
-  FAMILY_SUPPORT: [{ monthly: 0, p: 0.5 }, { monthly: 300_000, p: 0.3 }, { monthly: 600_000, p: 0.2 }], // 0014#11
+  // 0014#11 지원 받을 확률 0.425는 레코드 statistics-family-support-living-cost-2015(2026-10-15), 금액 두 단계와 0.6:0.4 비율은 assumed
+  FAMILY_SUPPORT: [{ monthly: 0, p: 0.575 }, { monthly: 300_000, p: 0.255 }, { monthly: 600_000, p: 0.17 }], // 0014#11
   LUCK_GROUP_P: { '이공': 0.5720, '인문사회': 0.4280 },                                // 0014#12
   LUCK_TRACK_WEIGHTING: 'unique-department-units',                                     // 0014#13 트랙별 고유 학과 단위 수, 묶음은 1/k
   LUCK_SUBFIELD_WEIGHTING: 'uniform',                                                  // 0014#14
@@ -148,6 +149,7 @@ export const ASSUMED = {
   EWHA_MATH_TUITION: 6_367_500,                                                        // 0014#59 math·bio, 같은 8곳 math 등록금 중앙값
   // 0014#131 씀씀이(사용자 규칙 2026-10-15): 성향 σ, 초과 수입 중 지출로 가는 몫 κ, 월 조정 속도(늘 때 up, 줄 때 down)
   SPENDING: { tasteSigma: 0.25, kappa: 0.5, up: 0.3, down: 0.03 },
+  STUDENT_LOAN_ON_LEAVE: false,                                                        // 0014#132 휴학 중 학자금대출 없음. 쓰는 순서: 등록금대출 → 생활비대출 → 일반 대출, 상환은 일반 → 등록금 → 생활비
   LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60 (경력·은퇴 단계에도 같은 값: 0014#123, #96)
   CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos', 'akj'], // 0014#60 수도권
   REGIONAL_SCHOOLS: ['kaist', 'postech', 'gist', 'dgist', 'unist', 'pusan', 'knu', 'jnu', 'cnu'], // 0014#60 비수도권

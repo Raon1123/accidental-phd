@@ -146,6 +146,8 @@ export function autoRuleText(t: Strings): string {
 
 export interface MoneyView {
   cash: number; debt: number; loanLimit: number;
+  /** 학자금대출 잔액(#80): 등록금 부채와 생활비 부채를 일반 대출(debt)과 따로 보인다. */
+  tuitionLoan: number; livingLoan: number;
   /** 박사과정 중에만 있다. 다음 달 정산 예정치(양수 = 크기). */
   flow?: { stipend: number; family: number; living: number; tuition: number; net: number; netWithTuition: number; dutyHours: number; funding: 'scholarship' | 'project' | 'self'; fundingUntil: number };
   /** 경력·은퇴 단계에만 있다(#96). 다음 달 정산 예정치: 급여·연금·은퇴 뒤 연구 수입, 생활비, 이자(부채에 붙음), 상환, 부족분 대출, 월 수지. */
@@ -155,10 +157,10 @@ export interface MoneyView {
 
 /** 다음 틱이 정산할 정기 수입·지출과 현재 잔액. 값은 엔진 applyCashflow 와 같은 함수(previewCashflow)에서 온다. */
 export function moneyView(s: LifeState, data: DataBundle): MoneyView {
-  const base = { cash: s.money.cash, debt: s.money.debt, loanLimit: s.money.loanLimit, crisisMonths: s.phd?.crisisMonths ?? 0 };
+  const base = { cash: s.money.cash, debt: s.money.debt, loanLimit: s.money.loanLimit, tuitionLoan: s.money.studentLoan?.tuition ?? 0, livingLoan: s.money.studentLoan?.living ?? 0, crisisMonths: s.phd?.crisisMonths ?? 0 };
   if (s.stage === 'career' || s.stage === 'retired') {
     const f = previewCareerFlow(s);
-    return { ...base, careerFlow: { ...f, net: f.pay + f.pension + f.research - f.living - f.repay } };
+    return { ...base, careerFlow: { ...f, net: f.pay + f.pension + f.research - f.living - f.repay - f.tuitionLoanRepay - f.livingLoanRepay } };
   }
   if (s.stage !== 'phd' || !s.phd) return base;
   const c = previewCashflow(s, data);
@@ -179,11 +181,11 @@ export function ledgerRows(s: LifeState, n = 12): LedgerRow[] {
     else if (e.kind === 'family') r.family += e.amount;
     else if (e.kind === 'living') r.living += e.amount;
     else if (e.kind === 'tuition' || e.kind === 'entrance-fee') r.tuition += e.amount;
-    else if (e.kind === 'interest') r.interest += e.amount;
-    else if (e.kind === 'loan') r.loan += e.amount;
+    else if (e.kind === 'interest' || e.kind === 'tuition-loan-interest' || e.kind === 'living-loan-interest') r.interest += e.amount;
+    else if (e.kind === 'loan' || e.kind === 'tuition-loan' || e.kind === 'living-loan') r.loan += e.amount;   // 학자금대출(#80)도 대출·이자 열
     else if (e.kind === 'pay') r.pay += e.amount;   // 경력·은퇴 단계 월 정산(#96)
     else if (e.kind === 'pension' || e.kind === 'post-retire-research') r.pension += e.amount;
-    else if (e.kind === 'repay') r.repay += e.amount;
+    else if (e.kind === 'repay' || e.kind === 'tuition-loan-repay' || e.kind === 'living-loan-repay') r.repay += e.amount;
     else r.work += e.amount;
   }
   return [...by.values()].sort((a, b) => b.month - a.month).slice(0, n);
