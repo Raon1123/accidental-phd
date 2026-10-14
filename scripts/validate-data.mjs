@@ -2,7 +2,7 @@
 // Validates data packs, the source registry, decision records and markdown links.
 // No dependencies. Usage: node scripts/validate-data.mjs [rootDir]
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
-import { join, dirname, resolve } from 'node:path';
+import { basename, join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const RECORD_FIELDS = ['id','value','unit','source_id','table','page','population','denominator','year','checked_on','confidence','note'];
@@ -152,7 +152,9 @@ export function validate(root) {
       if (r.id) { if (seen.has(r.id)) errors.push(`${at}: duplicate id ${r.id}`); seen.add(r.id); }
     });
   }
-  // 화면 텍스트 팩(data/text/*.json): 항목마다 id·type·headline·body 와 creative: true (노동 스펙 §5.4, #58).
+  // 화면 텍스트 팩(data/text/*.json): 항목마다 id 와 creative: true. 뉴스(news.*)는 type·headline·body(노동 스펙 §5.4, #58),
+  // 장면(scenes.*)은 at·key·text 와 근거 refs(narratives 레코드 id 또는 'assumed', #57).
+  const TEXT_FIELDS = { news: ['type', 'headline', 'body'], scenes: ['at', 'key', 'text'] };
   for (const file of walk(join(root, 'data/text'), p => p.endsWith('.json'))) {
     const rel = file.slice(root.length + 1);
     const items = readJson(file);
@@ -160,7 +162,9 @@ export function validate(root) {
     const seen = new Set();
     items.forEach((x, i) => {
       const at = `${rel}[${i}]`;
-      for (const f of ['id', 'type', 'headline', 'body']) if (typeof x[f] !== 'string' || !x[f].trim()) errors.push(`${at}: missing ${f}`);
+      const kind = basename(file).split('.')[0];
+      for (const f of ['id', ...(TEXT_FIELDS[kind] ?? [])]) if (typeof x[f] !== 'string' || !x[f].trim()) errors.push(`${at}: missing ${f}`);
+      if (kind === 'scenes' && (!Array.isArray(x.refs) || x.refs.length === 0)) errors.push(`${at}: scenes need refs`);
       if (x.creative !== true) errors.push(`${at}: creative must be true`);
       if (x.id) { if (seen.has(x.id)) errors.push(`${at}: duplicate id ${x.id}`); seen.add(x.id); }
     });

@@ -7,7 +7,7 @@ import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledger
 import { lifeConfig, trackGroups } from './select';
 import { footerLines, moneyRows } from './sources';
 import { ko as t } from './strings.ko';
-import { summaryRows } from './view';
+import { detailRows, glanceRows, statBars } from './view';
 
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
@@ -19,6 +19,8 @@ let branched: LifeState | undefined;   // "다른 선택 보기"로 연 분기
 let branchedFrom: { month: number; chosen: string } | undefined;
 let running = false;
 let speed: Speed = 1;
+let statMark: { seed: string; stats: LifeState['stats'] } | undefined;   // 직전에 그린 능력치(차분 계산용)
+let statPrev: LifeState['stats'] | undefined;                            // 능력치가 마지막으로 바뀌기 전 값
 let focus: Focus | undefined;   // undefined = 지금 포커스 유지
 let timer: ReturnType<typeof setTimeout> | undefined;
 
@@ -106,7 +108,14 @@ function renderDecision(root: HTMLElement, s: LifeState, onChoose: (index: numbe
   const box = el('section');
   box.className = 'decision';
   box.setAttribute('role', 'group');
-  box.append(el('h3', t.play.decision), el('p', v.prompt));
+  box.append(el('h3', t.play.decision));
+  if (v.scene) {   // 서사 장면(#57): 창작 표시를 붙인다
+    const sc = el('p', v.scene);
+    sc.className = 'scene';
+    sc.append(el('span', ` [${t.play.creative}]`));
+    box.append(sc);
+  }
+  box.append(el('p', v.prompt));
   const ol = el('ul');
   for (const o of v.options) {
     const li = el('li');
@@ -158,12 +167,50 @@ function signedWon(amount: number, sign: 1 | -1): string {
   return `${sign === 1 ? '+' : '−'}${wonText(amount, t)}`;
 }
 
+/** 능력치: 숫자 옆에 막대. 직전 변화는 연한 색 구간과 ▲▼ 숫자로 함께 보인다(색만으로 뜻을 전하지 않는다, #89). */
+function renderStatBars(): HTMLElement {
+  const box = el('div');
+  box.className = 'stats';
+  if (!life) return box;
+  for (const b of statBars(life, statPrev, t)) {
+    const row = el('div');
+    row.className = 'stat';
+    const name = el('span', b.label);
+    name.className = 'stat-name';
+    const num = el('span', String(b.value));
+    num.className = 'stat-num';
+    const dl = el('span', b.delta === 0 ? '' : `${b.delta > 0 ? '▲' : '▼'}${Math.abs(b.delta)}`);
+    dl.className = 'stat-delta';
+    const bar = el('span');
+    bar.className = 'bar';
+    bar.setAttribute('role', 'meter');
+    bar.setAttribute('aria-valuemin', '0');
+    bar.setAttribute('aria-valuemax', '100');
+    bar.setAttribute('aria-valuenow', String(b.value));
+    bar.setAttribute('aria-label', `${b.label} ${b.value}`);
+    const fill = el('span');
+    fill.className = 'bar-fill';
+    fill.style.width = `${b.base}%`;
+    const chg = el('span');
+    chg.className = 'bar-delta';
+    chg.style.width = `${b.changed}%`;
+    bar.append(fill, chg);
+    row.append(name, num, dl, bar);
+    box.append(row);
+  }
+  return box;
+}
+
 function renderMoneyCard(root: HTMLElement): void {
   root.replaceChildren();
   if (!life || !data) return;
   const M = t.play.money;
   root.setAttribute('aria-label', M.heading);
   const v = moneyView(life, data);
+  const glance = el('dl');
+  glance.className = 'glance';
+  for (const [k, val] of glanceRows(life, t, data)) glance.append(el('dt', k), el('dd', val));
+  root.append(glance, renderStatBars());
   root.append(el('h2', M.heading));
   const dl = el('dl');
   const row = (k: string, val: string): void => { dl.append(el('dt', k), el('dd', val)); };
@@ -171,6 +218,7 @@ function renderMoneyCard(root: HTMLElement): void {
   row(M.debt, `${wonText(v.debt, t)} / ${M.loanLimit} ${wonText(v.loanLimit, t)}`);
   if (v.crisisMonths > 0) row(M.crisis, M.crisisMonths.replace('{n}', String(v.crisisMonths)));
   root.append(dl);
+  if (v.careerFlow) { renderCareerFlow(root, v.careerFlow); return; }
   if (!v.flow) { root.append(el('p', M.noPhd)); return; }
   const f = v.flow;
   root.append(el('h3', M.next));
@@ -199,6 +247,15 @@ function renderMoneyCard(root: HTMLElement): void {
     }
     root.append(edl);
   }
+  renderLedger(root, ['month', 'stipend', 'family', 'work', 'living', 'tuition', 'interest', 'loan']);
+}
+
+type LedgerKey = 'month' | keyof Omit<ReturnType<typeof ledgerRows>[number], 'month'>;
+
+/** 월별 계산서 표(#75). 경력·은퇴 단계는 급여·연금·상환 열을 쓴다(#96). */
+function renderLedger(root: HTMLElement, keys: readonly LedgerKey[]): void {
+  if (!life) return;
+  const M = t.play.money;
   const rows = ledgerRows(life);
   const det = el('details');
   det.append(el('summary', M.ledgerHeading));
@@ -206,7 +263,6 @@ function renderMoneyCard(root: HTMLElement): void {
   else {
     const tbl = el('table');
     const cols = M.cols;
-    const keys = ['month', 'stipend', 'family', 'work', 'living', 'tuition', 'interest', 'loan'] as const;
     const head = el('tr');
     for (const k of keys) head.append(el('th', cols[k]));
     tbl.append(head);
@@ -220,11 +276,31 @@ function renderMoneyCard(root: HTMLElement): void {
   root.append(det);
 }
 
+/** 박사 졸업 뒤 자금 카드(#96): 다음 달 정산 예정치와 경력·은퇴 단계 계산서. */
+function renderCareerFlow(root: HTMLElement, f: NonNullable<ReturnType<typeof moneyView>['careerFlow']>): void {
+  const M = t.play.money;
+  root.append(el('h3', M.nextMonth));
+  const fl = el('dl');
+  const frow = (k: string, val: string): void => { fl.append(el('dt', k), el('dd', val)); };
+  if (life!.stage === 'career') frow(M.pay, signedWon(f.pay, 1));
+  else {
+    frow(M.pension, signedWon(f.pension, 1));
+    if (f.research > 0) frow(M.research, signedWon(f.research, 1));
+  }
+  frow(M.living, signedWon(f.living, -1));
+  frow(M.interest, signedWon(f.interest, -1));
+  if (f.repay > 0) frow(M.repay, signedWon(f.repay, -1));
+  if (f.loan > 0) frow(M.loan, signedWon(f.loan, 1));
+  frow(M.netCareer, wonText(f.net, t));
+  root.append(fl);
+  renderLedger(root, ['month', life!.stage === 'career' ? 'pay' : 'pension', 'work', 'living', 'interest', 'repay', 'loan']);
+}
+
 function renderCurrent(root: HTMLElement): void {
   root.replaceChildren(el('h2', t.currentHeading));
   if (!life) { root.append(el('p', t.noLife)); return; }
   const dl = el('dl');
-  for (const [k, v] of summaryRows(life, t)) dl.append(el('dt', k), el('dd', v));
+  for (const [k, v] of detailRows(life, t, data)) dl.append(el('dt', k), el('dd', v));
   root.append(dl);
   if (life.stage === 'end') root.append(el('p', t.play.ended));
   renderControls(root, life);
@@ -248,7 +324,7 @@ function renderArchive(root: HTMLElement): void {
   const ul = el('ul');
   for (const e of entries) {
     const li = el('li', `${e.id} · ${t.savedAt} ${localTime(e.savedAt)} `);
-    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); render(); focusCurrent(); }, false, `open:${e.id}`));
+    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); collapseSelect(); render(); focusCurrent(); }, false, `open:${e.id}`));
     ul.append(li);
   }
   root.append(ul);
@@ -262,7 +338,7 @@ function renderCohort(root: HTMLElement): void {
   const head = el('tr');
   for (const h of [t.cohort.name.replace(' {k}', ''), t.cohort.who, t.stage, t.cohort.end]) head.append(el('th', h));
   table.append(head);
-  for (const r of cohortRows(cohort, t)) {
+  for (const r of cohortRows(cohort, t, data)) {
     const tr = el('tr');
     for (const v of [r.name, r.who, r.stage, r.end]) tr.append(el('td', v));
     table.append(tr);
@@ -340,8 +416,18 @@ function render(): void {
   lastPending = pendingKey;
 }
 
+function trackStatChange(): void {
+  if (!life) { statMark = undefined; statPrev = undefined; return; }
+  const cur = life.stats;
+  const m = statMark;
+  if (!m || m.seed !== life.seed) statPrev = undefined;
+  else if ((Object.keys(cur) as (keyof LifeState['stats'])[]).some(k => cur[k] !== m.stats[k])) statPrev = m.stats;
+  statMark = { seed: life.seed, stats: cur };
+}
+
 function renderInner(): void {
   shownIds = [];
+  trackStatChange();
   renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);
   renderCohort(document.getElementById('cohort')!);
@@ -352,6 +438,8 @@ function renderInner(): void {
 
 /** 새 삶이나 불러온 삶: 동기를 다시 만들고 열린 분기를 닫는다. */
 function resetSide(): void {
+  statMark = undefined;
+  statPrev = undefined;
   cohort = life && data ? createCohort(life, data) : [];
   branched = undefined;
   branchedFrom = undefined;
@@ -363,19 +451,31 @@ function startLife(track: string | null): void {
   focus = undefined;
   life = createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data);
   resetSide();
+  collapseSelect();
   render();
   focusCurrent();
 }
 
+/** 삶을 고른 뒤에는 분야 선택을 접는다(요약 줄을 누르면 다시 펼쳐 새 삶을 시작할 수 있다). */
+function collapseSelect(): void {
+  const d = document.querySelector<HTMLDetailsElement>('#select details');
+  if (d) d.open = false;
+}
+
 function renderSelect(root: HTMLElement): void {
-  root.replaceChildren(el('h2', t.selectHeading), el('p', t.selectHelp));
+  const det = el('details');
+  det.open = true;
+  const sum = el('summary');
+  sum.append(el('h2', t.selectHeading));
+  det.append(sum, el('p', t.selectHelp));
   for (const g of trackGroups(t)) {
     const fs = el('fieldset');
     fs.append(el('legend', g.label));
     for (const tr of g.tracks) fs.append(button(tr.label, () => startLife(tr.track)));
-    root.append(fs);
+    det.append(fs);
   }
-  root.append(button(t.trackAllLuck, () => startLife(null)));
+  det.append(button(t.trackAllLuck, () => startLife(null)));
+  root.replaceChildren(det);
 }
 
 async function start(): Promise<void> {

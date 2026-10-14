@@ -174,3 +174,16 @@ test('text pack items need creative: true and their fields (#58)', () => {
   assert.ok(r.errors.some(e => e.includes('[1]: missing body')));
   assert.ok(!r.errors.some(e => e.includes('[0]')));
 });
+test('scene pack items need at, key, text and refs (#57)', () => {
+  const root = fixture();
+  mkdirSync(join(root, 'data/text'), { recursive: true });
+  writeFileSync(join(root, 'data/text/scenes.ko.json'), JSON.stringify([
+    { id: 'a', at: 'log', key: 'log.degree', text: 't', refs: ['assumed'], creative: true },
+    { id: 'b', at: 'log', key: 'log.degree', text: 't', refs: [], creative: true },
+    { id: 'c', at: 'log', text: 't', refs: ['assumed'], creative: true },
+  ]));
+  const r = validate(root);
+  assert.ok(r.errors.some(e => e.includes('[1]: scenes need refs')));
+  assert.ok(r.errors.some(e => e.includes('[2]: missing key')));
+  assert.ok(!r.errors.some(e => e.includes('[0]')));
+});

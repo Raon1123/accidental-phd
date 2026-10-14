@@ -8,7 +8,7 @@
 //  - 학위 취득 달은 8단계 끝(graduate)에서 반환한다. 그 달에는 9단계 이후가 없다(상태 §7.1 8행).
 //  - 졸업 직전 구직(searchMonth)은 진로 결정(11단계, decide)의 다음 달부터 8단계 안에서 돈다(선택권 §3.4, 상태 §7.1).
 import { ASSUMED } from '../assumed';
-import { applyHire, searchMonth } from '../career/labor';
+import { applyHire, leavePhd, searchMonth } from '../career/labor';
 import { updateNews } from '../career/news';
 import { ACADEMIC_ROUTES, addLog } from '../career/pay';
 import type { DataBundle } from '../data/bundle';
@@ -76,7 +76,13 @@ function graduate(s: LifeState, data: DataBundle): LifeState {
   return addLog({ ...out, stage: 'career', career: { ...out.career!, degreeMonth: out.month } }, 'log.degree', ['phd', 'degree']);
 }
 
-const endLife = (s: LifeState): LifeState => addLog(s, `log.end-${s.end!.reason}`, ['end']);
+/**
+ * 학위 없이 박사과정이 끝났다(이탈·재학연한·재정 파탄). 끝난 이유를 기록하고 경력 단계로 넘어가 다른 일을 찾는다(#85).
+ * 이탈 위험률·3회 불합격은 `stage = 'end'` 와 `end.reason` 을 먼저 걸어 두므로 그 이유를 그대로 쓴다.
+ */
+const endPhd = (s: LifeState, reason: 'dropout' | 'residence' | 'financial'): LifeState =>
+  leavePhd(addLog(s, `log.end-${reason}`, ['end']), reason);
+const endLife = (s: LifeState): LifeState => endPhd(s, s.end!.reason as 'dropout' | 'residence' | 'financial');
 
 /**
  * 박사과정 한 달. 결정 지점이 걸려 있으면 시간이 멈춘다(`pending` 이면 던진다). 입력 상태를 바꾸지 않는다.
@@ -143,9 +149,9 @@ export function advanceMonth(state: LifeState, data: DataBundle, input: MonthInp
 
   // 10. 종료 확인(상태 §7.1 10행: 11단계 결정 지점보다 먼저)
   if (s.phd!.enrolledMonths > ASSUMED.RESIDENCE_MONTHS + ASSUMED.RESIDENCE_EXTENSION) {
-    return endLife({ ...s, stage: 'end', end: { reason: 'residence', month: s.month } });
+    return endPhd(s, 'residence');
   }
-  if (crisisStage(s) === 'financial-end') return endLife({ ...s, stage: 'end', end: { reason: 'financial', month: s.month } });
+  if (crisisStage(s) === 'financial-end') return endPhd(s, 'financial');
 
   // 11. 결정 지점. 걸리면 직전 상태의 snapshot 을 쌓고 시간을 멈춘다. 자동이면 정책으로 바로 해결한다.
   const pending = checkTriggers(s, data, {
