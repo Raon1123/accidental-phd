@@ -7,10 +7,12 @@ import type { Strings } from './strings.ko';
 export function summaryRows(s: LifeState, t: Strings): [string, string][] {
   return [
     [t.seed, s.seed],
-    [t.stage, s.stage],
+    [t.stage, t.play.stageNames[s.stage]],
     [t.month, String(s.month)],
+    [t.play.age, `${Math.floor(s.ageMonths / 12)}${t.play.ageUnit}`],
     [t.track, trackLabel(s.choices.track, t)],
     [t.school, schoolDisplayName(s.choices.school, t)],
-    [t.funding, s.choices.funding],
+    [t.funding, t.play.fundingNames[s.choices.funding]],
+    [t.play.stats, (Object.keys(t.play.statNames) as (keyof typeof t.play.statNames)[]).map(k => `${t.play.statNames[k]} ${s.stats[k]}`).join(' · ')],
   ];
 }
