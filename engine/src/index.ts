@@ -3,7 +3,7 @@
 export { createLife } from './pre/createLife';
 export { advanceMonth } from './phd/tick';
 export { advanceYear } from './career/tick';
-export { decide, describeOptions } from './decide';
+export { decide, describeOptions, decisionOutcome } from './decide';
 export { branch } from './branch';
 export { loadData, get, has, find } from './data/load';
 export { ASSUMED } from './assumed';

@@ -9,3 +9,11 @@ legend { color: var(--muted); padding: 0 .3rem; }
 dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
 dt { color: var(--muted); }
 footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--muted); margin-top: 2rem; }
+.controls { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; margin: .5rem 0; }
+.decision { border: 2px solid var(--accent); padding: .5rem 1rem; margin: 1rem 0; }
+.decision ul { list-style: none; padding-left: 0; }
+.decision li { margin: .3rem 0; }
+.map { display: flex; flex-wrap: wrap; gap: 2px; margin-bottom: .5rem; }
+.map span { width: 8px; height: 8px; background: var(--accent); }
+.map-career span { width: 16px; background: var(--muted); }
+.notes { max-height: 20rem; overflow-y: auto; padding-left: 1.5rem; }
