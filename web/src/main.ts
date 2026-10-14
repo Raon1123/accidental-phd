@@ -5,7 +5,7 @@ import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
 import { lifeConfig, trackGroups } from './select';
-import { footerLines, moneyRows } from './sources';
+import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
 import { detailRows, glanceRows, statBars } from './view';
 
@@ -219,6 +219,16 @@ function renderMoneyCard(root: HTMLElement): void {
   frow(M.funding, t.play.fundingNames[f.funding]);
   frow(M.until, f.fundingUntil < 0 ? M.untilNone : M.untilMonth.replace('{n}', String(f.fundingUntil)));
   frow(M.stipend, signedWon(f.stipend, 1));
+  const ids = life.phd?.fundingState.recordIds ?? [];
+  const basis = stipendGuarantee(ids);
+  if (basis) {   // 스타이펜드 최소 보장 레코드가 근거일 때: 포함·최소 보장·기관/국가·출처 확인 등급을 값 옆에 적는다(#99)
+    const dd = fl.lastElementChild!;
+    const grade = ids.filter(id => stipendGuarantee([id])).map(id => confidenceOf(id, data!));
+    const checked = grade.every(g => g === 'verified') ? M.stipendChecked : t.sources.marks[grade.includes('assumed') ? 'assumed' : 'indexed'];
+    const note = el('span', ` ${M.stipendIncluded} · ${M.stipendBasis[basis]} · ${checked}`);
+    note.className = 'mark';
+    dd.append(note);
+  }
   frow(M.family, signedWon(f.family, 1));
   frow(M.living, signedWon(f.living, -1));
   frow(M.netMonthly, wonText(f.net, t));
