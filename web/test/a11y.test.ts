@@ -51,9 +51,9 @@ describe('keyboard structure (#61)', () => {
   });
 
   it('every control is a native button, select or checkbox (no click handlers on other elements)', () => {
-    // 리스너는 button(b)·속도 select(sel)·자동 checkbox(cb)·포커스 select(fs)에만 붙는다
+    // 리스너는 button(b)·자동 checkbox(cb)에만 붙는다. 속도와 포커스는 버튼 나열이다(#75).
     const listeners = [...main.matchAll(/(\w+)\.addEventListener\('(\w+)'/g)].map(m => `${m[1]}:${m[2]}`);
-    expect(new Set(listeners)).toEqual(new Set(['b:click', 'sel:change', 'cb:change', 'fs:change']));
+    expect(new Set(listeners)).toEqual(new Set(['b:click', 'cb:change']));
     expect(main).not.toMatch(/tabIndex\s*=\s*[1-9]/);   // 양수 tabindex 로 순서를 비틀지 않는다
   });
 

@@ -54,6 +54,37 @@ function expiryDecidedSince(state: LifeState, start: number): boolean {
   return state.decisions.some(d => d.dp === 'funding-expiry' && d.month >= start);
 }
 
+/**
+ * 이 달(state.month)에 정산될 정기 수입·지출(원장 kind 와 같은 이름). stipend·family 는 수입, living·tuition 은 지출(양수)이다.
+ * 포커스의 근로 수입 같은 정산 대기 항목은 들어 있지 않다. applyCashflow 가 쓴다.
+ */
+function monthlyCashflow(state: LifeState, data: DataBundle): { stipend: number; family: number; living: number; tuition: number; tuitionRecordId?: string } {
+  const phd = state.phd;
+  if (!phd) throw new Error('phd state required');
+  const charge = tuitionCharge(state, data);
+  return {
+    stipend: fundingActive(phd, state.month) ? phd.fundingState.monthly : 0,
+    family: phd.familySupport,
+    living: livingCost(state.choices.school),
+    tuition: charge?.amount ?? 0,
+    ...(charge ? { tuitionRecordId: charge.recordId } : {}),
+  };
+}
+
+/**
+ * 다음 틱이 정산할 값(화면의 자금 카드용). 틱은 먼저 월과 재학 개월을 올리고 수업 기간을 갱신한 뒤 정산하므로(tick 1단계),
+ * 같은 순서로 한 칸 앞선 상태에서 계산한다. 장학 유지 판정은 기한을 이번 달로 당길 뿐이라 이번 달 지급에는 영향이 없다.
+ */
+export function previewCashflow(state: LifeState, data: DataBundle): { stipend: number; family: number; living: number; tuition: number; tuitionRecordId?: string } {
+  const phd = state.phd;
+  if (!phd) throw new Error('phd state required');
+  const ahead = updateCoursework({
+    ...state, month: state.month + 1,
+    phd: { ...phd, enrolledMonths: phd.enrolledMonths + (phd.leave.active ? 0 : 1) },
+  });
+  return monthlyCashflow(ahead, data);
+}
+
 export function applyCashflow(state: LifeState, data: DataBundle): LifeState {
   const phd = state.phd;
   if (!phd) throw new Error('phd state required');
@@ -66,16 +97,12 @@ export function applyCashflow(state: LifeState, data: DataBundle): LifeState {
   // 정산 대기 항목(포커스의 work·network-cost, 휴학 중 leave-work 등)
   const pending = state.ledger.filter(e => e.month === month && !SETTLED_KINDS.includes(e.kind)).reduce((a, e) => a + e.amount, 0);
 
-  const active = fundingActive(phd, month);
-  const stipend = active ? phd.fundingState.monthly : 0;
-  const living = livingCost(state.choices.school);
-  const charge = tuitionCharge(state, data);
-  const tuition = charge?.amount ?? 0;
+  const { stipend, living, tuition, tuitionRecordId } = monthlyCashflow(state, data);
 
   push('stipend', stipend);
   push('family', phd.familySupport);
   push('living', -living);
-  push('tuition', -tuition, charge?.recordId);
+  push('tuition', -tuition, tuitionRecordId);
   let cash = state.money.cash + stipend + phd.familySupport + pending - living - tuition;
 
   // 이자는 부채에 더한다(§5.4). 한도는 새 대출에만 걸린다.

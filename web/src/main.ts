@@ -3,7 +3,7 @@
 import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile, type WebSource } from '../../engine/src/browser';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
-import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, lifeMap, notes, setAuto, step, type Speed } from './play';
+import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
 import { lifeConfig, trackGroups } from './select';
 import { footerLines, moneyRows } from './sources';
 import { ko as t } from './strings.ko';
@@ -39,6 +39,12 @@ function button(text: string, onClick: () => void, disabled = false, key = text)
   return b;
 }
 
+/** 눌린 상태를 보조기기에도 알린다. 같은 묶음 안에서 하나만 눌려 있다. */
+function pressed(b: HTMLButtonElement, on: boolean): HTMLButtonElement {
+  b.setAttribute('aria-pressed', String(on));
+  return b;
+}
+
 // ── 타이머: 한 칸 진행 뒤 멈출 일이 없을 때만 다시 건다 ──
 function stop(): void {
   running = false;
@@ -69,17 +75,9 @@ function renderControls(root: HTMLElement, s: LifeState): void {
     running ? button(t.play.pause, () => { stop(); render(); }, false, 'run') : button(t.play.run, run, halted(s), 'run'),
     button(t.play.stepOnce, () => { if (life && data) { life = step(life, data, focus); render(); } }, running || halted(s)),
   );
-  const sp = el('label', `${t.play.speed} `);
-  const sel = el('select');
-  sel.dataset.k = 'speed';
-  for (const v of SPEEDS) {
-    const o = el('option', `${v}×`);
-    o.value = String(v);
-    o.selected = v === speed;
-    sel.append(o);
-  }
-  sel.addEventListener('change', () => { speed = Number(sel.value) as Speed; });
-  sp.append(sel);
+  const sp = el('fieldset');
+  sp.append(el('legend', t.play.speed));
+  for (const v of SPEEDS) sp.append(pressed(button(`${v}×`, () => { speed = v; render(); }, false, `speed:${v}`), speed === v));
 
   const au = el('label');
   const cb = el('input');
@@ -92,21 +90,12 @@ function renderControls(root: HTMLElement, s: LifeState): void {
   root.append(bar, el('p', autoRuleText(t)));
 
   if (s.stage === 'phd' && s.phd) {
-    const fl = el('label', `${t.play.focus} `);
-    const fs = el('select');
-    fs.dataset.k = 'focus';
-    const keep = el('option', `${t.play.focusKeep} (${t.play.focusNames[s.phd.focus]})`);
-    keep.value = '';
-    fs.append(keep);
+    const fl = el('fieldset');
+    fl.append(el('legend', t.play.focus));
+    fl.append(pressed(button(`${t.play.focusKeep} (${t.play.focusNames[s.phd.focus]})`, () => { focus = undefined; render(); }, false, 'focus:keep'), focus === undefined));
     for (const f of FOCUSES) {
-      const o = el('option', t.play.focusNames[f]);
-      o.value = f;
-      o.disabled = f === 'thesis' && !s.phd.qualified;
-      o.selected = f === focus;
-      fs.append(o);
+      fl.append(pressed(button(t.play.focusNames[f], () => { focus = f; render(); }, f === 'thesis' && !s.phd.qualified, `focus:${f}`), focus === f));
     }
-    fs.addEventListener('change', () => { focus = fs.value === '' ? undefined : (fs.value as Focus); });
-    fl.append(fs);
     root.append(fl);
   }
 }
@@ -162,6 +151,74 @@ function renderNotes(root: HTMLElement, s: LifeState): void {
   root.append(ol);
 }
 
+/** 수입은 `+`, 지출은 `−`. 0 이면 부호를 붙이지 않는다. */
+function signedWon(amount: number, sign: 1 | -1): string {
+  if (amount === 0) return wonText(0, t);
+  return `${sign === 1 ? '+' : '−'}${wonText(amount, t)}`;
+}
+
+function renderMoneyCard(root: HTMLElement): void {
+  root.replaceChildren();
+  if (!life || !data) return;
+  const M = t.play.money;
+  root.setAttribute('aria-label', M.heading);
+  const v = moneyView(life, data);
+  root.append(el('h2', M.heading));
+  const dl = el('dl');
+  const row = (k: string, val: string): void => { dl.append(el('dt', k), el('dd', val)); };
+  row(M.cash, wonText(v.cash, t));
+  row(M.debt, `${wonText(v.debt, t)} / ${M.loanLimit} ${wonText(v.loanLimit, t)}`);
+  if (v.crisisMonths > 0) row(M.crisis, M.crisisMonths.replace('{n}', String(v.crisisMonths)));
+  root.append(dl);
+  if (!v.flow) { root.append(el('p', M.noPhd)); return; }
+  const f = v.flow;
+  root.append(el('h3', M.next));
+  const fl = el('dl');
+  const frow = (k: string, val: string): void => { fl.append(el('dt', k), el('dd', val)); };
+  frow(M.funding, t.play.fundingNames[f.funding]);
+  frow(M.until, f.fundingUntil < 0 ? M.untilNone : M.untilMonth.replace('{n}', String(f.fundingUntil)));
+  frow(M.stipend, signedWon(f.stipend, 1));
+  frow(M.family, signedWon(f.family, 1));
+  frow(M.living, signedWon(f.living, -1));
+  frow(M.netMonthly, wonText(f.net, t));
+  frow(M.tuition, signedWon(f.tuition, -1));
+  frow(M.netWithTuition, wonText(f.netWithTuition, t));
+  frow(M.duty, `${f.dutyHours} ${M.dutyUnit}`);
+  root.append(fl);
+  // 근거가 있는 값(월 지원, 최근 등록금, 입학금)은 확인 등급 표지와 함께 한 번 더 보이고, 출처 footer 에 올린다(#60).
+  const ev = moneyRows(life, data, t).filter(r => r.ids.length > 0);
+  if (ev.length > 0) {
+    root.append(el('h3', t.sources.moneyHeading));
+    const edl = el('dl');
+    for (const r of ev) {
+      const dd = el('dd', r.value);
+      if (r.mark) { const m = el('span', ` [${r.mark}]`); m.className = 'mark'; dd.append(m); }
+      edl.append(el('dt', r.label), dd);
+      shownIds.push(...r.ids);
+    }
+    root.append(edl);
+  }
+  const rows = ledgerRows(life);
+  const det = el('details');
+  det.append(el('summary', M.ledgerHeading));
+  if (rows.length === 0) det.append(el('p', M.ledgerEmpty));
+  else {
+    const tbl = el('table');
+    const cols = M.cols;
+    const keys = ['month', 'stipend', 'family', 'work', 'living', 'tuition', 'interest', 'loan'] as const;
+    const head = el('tr');
+    for (const k of keys) head.append(el('th', cols[k]));
+    tbl.append(head);
+    for (const r of rows) {
+      const tr = el('tr');
+      for (const k of keys) tr.append(el('td', k === 'month' ? String(r.month) : wonText(r[k], t)));
+      tbl.append(tr);
+    }
+    det.append(tbl);
+  }
+  root.append(det);
+}
+
 function renderCurrent(root: HTMLElement): void {
   root.replaceChildren(el('h2', t.currentHeading));
   if (!life) { root.append(el('p', t.noLife)); return; }
@@ -172,7 +229,6 @@ function renderCurrent(root: HTMLElement): void {
   renderControls(root, life);
   renderDecision(root, life, i => { if (life && data) { life = decide(life, data, i); render(); } });
   root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
-  renderMoney(root, life);
   renderMap(root, life);
   renderNotes(root, life);
 }
@@ -249,19 +305,6 @@ function renderBranch(root: HTMLElement): void {
   root.append(table, el('p', fill(t.cohort.shared, { n: sharedPrefix(life, b) })));
 }
 
-function renderMoney(root: HTMLElement, s: LifeState): void {
-  if (!data) return;
-  root.append(el('h3', t.sources.moneyHeading));
-  const dl = el('dl');
-  for (const r of moneyRows(s, data, t)) {
-    const dd = el('dd', r.value);
-    if (r.mark) { const m = el('span', ` [${r.mark}]`); m.className = 'mark'; dd.append(m); }
-    dl.append(el('dt', r.label), dd);
-    shownIds.push(...r.ids);
-  }
-  root.append(dl);
-}
-
 function renderSources(root: HTMLElement): void {
   root.replaceChildren(el('h2', t.sources.heading), el('p', t.sources.help));
   if (!data || shownIds.length === 0) { root.append(el('p', t.sources.none)); return; }
@@ -298,6 +341,7 @@ function render(): void {
 
 function renderInner(): void {
   shownIds = [];
+  renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);
   renderCohort(document.getElementById('cohort')!);
   renderBranch(document.getElementById('branch')!);

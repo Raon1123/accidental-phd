@@ -25,5 +25,18 @@ footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--mute
 .notes { max-height: 20rem; overflow-y: auto; padding-left: 1.5rem; }
 table { border-collapse: collapse; margin: .5rem 0; }
 th, td { border-bottom: 1px solid var(--muted); padding: .2rem .6rem; text-align: left; vertical-align: top; }
+button[aria-pressed="true"] { outline: 2px solid currentColor; font-weight: 600; }
+button:disabled { opacity: .5; }
+#money:empty { display: none; }
+#money { border: 1px solid var(--muted); padding: .5rem 1rem; margin: 1rem 0; }
+#money h2, #money h3 { margin: .25rem 0; font-size: 1.05rem; }
+#money details { margin-top: .5rem; }
+#money table { font-size: .85rem; }
+@media (min-width: 64rem) {
+  body { max-width: 72rem; }
+  main { display: grid; grid-template-columns: 20rem minmax(0, 1fr); gap: 0 2rem; align-items: start; }
+  main > * { grid-column: 2; }
+  main > #money { grid-column: 1; grid-row: 1 / span 6; position: sticky; top: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; }
+}
 .mark { color: var(--muted); font-size: .9rem; }
 #sources li { font-size: .85rem; }

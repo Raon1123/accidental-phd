@@ -1,7 +1,7 @@
 // 진행 화면의 DOM 없는 부분(#55): 한 칸 진행, 속도, 자동 모드 전환, 결정 지점 보기, 연구노트, 인생 지도.
 // 결정 지점이 걸려 있으면 엔진을 부르지 않는다(step 이 같은 상태를 그대로 돌려준다).
 import {
-  ASSUMED, advanceMonth, advanceYear, decide, decisionOutcome, describeOptions, policyDecision,
+  ASSUMED, advanceMonth, advanceYear, decide, decisionOutcome, describeOptions, policyDecision, previewCashflow,
   type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision,
 } from '../../engine/src/browser';
 import type { Strings } from './strings.ko';
@@ -109,4 +109,48 @@ export function autoRuleText(t: Strings): string {
     .replace('{writeP}', pct(P.writeP))
     .replace('{post}', weights(P.postQualFocus, t))
     .replace('{job}', weights(P.jobSearchFocus, t));
+}
+
+// ── 자금 카드(요청 2026-10-14): 들어오는 돈과 나가는 돈을 숫자로 보인다 ──
+
+export interface MoneyView {
+  cash: number; debt: number; loanLimit: number;
+  /** 박사과정 중에만 있다. 다음 달 정산 예정치(양수 = 크기). */
+  flow?: { stipend: number; family: number; living: number; tuition: number; net: number; netWithTuition: number; dutyHours: number; funding: 'scholarship' | 'project' | 'self'; fundingUntil: number };
+  crisisMonths: number;
+}
+
+/** 다음 틱이 정산할 정기 수입·지출과 현재 잔액. 값은 엔진 applyCashflow 와 같은 함수(previewCashflow)에서 온다. */
+export function moneyView(s: LifeState, data: DataBundle): MoneyView {
+  const base = { cash: s.money.cash, debt: s.money.debt, loanLimit: s.money.loanLimit, crisisMonths: s.phd?.crisisMonths ?? 0 };
+  if (s.stage !== 'phd' || !s.phd) return base;
+  const c = previewCashflow(s, data);
+  const net = c.stipend + c.family - c.living;
+  const f = s.phd.fundingState;
+  return { ...base, flow: { stipend: c.stipend, family: c.family, living: c.living, tuition: c.tuition, net, netWithTuition: net - c.tuition, dutyHours: f.dutyHours, funding: f.route, fundingUntil: f.until } };
+}
+
+export interface LedgerRow { month: number; stipend: number; family: number; work: number; living: number; tuition: number; interest: number; loan: number }
+
+/** 월별 계산서: 최근 n개월(원장에 항목이 있는 달만, 최신이 앞). 등록금 열에는 입학금도 넣는다. 이자는 현금이 아니라 부채에 붙는다. */
+export function ledgerRows(s: LifeState, n = 12): LedgerRow[] {
+  const by = new Map<number, LedgerRow>();
+  for (const e of s.ledger) {
+    let r = by.get(e.month);
+    if (!r) { r = { month: e.month, stipend: 0, family: 0, work: 0, living: 0, tuition: 0, interest: 0, loan: 0 }; by.set(e.month, r); }
+    if (e.kind === 'stipend') r.stipend += e.amount;
+    else if (e.kind === 'family') r.family += e.amount;
+    else if (e.kind === 'living') r.living += e.amount;
+    else if (e.kind === 'tuition' || e.kind === 'entrance-fee') r.tuition += e.amount;
+    else if (e.kind === 'interest') r.interest += e.amount;
+    else if (e.kind === 'loan') r.loan += e.amount;
+    else r.work += e.amount;
+  }
+  return [...by.values()].sort((a, b) => b.month - a.month).slice(0, n);
+}
+
+/** 원 단위 금액을 `1,102.5만 원` 꼴로. 부호는 그대로 둔다(0 은 `0만 원`). */
+export function wonText(amount: number, t: Strings): string {
+  const man = Math.round(amount / 1000) / 10;
+  return t.play.money.won.replace('{n}', man.toLocaleString('ko-KR', { maximumFractionDigits: 1 }));
 }
