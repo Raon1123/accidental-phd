@@ -268,7 +268,7 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
 
   it('subfield by luck comes from the chosen department NRF subtree, never outside it (#68)', () => {
     for (let i = 0; i < 300; i++) {
-      const s = createLife({}, newSeed(), data);
+      const s = createLife({}, newSeed(`t68-${i}`), data);
       const nrf = idx.records.get(s.choices.departmentRecord)!.nrf;
       expect(subfieldsOfDepartment(data, nrf)).toContain(s.choices.subfield);
     }
@@ -282,7 +282,7 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
     const base = createLife({ track: 'computer' }, SEED, data);
     const sf = base.choices.subfield;
     for (let i = 0; i < 50; i++) {
-      const s = createLife({ track: 'computer', subfield: sf }, newSeed(), data);
+      const s = createLife({ track: 'computer', subfield: sf }, newSeed(`t68-${i}`), data);
       expect(subfieldsOfDepartment(data, idx.records.get(s.choices.departmentRecord)!.nrf)).toContain(sf);
       expect(s.choices.subfield).toBe(sf);
     }
