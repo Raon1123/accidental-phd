@@ -49,10 +49,9 @@ export function statBars(s: LifeState, prev: LifeState['stats'] | undefined, t: 
 /** 엔진 계산에만 쓰는 학교 키(화면 글자로 내지 않는다, 0004). */
 const schoolKey = (s: LifeState): string => { const { school } = s.choices; return school; };
 
-export type WorkDraft = Pick<MonthInput, 'participation' | 'partTime'>;
+export type WorkDraft = Pick<MonthInput, 'partTime'>;   // 참여율은 학기마다 엔진이 정한다(사용자 결정 2026-10-15)
 export interface WorkView {
   participation: number;            // 지금 적용될 참여율(0이면 과제 경로가 아님)
-  canParticipate: boolean;          // 과제 경로이고 학기 경계 달이다
   isProject: boolean;
   partTime: PartTime | undefined;   // 지금 적용될 근로 설정
   weekHours: number;                // 근로 주당 시간(강의는 시수×3)
@@ -68,12 +67,9 @@ export interface WorkView {
 export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}): WorkView | undefined {
   if (s.stage !== 'phd' || !s.phd || s.phd.leave.active) return undefined;
   const isProject = s.phd.fundingState.route === 'project';
-  const canParticipate = isProject && s.month % 6 === 0;
-  // 초안이 상한을 넘으면 엔진이 던진다. 근로를 빼고 참여율만, 그것도 안 되면 지금 상태를 보인다.
+  // 초안이 상한을 넘으면 엔진이 던진다. 그때는 지금 상태를 보인다.
   let next = s;
-  try { next = applyWorkInput(s, { ...draft }); } catch {
-    try { next = applyWorkInput(s, draft.participation === undefined ? {} : { participation: draft.participation }); } catch { next = s; }
-  }
+  try { next = applyWorkInput(s, { ...draft }); } catch { next = s; }
   const participation = participationOf(next);
   const cap = partTimeCap(next);
   const hourOptions: number[] = [];
@@ -83,7 +79,7 @@ export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}):
   const want = draft.partTime;
   const cleared = want !== undefined && want.hours > 0 && !(pt && pt.kind === want.kind && pt.hours === want.hours);
   return {
-    participation, canParticipate, isProject, partTime: pt, weekHours: partTimeWeekHours(pt), cap,
+    participation, isProject, partTime: pt, weekHours: partTimeWeekHours(pt), cap,
     hourOptions: [...new Set(hourOptions)], cleared, lecture: lectureEligible(next),
     growth: growthMultiplier(next), pay: partTimePay(pt, s.month, data, schoolKey(s)),
   };
