@@ -304,7 +304,7 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
     for (let i = 0; i < 200; i++) {
       const s = createLife({ group: '인문사회' }, newSeed(`t${i}`), data);
       expect(s.choices.group).toBe('인문사회'); expect(s.choices.byLuck.track).toBe(true);
-      expect(['sociology', 'political', 'public_administration', 'psychology', 'economics', 'history', 'philosophy', 'korean_literature', 'english_literature', 'linguistics']).toContain(s.choices.track);
+      expect(['sociology', 'political', 'public_administration', 'law', 'psychology', 'economics', 'history', 'philosophy', 'korean_literature', 'english_literature', 'linguistics']).toContain(s.choices.track);
       expect(s.phd!.requiredPapers).toBe(ASSUMED.REQUIRED_PAPERS['인문사회'].count);
     }
     const stem = createLife({ group: '이공' }, SEED, data);

@@ -20,6 +20,7 @@ export const ko = {
     psychology: '심리학',
     economics: '경제학',
     public_administration: '행정학',
+    law: '법학',
     computer: '컴퓨터공학',
     ai: '인공지능',
     mathematics: '수학',

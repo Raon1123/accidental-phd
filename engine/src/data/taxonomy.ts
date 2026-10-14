@@ -1,10 +1,10 @@
-// 트랙 26종의 계열·분야·교육통계 대응(선택권 §1)과 세부전공 선택지(선택권 §2.3), 번호 접미 학과의 엔진 키(선택권 §11).
+// 트랙 27종(법학 #70 추가)의 계열·분야·교육통계 대응(선택권 §1)과 세부전공 선택지(선택권 §2.3), 번호 접미 학과의 엔진 키(선택권 §11).
 import type { DataBundle } from './bundle';
 import type { Field, Group, Kedi, Ksced } from '../types';
 
 interface TrackInfo { group: Group; field: Field; kedi: Kedi; ksced: Ksced }
 
-// 선택권 §1 표를 트랙 단위로 풀어 쓴 것. 순서가 곧 TRACKS 의 순서다(인문사회 10, 이공 16).
+// 선택권 §1 표를 트랙 단위로 풀어 쓴 것. 순서가 곧 TRACKS 의 순서다(인문사회 11, 이공 16).
 // kedi 는 트랙 primary 의 NRF 대분류에서 정한다(A 인문, B 사회, C 자연, D 공학).
 const TRACK_INFO: Record<string, TrackInfo> = {
   history: { group: '인문사회', field: 'humanities', kedi: 'humanities', ksced: 'arts-humanities' },
@@ -17,6 +17,7 @@ const TRACK_INFO: Record<string, TrackInfo> = {
   psychology: { group: '인문사회', field: 'social', kedi: 'social', ksced: 'social' },
   economics: { group: '인문사회', field: 'social', kedi: 'social', ksced: 'business-law' },
   public_administration: { group: '인문사회', field: 'social', kedi: 'social', ksced: 'business-law' },
+  law: { group: '인문사회', field: 'social', kedi: 'social', ksced: 'business-law' },   // #70 (2026-10-14), NRF B130000
   computer: { group: '이공', field: 'cs', kedi: 'engineering', ksced: 'ict' },
   ai: { group: '이공', field: 'cs', kedi: 'engineering', ksced: 'ict' },
   mathematics: { group: '이공', field: 'math', kedi: 'natural', ksced: 'natural-math' },

@@ -46,6 +46,14 @@
 | korean_literature | A110000 | 한국어와문학 | 2 | verified |
 | english_literature | A150000 | 영어와문학 | 2 | verified |
 | linguistics | A090000 | 언어학 | 2 | verified |
+| law | B130000 | 법학 | 2 | verified |
 
 ## 결과
 얻는 것: 트랙마다 선택지 목록(primary의 소분류 + 보조 코드)이 정해져 Wave 5 입학 전 선택 화면이 바로 쓸 수 있음. 잃는 것: 의약학·뇌과학·인지과학 연구자는 1차 범위 밖. 다시 볼 조건: NRF 분류 개정, 또는 Wave 6에서 systems_biology·energy처럼 `assumed`/`indexed` primary의 선택지가 어색하다는 피드백.
+
+## 추가 판정 (2026-10-14, issue #70)
+- **법학 전공군 `law` 추가.** 사용자 결정(2026-10-14, "법학은 왜 아직도 없지?"): 법학 박사과정을 범위에 넣는다. 전공군은 하나(`law`)로 둔다. 다른 인문사회 전공군도 NRF 중분류 하나를 primary로 쓴다. primary B130000 법학(중분류, `verified`)이고, 세부전공 선택지는 소분류 B130100 법학일반, B130200 공법, B130300 사법, B130400 분야별법, B139900 기타법학이다.
+- 계열 인문사회, field social, KEDI social(이미 `mapping-kedi.json`이 B130000 → U020201 법학으로 매핑), KSCED business-law(경제학·행정학과 같음).
+- 학과: 2027 일반대학원 박사 모집요강에 법학과 박사 모집이 있는 11개교(snu, korea, hanyang, sogang, ewha, cau, konkuk, uos, pusan, jnu, cnu). yonsei·khu·skku는 법학 박사를 법학전문대학원에서 따로 뽑고, knu는 이번 차수 박사 미모집, 과학기술원 5곳은 법학 단위가 없다. 법학전문대학원 전문박사(S.J.D.)는 일반대학원 박사와 다른 단위라 넣지 않았다.
+- 투고처: venues 팩에 법학 분야군이 없어 `TRACK_VENUE_GROUP.law = null`(영어영문학·언어학과 같이 이름 없는 가상 학술지, 0014 #65).
+- 가상 뉴스 표적(0014 #119)은 바꾸지 않았다.

@@ -55,8 +55,8 @@ describe('ASSUMED distributions', () => {
     for (const row of Object.values(ASSUMED.PERM_PATH)) expect(sum(Object.values(row))).toBeCloseTo(1, 12);
     expect(sum(Object.values(ASSUMED.HUMSOC_NONREG_PATH))).toBeCloseTo(1, 12);
   });
-  it('covers the 26 tracks, 6 fields and 4 tiers', () => {
-    expect(Object.keys(ASSUMED.TRACK_VENUE_GROUP).length).toBe(26);
+  it('covers the 27 tracks, 6 fields and 4 tiers', () => {
+    expect(Object.keys(ASSUMED.TRACK_VENUE_GROUP).length).toBe(27);
     expect(Object.keys(ASSUMED.REVIEW_MONTHS).sort()).toEqual(['bio', 'cs', 'engineering', 'humanities', 'math', 'social']);
     expect(Object.keys(ASSUMED.TIER_BASE)).toEqual(['T1', 'T2', 'T3', 'T4']);
     expect(Object.keys(ASSUMED.FOCUS).sort()).toEqual(['network', 'research', 'rest', 'thesis', 'work', 'write']);

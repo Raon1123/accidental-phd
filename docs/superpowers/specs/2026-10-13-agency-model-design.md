@@ -14,7 +14,7 @@
 |---|---|---|---|---|---|
 | 인문사회 | A 인문학 | history, philosophy, korean_literature, english_literature, linguistics | humanities | 예술 및 인문학 (`arts-humanities`) | 인문 (`humanities` / `humanities`) |
 | 인문사회 | B 사회과학 | sociology, political, psychology | social | 사회과학, 언론 및 정보학 (`social`) | 사회 (`social` / `social`) |
-| 인문사회 | B 사회과학 | economics, public_administration | social | 경영, 행정 및 법 (`business-law`) | 사회 (`social` / `social`) |
+| 인문사회 | B 사회과학 | economics, public_administration, law (#70) | social | 경영, 행정 및 법 (`business-law`) | 사회 (`social` / `social`) |
 | 인문사회 | (B120000 교육학) | 트랙 없음 | — | 교육 (`edu`, 미사용) | 교육 (`education` / `education`): 노동시장 기준값의 인문사회 합산에만 들어간다(0013 §2) |
 | 이공 | C 자연과학 | mathematics, statistics, life_science, neuroscience, systems_biology | math, bio | 자연과학, 수학 및 통계학 (`natural-math`) | 자연 (`natural` / `natural`) |
 | 이공 | D 공학 | computer, ai | cs | 정보통신기술 (`ict`) | 공학 (`engineering` / `engineering`) |
@@ -63,6 +63,7 @@ P(이공) = (공학 8895 + 자연 4339) / (인문 3497 + 사회 6406 + 공학 88
 | neuroscience | 9 | systems_biology | 4.5 | korean_literature | 15 |
 |  |  |  |  | english_literature | 13.5 |
 |  |  |  |  | linguistics | 6.5 |
+|  |  |  |  | law | 11 |
 
 이공 합 319, 인문사회 합 141, 전체 460(= 고유 단위 수). 출처: departments 레코드 483건 note의 `track`과 `same_unit_as`(conf v 480 / i 3). 학과 수를 가중치로 쓰는 것은 assumed (결정 기록 0014 #13).
 
@@ -419,7 +420,7 @@ quality = clamp(30 + 0.45·skill + 0.08·relation + U(−9, 9) + 0.1·(rigor −
 | T4 | Q4 | C | 등재후보 | sjr-quartile = 4, `venues-journal-kosenv-journal-kci` 등 | i / — / v |
 
 - 사분위·등급은 계층일 뿐 채택 확률이 아니다(근거 색인 §3). SJR 60건은 indexed이며 이월 항목 "Scimago 재확인"이 끝나면 verified로 바뀐다.
-- 트랙 → venues 분야군 대응 (결정 기록 0014 #65): computer·ai → 컴퓨터과학·인공지능; mathematics → 수학; statistics → 통계학; life_science·neuroscience·systems_biology·bioengineering → 생명과학; mechanical·electrical·semiconductor·energy → 기계·전기전자공학; chemical·materials → 화학·재료공학; civil·environmental → 토목·환경공학; sociology → 사회학; economics → 경제학; political·public_administration → 정치학·행정학; psychology → 심리학; history·philosophy·korean_literature → 역사학·철학·한국문학; english_literature·linguistics → 분야군 없음(이름 없는 "가상 학술지 T1–T4"를 쓰고 화면에 창작 표시).
+- 트랙 → venues 분야군 대응 (결정 기록 0014 #65): computer·ai → 컴퓨터과학·인공지능; mathematics → 수학; statistics → 통계학; life_science·neuroscience·systems_biology·bioengineering → 생명과학; mechanical·electrical·semiconductor·energy → 기계·전기전자공학; chemical·materials → 화학·재료공학; civil·environmental → 토목·환경공학; sociology → 사회학; economics → 경제학; political·public_administration → 정치학·행정학; psychology → 심리학; history·philosophy·korean_literature → 역사학·철학·한국문학; english_literature·linguistics·law(#70) → 분야군 없음(이름 없는 "가상 학술지 T1–T4"를 쓰고 화면에 창작 표시).
 - 학회는 computer·ai 트랙에서만 투고처로 나온다(채택률·CORE 레코드가 CS 계열 학회뿐이다).
 
 ### 6.4 판정
@@ -505,7 +506,7 @@ F_r: 비정규직(박사후 등) 일자리의 경로 배분 = 박사후 재원 �
 | engineering | 공학 9개 트랙 | 0.366 | 0.257 | 0.352 | 0.025 |
 | natural-math | 자연 5개 트랙 | 0.452 | 0.263 | 0.261 | 0.025 |
 | social | sociology, political, psychology | 0.670 | 0.183 | 0.122 | 0.025 |
-| business-law | economics, public_administration | 0.629 | 0.197 | 0.149 | 0.025 |
+| business-law | economics, public_administration, law (#70) | 0.629 | 0.197 | 0.149 | 0.025 |
 | arts-humanities | 인문 5개 트랙 | 0.699 | 0.173 | 0.103 | 0.025 |
 
 검산 예(ict): 0.975 × [0.615 × 0.15 + 0.385 × 0.669] = 0.975 × 0.3498 = 0.341.
