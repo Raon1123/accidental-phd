@@ -58,6 +58,7 @@ export interface WorkView {
   weekHours: number;                // 근로 주당 시간(강의는 시수×3)
   cap: number;                      // 근로 상한(주당)
   hourOptions: number[];            // 아르바이트 시간 단추(5시간 단위 + 상한)
+  cleared: boolean;                 // 초안의 근로가 상한을 넘어 버려졌다(참여율만 반영)
   lecture: boolean;                 // 강의 자격
   growth: number;                   // 성장 배수(0–1)
   pay: number;                      // 근로 월 수입(원)
@@ -79,9 +80,11 @@ export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}):
   for (let h = 5; h < cap; h += 5) hourOptions.push(h);
   if (cap > 0) hourOptions.push(Math.floor(cap));
   const pt = next.phd?.partTime;
+  const want = draft.partTime;
+  const cleared = want !== undefined && want.hours > 0 && !(pt && pt.kind === want.kind && pt.hours === want.hours);
   return {
     participation, canParticipate, isProject, partTime: pt, weekHours: partTimeWeekHours(pt), cap,
-    hourOptions: [...new Set(hourOptions)], lecture: lectureEligible(next),
+    hourOptions: [...new Set(hourOptions)], cleared, lecture: lectureEligible(next),
     growth: growthMultiplier(next), pay: partTimePay(pt, s.month, data, schoolKey(s)),
   };
 }

@@ -317,5 +317,7 @@ describe('work view fallback (#110)', () => {
     expect(v.participation).toBe(1);
     expect(v.cap).toBe(0);
     expect(v.weekHours).toBe(0);
+    expect(v.cleared).toBe(true);
+    expect(workView(s, data, { participation: 1 })!.cleared).toBe(false);
   });
 });

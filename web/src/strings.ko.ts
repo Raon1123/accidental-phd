@@ -150,6 +150,7 @@ export const ko = {
       pay: '근로 월 수입 {w}',
       weekly: '주당 근로 {h}시간 (상한 {cap}시간, 필수 시간과 참여 시간 제외)',
       pending: '바꾼 값은 다음 칸에 적용됩니다.',
+      cleared: '근로 설정은 상한(주 {cap}시간)을 넘어 비워졌습니다. 참여율 변경만 적용됩니다.',
     },
     papers: {
       heading: '논문',

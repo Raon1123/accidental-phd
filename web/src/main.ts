@@ -123,6 +123,7 @@ function renderWork(root: HTMLElement, s: LifeState): void {
     el('p', fill(W.weekly, { h: v.weekHours, cap: Math.floor(v.cap) })),
     el('p', W.growthHelp),
   );
+  if (v.cleared) { const c = el('p', fill(W.cleared, { cap: Math.floor(v.cap) })); c.setAttribute('role', 'status'); box.append(c); }
   if (workDraft.participation !== undefined || workDraft.partTime !== undefined) box.append(el('p', W.pending));
   root.append(box);
 }
