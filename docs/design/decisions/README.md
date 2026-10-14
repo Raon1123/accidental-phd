@@ -37,3 +37,4 @@
 - [0013 Wave 3 스펙 작성 전 판정](0013-wave3-pre-spec-judgments.md)
 - [0014 Wave 3 엔진 스펙의 설계 가정(assumed) 전체 목록](0014-assumed-probabilities.md)
 - [0015 Wave 3 회고 반영: 감사 변경 반영 주체, 데이터 수정 검사, 감사자 독립성, 보정 값 변경 절차, 결정 기록 승인 시점](0015-wave3-retro-rules.md)
+- [0017 웹 빌드: Vite, 브라우저용 엔진 진입점, 데이터 한 파일 내보내기](0017-web-build-vite.md)

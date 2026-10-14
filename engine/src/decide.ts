@@ -4,7 +4,7 @@ import { ASSUMED } from './assumed';
 import { applyHire } from './career/labor';
 import { pathDistribution } from './career/path';
 import { ACADEMIC_ROUTES, addLog, pensionMonthly, promotion, retireAge, scoreOf } from './career/pay';
-import type { DataBundle } from './data/load';
+import type { DataBundle } from './data/bundle';
 import { taStipend } from './data/funding';
 import { waiverRate } from './data/tuition';
 import { reviewMonths } from './data/venues';

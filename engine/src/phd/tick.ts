@@ -11,7 +11,7 @@ import { ASSUMED } from '../assumed';
 import { applyHire, searchMonth } from '../career/labor';
 import { updateNews } from '../career/news';
 import { ACADEMIC_ROUTES, addLog } from '../career/pay';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import { decide, fundingExpired } from '../decide';
 import { odds, z } from '../odds';
 import { policyDecision, policyFocus } from '../policy';

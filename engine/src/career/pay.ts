@@ -1,6 +1,6 @@
 // 경력 단계 급여·승진·계약·은퇴·노후 수입 (선택권 §9, 상태 §7.2).
 import { ASSUMED } from '../assumed';
-import { get, type DataBundle } from '../data/load';
+import { get, type DataBundle } from '../data/bundle';
 import { INSTITUTES, industryPay, institutePay, lecturerAnnual, nationalStep0, officerStepFrom, privateFacultyPay, stepPay, type StepTable } from '../data/salaries';
 import { odds, z } from '../odds';
 import { draw, drawNormal } from '../rng';

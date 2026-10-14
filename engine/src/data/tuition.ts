@@ -2,7 +2,7 @@
 import { ASSUMED } from '../assumed';
 import type { Field, FundingRoute } from '../types';
 import { indexDepartments, type DeptIndex } from './departments';
-import { find, get, has, type DataBundle, type DataRecord, type DataValue } from './load';
+import { find, get, has, type DataBundle, type DataRecord, type DataValue } from './bundle';
 
 export type TuitionRuleTag = 'department' | 'school-field' | 'school-all' | 'rule-c' | 'ewha-median';
 

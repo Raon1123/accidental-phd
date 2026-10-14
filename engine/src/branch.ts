@@ -1,5 +1,5 @@
 // "다른 선택 보기" 분기 (상태 §6.3). 결정 지점의 스냅샷에서 다시 시작하고, seed 와 stream·slot 규칙은 그대로다.
-import type { DataBundle } from './data/load';
+import type { DataBundle } from './data/bundle';
 import type { DecisionId, LifeState, PendingDecision } from './types';
 
 /**

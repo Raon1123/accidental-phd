@@ -1,7 +1,7 @@
 // 경력 단계 급여 접근자(선택권 §9.1). 모든 금액은 세전 연봉(원 정수).
 import { ASSUMED } from '../assumed';
 import type { Confidence, Group } from '../types';
-import { find, get, loadData, type DataBundle, type DataValue } from './load';
+import { defaultData, find, get, type DataBundle, type DataValue } from './bundle';
 
 export const INSTITUTES: readonly string[] = ['etri', 'kaeri', 'kimm', 'kist', 'kisti', 'kribb', 'krict'];
 
@@ -24,8 +24,7 @@ export function privateFacultyPay(data: DataBundle, rank: 'assistant' | 'associa
 export type StepRank = 'assistant' | 'associate' | 'professor' | 'researcher';
 
 // 가감 레코드를 읽으려면 DataBundle 이 필요하다. 계획서의 시그니처 nationalStep0(age, rank)를 그대로 받기 위해
-// data 를 끝에 선택 인자로 두고, 없으면 저장소의 기본 팩을 한 번 읽어 쓴다.
-let defaultData: DataBundle | undefined;
+// data 를 끝에 선택 인자로 두고, 없으면 Node 적재기가 등록한 기본 묶음을 쓴다(bundle.ts defaultData). 브라우저에서는 data 를 넘긴다.
 
 /**
  * 국립대 교원·연구사 초임 호봉, 규칙 (b)(0014#88·#90): clamp(기산 + (나이 − 24) + 박사 가산 + 가감, 1, 상한).
@@ -39,7 +38,7 @@ export function nationalStep0(ageYears: number, rank: StepRank, data?: DataBundl
     adjust = ASSUMED.RESEARCHER_STEP.adjust;
     max = ASSUMED.RESEARCHER_STEP.stepMax;
   } else {
-    const d = data ?? (defaultData ??= loadData());
+    const d = data ?? defaultData();
     adjust = get(d, s.adjustRecords[rank]).value;
     max = s.stepMax;
   }
