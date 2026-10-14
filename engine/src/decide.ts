@@ -1,7 +1,7 @@
 // 결정 지점 7종의 선택지와 효과 (선택권 §3). 결정은 시간이 멈춘 상태(`pending`)에서만 내린다.
 // 효과 숫자는 전부 ASSUMED(0014 번호 주석)에서 온다. 현금 효과는 결정 단계가 월 현금 흐름 뒤에 있으므로 현금과 원장에 바로 적는다.
 import { ASSUMED } from './assumed';
-import { applyHire } from './career/labor';
+import { applyHire, leavePhd } from './career/labor';
 import { pathDistribution } from './career/path';
 import { ACADEMIC_ROUTES, addLog, pensionMonthly, promotion, retireAge, scoreOf } from './career/pay';
 import type { DataBundle } from './data/bundle';
@@ -47,7 +47,6 @@ const PATH_SEARCH_ROUTES: Record<Exclude<Path, 'startup'>, readonly Route[]> = {
   academia: ACADEMIC_ROUTES, industry: ['industry'], public: ['institute', 'public'],
 };
 const BRIDGE_SEARCH_ROUTES: readonly Route[] = ['bridge', 'industry'];                       // 선택권 §3.5 C
-const MASTER_EXIT_SEARCH_ROUTES: readonly Route[] = ['institute', 'public', 'industry', 'bridge'];   // 선택권 §3.1: 학계 경로는 닫힌다
 
 function pathOfRoute(route: Route): Path | undefined {
   switch (route) {
@@ -148,13 +147,7 @@ function restLeave(s: LifeState, months: number): LifeState {
 }
 
 /** 석사 수료 이탈: 박사과정을 마치고 경력 단계로 넘어간다. 학계 경로는 닫힌다(채용·급여 보정은 searchMonth·startingPay 가 degree 로 건다). */
-function masterExit(s: LifeState): LifeState {
-  const career: CareerState = {
-    degreeMonth: s.month, degree: 'master-exit', route: 'none', annualPay: 0, yearsInRoute: 0, workYears: 0, academicMonths: 0,
-    paperScore: 0, careerPapers: 0, searching: { routes: [...MASTER_EXIT_SEARCH_ROUTES], since: s.month, penalty: 1 },
-  };
-  return { ...s, stage: 'career', end: { reason: 'exit-master', month: s.month }, career };
-}
+const masterExit = (s: LifeState): LifeState => leavePhd(s, 'exit-master');
 
 function postQualifying(s: LifeState, _data: DataBundle, p: PendingDecision, key: string): LifeState {
   const E = ASSUMED.POST_QUAL_EFFECTS;

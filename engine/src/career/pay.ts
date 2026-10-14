@@ -27,7 +27,7 @@ export function scoreOf(state: LifeState): number {
 }
 
 const ageYears = (state: LifeState): number => Math.floor(state.ageMonths / ASSUMED.MONTHS_PER_YEAR);
-const payMult = (c: CareerState | undefined): number => (c?.degree === 'master-exit' ? ASSUMED.MASTER_EXIT.payMult : 1);   // 0014#32
+const payMult = (c: CareerState | undefined): number => (c !== undefined && c.degree !== 'phd' ? ASSUMED.MASTER_EXIT.payMult : 1);   // 0014#32, 학위 없는 경력 전체(#85)
 
 // 호봉제 경로의 표와 호봉 상한 (0014#88, #90)
 function stepTable(c: CareerState): { table: StepTable; max: number } | undefined {
@@ -38,7 +38,7 @@ function stepTable(c: CareerState): { table: StepTable; max: number } | undefine
 
 /**
  * 채용 직후 연봉(선택권 §9.1). 호봉제는 초임 호봉 규칙 (b), 사립 교원은 규칙 (a).
- * 석사 수료 이탈자(`career.degree === 'master-exit'`)는 급여에 payMult 를 곱한다(0014#32).
+ * 학위 없는 경력(`career.degree !== 'phd'`: 석사 수료 이탈과 #85의 이탈·재학연한·재정 파탄)은 급여에 payMult 를 곱한다(0014#32).
  * 창업은 로그정규 추첨이라 `state.month` 의 슬롯 `startup:income`(life)을 쓴다.
  */
 export function startingPay(state: LifeState, data: DataBundle, route: Route, employer: CareerState['employer']): { annualPay: number; step?: number; rank?: string; recordIds: string[] } {
