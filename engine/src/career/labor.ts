@@ -78,8 +78,7 @@ function searchSpec(state: LifeState): { routes: readonly Route[]; penalty: numb
 }
 
 /**
- * 채용을 상태에 반영한다. 단순화: 스펙은 교수·강사가 다음 학기 경계 달, 나머지가 다음 달에 시작한다고 하지만
- * 시작 달을 담는 필드가 없어 즉시 시작으로 둔다(월 단위 처리는 tick 이 한다). 노동 §4.1 3단계를 구부린 곳.
+ * 채용을 상태에 반영한다. 급여·계약 기간·학계 개월은 채용 달부터 센다. 시작 대기 상태는 두지 않는다(노동 §4.1 3단계, 월 단위 처리는 tick 이 한다).
  * 박사과정 중 채용이면 `career` 를 새로 만든다(degree 'phd', degreeMonth = 졸업 예정 달 또는 지금). 단계는 그대로 두고 졸업 처리는 phd 틱이 한다.
  * 고용주 추첨 슬롯(labor): `hire:national`, `hire:institute`, `hire:postdoc-employer`.
  */

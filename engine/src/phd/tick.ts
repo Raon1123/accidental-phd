@@ -1,12 +1,12 @@
 // 박사과정 월 틱 advanceMonth (상태 §7.1). 순서는 규범이다.
-//  1 월·나이·재학 개월  2 뉴스  3 학기 경계(장학 유지 판정)  4 진척·포커스·휴학 중 근로  5 자연 변화  6 현금 흐름
-//  7 논문 투고·판정  8 마일스톤(자격시험, 학위 심사, 졸업 직전 구직, 졸업)  9 위험률  10 결정 지점  11 종료 확인  12 기록
-// 구부린 곳(보고서에 적는다):
-//  (a) 진척(applyProgress)은 스펙 4단계 "포커스 효과: 능력치, 진척, 논문 초고"의 일부라 포커스 효과 바로 앞에 부른다(이번 달 갱신 전 능력치로 계산).
-//  (b) 11단계(종료 확인)를 10단계(결정 지점) 앞에서 평가한다. 종료가 걸리면 결정 지점을 열지 않는다. 두 단계는 서로의 입력을 바꾸지 않아 결과는 같고, 끝난 삶에 pending 이 남지 않는다.
-//  (c) 재학연한 연장 12개월은 신청 필드가 없어 자동 1회로 본다: enrolledMonths 가 96 + 12 를 넘으면 종료(상태 §2, 0014#4).
-//  (d) 졸업하는 달은 8단계 끝(graduate)에서 반환한다. 그 달에는 9단계(위험률)도 10단계(결정 지점)도 없다.
-//  (e) 졸업 직전 구직(searchMonth)은 진로 결정(10단계, decide)의 다음 달에 시작한다. 스펙 §3.4 는 결정한 달부터라고 쓰지만 그 달의 8단계는 결정 전에 지났다.
+//  1 월·나이·재학 개월  2 뉴스  3 학기 경계(장학 유지 판정)  4 진척·포커스·휴학 중 근로  5 자연 변화  6 현금 흐름(등록금 포함)
+//  7 논문 투고·판정  8 마일스톤(자격시험, 학위 심사, 졸업 직전 구직, 학위 취득)  9 위험률  10 종료 확인  11 결정 지점  12 기록
+// 스펙과 맞춘 세부(출처):
+//  - 진척(applyProgress)은 포커스 효과 바로 앞에서 이번 달 갱신 전 능력치로 계산한다(상태 §7.1 4행, 선택권 §4.2).
+//  - 10단계(종료 확인)가 11단계(결정 지점)보다 먼저다. 종료가 걸리면 결정 지점을 열지 않는다(상태 §7.1 10행·11행, 선택권 §5.5).
+//  - 재학연한 연장 12개월은 신청 없이 자동 1회다: enrolledMonths 가 96 + 12 를 넘으면 종료한다(상태 §2, 0014#4).
+//  - 학위 취득 달은 8단계 끝(graduate)에서 반환한다. 그 달에는 9단계 이후가 없다(상태 §7.1 8행).
+//  - 졸업 직전 구직(searchMonth)은 진로 결정(11단계, decide)의 다음 달부터 8단계 안에서 돈다(선택권 §3.4, 상태 §7.1).
 import { ASSUMED } from '../assumed';
 import { applyHire, searchMonth } from '../career/labor';
 import { updateNews } from '../career/news';
@@ -132,7 +132,7 @@ export function advanceMonth(state: LifeState, data: DataBundle, input: MonthInp
     const r = takeDefense(s, data);
     s = addLog(r.state, r.passed ? 'log.defense-pass' : 'log.defense-fail', ['exam', 'defense']);
   }
-  if (s.phd!.path !== undefined) {   // 결정한 달부터 졸업(단계 전환)까지. 이미 채용됐으면 searchMonth 가 아무것도 하지 않는다
+  if (s.phd!.path !== undefined) {   // 결정한 다음 달부터 졸업(단계 전환)까지(선택권 §3.4). 이미 채용됐으면 searchMonth 가 아무것도 하지 않는다
     s = searchMonth(s, data, s.month, input).state;   // 졸업 직전 구직: 경로마다 슬롯이 다르다(labor)
   }
   if (s.phd!.graduationMonth !== undefined && s.month >= s.phd!.graduationMonth) return graduate(s, data);
@@ -141,13 +141,13 @@ export function advanceMonth(state: LifeState, data: DataBundle, input: MonthInp
   s = applyHazards(s, data);
   if (s.stage !== 'phd') return endLife(s);
 
-  // 11. 종료 확인(10보다 먼저 평가한다. 위 머리말 참조)
+  // 10. 종료 확인(상태 §7.1 10행: 11단계 결정 지점보다 먼저)
   if (s.phd!.enrolledMonths > ASSUMED.RESIDENCE_MONTHS + ASSUMED.RESIDENCE_EXTENSION) {
     return endLife({ ...s, stage: 'end', end: { reason: 'residence', month: s.month } });
   }
   if (crisisStage(s) === 'financial-end') return endLife({ ...s, stage: 'end', end: { reason: 'financial', month: s.month } });
 
-  // 10. 결정 지점. 걸리면 직전 상태의 snapshot 을 쌓고 시간을 멈춘다. 자동이면 정책으로 바로 해결한다.
+  // 11. 결정 지점. 걸리면 직전 상태의 snapshot 을 쌓고 시간을 멈춘다. 자동이면 정책으로 바로 해결한다.
   const pending = checkTriggers(s, data, {
     verdicts: resolved.verdicts, ...(qualResult === undefined ? {} : { qualResult }),
     fundingExpired: fundingExpired(s), scholarshipFailed: review.failed,

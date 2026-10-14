@@ -34,6 +34,12 @@ function reviewDuration(state: LifeState, id: string): number {
   return base + uniformInt(draw(state.seed, 'paper', state.month, `${id}:delay:months`), dlo, dhi);
 }
 
+/** 수정 요구 뒤 재심 기간(선택권 §6.4): 이번 달에 심사 기간 U{field 범위}를 새로 추첨(슬롯 `${id}:review:re`)해 ceil(추첨값 / REREVIEW_DIVISOR). resolveVerdicts 와 decide 의 첫 논문 판정이 같이 쓴다. */
+export function reReviewDuration(state: LifeState, id: string): number {
+  const [lo, hi] = reviewMonths(state.choices.field);
+  return Math.ceil(uniformInt(draw(state.seed, 'paper', state.month, `${id}:review:re`), lo, hi) / ASSUMED.REREVIEW_DIVISOR);
+}
+
 /**
  * 논문 하나를 `tier` 로 (재)투고한다. 투고처는 venueOptions 에서 균등 추첨(슬롯 `${id}:venue`), 시계는 reviewDuration.
  * `startOffset` 은 투고 시점을 이번 달에서 몇 달 뒤로 잡을지다(자동 방침의 "다음 달 재투고"는 1). 결정 지점에서 부르면 0.
@@ -105,9 +111,7 @@ export function resolveVerdicts(state: LifeState, data: DataBundle): { state: Li
     const settle = (status: Paper['status']): LifeState => replacePaper(out, id, x => { const { dueMonth: _d, ...rest } = x; return { ...rest, status }; });
     if (verdict === 'accepted' || first) { out = settle(verdict === 'accepted' ? 'accepted' : verdict === 'revision' ? 'revision' : 'rejected'); continue; }
     if (verdict === 'rejected') { out = resubmit(settle('rejected'), data, id, lowerTier(p.tier!), 1); continue; }
-    const [lo, hi] = reviewMonths(state.choices.field);
-    const full = uniformInt(draw(state.seed, 'paper', state.month, `${id}:review:re`), lo, hi);
-    out = replacePaper(out, id, x => ({ ...x, status: 'revision', dueMonth: state.month + Math.ceil(full / ASSUMED.REREVIEW_DIVISOR) }));
+    out = replacePaper(out, id, x => ({ ...x, status: 'revision', dueMonth: state.month + reReviewDuration(state, id) }));
   }
   return { state: out, verdicts };
 }
