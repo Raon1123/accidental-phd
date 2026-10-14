@@ -23,6 +23,7 @@ import { applyHazards } from './hazards';
 import { applyCashflow, crisisStage, isSemesterBoundary, updateCoursework } from './money';
 import { submitIfReady, resolveVerdicts } from './papers';
 import { applyProgress } from './progress';
+import { applyPartTimePay, applyWorkInput } from './work';
 import { FIRST_VERDICT_DEFERRED, checkTriggers } from './triggers';
 
 /** 졸업 직전 구직과 졸업 뒤 구직이 찾는 경로 (선택권 §3.4). 창업은 학위 취득 달에 시작한다. */
@@ -102,6 +103,7 @@ export function advanceMonth(state: LifeState, data: DataBundle, input: MonthInp
   };
   s = updateCoursework(s);
   s = chooseFocus(s, data, input);
+  s = applyWorkInput(s, input);   // 참여율(학기 경계)·근로 설정(#79)
 
   // 2. 가상 뉴스
   s = updateNews(s, data);
@@ -113,6 +115,7 @@ export function advanceMonth(state: LifeState, data: DataBundle, input: MonthInp
   // 4. 진척과 포커스 효과(휴학 중이면 둘 다 멈춘다), 휴학 중 근로 수입
   s = applyProgress(s, data);
   s = applyFocus(s, data);
+  s = applyPartTimePay(s, data);   // 근로 수입은 정산 대기 항목(6단계 applyCashflow 가 합산)
   if (s.phd!.leave.active && s.phd!.fundingState.recordIds.includes('0014#36')) {
     s = { ...s, ledger: [...s.ledger, { month: s.month, kind: 'leave-work', amount: ASSUMED.LEAVE_JOB_INCOME, recordId: '0014#36' }] };
   }

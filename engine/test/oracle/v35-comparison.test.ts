@@ -89,15 +89,17 @@ describe('v3.5 oracle vs engine: 29 comparison rows', () => {
     }
   });
 
-  it('row 2 researchTime: identical to v3.5 for duty, job and coursework combinations; floor 0.12', () => {
+  // #79(선택권 §4.7)부터 근로 포커스의 20시간은 researchTime 이 아니라 성장 배수(1 − 근로/40 − 참여율/2)가 깎는다.
+  // 그래서 v3.5 와 같은 것은 근로가 없는 조합뿐이고, 근로 조합은 의도한 차이다.
+  it('row 2 researchTime: identical to v3.5 for duty and coursework without a job; the job term moved to the growth multiplier (#79)', () => {
     const ours = (duty: number, focus: 'research' | 'work', coursework: boolean): number => {
       const s = phdState(STEM, { coursework, focus });
       return researchTime({ ...s, phd: { ...s.phd!, fundingState: { ...s.phd!.fundingState, dutyHours: duty } } });
     };
     expect(ours(0, 'research', false)).toBeCloseTo(v35.researchTime(0, 0, 0), 12);
     expect(ours(10, 'research', true)).toBeCloseTo(v35.researchTime(10, 0, 1), 12);
-    expect(ours(0, 'work', false)).toBeCloseTo(v35.researchTime(0, 20, 0), 12);       // 근로 포커스 = jobHours 20
-    expect(ours(10, 'work', true)).toBeCloseTo(v35.researchTime(10, 20, 1), 12);
+    expect(ours(0, 'work', false)).toBeCloseTo(v35.researchTime(0, 0, 0), 12);        // 근로 시간은 여기서 빠지지 않는다(#79)
+    expect(ours(10, 'work', true)).toBeCloseTo(v35.researchTime(10, 0, 1), 12);
     expect(ours(40, 'work', true)).toBeCloseTo(0.12, 12);                              // 바닥
     expect(v35.researchTime(40, 20, 1)).toBeCloseTo(0.12, 12);
   });

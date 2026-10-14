@@ -7,7 +7,7 @@ import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledger
 import { lifeConfig, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
-import { detailRows, glanceRows, paperView, statBars } from './view';
+import { detailRows, glanceRows, paperView, statBars, workView, type WorkDraft } from './view';
 
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
@@ -21,6 +21,7 @@ let running = false;
 let speed: Speed = 1;
 let statMark: { seed: string; stats: LifeState['stats'] } | undefined;   // 직전에 그린 능력치(차분 계산용)
 let statPrev: LifeState['stats'] | undefined;                            // 능력치가 마지막으로 바뀌기 전 값
+let workDraft: WorkDraft = {};   // 다음 칸에 한 번만 보내는 근로·참여율 입력(엔진이 상태에 남긴다)
 let focus: Focus | undefined;   // undefined = 지금 포커스 유지
 let timer: ReturnType<typeof setTimeout> | undefined;
 
@@ -54,9 +55,20 @@ function stop(): void {
   timer = undefined;
 }
 
+/** 한 칸 진행. 근로·참여율 초안은 이 칸에 한 번만 보내고 비운다. 엔진이 거절하면(상한 초과 등) 초안만 버리고 진행한다. */
+function advanceWith(s: LifeState, d: DataBundle): LifeState {
+  const draft = workDraft;
+  workDraft = {};
+  if (draft.participation === undefined && draft.partTime === undefined) return step(s, d, focus);
+  try { return step(s, d, focus, draft); } catch {
+    if (draft.participation !== undefined) { try { return step(s, d, focus, { participation: draft.participation }); } catch { /* 참여율도 거절되면 입력 없이 */ } }
+    return step(s, d, focus);
+  }
+}
+
 function tick(): void {
   if (!life || !data || !running) return;
-  life = step(life, data, focus);
+  life = advanceWith(life, data);
   if (halted(life)) stop();
   render();
   if (running) timer = setTimeout(tick, intervalMs(speed));
@@ -70,12 +82,58 @@ function run(): void {
 }
 
 // ── 화면 조각 ──
+/** 근로·참여율 조작(#110): 참여율은 학기 경계에, 근로는 상한 안에서. 결과(성장 속도, 근로 수입)는 엔진 함수로 미리 본다. */
+function renderWork(root: HTMLElement, s: LifeState): void {
+  if (!data) return;
+  const v = workView(s, data, workDraft);
+  if (!v) return;
+  const W = t.play.work;
+  const box = el('section');
+  box.className = 'work';
+  box.append(el('h3', W.heading));
+
+  const pf = el('fieldset');
+  pf.append(el('legend', W.participation));
+  if (!v.isProject) pf.append(el('span', W.notProject));
+  else {
+    for (const r of [0, 0.25, 0.5, 0.75, 1]) {
+      pf.append(pressed(button(`${Math.round(r * 100)}%`, () => { workDraft = { ...workDraft, participation: r }; render(); }, !v.canParticipate, `part:${r}`), v.participation === r));
+    }
+    if (!v.canParticipate) pf.append(el('span', W.participationLocked));
+  }
+  box.append(pf);
+
+  const wf = el('fieldset');
+  wf.append(el('legend', W.partTime));
+  const none = v.partTime === undefined || v.partTime.hours === 0;
+  wf.append(pressed(button(W.none, () => { workDraft = { ...workDraft, partTime: { kind: 'job', hours: 0 } }; render(); }, false, 'pt:none'), none));
+  for (const h of v.hourOptions) {
+    wf.append(pressed(button(`${W.job} ${fill(W.jobHours, { h })}`, () => { workDraft = { ...workDraft, partTime: { kind: 'job', hours: h } }; render(); }, false, `pt:job:${h}`), v.partTime?.kind === 'job' && v.partTime.hours === h));
+  }
+  if (v.lecture) {
+    for (const h of [3, 6, 9]) {
+      wf.append(pressed(button(`${W.lecture} ${fill(W.lectureHours, { h })}`, () => { workDraft = { ...workDraft, partTime: { kind: 'lecture', hours: h } }; render(); }, h * 3 > v.cap, `pt:lec:${h}`), v.partTime?.kind === 'lecture' && v.partTime.hours === h));
+    }
+  } else wf.append(el('span', W.lectureLocked));
+  box.append(wf);
+
+  const pct = Math.round((v.growth - 1) * 100);
+  box.append(
+    el('p', `${fill(W.growth, { m: v.growth.toFixed(2), d: pct === 0 ? '0%' : `${pct}%` })} · ${fill(W.pay, { w: wonText(v.pay, t) })}`),
+    el('p', fill(W.weekly, { h: v.weekHours, cap: Math.floor(v.cap) })),
+    el('p', W.growthHelp),
+  );
+  if (v.cleared) { const c = el('p', fill(W.cleared, { cap: Math.floor(v.cap) })); c.setAttribute('role', 'status'); box.append(c); }
+  if (workDraft.participation !== undefined || workDraft.partTime !== undefined) box.append(el('p', W.pending));
+  root.append(box);
+}
+
 function renderControls(root: HTMLElement, s: LifeState): void {
   const bar = el('div');
   bar.className = 'controls';
   bar.append(
     running ? button(t.play.pause, () => { stop(); render(); }, false, 'run') : button(t.play.run, run, halted(s), 'run'),
-    button(t.play.stepOnce, () => { if (life && data) { life = step(life, data, focus); render(); } }, running || halted(s)),
+    button(t.play.stepOnce, () => { if (life && data) { life = advanceWith(life, data); render(); } }, running || halted(s)),
   );
   const sp = el('fieldset');
   sp.append(el('legend', t.play.speed));
@@ -99,6 +157,7 @@ function renderControls(root: HTMLElement, s: LifeState): void {
       fl.append(pressed(button(t.play.focusNames[f], () => { focus = f; render(); }, f === 'thesis' && !s.phd.qualified, `focus:${f}`), focus === f));
     }
     root.append(fl);
+    renderWork(root, s);
   }
 }
 
@@ -484,6 +543,7 @@ function renderInner(): void {
 
 /** 새 삶이나 불러온 삶: 동기를 다시 만들고 열린 분기를 닫는다. */
 function resetSide(): void {
+  workDraft = {};
   statMark = undefined;
   statPrev = undefined;
   cohort = life && data ? createCohort(life, data) : [];

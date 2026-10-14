@@ -1,5 +1,5 @@
 // DOM 없이 시험할 수 있는 표시 데이터. 학교 이름은 schoolDisplayName 으로만 낸다(결정 기록 0004).
-import type { DataBundle, LifeState } from '../../engine/src/browser';
+import { applyWorkInput, growthMultiplier, lectureEligible, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type PartTime } from '../../engine/src/browser';
 import { schoolDisplayName } from './schoolName';
 import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
@@ -44,6 +44,49 @@ export function statBars(s: LifeState, prev: LifeState['stats'] | undefined, t: 
       pct: (value / STAT_MAX) * 100, base: (lo / STAT_MAX) * 100, changed: (Math.abs(delta) / STAT_MAX) * 100,
     };
   });
+}
+
+/** 엔진 계산에만 쓰는 학교 키(화면 글자로 내지 않는다, 0004). */
+const schoolKey = (s: LifeState): string => { const { school } = s.choices; return school; };
+
+export type WorkDraft = Pick<MonthInput, 'participation' | 'partTime'>;
+export interface WorkView {
+  participation: number;            // 지금 적용될 참여율(0이면 과제 경로가 아님)
+  canParticipate: boolean;          // 과제 경로이고 학기 경계 달이다
+  isProject: boolean;
+  partTime: PartTime | undefined;   // 지금 적용될 근로 설정
+  weekHours: number;                // 근로 주당 시간(강의는 시수×3)
+  cap: number;                      // 근로 상한(주당)
+  hourOptions: number[];            // 아르바이트 시간 단추(5시간 단위 + 상한)
+  cleared: boolean;                 // 초안의 근로가 상한을 넘어 버려졌다(참여율만 반영)
+  lecture: boolean;                 // 강의 자격
+  growth: number;                   // 성장 배수(0–1)
+  pay: number;                      // 근로 월 수입(원)
+}
+
+/** 근로·참여율 조작의 표시 값(#110). 초안(draft)을 엔진 함수로 적용해 본 결과이고, 규칙 계산은 엔진이 한다. */
+export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}): WorkView | undefined {
+  if (s.stage !== 'phd' || !s.phd || s.phd.leave.active) return undefined;
+  const isProject = s.phd.fundingState.route === 'project';
+  const canParticipate = isProject && s.month % 6 === 0;
+  // 초안이 상한을 넘으면 엔진이 던진다. 근로를 빼고 참여율만, 그것도 안 되면 지금 상태를 보인다.
+  let next = s;
+  try { next = applyWorkInput(s, { ...draft }); } catch {
+    try { next = applyWorkInput(s, draft.participation === undefined ? {} : { participation: draft.participation }); } catch { next = s; }
+  }
+  const participation = participationOf(next);
+  const cap = partTimeCap(next);
+  const hourOptions: number[] = [];
+  for (let h = 5; h < cap; h += 5) hourOptions.push(h);
+  if (cap > 0) hourOptions.push(Math.floor(cap));
+  const pt = next.phd?.partTime;
+  const want = draft.partTime;
+  const cleared = want !== undefined && want.hours > 0 && !(pt && pt.kind === want.kind && pt.hours === want.hours);
+  return {
+    participation, canParticipate, isProject, partTime: pt, weekHours: partTimeWeekHours(pt), cap,
+    hourOptions: [...new Set(hourOptions)], cleared, lecture: lectureEligible(next),
+    growth: growthMultiplier(next), pay: partTimePay(pt, s.month, data, schoolKey(s)),
+  };
 }
 
 /** 투고처 레코드 note 의 이름 부분: 첫 문장에서 괄호 앞까지(학회 `SOSP: ACM Symposium on … Principles`, 저널 `Advances in Mathematics`). */

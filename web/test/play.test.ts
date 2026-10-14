@@ -6,7 +6,7 @@ import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState } 
 import { loadData } from '../../engine/src/index';
 import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
-import { paperView, statBars, venueName } from '../src/view';
+import { paperView, statBars, venueName, workView } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -226,7 +226,7 @@ describe('money card', () => {
     const total = (kind: string) => s.ledger.filter(e => e.kind === kind).reduce((a, e) => a + e.amount, 0);
     expect(rows.reduce((a, r) => a + r.pay, 0)).toBe(total('pay'));
     expect(rows.reduce((a, r) => a + r.repay, 0)).toBe(total('repay'));
-    expect(rows.reduce((a, r) => a + r.work, 0)).toBe(s.ledger.filter(e => ['work', 'leave-work', 'network-cost'].includes(e.kind)).reduce((a, e) => a + e.amount, 0));
+    expect(rows.reduce((a, r) => a + r.work, 0)).toBe(s.ledger.filter(e => ['work', 'leave-work', 'network-cost', 'part-time', 'lecture'].includes(e.kind)).reduce((a, e) => a + e.amount, 0));
   });
 
   it('cash and debt come from the life; ledgerRows is newest first and sums by kind', () => {
@@ -284,5 +284,40 @@ describe('venue name (#105)', () => {
     expect(venueName('ACL: Annual Meeting of the Association for Computational Linguistics. 세부분야 natural language processing. ICORE2026 등급 A*.')).toBe('ACL: Annual Meeting of the Association for Computational Linguistics');
     expect(venueName('Advances in Mathematics (ISSN 1090-2082, 0001-8708). Scimago 주 카테고리')).toBe('Advances in Mathematics');
     expect(venueName('대한수학회보 (Bulletin of the KMS), 발행 대한수학회, KCI 연구분야 수학.')).toBe('대한수학회보');
+  });
+});
+
+describe('work view (#110)', () => {
+  it('subtracts part-time hours and half the participation from growth, and caps part-time at 40 - duty - participation', () => {
+    const s = createLife({ track: 'computer' }, newSeed('work'), data);
+    expect(s.phd).toBeDefined();
+    const route = s.phd!.fundingState.route;
+    const base = workView(s, data)!;
+    expect(base.cap).toBeGreaterThanOrEqual(0);
+    expect(base.growth).toBeLessThanOrEqual(1);
+    if (route === 'project') {
+      const hi = workView(s, data, { participation: 1 })!;
+      expect(hi.participation).toBe(1);
+      expect(hi.growth).toBeCloseTo(Math.max(0, 1 - 0.5 - hi.weekHours / 40));
+    }
+    const job = workView(s, data, { partTime: { kind: 'job', hours: Math.min(10, base.cap) } })!;
+    expect(job.weekHours).toBe(Math.min(10, base.cap));
+    expect(job.growth).toBeLessThanOrEqual(base.growth);
+    // 상한을 넘기는 초안은 무시하고 지금 값을 보인다
+    const over = workView(s, data, { partTime: { kind: 'job', hours: 999 } })!;
+    expect(over.weekHours).toBe(base.weekHours);
+  });
+});
+
+describe('work view fallback (#110)', () => {
+  it('keeps the participation change when the part-time draft no longer fits', () => {
+    const s = createLife({ track: 'computer' }, newSeed('work-fallback'), data);
+    if (s.phd!.fundingState.route !== 'project') return;
+    const v = workView(s, data, { participation: 1, partTime: { kind: 'job', hours: 5 } })!;
+    expect(v.participation).toBe(1);
+    expect(v.cap).toBe(0);
+    expect(v.weekHours).toBe(0);
+    expect(v.cleared).toBe(true);
+    expect(workView(s, data, { participation: 1 })!.cleared).toBe(false);
   });
 });
