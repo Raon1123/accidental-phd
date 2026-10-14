@@ -4,9 +4,9 @@ import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, type Paper } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
+import { BASE_MS, SPEEDS, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
-import { paperView, statBars, venueLabel, workView } from '../src/view';
+import { participationReason, paperView, statBars, venueLabel, workView } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -305,5 +305,63 @@ describe('work view (#110)', () => {
     expect(over.weekHours).toBe(base.weekHours);
     expect(over.cleared).toBe(true);
     expect(base.cleared).toBe(false);
+  });
+});
+
+describe('status line (#83)', () => {
+  const S = ko.play.status;
+  const life = (): LifeState => createLife({ auto: true }, newSeed('status-line'), data);
+  const phdAt = (enrolledMonths: number, extra: Partial<NonNullable<LifeState['phd']>> = {}): LifeState => {
+    const s = life();
+    return { ...s, phd: { ...s.phd!, enrolledMonths, coursework: enrolledMonths < ASSUMED.COURSEWORK_MONTHS, ...extra } };
+  };
+  const careerOf = (s: LifeState, c: Partial<NonNullable<LifeState['career']>>): LifeState => ({
+    ...s, stage: 'career', month: 100,
+    career: { degreeMonth: 90, degree: 'phd', route: 'none', annualPay: 0, yearsInRoute: 0, workYears: 0, academicMonths: 0, paperScore: 0, careerPapers: 0, ...c },
+  });
+
+  it('counts semesters from enrolled months, and shows leave and completed coursework', () => {
+    expect(statusLine(phdAt(0), ko)).toBe('박사과정 1학기 재학');
+    expect(statusLine(phdAt(13), ko)).toBe('박사과정 3학기 재학');
+    expect(statusLine(phdAt(13, { leave: { active: true, until: 20, totalMonths: 1 } }), ko)).toBe('박사과정 3학기 · 휴학 중');
+    expect(statusLine(phdAt(ASSUMED.COURSEWORK_MONTHS), ko)).toBe(`박사수료 (${ASSUMED.COURSEWORK_MONTHS / 6 + 1}학기째)`);
+  });
+
+  it('shows the search after a degree, after a master exit, and after leaving the PhD', () => {
+    const s = life();
+    expect(statusLine(careerOf(s, { searching: { routes: ['postdoc'], since: 90, penalty: 1 } }), ko)).toBe(S.searching);
+    expect(statusLine(careerOf(s, { degree: 'master-exit', searching: { routes: ['industry'], since: 90, penalty: 1 } }), ko)).toBe(S.searchingAfterMaster);
+    expect(statusLine(careerOf(s, { degree: 'none', searching: { routes: ['industry'], since: 90, penalty: 1 } }), ko)).toBe(S.searchingAfterDropout);
+    expect(statusLine({ ...careerOf(s, { searching: { routes: ['postdoc'], since: 100, penalty: 1 } }), month: 90 }, ko)).toBe(`${S.degree} · ${S.searching}`);
+  });
+
+  it('names the job: route, employer, regular or not, year in route, and the contract end for contract jobs', () => {
+    const s = life();
+    expect(statusLine(careerOf(s, { route: 'industry', employer: { kind: 'company' }, yearsInRoute: 2 }), ko)).toBe('기업 · 기업 · 정규직 · 3년째');
+    expect(statusLine(careerOf(s, { route: 'professor', employer: { kind: 'university' } }), ko)).toBe('교수 · 대학 · 정규직 · 1년째');
+    // 0개월째 = 2027년 3월 → 118개월째 = 2037년 1월
+    expect(statusLine(careerOf(s, { route: 'postdoc', employer: { kind: 'university' }, contractUntil: 118 }), ko)).toBe('박사후연구원 · 대학 · 비정규직 · 1년째 · 계약 2037년 1월까지');
+    expect(statusLine(careerOf(s, { route: 'bridge', employer: { kind: 'company' } }), ko)).toBe('임시직 · 기업 · 비정규직 · 1년째');
+    expect(statusLine(careerOf(s, { route: 'startup', employer: { kind: 'self' } }), ko)).toBe('창업 · 자기 사업 · 자영 · 1년째');
+  });
+
+  it('covers retirement and the end of the record', () => {
+    const s = life();
+    expect(statusLine({ ...s, stage: 'retired' }, ko)).toBe(S.retired);
+    expect(statusLine({ ...s, stage: 'end', end: { reason: 'financial', month: 40 } }, ko)).toBe('기록 종료 · 재정 파탄');
+    expect(statusLine({ ...s, stage: 'pre' }, ko)).toBe(S.pre);
+  });
+});
+
+describe('participation reason (#119)', () => {
+  it('names the market and relation levels from the engine factors', () => {
+    const s = createLife({ track: 'computer' }, newSeed('reason'), data);
+    const hi = { ...s, stats: { ...s.stats, relation: 95 } };
+    const lo = { ...s, stats: { ...s.stats, relation: 5 } };
+    const r = participationReason(s);
+    expect(['high', 'normal', 'low']).toContain(r.market);
+    expect(participationReason(hi).relation).not.toBe('low');
+    expect(participationReason(lo).relation).not.toBe('high');
+    expect(participationReason(hi).market).toBe(r.market);
   });
 });

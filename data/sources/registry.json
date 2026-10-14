@@ -276,7 +276,7 @@
     "year": 2026,
     "url": "https://portal.core.edu.au/conf-ranks/",
     "checked_on": "2026-10-13",
-    "note": "출처 계급: 학회 등급 A*/A/B/C. 2026-10-13 자동 접속은 HTTP 403, 수집 시 브라우저로 확인하고 edition 연도를 note에."
+    "note": "출처 계급: 학회 등급 A*/A/B/C. CSV export 경로: portal.core.edu.au/conf-ranks/?search=&by=all&source=ICORE2026&sort=atitle&page=1&do=Export (issue #7이 발견, 판본 ICORE2026). 2026-10-15 재확인: 이 경로가 HTTP 200으로 열리고 CSV(id, 학회명, 약칭, 판본, 등급, 비고 열)를 반환함. HTML 포털 본문은 같은 날 WebFetch에서 간헐 접속 거부가 있어 CSV export를 쓴다."
   },
   {
     "id": "core-2026-ranking",
@@ -699,7 +699,7 @@
     "year": 2027,
     "url": "https://admission.kaist.ac.kr/graduate/reference/sub01",
     "checked_on": "2026-10-13",
-    "note": "자료실 모집요강 게시물(pstNo 2232, 2026.5.28 게시) 첨부 PDF(25쪽, 이미지형)를 내려받아 '4. 모집분야 및 학위과정' 개요(PDF 8쪽, 표기 p.6)와 '1지망 모집분야 일람표'(PDF 9쪽, 표기 p.7)의 박사과정 열을 읽음. 직접 파일: https://admission.kaist.ac.kr/wz/api/board/58/2232/download/0 . 봄학기 2차 모집요강(pstNo 2251)은 받았으나 읽지 않음. 서버가 중간 인증서를 보내지 않아 GlobalSign 중간 인증서를 추가해 TLS 검증을 유지한 채 접근."
+    "note": "자료실 모집요강 게시물(pstNo 2232, 2026.5.28 게시) 첨부 PDF(25쪽, 이미지형)를 내려받아 '4. 모집분야 및 학위과정' 개요(PDF 8쪽, 표기 p.6)와 '1지망 모집분야 일람표'(PDF 9쪽, 표기 p.7)의 박사과정 열을 읽음. 직접 파일: https://admission.kaist.ac.kr/wz/api/board/58/2232/download/0 . 봄학기 2차 모집요강(pstNo 2251)은 받았으나 읽지 않음. 서버가 중간 인증서를 보내지 않아 GlobalSign 중간 인증서를 추가해 TLS 검증을 유지한 채 접근. 2026-10-15 재확인: 같은 게시물 첨부 PDF를 다시 내려받아 일람표 박사 열을 대조, 변경 없음. 중간 인증서를 추가해 TLS 검증 유지."
   },
   {
     "id": "kci-2024-classification-notice",
@@ -1941,7 +1941,7 @@
     "year": 2027,
     "url": "https://go.pusan.ac.kr/graduate/pages/index.asp?p=91&b=B_1_16&bn=49773&m=read",
     "checked_on": "2026-10-13",
-    "note": "공고(2026.08.04) 첨부 PDF(/_common/new_download_file.asp?menu=boardfile&file_no=4422, 61쪽)를 내려받아 박사과정 모집단위표(PDF 9~11쪽, 인쇄 7~9쪽)를 읽음. 특차 모집요강이며 '특차에서 선발하지 않는 모집단위는 전기·후기에서 선발, 11월 공고 전기 모집요강 확인' 문구가 있음. 전기 모집요강은 아직 미공고라 읽지 못함. 모집여부 표기: ○ 특차 모집, × 특차 미모집."
+    "note": "공고(2026.08.04) 첨부 PDF(/_common/new_download_file.asp?menu=boardfile&file_no=4422, 61쪽)를 내려받아 박사과정 모집단위표(PDF 9~11쪽, 인쇄 7~9쪽)를 읽음. 특차 모집요강이며 '특차에서 선발하지 않는 모집단위는 전기·후기에서 선발, 11월 공고 전기 모집요강 확인' 문구가 있음. 전기 모집요강은 아직 미공고라 읽지 못함. 모집여부 표기: ○ 특차 모집, × 특차 미모집. 2026-10-15 재확인: 같은 첨부 PDF(file_no=4422)의 박사 모집단위표를 대조, 변경 없음. 전기·후기 모집요강(11월 공고 예정)은 아직 미공고."
   },
   {
     "id": "sbs-2014-humanities-fulltime-phd-scholarship",
@@ -2067,7 +2067,7 @@
     "year": 2026,
     "url": "https://www.scimagojr.com/journalrank.php",
     "checked_on": "2026-10-13",
-    "note": "출처 계급: 저널 지표(SJR 사분위). 개별 저널 수치는 하위 id로. 2026-10-13 자동 접속은 HTTP 403(봇 차단), 수집 시 브라우저로 확인."
+    "note": "출처 계급: 저널 지표(SJR 사분위). 개별 저널 수치는 하위 id로. 2026-10-15 재시도: WebFetch는 journalsearch ISSN 페이지 2건 모두 HTTP 응답 거부(차단)로 열지 못했고, 브라우저 확장이 연결되지 않아 브라우저 대체 열람도 하지 못함. SJR 사분위 60건은 원본 대조 없이 indexed로 둔다."
   },
   {
     "id": "sedaily-2018-science-roundtable",
@@ -2337,7 +2337,7 @@
     "year": 2026,
     "url": "https://www.wage.go.kr/",
     "checked_on": "2026-10-13",
-    "note": "출처 계급: 직종별 임금 분포(기업 연구직). 2026-10-13 자동 접속 실패(ECONNRESET), 수집 시 재확인."
+    "note": "출처 계급: 직종별 임금 분포(기업 연구직). 2026-10-15 재시도 실패: 도메인 접속이 WebFetch와 curl 모두 연결 단계에서 끊김(응답 없음, 시간 초과), 브라우저 확장도 연결되지 않아 열지 못함. 기업 연구직 임금 레코드는 수집하지 못함. 국가통계포털(KOSIS) 메인은 열리나 연구직 임금 통계표는 대화형 조회 화면이라 이 세션에서 값을 확인하지 못함."
   },
   {
     "id": "yonsei-2026-scholarship",
