@@ -7,11 +7,11 @@ const data = loadData();
 const idx = indexDepartments(data);
 
 describe('department bundles (same_unit_as counted once)', () => {
-  it('bundles 22, members 45, units 471 of 494 department records (법학 11 단위 추가 #70)', () => {
-    expect(idx.records.size).toBe(494);            // 501 − 7 (`-tuition`); 법학 11 (#70)
+  it('bundles 22, members 45, units 476 of 499 department records (법학 11 단위 추가 #70, akj 5 #100)', () => {
+    expect(idx.records.size).toBe(499);            // 506 − 7 (`-tuition`); 법학 11 (#70), akj 5 (#100)
     expect(idx.bundles.length).toBe(22);
     expect(idx.bundles.reduce((s, b) => s + b.members.length, 0)).toBe(45);
-    expect(idx.units.length).toBe(471);
+    expect(idx.units.length).toBe(476);
     expect(idx.bundles.map(b => b.n)).toEqual(Array.from({ length: 22 }, (_, i) => i + 1));
   });
 
@@ -34,10 +34,10 @@ describe('department bundles (same_unit_as counted once)', () => {
 });
 
 describe('engine keys (agency spec §11)', () => {
-  it('record keys unique (494), unit keys 471, slug regex, 87 numbered rows', () => {
+  it('record keys unique (499), unit keys 476, slug regex, 87 numbered rows', () => {
     const rks = [...idx.recordKeys.values()];
-    expect(new Set(rks).size).toBe(494);
-    expect(new Set([...idx.unitKeys.values()]).size).toBe(471);
+    expect(new Set(rks).size).toBe(499);
+    expect(new Set([...idx.unitKeys.values()]).size).toBe(476);
     for (const k of idx.unitKeys.values()) expect(k.split('/')[1]).toMatch(/^[a-z0-9_-]{1,32}$/);
     expect(Object.keys(NUMBERED_SLUGS).length).toBe(87);
     expect([...idx.records.values()].filter(r => r.numbered).length).toBe(87);
@@ -104,14 +104,14 @@ describe('record parsing', () => {
 
 describe('track weights (agency spec §2.2)', () => {
   const w = trackWeights(idx);
-  it('equal the §2.2 table and sum to 471', () => {
+  it('equal the §2.2 table and sum to 476', () => {
     expect(w.ai).toBeCloseTo(30.83, 2);
     expect(w.computer).toBeCloseTo(25.33, 2);
     expect(w.bioengineering).toBeCloseTo(26.33, 2);
     expect(w.energy).toBe(26.5);
     expect(w.neuroscience).toBe(9);
     expect(w.linguistics).toBe(6.5);
-    expect(Object.values(w).reduce((a, b) => a + b, 0)).toBeCloseTo(471, 6);
+    expect(Object.values(w).reduce((a, b) => a + b, 0)).toBeCloseTo(476, 6);
     expect(Object.keys(w).length).toBe(27);
   });
 
@@ -119,7 +119,7 @@ describe('track weights (agency spec §2.2)', () => {
     const table: Record<string, number> = {
       ai: 30.83, mechanical: 27, energy: 26.5, bioengineering: 26.33, materials: 25.5, computer: 25.33, life_science: 24.5, neuroscience: 9,
       electrical: 22, chemical: 18, semiconductor: 18.5, mathematics: 16.5, civil: 16.5, environmental: 15.5, statistics: 12.5, systems_biology: 4.5,
-      sociology: 14, political: 16, psychology: 13, economics: 15, public_administration: 15, law: 11, history: 18, philosophy: 15, korean_literature: 15,
+      sociology: 15, political: 17, psychology: 13, economics: 15, public_administration: 15, law: 11, history: 19, philosophy: 16, korean_literature: 16,
       english_literature: 13.5, linguistics: 6.5,
     };
     for (const [t, v] of Object.entries(table)) expect(w[t], t).toBeCloseTo(v, 2);

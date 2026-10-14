@@ -147,7 +147,7 @@ export const ASSUMED = {
   EWHA_TUITION_REFERENCE_SCHOOLS: ['yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'cau', 'konkuk'], // 0014#58
   EWHA_MATH_TUITION: 6_367_500,                                                        // 0014#59 math·bio, 같은 8곳 math 등록금 중앙값
   LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60 (경력·은퇴 단계에도 같은 값: 0014#123, #96)
-  CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos'], // 0014#60 수도권
+  CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos', 'akj'], // 0014#60 수도권
   REGIONAL_SCHOOLS: ['kaist', 'postech', 'gist', 'dgist', 'unist', 'pusan', 'knu', 'jnu', 'cnu'], // 0014#60 비수도권
   LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 42_000_000,                                      // 0014#61 (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; calibration-wave4.md)
   CRISIS_MONTHS: 3, POST_CRISIS_MONTHS: 3,                                             // 0014#62
