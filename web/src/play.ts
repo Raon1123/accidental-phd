@@ -5,6 +5,7 @@ import {
   type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision,
 } from '../../engine/src/browser';
 import { newsLine } from './news';
+import { decisionResult, logScene, pendingScene } from './scenes';
 import type { Strings } from './strings.ko';
 
 /** 속도 5단계(1×~16×). 1× 는 한 칸에 BASE_MS. */
@@ -53,6 +54,8 @@ function lookup(table: Readonly<Record<string, string>>, key: string, what: stri
 
 export interface DecisionView {
   prompt: string;
+  /** 장면 문단(창작, #57). 화면은 창작 표시를 붙인다. */
+  scene?: string;
   options: { index: number; key: string; label: string; hint?: string; unavailable?: string }[];
 }
 
@@ -63,8 +66,10 @@ export function decisionView(s: LifeState, data: DataBundle, t: Strings): Decisi
   const outcome = decisionOutcome(p);
   const prompt = lookup(t.play.prompts, outcome ? `${p.dp}.${outcome}` : p.dp, 'prompt');
   const infos = describeOptions(s, data);
+  const scene = pendingScene(s, p)?.text;
   return {
     prompt,
+    ...(scene ? { scene } : {}),
     options: p.options.map((o, index) => {
       const info = infos[index]!;
       const view: DecisionView['options'][number] = { index, key: o.key, label: lookup(t.texts, optionKey(p, o.key), 'option') };
@@ -83,12 +88,20 @@ export function noteText(e: LogEntry, t: Strings, s?: LifeState): string {
   return lookup(t.texts, e.textKey, 'note');
 }
 
-/** 연구노트: 최신순. 매달 붙는 'log.month' 는 뺀다(내용이 없는 줄). 창작 줄에는 표시를 붙인다. */
-export function notes(s: LifeState, t: Strings): { month: number; text: string; creative: boolean }[] {
-  return s.log
-    .filter(e => e.textKey !== 'log.month')
-    .map(e => ({ month: e.month, text: noteText(e, t, s), creative: e.creative }))
-    .reverse();
+/**
+ * 연구노트: 최신순. 매달 붙는 'log.month' 는 뺀다(내용이 없는 줄). 창작 줄에는 표시를 붙인다.
+ * 서사 장면(#57): 결정 기록 아래에 고른 선택지의 결과 문장을, 채용·학위·종료 같은 기록 아래에 장면을 창작 줄로 붙인다.
+ */
+export interface Note { month: number; text: string; creative: boolean; scene?: true }
+export function notes(s: LifeState, t: Strings): Note[] {
+  const groups = s.log.map((e, i): Note[] => {
+    if (e.textKey === 'log.month') return [];
+    const out: Note[] = [{ month: e.month, text: noteText(e, t, s), creative: e.creative }];
+    const extra = e.textKey.startsWith('decision.') ? decisionResult(s.choices.group, e.textKey) : logScene(s, e, i)?.text;
+    if (extra) out.push({ month: e.month, text: extra, creative: true, scene: true });
+    return out;
+  });
+  return groups.reverse().flat();
 }
 
 /** 인생 지도 칸 수: 박사과정 1칸 = 1개월, 경력과 은퇴 1칸 = 1년. */

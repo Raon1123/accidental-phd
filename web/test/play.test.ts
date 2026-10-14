@@ -88,7 +88,7 @@ describe('research notes and life map (#55)', () => {
   it('notes are newest first, skip the monthly filler line, and keep the creative mark', () => {
     let s = createLife({ auto: true }, newSeed('play-notes'), data);
     while (s.stage === 'phd' && s.month < 30) s = step(s, data);
-    const list = notes(s, ko);
+    const list = notes(s, ko).filter(n => !n.scene);   // 장면 줄(#57)은 scenes.test.ts 가 본다
     const expected = s.log.filter(e => e.textKey !== 'log.month').reverse();
     expect(list.map(n => n.month)).toEqual(expected.map(e => e.month));
     expect(list.map(n => n.creative)).toEqual(expected.map(e => e.creative));
