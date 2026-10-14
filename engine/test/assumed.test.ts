@@ -66,6 +66,6 @@ describe('ASSUMED distributions', () => {
     expect(ASSUMED.EWHA_MATH_TUITION).toBe(6_367_500);
     expect(ASSUMED.ADVISOR_TYPES.connected).toEqual({ support: 45, rigor: 45, network: 80 });
     expect(ASSUMED.ODDS_LO).toBe(0.02); expect(ASSUMED.ODDS_HI).toBe(0.95);
-    expect(ASSUMED.CAPITAL_SCHOOLS.length + ASSUMED.REGIONAL_SCHOOLS.length).toBe(20);
+    expect(ASSUMED.CAPITAL_SCHOOLS.length + ASSUMED.REGIONAL_SCHOOLS.length).toBe(21);
   });
 });

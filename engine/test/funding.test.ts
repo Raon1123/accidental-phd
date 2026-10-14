@@ -37,7 +37,7 @@ describe('monthlyFromRecord: period read from the note (unit is always "krw")', 
   });
   it('every living-scholarship and stipend record resolves to a plausible monthly amount', () => {
     const all = [...data.records.values()].filter(r => /^schools-[a-z]+-all-(scholarship-living-|stipend-)/.test(r.id));
-    expect(all.length).toBe(49);
+    expect(all.length).toBe(51);   // akj 연구장학·조교 2건 (#100)
     for (const r of all) {
       const m = monthlyFromRecord(r);
       expect(m, r.id).toBeGreaterThanOrEqual(100_000);

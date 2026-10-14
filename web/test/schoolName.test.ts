@@ -34,7 +34,7 @@ const idsFrom = (prefix: string): Set<string> =>
 
 describe('school display names (#59)', () => {
   it('strings.ko.ts schoolNames equals the README mapping table', () => {
-    expect(table).toHaveLength(20);
+    expect(table).toHaveLength(21);
     expect(Object.fromEntries(table.map(([id, , shown]) => [id, shown]))).toEqual(ko.schoolNames);
   });
 

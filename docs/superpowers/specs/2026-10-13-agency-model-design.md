@@ -53,17 +53,19 @@ P(이공) = (공학 8895 + 자연 4339) / (인문 3497 + 사회 6406 + 공학 88
 
 | 트랙 | 가중치 | 트랙 | 가중치 | 트랙 | 가중치 |
 |---|---|---|---|---|---|
-| ai | 30.83 | electrical | 22 | sociology | 14 |
-| mechanical | 27 | chemical | 18 | political | 16 |
+| ai | 30.83 | electrical | 22 | sociology | 15 |
+| mechanical | 27 | chemical | 18 | political | 17 |
 | energy | 26.5 | semiconductor | 18.5 | psychology | 13 |
 | bioengineering | 26.33 | mathematics | 16.5 | economics | 15 |
 | materials | 25.5 | civil | 16.5 | public_administration | 15 |
-| computer | 25.33 | environmental | 15.5 | history | 18 |
-| life_science | 24.5 | statistics | 12.5 | philosophy | 15 |
-| neuroscience | 9 | systems_biology | 4.5 | korean_literature | 15 |
+| computer | 25.33 | environmental | 15.5 | history | 19 |
+| life_science | 24.5 | statistics | 12.5 | philosophy | 16 |
+| neuroscience | 9 | systems_biology | 4.5 | korean_literature | 16 |
 |  |  |  |  | english_literature | 13.5 |
 |  |  |  |  | linguistics | 6.5 |
 |  |  |  |  | law | 11 |
+
+2026-10-15: 한국학중심대학원(`akj`, #100)의 5단위(history·philosophy·korean_literature·political·sociology 각 1)를 더했다. 아래 합계 문장은 그 전 값이다.
 
 이공 합 319, 인문사회 합 141, 전체 460(= 고유 단위 수). 출처: departments 레코드 483건 note의 `track`과 `same_unit_as`(conf v 480 / i 3). 학과 수를 가중치로 쓰는 것은 assumed (결정 기록 0014 #13).
 
