@@ -1,7 +1,8 @@
 // 진행 화면의 DOM 없는 부분(#55): 한 칸 진행, 속도, 자동 모드 전환, 결정 지점 보기, 연구노트, 인생 지도.
 // 결정 지점이 걸려 있으면 엔진을 부르지 않는다(step 이 같은 상태를 그대로 돌려준다).
 import {
-  ASSUMED, advanceMonth, advanceYear, decide, decisionOutcome, describeOptions, policyDecision, previewCashflow,
+  ASSUMED, advanceMonth, advanceYear, decide, decisionOutcome, describeOptions, policyDecision, previewCareerFlow, previewCashflow,
+  type CareerFlow,
   type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision,
 } from '../../engine/src/browser';
 import { newsLine } from './news';
@@ -131,12 +132,18 @@ export interface MoneyView {
   cash: number; debt: number; loanLimit: number;
   /** 박사과정 중에만 있다. 다음 달 정산 예정치(양수 = 크기). */
   flow?: { stipend: number; family: number; living: number; tuition: number; net: number; netWithTuition: number; dutyHours: number; funding: 'scholarship' | 'project' | 'self'; fundingUntil: number };
+  /** 경력·은퇴 단계에만 있다(#96). 다음 달 정산 예정치: 급여·연금·은퇴 뒤 연구 수입, 생활비, 이자(부채에 붙음), 상환, 부족분 대출, 월 수지. */
+  careerFlow?: CareerFlow & { net: number };
   crisisMonths: number;
 }
 
 /** 다음 틱이 정산할 정기 수입·지출과 현재 잔액. 값은 엔진 applyCashflow 와 같은 함수(previewCashflow)에서 온다. */
 export function moneyView(s: LifeState, data: DataBundle): MoneyView {
   const base = { cash: s.money.cash, debt: s.money.debt, loanLimit: s.money.loanLimit, crisisMonths: s.phd?.crisisMonths ?? 0 };
+  if (s.stage === 'career' || s.stage === 'retired') {
+    const f = previewCareerFlow(s);
+    return { ...base, careerFlow: { ...f, net: f.pay + f.pension + f.research - f.living - f.repay } };
+  }
   if (s.stage !== 'phd' || !s.phd) return base;
   const c = previewCashflow(s, data);
   const net = c.stipend + c.family - c.living;
@@ -144,20 +151,23 @@ export function moneyView(s: LifeState, data: DataBundle): MoneyView {
   return { ...base, flow: { stipend: c.stipend, family: c.family, living: c.living, tuition: c.tuition, net, netWithTuition: net - c.tuition, dutyHours: f.dutyHours, funding: f.route, fundingUntil: f.until } };
 }
 
-export interface LedgerRow { month: number; stipend: number; family: number; work: number; living: number; tuition: number; interest: number; loan: number }
+export interface LedgerRow { month: number; stipend: number; family: number; work: number; living: number; tuition: number; interest: number; loan: number; pay: number; pension: number; repay: number }
 
 /** 월별 계산서: 최근 n개월(원장에 항목이 있는 달만, 최신이 앞). 등록금 열에는 입학금도 넣는다. 이자는 현금이 아니라 부채에 붙는다. */
 export function ledgerRows(s: LifeState, n = 12): LedgerRow[] {
   const by = new Map<number, LedgerRow>();
   for (const e of s.ledger) {
     let r = by.get(e.month);
-    if (!r) { r = { month: e.month, stipend: 0, family: 0, work: 0, living: 0, tuition: 0, interest: 0, loan: 0 }; by.set(e.month, r); }
+    if (!r) { r = { month: e.month, stipend: 0, family: 0, work: 0, living: 0, tuition: 0, interest: 0, loan: 0, pay: 0, pension: 0, repay: 0 }; by.set(e.month, r); }
     if (e.kind === 'stipend') r.stipend += e.amount;
     else if (e.kind === 'family') r.family += e.amount;
     else if (e.kind === 'living') r.living += e.amount;
     else if (e.kind === 'tuition' || e.kind === 'entrance-fee') r.tuition += e.amount;
     else if (e.kind === 'interest') r.interest += e.amount;
     else if (e.kind === 'loan') r.loan += e.amount;
+    else if (e.kind === 'pay') r.pay += e.amount;   // 경력·은퇴 단계 월 정산(#96)
+    else if (e.kind === 'pension' || e.kind === 'post-retire-research') r.pension += e.amount;
+    else if (e.kind === 'repay') r.repay += e.amount;
     else r.work += e.amount;
   }
   return [...by.values()].sort((a, b) => b.month - a.month).slice(0, n);

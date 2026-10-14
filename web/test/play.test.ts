@@ -192,6 +192,43 @@ describe('money card', () => {
     expect(checked).toBeGreaterThan(50);
   });
 
+  it('#96: after the PhD the preview for the next month equals the first month the year tick settles', () => {
+    let checked = 0;
+    for (let k = 0; k < 40 && checked < 20; k++) {
+      let s = createLife({ auto: true }, newSeed(`money-career-${k}`), data);
+      while (s.stage === 'phd') s = step(s, data);
+      for (let y = 0; y < 30 && (s.stage === 'career' || s.stage === 'retired'); y++) {
+        const v = moneyView(s, data);
+        expect(v.flow).toBeUndefined();
+        const f = v.careerFlow!;
+        const hiring = s.stage === 'career' && s.career!.searching !== undefined;   // 그달 채용되면 급여가 바뀐다
+        const before = s.ledger.length, month = s.month;
+        s = step(s, data);
+        if (hiring) continue;
+        const first = s.ledger.slice(before).filter(e => e.month === month + 1);
+        const sum = (...kinds: string[]) => first.filter(e => kinds.includes(e.kind)).reduce((a, e) => a + e.amount, 0);
+        expect(sum('pay')).toBe(f.pay);
+        expect(sum('pension')).toBe(f.pension);
+        expect(sum('living') + 0).toBe(0 - f.living + 0);
+        expect(sum('interest') + 0).toBe(0 - f.interest + 0);
+        expect(sum('repay') + 0).toBe(0 - f.repay + 0);
+        expect(sum('loan')).toBe(f.loan);
+        checked++;
+      }
+    }
+    expect(checked).toBeGreaterThanOrEqual(20);
+  });
+
+  it('#96: ledgerRows puts pay, pension and repayment in their own columns', () => {
+    let s = createLife({ auto: true }, newSeed('money-career-rows'), data);
+    while (s.stage === 'phd' || (s.stage === 'career' && s.career!.route === 'none')) s = step(s, data);
+    const rows = ledgerRows(s, 1000);
+    const total = (kind: string) => s.ledger.filter(e => e.kind === kind).reduce((a, e) => a + e.amount, 0);
+    expect(rows.reduce((a, r) => a + r.pay, 0)).toBe(total('pay'));
+    expect(rows.reduce((a, r) => a + r.repay, 0)).toBe(total('repay'));
+    expect(rows.reduce((a, r) => a + r.work, 0)).toBe(s.ledger.filter(e => ['work', 'leave-work', 'network-cost'].includes(e.kind)).reduce((a, e) => a + e.amount, 0));
+  });
+
   it('cash and debt come from the life; ledgerRows is newest first and sums by kind', () => {
     let s = createLife({}, newSeed('money-rows'), data);
     for (let i = 0; i < 14 && !halted(s); i++) s = step(s, data);

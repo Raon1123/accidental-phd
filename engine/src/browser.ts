@@ -14,6 +14,7 @@ export { newSeed, cohortSeed } from './rng';
 export { policyFocus, policyDecision } from './policy';
 export { TRACKS, groupOf } from './data/taxonomy';
 export { previewCashflow } from './phd/money';
+export { previewCareerFlow, type CareerFlow } from './career/tick';
 
 import { bundleFromTexts, type DataBundle } from './data/bundle';
 

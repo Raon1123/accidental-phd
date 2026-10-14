@@ -218,6 +218,7 @@ function renderMoneyCard(root: HTMLElement): void {
   row(M.debt, `${wonText(v.debt, t)} / ${M.loanLimit} ${wonText(v.loanLimit, t)}`);
   if (v.crisisMonths > 0) row(M.crisis, M.crisisMonths.replace('{n}', String(v.crisisMonths)));
   root.append(dl);
+  if (v.careerFlow) { renderCareerFlow(root, v.careerFlow); return; }
   if (!v.flow) { root.append(el('p', M.noPhd)); return; }
   const f = v.flow;
   root.append(el('h3', M.next));
@@ -256,6 +257,15 @@ function renderMoneyCard(root: HTMLElement): void {
     }
     root.append(edl);
   }
+  renderLedger(root, ['month', 'stipend', 'family', 'work', 'living', 'tuition', 'interest', 'loan']);
+}
+
+type LedgerKey = 'month' | keyof Omit<ReturnType<typeof ledgerRows>[number], 'month'>;
+
+/** 월별 계산서 표(#75). 경력·은퇴 단계는 급여·연금·상환 열을 쓴다(#96). */
+function renderLedger(root: HTMLElement, keys: readonly LedgerKey[]): void {
+  if (!life) return;
+  const M = t.play.money;
   const rows = ledgerRows(life);
   const det = el('details');
   det.append(el('summary', M.ledgerHeading));
@@ -263,7 +273,6 @@ function renderMoneyCard(root: HTMLElement): void {
   else {
     const tbl = el('table');
     const cols = M.cols;
-    const keys = ['month', 'stipend', 'family', 'work', 'living', 'tuition', 'interest', 'loan'] as const;
     const head = el('tr');
     for (const k of keys) head.append(el('th', cols[k]));
     tbl.append(head);
@@ -275,6 +284,26 @@ function renderMoneyCard(root: HTMLElement): void {
     det.append(tbl);
   }
   root.append(det);
+}
+
+/** 박사 졸업 뒤 자금 카드(#96): 다음 달 정산 예정치와 경력·은퇴 단계 계산서. */
+function renderCareerFlow(root: HTMLElement, f: NonNullable<ReturnType<typeof moneyView>['careerFlow']>): void {
+  const M = t.play.money;
+  root.append(el('h3', M.nextMonth));
+  const fl = el('dl');
+  const frow = (k: string, val: string): void => { fl.append(el('dt', k), el('dd', val)); };
+  if (life!.stage === 'career') frow(M.pay, signedWon(f.pay, 1));
+  else {
+    frow(M.pension, signedWon(f.pension, 1));
+    if (f.research > 0) frow(M.research, signedWon(f.research, 1));
+  }
+  frow(M.living, signedWon(f.living, -1));
+  frow(M.interest, signedWon(f.interest, -1));
+  if (f.repay > 0) frow(M.repay, signedWon(f.repay, -1));
+  if (f.loan > 0) frow(M.loan, signedWon(f.loan, 1));
+  frow(M.netCareer, wonText(f.net, t));
+  root.append(fl);
+  renderLedger(root, ['month', life!.stage === 'career' ? 'pay' : 'pension', 'work', 'living', 'interest', 'repay', 'loan']);
 }
 
 function renderCurrent(root: HTMLElement): void {
