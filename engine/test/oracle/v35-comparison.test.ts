@@ -84,8 +84,7 @@ describe('v3.5 oracle vs engine: 29 comparison rows', () => {
     for (const k of ['humanities', 'social', 'natural', 'engineering'] as const) {
       const g = gK(data, k);
       expect(g).toBeCloseTo(100 / ((12 * durationYears(data, k).value - 6) * ASSUMED.G_MBAR_INIT), 10);
-      expect(v35Rates).not.toContain(g);
-      expect(g).toBeLessThan(Math.min(...v35Rates));   // v3.5 rate 5.2–7 보다 작은 척도(M̄ 보정을 거친 값)
+      expect(v35Rates).not.toContain(g);   // M̄ 0.30(2026-10-15) 이후 g 는 5.05–6.17 로 v3.5 rate 5.2–7 과 겹치지만, 같은 값을 쓰지는 않는다
     }
   });
 
