@@ -16,3 +16,12 @@ export function summaryRows(s: LifeState, t: Strings): [string, string][] {
     [t.play.stats, (Object.keys(t.play.statNames) as (keyof typeof t.play.statNames)[]).map(k => `${t.play.statNames[k]} ${s.stats[k]}`).join(' · ')],
   ];
 }
+
+/** 자금 카드 위에 두는 한눈 정보(단계·달·나이·분야·학교). 나머지는 지금 삶 구역에 남는다. */
+export function glanceRows(s: LifeState, t: Strings): [string, string][] {
+  return summaryRows(s, t).slice(1, 6);
+}
+export function detailRows(s: LifeState, t: Strings): [string, string][] {
+  const r = summaryRows(s, t);
+  return [r[0]!, ...r.slice(6)];
+}

@@ -7,7 +7,7 @@ import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledger
 import { lifeConfig, trackGroups } from './select';
 import { footerLines, moneyRows } from './sources';
 import { ko as t } from './strings.ko';
-import { summaryRows } from './view';
+import { detailRows, glanceRows } from './view';
 
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
@@ -164,7 +164,10 @@ function renderMoneyCard(root: HTMLElement): void {
   const M = t.play.money;
   root.setAttribute('aria-label', M.heading);
   const v = moneyView(life, data);
-  root.append(el('h2', M.heading));
+  const glance = el('dl');
+  glance.className = 'glance';
+  for (const [k, val] of glanceRows(life, t)) glance.append(el('dt', k), el('dd', val));
+  root.append(glance, el('h2', M.heading));
   const dl = el('dl');
   const row = (k: string, val: string): void => { dl.append(el('dt', k), el('dd', val)); };
   row(M.cash, wonText(v.cash, t));
@@ -224,7 +227,7 @@ function renderCurrent(root: HTMLElement): void {
   root.replaceChildren(el('h2', t.currentHeading));
   if (!life) { root.append(el('p', t.noLife)); return; }
   const dl = el('dl');
-  for (const [k, v] of summaryRows(life, t)) dl.append(el('dt', k), el('dd', v));
+  for (const [k, v] of detailRows(life, t)) dl.append(el('dt', k), el('dd', v));
   root.append(dl);
   if (life.stage === 'end') root.append(el('p', t.play.ended));
   renderControls(root, life);
@@ -248,7 +251,7 @@ function renderArchive(root: HTMLElement): void {
   const ul = el('ul');
   for (const e of entries) {
     const li = el('li', `${e.id} · ${t.savedAt} ${localTime(e.savedAt)} `);
-    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); render(); focusCurrent(); }, false, `open:${e.id}`));
+    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); collapseSelect(); render(); focusCurrent(); }, false, `open:${e.id}`));
     ul.append(li);
   }
   root.append(ul);
@@ -363,19 +366,31 @@ function startLife(track: string | null): void {
   focus = undefined;
   life = createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data);
   resetSide();
+  collapseSelect();
   render();
   focusCurrent();
 }
 
+/** 삶을 고른 뒤에는 분야 선택을 접는다(요약 줄을 누르면 다시 펼쳐 새 삶을 시작할 수 있다). */
+function collapseSelect(): void {
+  const d = document.querySelector<HTMLDetailsElement>('#select details');
+  if (d) d.open = false;
+}
+
 function renderSelect(root: HTMLElement): void {
-  root.replaceChildren(el('h2', t.selectHeading), el('p', t.selectHelp));
+  const det = el('details');
+  det.open = true;
+  const sum = el('summary');
+  sum.append(el('h2', t.selectHeading));
+  det.append(sum, el('p', t.selectHelp));
   for (const g of trackGroups(t)) {
     const fs = el('fieldset');
     fs.append(el('legend', g.label));
     for (const tr of g.tracks) fs.append(button(tr.label, () => startLife(tr.track)));
-    root.append(fs);
+    det.append(fs);
   }
-  root.append(button(t.trackAllLuck, () => startLife(null)));
+  det.append(button(t.trackAllLuck, () => startLife(null)));
+  root.replaceChildren(det);
 }
 
 async function start(): Promise<void> {

@@ -45,3 +45,8 @@ button:disabled { opacity: .5; }
 h1 { margin: 1.25rem 0 .5rem; font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: .4rem; }
 fieldset { gap: .6rem; padding: .75rem 1rem 1rem; border-radius: 6px; }
 fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
+
+/* 자금 카드 위 한눈 정보(단계·달·나이·분야·학교). 선택 영역은 삶을 고르면 접힌다(<details>). */
+.glance { margin: 0 0 .75rem; padding-bottom: .5rem; border-bottom: 1px solid var(--muted); }
+#select summary { cursor: pointer; }
+#select summary h2 { display: inline; }
