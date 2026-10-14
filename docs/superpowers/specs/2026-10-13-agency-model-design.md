@@ -1,6 +1,6 @@
 # 선택권 모델 스펙 (Wave 3, issue #18 항목 2)
 
-- 상태: 초안 · 2026-10-13 (스펙 초안·엮기 역할, opus). 감사(fable) 전.
+- 상태: 감사 반영 · 2026-10-13 (초안 opus, 감사 fable, §13). PR #36 머지로 승인(결정 기록 0010 §3 (b)); 감사 변경 전파 누락은 Wave 4 PR에서 정리.
 - 범위: 계열 대응, 입학 전 선택 6종, 결정 지점 7종, 월 포커스 루프와 위험률, 돈의 흐름, 논문 생애주기, 자격시험·학위 심사, 졸업 직전 진로 분포, 경력 단계 급여·전환·은퇴, `same_unit_as` 규칙, 학과 엔진 키. 상태 필드·공통 확률 함수 `odds`·난수 규칙은 [상태 모델 스펙](2026-10-13-engine-state-design.md), 공고 확률과 가상 뉴스는 [노동시장·뉴스 스펙](2026-10-13-labor-market-news-design.md)에 있다.
 - 원칙: 선택과 능력치는 확률을 바꿀 뿐 결과를 결정하지 않는다([결정 기록 0005](../../design/decisions/0005-agency-over-randomness.md)). 그래서 모든 확률은 상태 스펙 §4의 `odds`로 계산하고 하한·상한을 둔다. 결정적인 문턱(예: v3.5의 자격시험 "역량 ≥ 44")은 두지 않는다.
 - 근거 표기: 레코드 id는 [근거 색인](2026-10-13-wave3-evidence-index.md)에서만 인용한다. 근거가 없으면 "assumed (결정 기록 0014 #n)"이며 [결정 기록 0014](../../design/decisions/0014-assumed-probabilities.md)에 값·사유·교체 위치가 있다. 판정 규칙은 [결정 기록 0013](../../design/decisions/0013-wave3-pre-spec-judgments.md)이다.
@@ -23,7 +23,7 @@
 
 - 0013 §1은 economics·public_administration을 "경영·행정·법"에 넣는다. 위 표는 그 판정을 따른다.
 - KEDI 계열과 트랙의 대응은 "트랙 primary NRF 대분류 → KEDI 대계열" 한 단계다. KEDI 소계열 수준의 1:N 매핑(결정 기록 0009)은 쓰지 않는다. 엔진은 대계열 통계만 쓰기 때문이다.
-- 0013 §1이 언급한 `statistics-regular-share-<field>`라는 id는 레코드에 없다. 계열별 정규직 비율 레코드의 실제 id는 `statistics-form-permanent-<field>-2021-2024`(그림 11, 4년 합산)이며 이 스펙은 그 id를 인용한다. 계열별 값은 합산판만 있으므로 0013 §1의 "2024 단년 기본" 규칙의 예외로 둔다(§8).
+- 0013 §1이 언급한 statistics-regular-share-(field)라는 id(존재하지 않는 id)는 레코드에 없다. 계열별 정규직 비율 레코드의 실제 id는 `statistics-form-permanent-<field>-2021-2024`(그림 11, 4년 합산)이며 이 스펙은 그 id를 인용한다. 계열별 값은 합산판만 있으므로 0013 §1의 "2024 단년 기본" 규칙의 예외로 둔다(§8).
 
 ## 2. 입학 전 선택 6종
 
@@ -261,13 +261,15 @@ T_k: statistics-phd-duration-mean-years-{humanities = 6, social = 5, natural = 5
 6: 심사·졸업 준비로 남겨 두는 개월
 M̄: 자동 진행 정책에서 g 외 배수들의 기댓값. 초기 추정 0.68 → g = 인문 2.23, 사회 2.72, 자연·공학 2.45
 Wave 4는 1,000개 seed 모의실험으로 M̄를 추정하고, 동기 중앙 학위 기간이 T_k ± 0.5년에 들도록 g_k를 고정한다.
+보정(2026-10-14, docs/oracle/calibration-wave4.md): M̄ = 0.40 → g = 인문 3.79, 사회 4.63, 자연·공학 4.17. 실현된 g 외 배수 평균은 0.46–0.48이므로
+이 M̄는 측정값이 아니라 학위 기간 중앙값을 T_k에 맞추는 상수다(논문 요건이 병목이라 §4.4 합격 후 포커스 가중치와 함께 바꿨다).
 ```
 
 | 항목 | 값 | 근거 | 계열 체계 | conf |
 |---|---|---|---|---|
 | 학위 소요 기간 | 인문 6, 사회 5, 자연 5.5, 공학 5.5년 | `statistics-phd-duration-mean-years-{humanities,social,natural,engineering}` | KRIVET 2015 구 7계열을 [KEDI7] 키로 대응 | v |
 | 구 7계열 → KEDI 키 대응, 2015 값을 2027 입학자에 적용 | — | assumed (결정 기록 0014 #44) | — | a |
-| 준비 개월·M̄ 초기값 | 6, 0.68 | assumed (결정 기록 0014 #45) | — | a |
+| 준비 개월·M̄ | 6, 0.40 (초안 0.68; 보정 2026-10-14) | assumed (결정 기록 0014 #45) | — | a |
 
 ### 4.3 수입과 시간
 
@@ -280,7 +282,7 @@ Wave 4는 1,000개 seed 모의실험으로 M̄를 추정하고, 동기 중앙 �
 ```
 포커스: 체력 < 30 또는 마음 < 30 → rest
         활성 초고가 있고 writing < 100 → write (확률 0.6), 아니면 research
-        자격시험 합격 후 → thesis 0.5, research 0.2, write 0.2, network 0.1
+        자격시험 합격 후 → thesis 0.3, research 0.1, write 0.5, network 0.1   (보정 2026-10-14: 0.5/0.2/0.2/0.1에서 집필 가중으로, docs/oracle/calibration-wave4.md)
         졸업 직전 구직 중 → network 0.3, thesis 0.7
 결정 지점: 각 선택지의 표시 확률로 기대 효용을 매기지 않고, 선택지별 고정 가중치로 뽑는다
         post-qualifying 합격 (A 0.7, B 0.2, C 0.1) · 불합격 (A 0.7, B 0.2, C 0.1)
@@ -324,7 +326,7 @@ h_dropout(k) = 0.5 × hazard_month(r_drop,k) × exp(−0.8·z(mind) − 0.5·z(r
 | 목표 | 기준값 | 근거 | 허용 범위 |
 |---|---|---|---|
 | 학위 기간 중앙값 | 계열별 T_k | `statistics-phd-duration-mean-years-{…}` (v) | ± 0.5년 |
-| 연간 휴학 경험 비율 | 계열별 연 휴학률 | `statistics-phd-leave-rate-{…}` (v) | ± 30% |
+| 휴학 비율(레코드와 같은 스톡 정의: 휴학 달 ÷ 재적 달; 보조 지표로 12개월 창 안 휴학 경험 비율) | 계열별 연 휴학률(휴학생 ÷ 재적) | `statistics-phd-leave-rate-{…}` (v) | ± 30% |
 | 연간 이탈 비율(모든 경로 합) | 계열별 연 중도탈락률 | `statistics-phd-dropout-rate-{…}` (v) | ± 30% |
 | 학위 취득 후 1년 안 취업 비율 | KSCED 계열별 취업률 | `statistics-employed-{…}` (v) | ± 0.10 |
 
@@ -348,21 +350,7 @@ h_dropout(k) = 0.5 × hazard_month(r_drop,k) × exp(−0.8·z(mind) − 0.5·z(r
 | hanyang, sogang, khu, pusan, uos | `schools-{school}-engineering-tuition` | 레코드 그대로 | assumed (결정 기록 0014 #57) | v (입력) |
 | ewha | 7,341,000원 = 서울 사립 8곳 공학 등록금 중앙값 (감사 변경, 0014 #58) | 6,367,500원 = 같은 8곳 math 등록금 중앙값 (감사 변경, 0014 #59) | assumed (결정 기록 0014 #58, 결정 기록 0014 #59) | v (입력) |
 
-ewha 비율의 계산. 금액은 반올림하지 않은 중앙값(1.37468…, 1.19969…)으로 계산했으므로 표에 적은 네 자리 비율로 곱한 값과 수십 원 다르다. "서울 사립대"는 공학·사회 등록금 레코드가 모두 있는 서울 소재 사립 8곳(yonsei, korea, skku, hanyang, sogang, khu, cau, konkuk)이다. uos는 공립이라 빼고, ewha는 대상이라 뺀다. 8곳에서 math와 bio 등록금은 학교마다 같다.
-
-| 학교 | engineering ÷ social | math ÷ social |
-|---|---|---|
-| yonsei | 7,342,000 / 5,217,000 = 1.4073 | 6,298,000 / 5,217,000 = 1.2072 |
-| korea | 7,392,000 / 5,237,000 = 1.4115 | 6,339,000 / 5,237,000 = 1.2104 |
-| skku | 7,499,000 / 5,473,000 = 1.3702 | 6,556,000 / 5,473,000 = 1.1979 |
-| hanyang | 7,340,000 / 5,322,000 = 1.3792 | 6,396,000 / 5,322,000 = 1.2018 |
-| sogang | 7,286,000 / 5,462,000 = 1.3339 | 6,547,000 / 5,462,000 = 1.1986 |
-| khu | 7,109,000 / 5,232,000 = 1.3588 | 6,279,000 / 5,232,000 = 1.2001 |
-| cau | 7,507,000 / 5,514,000 = 1.3614 | 6,608,000 / 5,514,000 = 1.1984 |
-| konkuk | 6,849,000 / 4,893,000 = 1.3998 | 5,868,000 / 4,893,000 = 1.1993 |
-| 중앙값(4·5번째 평균) | (1.3702 + 1.3792) / 2 = 1.3747 | (1.1993 + 1.2001) / 2 = 1.1997 |
-
-감사(2026-10-13)에서 비율 곱 대신 관측 중앙값으로 바꿨다(0014 #58·#59, §13).
+"서울 사립 8곳"은 공학·사회 등록금 레코드가 모두 있는 서울 소재 사립(yonsei, korea, skku, hanyang, sogang, khu, cau, konkuk)이다. uos는 공립이라 빼고, ewha는 대상이라 뺀다. 8곳에서 math와 bio 등록금은 학교마다 같다. 중앙값은 `schools-{yonsei,korea,skku,hanyang,sogang,khu,cau,konkuk}-{engineering,math}-tuition` 8건을 정렬한 4·5번째 값의 평균이다. 감사(2026-10-13) 전에는 8곳의 engineering÷social·math÷social 비율 중앙값을 `schools-ewha-social-tuition`에 곱했으나, 결과가 관측 최대(cau 7,507,000원)를 넘어 관측 중앙값으로 바꿨다(0014 #58·#59, §13). Wave 4 엔진 테스트가 이 중앙값을 레코드에서 다시 계산해 엔진 상수와 비교한다.
 
 ### 5.2 장려금
 
@@ -395,10 +383,10 @@ ewha 비율의 계산. 금액은 반올림하지 않은 중앙값(1.37468…, 1.
 ```
 매월: cash < 0 이면 부족분을 대출(debt += −cash, cash = 0), debt ≤ loanLimit
 이자: debt × 0.03 / 12 를 매월 debt에 더한다
-loanLimit = 3,000만 원
+loanLimit = 4,200만 원   (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; docs/oracle/calibration-wave4.md)
 ```
 
-이자율 3%와 한도는 assumed (결정 기록 0014 #61). v3.5는 연 3%, 한도 1,800·3,000·4,200만 원 세 단계다.
+이자율 3%와 한도는 assumed (결정 기록 0014 #61). v3.5는 연 3%, 한도 1,800·3,000·4,200만 원 세 단계다. 초안은 중간값 3,000만 원이었고, Wave 4 보정이 최상위 4,200만 원으로 올렸다(0015 §4).
 
 ### 5.5 재정 위기와 종료
 
@@ -557,19 +545,20 @@ F_r: 비정규직(박사후 등) 일자리의 경로 배분 = 박사후 재원 �
 
 출연연 채용은 7기관 중 하나를 균등하게 뽑는다(0013 §6 "ONE ST 초임 레코드가 있는 7기관을 대표로"). 선임·책임 승진 때 그 기관의 해당 직급 초임으로 바꾼다.
 
-**규칙 (a): 교원 급여 조합** (0013 §3, 이월 항목 assumed 규칙 (a), 결정 기록 0014 #87)
+**규칙 (a): 사립대 교원 급여 조합** (0013 §3, 이월 항목 assumed 규칙 (a), 결정 기록 0014 #87, 감사 변경 2026-10-13)
 
 ```
-연봉(직급 r, 설립 t) = salaries-faculty-all-fulltime-mean × ratio_{t,r}
-ratio_{t,r} = pay2017_{t,r} / mean(pay2017_{t,교수}, pay2017_{t,부교수}, pay2017_{t,조교수})
+연봉(사립, 교수)   = salaries-faculty-private-professor-mean                              (2024, i) = 10,139만
+연봉(사립, 부교수) = 교수 × pay2017_{사립,부교수} / pay2017_{사립,교수} = 10,139만 × 7,466 / 9,631 = 7,860만
+연봉(사립, 조교수) = 교수 × pay2017_{사립,조교수} / pay2017_{사립,교수} = 10,139만 × 4,918 / 9,631 = 5,177만
 ```
 
-| 설립 | 교수 2017 | 부교수 2017 | 조교수 2017 | 세 직급 평균 | ratio 교수 / 부교수 / 조교수 | 연봉 교수 / 부교수 / 조교수 |
-|---|---|---|---|---|---|---|
-| 국공립 | 9,557만 | 7,842만 | 6,519만 | 7,972.67만 | 1.1987 / 0.9836 / 0.8177 | 11,999.0만 / 9,845.7만 / 8,184.7만 (참고만, 국립은 규칙 (b)) |
-| 사립 | 9,631만 | 7,466만 | 4,918만 | 7,338.33만 | 1.3124 / 1.0174 / 0.6702 | (감사 전 계산값, 폐기) 13,137.1만 / 10,183.9만 / 6,708.4만 → 감사 후 10,139만 / 7,860만 / 5,177만 |
+| 설립 | 교수 2017 | 부교수 2017 | 조교수 2017 | 직급 비(교수 기준) 부교수 / 조교수 | 연봉 교수 / 부교수 / 조교수 |
+|---|---|---|---|---|---|
+| 사립 | 9,631만 | 7,466만 | 4,918만 | 0.7752 / 0.5106 | 10,139만 / 7,860만 / 5,177만 |
+| 국공립 | 9,557만 | 7,842만 | 6,519만 | (참고만) | 규칙 (b) 호봉표 |
 
-연봉은 반올림하지 않은 ratio로 계산했다(네 자리 ratio로 곱하면 ±0.3만 원 차이). 입력: `salaries-faculty-{national,private}-{professor,associate-professor,assistant-professor}-mean-2017`(6건, conf i), `salaries-faculty-all-fulltime-mean`(2025, conf i). 확인 메모: 사립 교수 13,137.1만은 `salaries-faculty-private-professor-mean`(2024, i) 10,139만보다 약 30% 높다. 2025 전국 평균에는 국공립과 사립이 섞여 있고 2017 비율은 직급 간 격차를 키운다. Wave 6 분포 비교에서 다시 본다.
+연봉은 반올림하지 않은 비로 계산했다(네 자리 비로 곱하면 ±1만 원 차이). 입력: `salaries-faculty-private-professor-mean`(2024, conf i), `salaries-faculty-private-{professor,associate-professor,assistant-professor}-mean-2017`(3건, conf i). 감사 전 방식(전 직급 평균 `salaries-faculty-all-fulltime-mean` × 2017 직급 비)은 사립 교수가 관측 평균보다 약 30% 높게 나와 폐기했다(0014 #87, §13). 국공립 2017 값(`salaries-faculty-national-{professor,associate-professor,assistant-professor}-mean-2017`)은 규칙 (b)의 수당 배수 기준점(0014 #89)에만 쓴다.
 
 **규칙 (b): 국립대 교원·연구직 공무원 초임 호봉** (0013 §3, 이월 항목 assumed 규칙 (b))
 
@@ -782,7 +771,8 @@ retireAge: 교수(국립·사립) 65, 출연연 61, 연구직 공무원 60, 그 
 | `venues-journal-{slug}-sjr-quartile` 60건 | i | §6.3 계층 | 이월 항목 "Scimago 재확인" |
 | `venues-conf-icml-acceptance-2025` | i | §6.4 p_tier | 결정 기록 0014 #70 |
 | `venues-conf-isscc-core-rank` | i | §6.3 T2 | 결정 기록 0014 #70 |
-| `salaries-faculty-all-fulltime-mean`, `salaries-faculty-{national,private}-{professor,associate-professor,assistant-professor}-mean-2017` | i | §9.1 규칙 (a) | 결정 기록 0014 #87 |
+| `salaries-faculty-private-{professor,associate-professor,assistant-professor}-mean-2017` | i | §9.1 규칙 (a) 직급 비 | 결정 기록 0014 #87 |
+| `salaries-faculty-national-professor-mean-2017` | i | §9.1 규칙 (b) 수당 배수 기준점 | 결정 기록 0014 #89 |
 | `salaries-faculty-private-nontenure-mean` | i | §9.1 비정년 | 결정 기록 0014 #80 |
 | `salaries-faculty-private-professor-mean` | i | §9.1 규칙 (a) 감사 수정 후 사립 교수 기준값(계산에 씀) | 결정 기록 0014 #87 |
 | `schools-postech-all-tuition`, `schools-postech-all-entrance-fee`, `schools-ewha-all-entrance-fee` | i | §5.1 | 결정 기록 0014 #56 |

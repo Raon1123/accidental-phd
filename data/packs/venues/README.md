@@ -10,3 +10,6 @@
 **conferences 보충(2026-10-13, #7 판정).** CORE 판본은 ICORE2026(포털 기본)이며 CSV export 경로(`portal.core.edu.au/conf-ranks/?...&do=Export`)가 curl + 브라우저 UA로 열린다. `item` 추가: `held`(value 1, unit count — 국내 학술대회처럼 등급·채택률이 공표되지 않는 학회의 존재 기록). ICASSP는 ICORE2026에서 Multiconference(등급 없음)라 CORE2023의 B를 유지, ISSCC는 CORE2018 등급만 있어 `indexed`. 채택률 중 산출값(OSDI·S&P·DAC·ICRA)은 note에 표기. 분모 종류(valid/reviewable/completed)가 학회마다 달라 비교 시 note 확인.
 
 **담당 issue.** Wave 2 — journals: #6 · conferences: #7
+
+## 판정 로그
+이 팩의 레코드에 영향을 준 결정 기록: 0003(공개 지표만, JCR 미사용), 0010 §4(포털 항목 규칙), 0014 #65–#71(트랙 → 분야군, 계층 기준 채택 확률 T1–T4, indexed 레코드 사용, 논문 점수 가중치). SJR 사분위 60건의 Scimago 원본 재확인은 #48이 맡고, `verified`가 되면 `engine/test/confidence.test.ts`의 기대값을 바꾼다.

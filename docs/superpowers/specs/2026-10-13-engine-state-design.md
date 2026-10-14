@@ -1,6 +1,6 @@
 # 엔진 상태 모델 스펙 (Wave 3, issue #18 항목 1)
 
-- 상태: 초안 · 2026-10-13 (스펙 초안·엮기 역할, opus). 감사(fable) 전.
+- 상태: 감사 반영 · 2026-10-13 (초안 opus, 감사 fable). PR #36 머지로 승인(결정 기록 0010 §3 (b)).
 - 범위: 능력치, 단계, 상태 객체 필드, 공통 확률 함수, 저장 형식, seed와 결정론, 틱 처리 순서. 선택지·결정 지점 공식은 [선택권 모델 스펙](2026-10-13-agency-model-design.md), 노동시장·가상 뉴스는 [노동시장·뉴스 스펙](2026-10-13-labor-market-news-design.md)에 있다.
 - 근거 규칙: 모든 수치 기본값은 레코드 id(값은 [근거 색인](2026-10-13-wave3-evidence-index.md)에서 옮김) 또는 "assumed (결정 기록 0014 #n)"을 근거로 적는다. [결정 기록 0014](../../design/decisions/0014-assumed-probabilities.md)는 설계 가정 전체 목록이다. 판정 규칙은 [결정 기록 0013](../../design/decisions/0013-wave3-pre-spec-judgments.md)을 따른다.
 - 약어: KEDI(한국교육개발원), KRIVET(한국직업능력연구원), KISTEP(한국과학기술기획평가원), NRF(한국연구재단), KSCED(한국표준교육분류). 정의는 [용어집](../../workflow.md#용어집). conf 열의 `v`·`i`·`a`는 레코드 confidence(verified·indexed·assumed)다.
