@@ -4,6 +4,7 @@ import { ASSUMED } from '../assumed';
 import type { DataBundle } from '../data/bundle';
 import { tuitionPerSemester } from '../data/tuition';
 import type { LifeState, PhdState } from '../types';
+import { stipendScale } from './work';
 
 /** applyCashflow 가 직접 쓰거나(또는 createLife 가 이미 현금에 반영한) 원장 종류. 이 밖의 종류는 이번 달 정산 대기 항목으로 보고 합산한다. */
 export const SETTLED_KINDS: readonly string[] = ['entrance-fee', 'stipend', 'family', 'living', 'tuition', 'interest', 'loan'];
@@ -63,7 +64,7 @@ function monthlyCashflow(state: LifeState, data: DataBundle): { stipend: number;
   if (!phd) throw new Error('phd state required');
   const charge = tuitionCharge(state, data);
   return {
-    stipend: fundingActive(phd, state.month) ? phd.fundingState.monthly : 0,
+    stipend: fundingActive(phd, state.month) ? Math.round(phd.fundingState.monthly * stipendScale(state)) : 0,   // 과제 참여율 #79
     family: phd.familySupport,
     living: livingCost(state.choices.school),
     tuition: charge?.amount ?? 0,

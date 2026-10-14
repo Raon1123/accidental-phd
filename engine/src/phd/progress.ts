@@ -5,6 +5,7 @@ import type { DataBundle } from '../data/bundle';
 import { draw } from '../rng';
 import { odds } from '../odds';
 import type { Kedi, LifeState } from '../types';
+import { growthMultiplier } from './work';
 
 /** 계열별 기준 진척 g_k = 100 / ((12·T_k − 6) × M̄). T_k 는 학위 소요 기간 레코드(년). */
 export function gK(data: DataBundle, kedi: Kedi): number {
@@ -12,14 +13,16 @@ export function gK(data: DataBundle, kedi: Kedi): number {
   return ASSUMED.PROJECT_MAX / ((ASSUMED.MONTHS_PER_YEAR * t - ASSUMED.G_PREP_MONTHS) * ASSUMED.G_MBAR_INIT);
 }
 
-/** 연구 가용 시간 비율. 근로 포커스일 때만 jobHours 가 빠진다. */
+/**
+ * 연구 가용 시간 비율: 필수 시간(조교 의무)과 수업 시간만 뺀다. 근로 포커스의 20시간과 근로 설정의 시간은
+ * 성장 배수(`growthMultiplier`, 선택권 §4.7, #79)가 맡으므로 여기서는 빼지 않는다(같은 시간을 두 번 깎지 않는다).
+ */
 export function researchTime(state: LifeState): number {
   const phd = state.phd;
   if (!phd) throw new Error('phd state required');
   const duty = phd.fundingState.dutyHours;
-  const job = phd.focus === 'work' ? ASSUMED.JOB_HOURS : 0;
   const course = phd.coursework ? ASSUMED.COURSEWORK_HOURS : 0;
-  return Math.max(ASSUMED.RESEARCH_TIME_MIN, (ASSUMED.WORK_WEEK_HOURS - duty - job - course) / ASSUMED.WORK_WEEK_HOURS);
+  return Math.max(ASSUMED.RESEARCH_TIME_MIN, (ASSUMED.WORK_WEEK_HOURS - duty - course) / ASSUMED.WORK_WEEK_HOURS);
 }
 
 /** 막힘 확률: 수학·통계 트랙 0.24, 그 밖 0.16. */
@@ -58,5 +61,5 @@ export function applyProgress(state: LifeState, data: DataBundle): LifeState {
     skill: state.stats.skill, researchTime: researchTime(state), health: state.stats.health,
     support: phd.advisor.support, rigor: phd.advisor.rigor, f: ASSUMED.FOCUS[phd.focus].f, blocked,
   });
-  return { ...state, phd: { ...phd, blocked, project: Math.min(ASSUMED.PROJECT_MAX, phd.project + gain) } };
+  return { ...state, phd: { ...phd, blocked, project: Math.min(ASSUMED.PROJECT_MAX, phd.project + gain * growthMultiplier(state)) } };   // 성장 배수 #79
 }

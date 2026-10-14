@@ -226,7 +226,7 @@ describe('money card', () => {
     const total = (kind: string) => s.ledger.filter(e => e.kind === kind).reduce((a, e) => a + e.amount, 0);
     expect(rows.reduce((a, r) => a + r.pay, 0)).toBe(total('pay'));
     expect(rows.reduce((a, r) => a + r.repay, 0)).toBe(total('repay'));
-    expect(rows.reduce((a, r) => a + r.work, 0)).toBe(s.ledger.filter(e => ['work', 'leave-work', 'network-cost'].includes(e.kind)).reduce((a, e) => a + e.amount, 0));
+    expect(rows.reduce((a, r) => a + r.work, 0)).toBe(s.ledger.filter(e => ['work', 'leave-work', 'network-cost', 'part-time', 'lecture'].includes(e.kind)).reduce((a, e) => a + e.amount, 0));
   });
 
   it('cash and debt come from the life; ledgerRows is newest first and sums by kind', () => {

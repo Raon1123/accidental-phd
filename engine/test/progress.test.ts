@@ -48,8 +48,8 @@ describe('researchTime', () => {
     expect(researchTime(s)).toBeCloseTo(Math.max(0.12, (44 - 10 - 0 - 6) / 44), 10);
     expect(researchTime(s)).toBeCloseTo(28 / 44, 10);
   });
-  it('work focus removes 20 job hours; others do not', () => {
-    expect(researchTime(base({ focus: 'work' }))).toBeCloseTo(24 / 44, 10);
+  it('work focus no longer removes job hours here: the growth multiplier does (#79, 선택권 §4.7)', () => {
+    expect(researchTime(base({ focus: 'work' }))).toBe(1);
     expect(researchTime(base({ focus: 'research' }))).toBe(1);
     expect(researchTime(base({ focus: 'write' }))).toBe(1);
   });

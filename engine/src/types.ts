@@ -31,6 +31,8 @@ export interface PhdState {
   crisisMonths: number; postCrisisMonths: number; familySupport: number; nextDefenseMonth?: number; graduationMonth?: number;
   deferredFirstVerdict?: { paperId: string; verdict: 'accepted' | 'revision' | 'rejected' };   // 같은 달 더 높은 우선순위 결정에 밀린 첫 판정. 프롬프트를 열 때 지운다
   statCarry: Stats;   // 능력치의 소수 변화 누적분(stats 는 정수). |carry| ≥ 1 이면 stats 로 옮긴다
+  participation?: number;   // 과제 참여율(#79). 없으면 자금 경로 기본값(과제 0.5, 그 밖 0)
+  partTime?: PartTime;      // 근로 설정(#79). 없으면 근로하지 않는다
 }
 export interface CareerState {
   degreeMonth: number; degree: 'phd' | 'master-exit' | 'none'; route: Route; rank?: string;
@@ -59,4 +61,13 @@ export interface LifeConfig {
   auto?: boolean;  // 자동 진행(동기 정책) — 기본 false
   cohortOf?: string;  // 동기(상태 §6.4)일 때 플레이어 seed. 주어지면 group 은 플레이어와 같아야 하고 newsSeed = cohortOf
 }
-export interface MonthInput { focus?: Focus; takeExam?: boolean; apply?: Partial<Record<Route, boolean>> }
+export type PartTimeKind = 'job' | 'lecture';
+/** 박사과정 중 근로(#79, 선택권 §4.7): 아르바이트(`job`, hours = 주당 근무 시간) 또는 강의(`lecture`, hours = 주당 담당 시수). */
+export interface PartTime { kind: PartTimeKind; hours: number }
+export interface MonthInput {
+  focus?: Focus; takeExam?: boolean; apply?: Partial<Record<Route, boolean>>;
+  /** 과제 참여율(0–1, 0.25 단위). 학기 경계 달에만, 과제 경로에서만 바꿀 수 있다(#79). */
+  participation?: number;
+  /** 근로 설정. 상한(`partTimeCap`)을 넘으면 던진다. hours 0 이면 그만둔다(#79). */
+  partTime?: PartTime;
+}
