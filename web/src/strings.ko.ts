@@ -46,7 +46,7 @@ export const ko = {
   seed: '씨앗',
   stage: '단계',
   month: '진행 개월',
-  track: '트랙',
+  department: '학과 (세부전공)',
   school: '학교',
   funding: '자금',
   savedAt: '저장 시각',

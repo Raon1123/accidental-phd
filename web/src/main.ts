@@ -166,7 +166,7 @@ function renderMoneyCard(root: HTMLElement): void {
   const v = moneyView(life, data);
   const glance = el('dl');
   glance.className = 'glance';
-  for (const [k, val] of glanceRows(life, t)) glance.append(el('dt', k), el('dd', val));
+  for (const [k, val] of glanceRows(life, t, data)) glance.append(el('dt', k), el('dd', val));
   root.append(glance, el('h2', M.heading));
   const dl = el('dl');
   const row = (k: string, val: string): void => { dl.append(el('dt', k), el('dd', val)); };
@@ -227,7 +227,7 @@ function renderCurrent(root: HTMLElement): void {
   root.replaceChildren(el('h2', t.currentHeading));
   if (!life) { root.append(el('p', t.noLife)); return; }
   const dl = el('dl');
-  for (const [k, v] of detailRows(life, t)) dl.append(el('dt', k), el('dd', v));
+  for (const [k, v] of detailRows(life, t, data)) dl.append(el('dt', k), el('dd', v));
   root.append(dl);
   if (life.stage === 'end') root.append(el('p', t.play.ended));
   renderControls(root, life);
@@ -265,7 +265,7 @@ function renderCohort(root: HTMLElement): void {
   const head = el('tr');
   for (const h of [t.cohort.name.replace(' {k}', ''), t.cohort.who, t.stage, t.cohort.end]) head.append(el('th', h));
   table.append(head);
-  for (const r of cohortRows(cohort, t)) {
+  for (const r of cohortRows(cohort, t, data)) {
     const tr = el('tr');
     for (const v of [r.name, r.who, r.stage, r.end]) tr.append(el('td', v));
     table.append(tr);
