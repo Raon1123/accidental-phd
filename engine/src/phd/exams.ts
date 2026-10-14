@@ -3,7 +3,7 @@ import { ASSUMED } from '../assumed';
 import { odds, z } from '../odds';
 import { draw } from '../rng';
 import { acceptedCount } from './papers';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import type { LifeState, Stats } from '../types';
 
 /** 자격시험 응시 창이 열린 달인가: enrolledMonths = 12, 18, 24, … (선택권 §7.1). */

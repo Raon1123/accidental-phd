@@ -2,7 +2,7 @@
 // 한 달에 결정 지점은 하나만 건다. 우선순위: post-qualifying > funding-expiry > first-paper-verdict > pre-graduation-path.
 // 자격시험 결과(post-qualifying)만 그 달의 사건이다. 나머지 셋은 상태에서 다시 계산할 수 있어서, 우선순위에 밀리면 다음 달에 다시 걸린다(사건이 사라지지 않는다).
 import { ASSUMED } from '../assumed';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import {
   LETTERS, PATH_OPTIONS,
   type FirstPaperVerdictContext, type FundingExpiryCause, type FundingExpiryContext, type PostQualifyingContext, type PreGraduationPathContext,

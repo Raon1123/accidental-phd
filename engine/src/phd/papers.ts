@@ -3,7 +3,7 @@ import { ASSUMED } from '../assumed';
 import { clamp, odds } from '../odds';
 import { draw } from '../rng';
 import { tierBaseRate, venueOptions, reviewMonths } from '../data/venues';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import type { Group, LifeState, Paper, Tier } from '../types';
 
 export type Verdict = 'accepted' | 'revision' | 'rejected';

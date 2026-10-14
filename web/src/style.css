@@ -1,0 +1,9 @@
+:root { --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b5394; }
+@media (prefers-color-scheme: dark) { :root { --fg: #ececec; --bg: #161616; --muted: #b8b8b8; --accent: #8ab4f8; } }
+body { margin: 0 auto; max-width: 48rem; padding: 0 1rem; font-family: system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; color: var(--fg); background: var(--bg); line-height: 1.6; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--bg); color: var(--accent); padding: .25rem .5rem; }
+button { font: inherit; padding: .4rem .8rem; }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: .25rem 1rem; }
+dt { color: var(--muted); }
+footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--muted); margin-top: 2rem; }

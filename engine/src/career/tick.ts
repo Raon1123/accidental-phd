@@ -1,6 +1,6 @@
 // 경력 연 틱 advanceYear (상태 §7.2·§7.3).
 import { ASSUMED } from '../assumed';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import type { DecisionId, LifeState, MonthInput, PendingDecision, Route } from '../types';
 import { searchMonth } from './labor';
 import { updateNews } from './news';

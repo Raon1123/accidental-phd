@@ -1,7 +1,7 @@
 // 통계 팩 접근자: 휴학·이탈·재학 기간·취업·교원 시장(선택권 §4.5, §8, 노동 §2.2·§3.1).
 import { ASSUMED } from '../assumed';
 import type { Kedi, Ksced } from '../types';
-import { get, has, type DataBundle, type DataValue } from './load';
+import { get, has, type DataBundle, type DataValue } from './bundle';
 
 export const leaveRate = (data: DataBundle, kedi: Kedi): DataValue => get(data, `${ASSUMED.LEAVE_RATE_RECORD_PREFIX}${kedi}`);
 export const dropoutRate = (data: DataBundle, kedi: Kedi): DataValue => get(data, `${ASSUMED.DROPOUT_RATE_RECORD_PREFIX}${kedi}`);

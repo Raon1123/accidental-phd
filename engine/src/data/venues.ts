@@ -1,7 +1,7 @@
 // 투고처 접근자(선택권 §6.3·§6.4). 저널은 SJR 사분위·KCI 등재 레코드, 학회는 CORE 등급·채택률 레코드에서 계층(T1–T4)을 얻는다.
 import { ASSUMED } from '../assumed';
 import type { Field, Tier } from '../types';
-import { get, type DataBundle, type DataRecord, type DataValue } from './load';
+import { get, type DataBundle, type DataRecord, type DataValue } from './bundle';
 
 const TIERS: readonly Tier[] = ['T1', 'T2', 'T3', 'T4'];
 

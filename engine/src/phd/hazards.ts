@@ -4,7 +4,7 @@ import { hazardMonth, z } from '../odds';
 import { draw } from '../rng';
 import { dropoutRate, leaveRate } from '../data/statistics';
 import { addStats } from './stats';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import type { LifeState } from '../types';
 
 export type LeaveReason = 'hazard' | 'burnout' | 'voluntary';

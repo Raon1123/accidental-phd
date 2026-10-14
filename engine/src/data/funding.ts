@@ -1,7 +1,7 @@
 // 장학·과제·조교 장려금 접근자(선택권 §5.2, §3.3). 월액은 원 정수.
 import { ASSUMED } from '../assumed';
 import type { Group } from '../types';
-import { find, get, type DataBundle, type DataRecord, type DataValue } from './load';
+import { find, get, type DataBundle, type DataRecord, type DataValue } from './bundle';
 
 export type RecordPeriod = 'krw-per-month' | 'krw-per-semester' | 'krw-per-year' | 'krw-total';
 

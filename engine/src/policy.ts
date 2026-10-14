@@ -1,7 +1,7 @@
 // 자동 진행·동기 정책 (선택권 §4.4, 0014#46). 난수는 stream `policy`, 슬롯 `focus`·`decide:${dp}`.
 import { ASSUMED } from './assumed';
 import { pathDistribution } from './career/path';
-import type { DataBundle } from './data/load';
+import type { DataBundle } from './data/bundle';
 import { LETTERS, PATH_OPTIONS, decisionOutcome, optionUnavailable } from './decide';
 import { activeDraft } from './phd/papers';
 import { draw } from './rng';

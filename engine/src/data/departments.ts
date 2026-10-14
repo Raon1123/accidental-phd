@@ -2,7 +2,7 @@
 // note 는 ` · ` 로 나뉜 토큰이다. 첫 토큰이 학과명이고 `field X`, `track Y`, `NRF 코드 이름`, `KEDI 코드 …`,
 // `same_unit_as: id, id`, `대표 id (묶음 N)` 토큰이 이어진다. 옛 표기 `same_unit_as(구 표기)` 는 읽지 않는다.
 import type { Confidence, Field } from '../types';
-import type { DataBundle } from './load';
+import type { DataBundle } from './bundle';
 import { NUMBERED_SLUGS } from './taxonomy';
 
 export interface DeptRecord {

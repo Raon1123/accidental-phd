@@ -3,7 +3,7 @@
 //   init   : stat:health|mind|skill|relation|network (슬롯마다 :a/:b 두 개) · age · advisor · family
 //   funding: scholarship · scholarship:record · project
 import { ASSUMED } from '../assumed';
-import { has, type DataBundle } from '../data/load';
+import { has, type DataBundle } from '../data/bundle';
 import { indexDepartments, trackWeights, unitKey, unitsForTrack, type DeptIndex } from '../data/departments';
 import { monthlyFromRecord, projectStipend, scholarshipOptions } from '../data/funding';
 import { fieldOf, groupOf, kediOf, kscedOf, subfieldsOf, TRACKS, tracksOf } from '../data/taxonomy';
