@@ -12,3 +12,4 @@ export type * from './types';
 export type { DataBundle } from './data/load';
 export { newSeed, cohortSeed } from './rng';
 export { policyFocus, policyDecision } from './policy';
+export { TRACKS, groupOf } from './data/taxonomy';
