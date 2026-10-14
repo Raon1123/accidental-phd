@@ -257,6 +257,9 @@ export const ASSUMED = {
   // 과제 참여율과 박사과정 중 근로(#79, 선택권 §4.7)
   PART_WEEK_HOURS: 40,                                                                 // 0014#124 참여율·근로 시간의 기준 주(사용자 규칙: 주 40시간 중 비율)
   PARTICIPATION: { step: 0.25, projectDefault: 0.5 },                                  // 0014#125 참여율 0–1(0.25 단위), 과제 경로 기본 0.5. 장려금 = 레코드 × r/0.5. 다른 경로는 0
+  // 0014#130 참여율 추첨(사용자 규칙 2026-10-15): 학기마다 r = 0.25 단위 반올림(clamp(0.5 × D_연구 × (1 + 0.5·z(relation)) × (1 + 0.3·N), 0, 1)).
+  // D_연구 = 연구 직종 경로 수요 계수(뉴스, 노동 §5.1)의 평균
+  PARTICIPATION_DRAW: { betaRelation: 0.5, sigma: 0.3, routes: ['professor', 'nontenure', 'postdoc', 'institute'] as const },
   GROWTH_FLOOR: 0,                                                                     // 0014#126 성장 배수 = max(0, 1 − 근로 시간/40 − 참여율/2) (사용자 규칙, 합산)
   WEEKS_PER_MONTH: 4.345, MIN_WAGE_YEAR: 2027,                                       // 0014#127 아르바이트 시급 = 최저시급 레코드(2027) × (1 + 물가 목표 레코드)^(연도 − 2027), 월 4.345주
   PHD_LECTURE: { timeMult: 3, steps: [3, 6, 9] },                                     // 0014#128 박사과정 강의: 주당 시간 = 시수 × 3(사용자 규칙), 강의료 = 시수 × 학교 시간강사 시급 레코드 × (연 32주/12)(0014#82)

@@ -1,10 +1,13 @@
 // 과제 참여율과 박사과정 중 근로(#79, 선택권 §4.7).
-// 참여율 r 은 주 40시간 중 과제에 쓰는 비율이고, 근로(아르바이트·강의)는 플레이어가 주당 시간을 정한다.
+// 참여율 r 은 주 40시간 중 과제에 쓰는 비율로, 학기마다 추첨한다(연구 직종 시황 × 지도교수와의 관계). 근로(아르바이트·강의)는 플레이어가 주당 시간을 정한다.
 // 성장 배수 = max(0, 1 − 근로 시간/40 − r/2)가 진척·초고 집필·역량 상승에 곱해진다(사용자 규칙, 두 차감은 합산).
 import { ASSUMED } from '../assumed';
 import type { DataBundle } from '../data/bundle';
 import { get } from '../data/bundle';
 import { lecturerHourly } from '../data/salaries';
+import { demand } from '../career/news';
+import { clamp, z } from '../odds';
+import { drawNormal } from '../rng';
 import type { LifeState, MonthInput, PartTime, PhdState } from '../types';
 import { acceptedCount } from './papers';
 
@@ -15,7 +18,7 @@ function phdOf(s: LifeState): PhdState {
   return s.phd;
 }
 
-/** 과제 참여율. 과제 경로가 아니면 0, 과제 경로는 저장된 값 또는 기본 0.5. */
+/** 과제 참여율. 과제 경로가 아니면 0, 과제 경로는 추첨된 값(학기마다, `drawParticipation`) 또는 첫 추첨 전 기본 0.5. */
 export function participationOf(s: LifeState): number {
   const phd = phdOf(s);
   if (phd.fundingState.route !== 'project') return 0;
@@ -86,27 +89,43 @@ function validate(s: LifeState, p: PartTime, participation: number): void {
   if (partTimeWeekHours(p) > cap) throw new Error(`partTime: ${partTimeWeekHours(p)} h/week exceeds the cap ${cap}`);
 }
 
+/** 연구 직종 시황: 연구 직종 경로(교수·비정년·박사후·연구소)의 뉴스 수요 계수 평균(노동 §5.1). 뉴스가 없으면 1. */
+export function researchMarket(s: LifeState): number {
+  const routes = ASSUMED.PARTICIPATION_DRAW.routes;
+  return routes.reduce((a, r) => a + demand(s, r), 0) / routes.length;
+}
+
+/** 참여율 기대값(추첨 잡음 전): 0.5 × 연구 직종 시황 × (1 + 0.5·z(relation)) (0014#130). */
+export function participationMean(s: LifeState): number {
+  return ASSUMED.PARTICIPATION.projectDefault * researchMarket(s) * (1 + ASSUMED.PARTICIPATION_DRAW.betaRelation * z(s.stats.relation));
+}
+
 /**
- * 입력의 참여율·근로 설정을 반영한다. 참여율은 학기 경계 달에만, 과제 경로에서만 바꿀 수 있고, 근로는 상한 안에서만.
+ * 과제 참여율 추첨(사용자 규칙 2026-10-15, 0014#130). 과제 경로에서 학기 경계 달 또는 첫 달(아직 값이 없을 때)에
+ * r = 0.25 단위 반올림(clamp(기대값 × (1 + 0.3·N), 0, 1))을 뽑아 저장한다. 플레이어는 고르지 않는다(지도교수가 배정한다).
+ * 휴학 중에는 뽑지 않는다(이전 값 유지).
+ */
+export function drawParticipation(s: LifeState): LifeState {
+  const phd = phdOf(s);
+  if (phd.fundingState.route !== 'project' || phd.leave.active) return s;
+  if (phd.participation !== undefined && s.month % ASSUMED.SEMESTER_MONTHS !== 0) return s;
+  const noise = 1 + ASSUMED.PARTICIPATION_DRAW.sigma * drawNormal(s.seed, 'funding', s.month, 'participation');
+  const step = ASSUMED.PARTICIPATION.step;
+  const r = Math.round(clamp(participationMean(s) * noise, 0, 1) / step) * step;
+  return { ...s, phd: { ...phd, participation: r } };
+}
+
+/**
+ * 입력의 근로 설정을 반영한다. 근로는 상한 안에서만. 참여율은 입력이 아니라 추첨이다(`drawParticipation`).
  * 자동이면 근로 입력이 없을 때 정책(`autoPartTime`)을 쓴다. 휴학 중에는 근로하지 않는다(휴학 근로는 funding-expiry D).
  */
 export function applyWorkInput(s: LifeState, input: MonthInput): LifeState {
   const phd = phdOf(s);
-  let participation = phd.participation;
-  if (input.participation !== undefined) {
-    const r = input.participation;
-    if (s.month % ASSUMED.SEMESTER_MONTHS !== 0) throw new Error('participation can change only at a semester boundary');
-    if (phd.fundingState.route !== 'project') throw new Error('participation applies to the project funding route only');
-    const steps = r / ASSUMED.PARTICIPATION.step;
-    if (r < 0 || r > 1 || Math.abs(steps - Math.round(steps)) > 1e-9) throw new Error(`participation must be 0–1 in steps of ${ASSUMED.PARTICIPATION.step}`);
-    participation = r;
-  }
-  const effR = phd.fundingState.route === 'project' ? (participation ?? ASSUMED.PARTICIPATION.projectDefault) : 0;
+  const effR = participationOf(s);
   let partTime = input.partTime ?? (s.auto ? autoPartTime(s, effR) : phd.partTime);
   if (input.partTime) validate(s, input.partTime, effR);
   else if (partTime && partTimeWeekHours(partTime) > partTimeCap(s, effR)) partTime = undefined;   // 상한이 줄면(의무 시간·참여율 증가) 그만둔다
   const out: PhdState = { ...phd };
-  if (participation === undefined) delete out.participation; else out.participation = participation;
   if (!partTime || partTime.hours === 0) delete out.partTime; else out.partTime = partTime;
   return { ...s, phd: out };
 }

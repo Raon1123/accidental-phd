@@ -23,7 +23,7 @@ import { applyHazards } from './hazards';
 import { applyCashflow, crisisStage, isSemesterBoundary, updateCoursework } from './money';
 import { submitIfReady, resolveVerdicts } from './papers';
 import { applyProgress } from './progress';
-import { applyPartTimePay, applyWorkInput } from './work';
+import { applyPartTimePay, applyWorkInput, drawParticipation } from './work';
 import { FIRST_VERDICT_DEFERRED, checkTriggers } from './triggers';
 
 /** 졸업 직전 구직과 졸업 뒤 구직이 찾는 경로 (선택권 §3.4). 창업은 학위 취득 달에 시작한다. */
@@ -103,7 +103,8 @@ export function advanceMonth(state: LifeState, data: DataBundle, input: MonthInp
   };
   s = updateCoursework(s);
   s = chooseFocus(s, data, input);
-  s = applyWorkInput(s, input);   // 참여율(학기 경계)·근로 설정(#79)
+  s = drawParticipation(s);       // 참여율 추첨(학기 경계, 0014#130). 지난달까지의 뉴스 시황을 쓴다
+  s = applyWorkInput(s, input);   // 근로 설정(#79)
 
   // 2. 가상 뉴스
   s = updateNews(s, data);

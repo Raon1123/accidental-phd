@@ -4,7 +4,7 @@ import { ASSUMED } from '../assumed';
 import type { DataBundle } from '../data/bundle';
 import { tuitionPerSemester } from '../data/tuition';
 import type { LifeState, PhdState } from '../types';
-import { stipendScale } from './work';
+import { stipendScale, drawParticipation } from './work';
 
 /** applyCashflow 가 직접 쓰거나(또는 createLife 가 이미 현금에 반영한) 원장 종류. 이 밖의 종류는 이번 달 정산 대기 항목으로 보고 합산한다. */
 export const SETTLED_KINDS: readonly string[] = ['entrance-fee', 'stipend', 'family', 'living', 'tuition', 'interest', 'loan'];
@@ -74,15 +74,15 @@ function monthlyCashflow(state: LifeState, data: DataBundle): { stipend: number;
 
 /**
  * 다음 틱이 정산할 값(화면의 자금 카드용). 틱은 먼저 월과 재학 개월을 올리고 수업 기간을 갱신한 뒤 정산하므로(tick 1단계),
- * 같은 순서로 한 칸 앞선 상태에서 계산한다. 장학 유지 판정은 기한을 이번 달로 당길 뿐이라 이번 달 지급에는 영향이 없다.
+ * 같은 순서로 한 칸 앞선 상태에서 계산한다(학기 경계면 참여율 추첨 포함). 장학 유지 판정은 기한을 이번 달로 당길 뿐이라 이번 달 지급에는 영향이 없다.
  */
 export function previewCashflow(state: LifeState, data: DataBundle): { stipend: number; family: number; living: number; tuition: number; tuitionRecordId?: string } {
   const phd = state.phd;
   if (!phd) throw new Error('phd state required');
-  const ahead = updateCoursework({
+  const ahead = drawParticipation(updateCoursework({
     ...state, month: state.month + 1,
     phd: { ...phd, enrolledMonths: phd.enrolledMonths + (phd.leave.active ? 0 : 1) },
-  });
+  }));   // 참여율 추첨도 틱 1단계에서 한다(seed 고정이라 미리보기와 같은 값)
   return monthlyCashflow(ahead, data);
 }
 
