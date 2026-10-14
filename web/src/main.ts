@@ -90,6 +90,7 @@ function renderWork(root: HTMLElement, s: LifeState): void {
   box.append(el('h3', W.heading));
 
   box.append(el('p', v.isProject ? fill(W.participationReadOnly, { r: Math.round(v.participation * 100) }) : W.notProject));
+  if (v.reason) box.append(el('p', fill(W.participationReason, { m: W.marketLevel[v.reason.market], r: W.relationLevel[v.reason.relation] })));
 
   const wf = el('fieldset');
   wf.append(el('legend', W.partTime));
