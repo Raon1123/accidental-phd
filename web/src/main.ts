@@ -191,21 +191,28 @@ function renderMap(root: HTMLElement, s: LifeState): void {
   if (s.career) row(t.play.mapCareer, m.careerYears, 'map-career');
 }
 
-function renderNotes(root: HTMLElement, s: LifeState): void {
-  root.append(el('h3', t.play.notes));
-  const list = notes(s, t);
+/** 연구노트 피드(페이지 상단, #123): 최신순 한 줄씩. 종류별 색 띠와 종류 글자 표지를 함께 단다(색만으로 뜻을 전하지 않는다). */
+function renderFeed(root: HTMLElement): void {
+  root.replaceChildren();
+  if (!life) return;
+  root.append(el('h2', t.play.notes));
+  const list = notes(life, t);
   if (list.length === 0) { root.append(el('p', t.play.notesEmpty)); return; }
   const ol = el('ol');
-  ol.className = 'notes';
+  ol.className = 'notes feed';
   ol.tabIndex = 0;   // 스크롤 영역을 키보드로 내릴 수 있게
   ol.setAttribute('aria-label', t.play.notes);
   for (const n of list) {
-    const li = el('li', `${n.month}${t.play.monthSuffix} · ${n.text}`);
+    const li = el('li');
+    li.className = `note note-${n.kind}`;
+    const tag = el('span', t.play.noteKinds[n.kind]);
+    tag.className = 'note-kind';
+    li.append(tag, el('span', ` ${n.month}${t.play.monthSuffix} · ${n.text}`));
     if (n.creative) li.append(el('span', ` [${t.play.creative}]`));
     ol.append(li);
   }
   root.append(ol);
-  if (s.log.some(e => e.textKey.startsWith('news.'))) root.append(el('p', t.news.disclaimer));
+  if (life.log.some(e => e.textKey.startsWith('news.'))) root.append(el('p', t.news.disclaimer));
 }
 
 /** 수입은 `+`, 지출은 `−`. 0 이면 부호를 붙이지 않는다. */
@@ -400,7 +407,6 @@ function renderCurrent(root: HTMLElement): void {
   root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
   renderPapers(root, life);
   renderMap(root, life);
-  renderNotes(root, life);
 }
 
 /** 저장 시각(ISO, UTC)을 보는 사람의 지역 시각 `YYYY-MM-DD HH:MM` 으로. */
@@ -521,6 +527,7 @@ function trackStatChange(): void {
 function renderInner(): void {
   shownIds = [];
   trackStatChange();
+  renderFeed(document.getElementById('feed')!);
   renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);
   renderCohort(document.getElementById('cohort')!);
