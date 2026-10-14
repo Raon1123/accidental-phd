@@ -6,7 +6,7 @@ import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, t
 import { loadData } from '../../engine/src/index';
 import { BASE_MS, SPEEDS, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
-import { paperView, statBars, venueLabel, workView } from '../src/view';
+import { participationReason, paperView, statBars, venueLabel, workView } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -350,5 +350,18 @@ describe('status line (#83)', () => {
     expect(statusLine({ ...s, stage: 'retired' }, ko)).toBe(S.retired);
     expect(statusLine({ ...s, stage: 'end', end: { reason: 'financial', month: 40 } }, ko)).toBe('기록 종료 · 재정 파탄');
     expect(statusLine({ ...s, stage: 'pre' }, ko)).toBe(S.pre);
+  });
+});
+
+describe('participation reason (#119)', () => {
+  it('names the market and relation levels from the engine factors', () => {
+    const s = createLife({ track: 'computer' }, newSeed('reason'), data);
+    const hi = { ...s, stats: { ...s.stats, relation: 95 } };
+    const lo = { ...s, stats: { ...s.stats, relation: 5 } };
+    const r = participationReason(s);
+    expect(['high', 'normal', 'low']).toContain(r.market);
+    expect(participationReason(hi).relation).not.toBe('low');
+    expect(participationReason(lo).relation).not.toBe('high');
+    expect(participationReason(hi).market).toBe(r.market);
   });
 });

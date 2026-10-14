@@ -1,6 +1,6 @@
 /* 색 토큰. 글자와 배경의 명도 대비는 web/test/a11y.test.ts 가 4.5:1 이상인지 검사한다(#61). */
-:root { color-scheme: light dark; --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b5394; --btn-bg: #f0f0f0; --btn-fg: #1a1a1a; --btn-off: #5c5c5c; --focus: #0b5394; --bar-track: #e4e4e4; --bar-delta: #5d93cc; }
-@media (prefers-color-scheme: dark) { :root { --fg: #ececec; --bg: #161616; --muted: #b8b8b8; --accent: #8ab4f8; --btn-bg: #2b2b2b; --btn-fg: #ececec; --btn-off: #a0a0a0; --focus: #8ab4f8; --bar-track: #2f2f2f; --bar-delta: #4f7ab3; } }
+:root { color-scheme: light dark; --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b5394; --btn-bg: #f0f0f0; --btn-fg: #1a1a1a; --btn-off: #5c5c5c; --focus: #0b5394; --bar-track: #e4e4e4; --bar-delta: #5d93cc; --note-good: #1b7a3d; --note-bad: #b3261e; --note-news: #0b5394; --note-leave: #8a5a00; }
+@media (prefers-color-scheme: dark) { :root { --fg: #ececec; --bg: #161616; --muted: #b8b8b8; --accent: #8ab4f8; --btn-bg: #2b2b2b; --btn-fg: #ececec; --btn-off: #a0a0a0; --focus: #8ab4f8; --bar-track: #2f2f2f; --bar-delta: #4f7ab3; --note-good: #6fcf8f; --note-bad: #f2807a; --note-news: #8ab4f8; --note-leave: #e0b45c; } }
 body { margin: 0 auto; max-width: 48rem; padding: 0 1rem; font-family: system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; color: var(--fg); background: var(--bg); line-height: 1.6; }
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 1rem; top: 1rem; background: var(--bg); color: var(--accent); padding: .25rem .5rem; }
@@ -70,3 +70,17 @@ fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
 .work { border: 1px solid var(--muted); padding: .5rem 1rem; margin: 1rem 0; }
 .work h3 { margin: .25rem 0; font-size: 1.05rem; }
 .work fieldset span { color: var(--muted); font-size: .9rem; align-self: center; }
+
+/* 연구노트 피드(#123): 페이지 상단, 종류별 색 띠 + 종류 글자 표지 */
+#feed:empty { display: none; }
+#feed { margin: 0 0 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--muted); }
+#feed h2 { margin: .5rem 0 .25rem; font-size: 1.1rem; }
+.feed { list-style: none; padding-left: 0; max-height: 11rem; margin: 0; }
+.note { border-left: 4px solid var(--muted); padding: .1rem .5rem; margin: .2rem 0; }
+.note-kind { font-size: .8rem; color: var(--muted); border: 1px solid var(--muted); border-radius: 3px; padding: 0 .3rem; margin-right: .25rem; }
+.note-good { border-left-color: var(--note-good); }
+.note-bad { border-left-color: var(--note-bad); }
+.note-news { border-left-color: var(--note-news); }
+.note-decision { border-left-color: var(--accent); }
+.note-leave { border-left-color: var(--note-leave); }
+.note-scene { border-left-style: dashed; }

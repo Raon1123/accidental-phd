@@ -75,6 +75,7 @@ export const ko = {
     knu: '경붓대학교',
     jnu: '전낭대학교',
     cnu: '충낭대학교',
+    akj: '한국학중심대학원',
   },
   // 진행 화면(#55). 결정 지점 문구는 선택권 스펙 §3.1–§3.7 현재 문장(스펙·구현 차이 감사 #51 반영 뒤, 결정 기록 0016 §2 스펙 정본)을 따른다.
   play: {
@@ -154,6 +155,9 @@ export const ko = {
       heading: '근로와 참여율',
       participation: '과제 참여율',
       participationReadOnly: '과제 참여율 {r}% (학기마다 교수 배정)',
+      participationReason: '지금 기준: 연구 일자리 수요 {m} · 교수와의 관계 {r}',
+      marketLevel: { high: '높음', normal: '보통', low: '낮음' },
+      relationLevel: { high: '좋음', normal: '보통', low: '나쁨' },
       notProject: '과제 경로가 아니어서 참여율은 없습니다.',
       partTime: '근로',
       none: '하지 않음',
@@ -182,6 +186,7 @@ export const ko = {
       empty: '아직 쓰는 논문이 없습니다.',
     },
     notes: '연구노트',
+    noteKinds: { good: '성취', bad: '실패', news: '소식', decision: '결정', leave: '휴학', start: '시작', end: '마무리', scene: '장면', plain: '기록' },
     notesEmpty: '아직 기록이 없습니다.',
     creative: '창작',
     monthSuffix: '개월째',
