@@ -19,5 +19,29 @@ export const ko = {
   funding: '자금',
   savedAt: '저장 시각',
   creativeNotice: '이 게임의 학교 이름과 사건은 가상이며, 확률은 공개 통계와 설계 가정에서 왔습니다.',
+  // 학교 가상 표시명(결정 기록 0004). 정본은 data/packs/schools/README.md 매핑 표이고, 테스트가 두 곳이 같은지 본다.
+  // 화면에는 schoolDisplayName(schoolName.ts)으로만 낸다. 실명은 이 파일에 두지 않는다(웹 번들에 실리지 않도록).
+  schoolNames: {
+    snu: '서월대학교',
+    kaist: '한국과제기술원(KQIST)',
+    postech: '포옹공과대학교(POSTASK)',
+    gist: '광주과제기술원(GQIST)',
+    dgist: '대구경북과제기술원(DGQIST)',
+    unist: '울산과제기술원(UQIST)',
+    yonsei: '연새대학교',
+    korea: '고래대학교',
+    skku: '성균원대학교',
+    hanyang: '한냥대학교',
+    sogang: '서광대학교',
+    khu: '경이대학교',
+    ewha: '이파여자대학교',
+    cau: '중양대학교',
+    konkuk: '건귤대학교',
+    uos: '서월시립대학교',
+    pusan: '부싼대학교',
+    knu: '경붓대학교',
+    jnu: '전낭대학교',
+    cnu: '충낭대학교',
+  },
 } as const;
 export type Strings = typeof ko;
