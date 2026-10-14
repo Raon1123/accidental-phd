@@ -10,7 +10,7 @@ import {
   type FirstPaperVerdictContext, type PendingContext,
 } from '../src/decide';
 import { odds, sigmoid, z } from '../src/odds';
-import { acceptProbability, lowerTier } from '../src/phd/papers';
+import { acceptProbability, lowerTier, reReviewDuration, resolveVerdicts } from '../src/phd/papers';
 import { draw } from '../src/rng';
 import { createLife } from '../src/pre/createLife';
 import { pickUniform } from '../src/util';
@@ -43,6 +43,19 @@ const findMonth = (from: number, pred: (m: number) => boolean): number => {
   for (let m = from; m < from + 4000; m++) if (pred(m)) return m;
   throw new Error('no month satisfies the predicate');
 };
+
+
+/** 비첫 판정(attempts 2)이 수정 요구로 나오는 시도 번호를 찾아 resolveVerdicts 가 낸 재심 dueMonth 를 돌려준다. */
+function resolveVerdictsRevision(base: LifeState): number {
+  for (let i = 0; i < 2000; i++) {
+    const seed = base.seed;
+    const s: LifeState = { ...base, seed, month: 24, pending: null, phd: { ...base.phd!, papers: [{ id: 'p1', status: 'submitted', writing: 100, quality: 55, tier: 'T1', attempts: 2 + i, dueMonth: 24, logitBonus: 0 }] } };
+    const r = resolveVerdicts(s, data);
+    const p = r.state.phd!.papers[0]!;
+    if (r.verdicts[0]!.verdict === 'revision' && p.status === 'revision') return p.dueMonth!;
+  }
+  throw new Error('no revision verdict found');
+}
 
 // ── 1. post-qualifying ──
 describe('decide: post-qualifying (선택권 §3.1)', () => {
@@ -154,19 +167,42 @@ describe('decide: first-paper-verdict (선택권 §3.2)', () => {
   });
 
   describe('revise', () => {
-    it('A: full revision — quality +8, logit +0.8, due month = month + 2 + ceil(review / 2)', () => {
+    it('A: full revision — quality +8, logit +0.8, due month = month + 2 + ceil(drawn review / 2)', () => {
       const r = choose(at('revision', 'revision'), 'A');
       expect(p1(r)).toMatchObject({ status: 'revision', quality: 63, logitBonus: 0.8, tier: 'T1', attempts: 1 });
-      expect(p1(r).dueMonth).toBe(24 + 2 + 2);   // cs 심사 2–6 의 중앙값 4, 절반 2
+      expect(p1(r).dueMonth).toBe(24 + 2 + reReviewDuration(r, 'p1'));   // 추첨 U{2..6}의 절반 올림이라 1–3
+      expect(p1(r).dueMonth! - 26).toBeGreaterThanOrEqual(1);
+      expect(p1(r).dueMonth! - 26).toBeLessThanOrEqual(3);
     });
-    it('B: minimal revision — quality +2, logit +0.4, due month = month + 1 + ceil(review / 2)', () => {
+    it('B: minimal revision — quality +2, logit +0.4, due month = month + 1 + ceil(drawn review / 2)', () => {
       const r = choose(at('revision', 'revision'), 'B');
       expect(p1(r)).toMatchObject({ status: 'revision', quality: 57, logitBonus: 0.4 });
-      expect(p1(r).dueMonth).toBe(24 + 1 + 2);
+      expect(p1(r).dueMonth).toBe(24 + 1 + reReviewDuration(r, 'p1'));
     });
-    it('the midpoint is rounded up for the other fields (math 4–10 → 7 → ceil(3.5) = 4)', () => {
+    it('the drawn review is halved and rounded up for the other fields (math 4–10 → 2–5)', () => {
       const s = at('revision', 'revision', {}, { choices: { field: 'math' } });
-      expect(p1(choose(s, 'A')).dueMonth).toBe(24 + 2 + 4);
+      const re = p1(choose(s, 'A')).dueMonth! - 24 - 2;
+      expect(re).toBeGreaterThanOrEqual(2);
+      expect(re).toBeLessThanOrEqual(5);
+    });
+    it('선택권 §6.4: 재심 기간은 슬롯 `<id>:review:re` 추첨의 ceil(U{lo..hi} / 2)이고 resolveVerdicts의 비첫 판정과 같은 식이다', () => {
+      const [lo, hi] = ASSUMED.REVIEW_MONTHS.cs;   // cs 2–6
+      const withSeed = (seed: string) => ({ ...at('revision', 'revision'), seed });
+      const seedFor = (pred: (u: number) => boolean): string => {
+        for (let i = 0; i < 5000; i++) if (pred(draw(`REV${i}`, 'paper', 24, 'p1:review:re'))) return `REV${i}`;
+        throw new Error('no seed');
+      };
+      const seedLo = seedFor(u => u < 0.1), seedHi = seedFor(u => u >= 0.9);
+      const dueLo = p1(choose(withSeed(seedLo), 'A')).dueMonth!, dueHi = p1(choose(withSeed(seedHi), 'A')).dueMonth!;
+      expect(dueLo).toBe(24 + 2 + Math.ceil(lo / ASSUMED.REREVIEW_DIVISOR));
+      expect(dueHi).toBe(24 + 2 + Math.ceil(hi / ASSUMED.REREVIEW_DIVISOR));
+      expect(dueLo).not.toBe(dueHi);
+      // 같은 seed 의 resolveVerdicts(비첫 판정, attempts 2) 재심 기간과 같다
+      for (const seed of [seedLo, seedHi]) {
+        const base = withSeed(seed);
+        const resolved = resolveVerdictsRevision(base);
+        expect(resolved - 24).toBe(p1(choose(base, 'B')).dueMonth! - 24 - 1);
+      }
     });
     it('revision quality is capped at 100', () => {
       expect(p1(choose(at('revision', 'revision', { quality: 97 }), 'A')).quality).toBe(100);

@@ -318,7 +318,7 @@ describe('retireAge (선택권 §9.4)', () => {
 });
 
 describe('pensionMonthly (0014#101)', () => {
-  it('55만 + min(0.6·W_last, a·근속·W_avg) with a = 0.019 for professors and 0.010 otherwise', () => {
+  it('55만 + min(0.6·W_last, a·근속·W_last) with a = 0.019 for professors and 0.010 otherwise', () => {
     const prof = fixtureCareerState({ career: { route: 'professor', annualPay: 60_000_000, workYears: 30 } });
     expect(pensionMonthly(prof)).toBe(550_000 + Math.round(0.019 * 30 * 5_000_000));   // 0.57 < 0.6
     const ind = fixtureCareerState({ career: { route: 'industry', annualPay: 60_000_000, workYears: 30 } });

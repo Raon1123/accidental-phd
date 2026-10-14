@@ -3,6 +3,8 @@ import { ASSUMED } from '../src/assumed';
 import { loadData } from '../src/data/load';
 import { pensionMonthly } from '../src/career/pay';
 import { advanceYear } from '../src/career/tick';
+import { decide } from '../src/decide';
+import { draw } from '../src/rng';
 import type { CareerState, Choices, LifeState, Route, Stats } from '../src/types';
 
 const data = loadData();
@@ -166,8 +168,10 @@ describe('advanceYear: decision points', () => {
     // 결정 뒤 다음 해에는 10년 → 5년 순으로 이어진다
     const next = advanceYear(resolve(r), data);       // 나이 64 < 65
     expect(next.pending!.dp).toBe('career-10y');
-    const last = advanceYear(resolve(next), data);
-    expect(last.stage).toBe('retired');               // 나이 65 → 결정 없이 은퇴
+    const last = advanceYear(resolve(next), data);    // 나이 65 = 정년이지만 career-5y 가 아직 안 열렸으니 상태 §7.2 3→4 에 따라 먼저 연다
+    expect(last.stage).toBe('career');
+    expect(last.pending!.dp).toBe('career-5y');
+    expect(advanceYear(resolve(last), data).stage).toBe('retired');   // 모두 결정된 뒤 다음 연 틱에 은퇴
   });
 
   it('one pending per year tick, snapshots stack across decisions', () => {
@@ -181,13 +185,54 @@ describe('advanceYear: decision points', () => {
 describe('advanceYear: retirement and old age', () => {
   it('reaching retireAge turns the stage to retired with the pension computed', () => {
     const s = employed('professor', 60_000_000, { workYears: 29, degreeMonth: 0, employer: { kind: 'university', national: false } }, { month: 500, ageMonths: 64 * 12, decisions: [
-      { dp: 'career-5y', month: 1, option: 'A', byPolicy: false }, { dp: 'career-10y', month: 2, option: 'A', byPolicy: false }] });
+      { dp: 'career-5y', month: 1, option: 'A', byPolicy: false }, { dp: 'career-10y', month: 2, option: 'A', byPolicy: false },
+      { dp: 'pre-retirement', month: 3, option: 'A', byPolicy: false }] });   // 이미 결정된 뒤의 은퇴(상태 §7.2 3→4: 결정 지점이 은퇴 확인보다 먼저다)
     const r = advanceYear(s, data);
     expect(r.stage).toBe('retired'); expect(r.pending).toBeNull();
     expect(r.ageMonths).toBe(65 * 12);
     expect(r.career!.pensionMonthly).toBe(pensionMonthly(r));
     expect(r.career!.pensionMonthly).toBeGreaterThan(ASSUMED.PENSION_BASE_MONTHLY);
     expect(r.log.at(-1)!.tags).toEqual(['career', 'retire']);
+  });
+
+  it('상태 §7.2 3→4: 연 틱 안에서 정년이 된 해에도 결정 지점(pre-retirement)을 먼저 열고, 닫은 다음 연 틱에 은퇴한다', () => {
+    const decisions = [{ dp: 'career-5y' as const, month: 1, option: 'A', byPolicy: false }, { dp: 'career-10y' as const, month: 2, option: 'A', byPolicy: false }];
+    const searcher = (seed: string): LifeState => fixtureCareerState({
+      seed, month: 500, ageMonths: 64 * 12, decisions,
+      stats: { skill: 95, network: 95 },
+      career: { route: 'none', degreeMonth: 0, searching: { routes: ['institute'], since: 480, penalty: 1 } },
+    });
+    // 이 연 틱에 출연연(정년 61)에 채용되고, 12개월 뒤(month 512)의 post-retire 추첨이 통과하는 seed 를 찾는다(C 의 은퇴 후 연구 확률 0.6)
+    let start: LifeState | undefined;
+    for (let i = 0; i < 400 && !start; i++) {
+      const cand = searcher(`APHD-RET${i}`);
+      if (draw(cand.seed, 'life', 512, 'post-retire') >= ASSUMED.POST_RETIRE_RESEARCH.p) continue;
+      if (advanceYear(cand, data).career!.route === 'institute') start = cand;
+    }
+    expect(start, 'a seed that hires into an institute during the year').toBeDefined();
+    const opened = advanceYear(start!, data);
+    expect(opened.career!.retireAge).toBe(61);
+    expect(opened.pending!.dp).toBe('pre-retirement');
+    expect(opened.stage).toBe('career');
+    const keyIndex = (st: LifeState, key: string): number => st.pending!.options.findIndex(o => o.key === key);
+
+    const a = advanceYear(decide(opened, data, keyIndex(opened, 'A')), data);
+    expect(a.stage).toBe('retired');
+
+    const c = decide(opened, data, keyIndex(opened, 'C'));
+    expect(c.career!.postRetireResearchUntil).toBeDefined();
+    expect(advanceYear(c, data).stage).toBe('retired');
+  });
+
+  it('상태 §7.2 3→4 (자동): auto 이면 같은 해에 정책이 pre-retirement 를 닫은 뒤 은퇴 확인으로 간다', () => {
+    const s = employed('professor', 60_000_000, { workYears: 29, degreeMonth: 0, employer: { kind: 'university', national: false } }, {
+      month: 500, ageMonths: 64 * 12, auto: true, decisions: [
+        { dp: 'career-5y', month: 1, option: 'A', byPolicy: false }, { dp: 'career-10y', month: 2, option: 'A', byPolicy: false }] });
+    const r = advanceYear(s, data);
+    expect(r.decisions.map(d => d.dp)).toContain('pre-retirement');
+    expect(r.decisions.find(d => d.dp === 'pre-retirement')!.byPolicy).toBe(true);
+    expect(r.pending).toBeNull();
+    expect(r.stage).toBe('retired');
   });
 
   it('a retired year adds one year of age and twelve pension payments', () => {

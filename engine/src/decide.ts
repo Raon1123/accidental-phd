@@ -7,10 +7,9 @@ import { ACADEMIC_ROUTES, addLog, pensionMonthly, promotion, retireAge, scoreOf 
 import type { DataBundle } from './data/load';
 import { taStipend } from './data/funding';
 import { waiverRate } from './data/tuition';
-import { reviewMonths } from './data/venues';
 import { clamp, odds, z } from './odds';
 import { canStartLeave, startLeave } from './phd/hazards';
-import { acceptProbability, acceptedCount, lowerTier, resubmit, type Verdict } from './phd/papers';
+import { acceptProbability, acceptedCount, lowerTier, reReviewDuration, resubmit, type Verdict } from './phd/papers';
 import { addStats } from './phd/stats';
 import { draw } from './rng';
 import type {
@@ -177,12 +176,6 @@ function postQualifying(s: LifeState, _data: DataBundle, p: PendingDecision, key
 
 // ── 2. first-paper-verdict (선택권 §3.2) ──
 
-/** 수정 요구 뒤 재심 기간: 분야별 심사 기간 범위의 중앙값을 절반(올림)으로. papers.resolveVerdicts 는 추첨하지만 여기서는 추첨 없이 중앙값을 쓴다(선택권 §6.4를 구부린 곳). */
-function reReviewMonths(s: LifeState): number {
-  const [lo, hi] = reviewMonths(s.choices.field);
-  return Math.ceil((lo + hi) / 2 / ASSUMED.REREVIEW_DIVISOR);
-}
-
 function firstPaperVerdict(s: LifeState, data: DataBundle, p: PendingDecision, key: string): LifeState {
   const { paperId } = ctxOf<FirstPaperVerdictContext>(p);
   const paper = phdOf(s).papers.find(x => x.id === paperId);
@@ -204,7 +197,7 @@ function firstPaperVerdict(s: LifeState, data: DataBundle, p: PendingDecision, k
     const R = key === 'A' ? F.reviseA : F.reviseB;
     return replacePaper(s, paperId, x => ({
       ...x, status: 'revision', quality: clamp(x.quality + R.quality, ASSUMED.STAT_MIN, ASSUMED.STAT_MAX),
-      dueMonth: s.month + R.months + reReviewMonths(s), logitBonus: R.logit,
+      dueMonth: s.month + R.months + reReviewDuration(s, paperId), logitBonus: R.logit,
     }));
   }
   // accept
