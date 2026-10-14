@@ -8,10 +8,11 @@ import { advanceMonth } from '../src/phd/tick';
 import { applyProgress } from '../src/phd/progress';
 import {
   applyPartTimePay, applyWorkInput, autoPartTime, calendarYear, growthMultiplier, hourlyWage, lectureEligible,
-  participationOf, partTimeCap, partTimePay, stipendScale,
+  drawParticipation, participationMean, participationOf, partTimeCap, partTimePay, researchMarket, stipendScale,
 } from '../src/phd/work';
 import { createLife } from '../src/pre/createLife';
-import type { FundingState, LifeState, Paper } from '../src/types';
+import { z } from '../src/odds';
+import type { FundingState, LifeState, Paper, Route } from '../src/types';
 
 const data = loadData();
 const SEED = 'APHD-WORK0079';
@@ -37,22 +38,42 @@ describe('participation (#79)', () => {
     expect(stipendScale(base())).toBe(1);
   });
 
-  it('changes only at a semester boundary, only on the project route, in steps of 0.25', () => {
+  it('is drawn by the engine, not chosen: MonthInput has no participation (user rule 2026-10-15)', () => {
     const p = base({ funding: PROJECT, month: 6 });
-    const r = applyWorkInput(p, { participation: 1 });
-    expect(participationOf(r)).toBe(1);
-    expect(stipendScale(r)).toBe(2);
-    expect(() => applyWorkInput(base({ funding: PROJECT, month: 7 }), { participation: 1 })).toThrow(/semester boundary/);
-    expect(() => applyWorkInput(base({ month: 6 }), { participation: 0.5 })).toThrow(/project/);
-    expect(() => applyWorkInput(p, { participation: 0.3 })).toThrow(/steps/);
+    expect(participationOf(applyWorkInput(p, { participation: 1 } as never))).toBe(ASSUMED.PARTICIPATION.projectDefault);
+  });
+
+  it('draws at a semester boundary or when unset, on the project route only, in steps of 0.25', () => {
+    const drawn = drawParticipation(base({ funding: PROJECT, month: 6 }));
+    const r = drawn.phd!.participation!;
+    expect(r).toBeGreaterThanOrEqual(0);
+    expect(r).toBeLessThanOrEqual(1);
+    expect(r % ASSUMED.PARTICIPATION.step).toBe(0);
+    expect(drawParticipation(base({ funding: PROJECT, month: 7 })).phd!.participation).toBeDefined();   // 값이 없으면 첫 달에 뽑는다
+    const set = { ...drawn, month: 7, phd: { ...drawn.phd!, participation: 0.25 } };
+    expect(drawParticipation(set).phd!.participation).toBe(0.25);                                     // 학기 중에는 유지
+    expect(drawParticipation(base({ month: 6 })).phd!.participation).toBeUndefined();                 // 과제 경로가 아니면 뽑지 않는다
+  });
+
+  it('the expected rate is proportional to the research job market and rises with the advisor relation', () => {
+    const p = base({ funding: PROJECT, month: 6 });
+    expect(researchMarket(p)).toBe(1);
+    expect(participationMean(p)).toBeCloseTo(0.5 * (1 + 0.5 * z(p.stats.relation)), 12);
+    const good = { ...p, stats: { ...p.stats, relation: 90 } }, bad = { ...p, stats: { ...p.stats, relation: 10 } };
+    expect(participationMean(good)).toBeGreaterThan(participationMean(bad));
+    const boom = { ...p, news: [{ id: 'x', type: 'x', startMonth: 0, untilMonth: 99, effect: 0.3, target: { kind: 'all' as const, values: [] }, routes: ['professor', 'nontenure', 'postdoc', 'institute'] as Route[] }] };
+    expect(researchMarket(boom)).toBeCloseTo(1.3, 12);
+    expect(participationMean(boom)).toBeCloseTo(1.3 * participationMean(p), 12);
+    const mean = (x: LifeState) => Array.from({ length: 400 }, (_, i) => drawParticipation({ ...x, seed: `APHD-P${i}` }).phd!.participation!).reduce((a, b) => a + b, 0) / 400;
+    expect(mean(boom)).toBeGreaterThan(mean(p));
   });
 
   it('the stipend in the ledger follows the participation', () => {
     const p = { ...base({ funding: PROJECT, month: 5 }), money: { cash: 50_000_000, debt: 0, loanLimit: 42_000_000 } };
     const stipend = (s: LifeState) => s.ledger.filter(e => e.kind === 'stipend' && e.month === s.month).reduce((a, e) => a + e.amount, 0);
-    const half = advanceMonth(p, data);
-    const full = advanceMonth(p, data, { participation: 1 });
-    expect(stipend(full)).toBe(2 * stipend(half));
+    const t = advanceMonth(p, data);
+    expect(stipend(t)).toBe(Math.round(PROJECT.monthly * stipendScale(t)));
+    expect(stipendScale(t)).toBe(t.phd!.participation! / ASSUMED.PARTICIPATION.projectDefault);
   });
 });
 
@@ -98,7 +119,7 @@ describe('growth multiplier (#79, user rule: the two deductions add up)', () => 
     expect(growthMultiplier(job)).toBe(0.5);
     const workFocus = { ...base(), phd: { ...base().phd!, focus: 'work' as const } };
     expect(growthMultiplier(workFocus)).toBe(1 - ASSUMED.JOB_HOURS / 40);
-    const heavy = applyWorkInput(base({ funding: { ...PROJECT, dutyHours: 0 } }), { participation: undefined, partTime: { kind: 'job', hours: 20 } });
+    const heavy = applyWorkInput(base({ funding: { ...PROJECT, dutyHours: 0 } }), { partTime: { kind: 'job', hours: 20 } });
     expect(growthMultiplier({ ...heavy, phd: { ...heavy.phd!, participation: 1 } })).toBe(0);   // 바닥 0
   });
 
