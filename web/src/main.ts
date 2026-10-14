@@ -1,15 +1,18 @@
 // 웹 진입점. 데이터(data.json)를 받아 DataBundle 을 만들고, 분야 선택·지금 삶(진행 화면)·기록 보관 화면을 그린다.
 // 진행 로직(한 칸, 자동 모드, 결정 지점, 연구노트, 인생 지도)은 play.ts, 동기·분기는 cohort.ts 에 있고, 여기는 DOM 과 타이머만 다룬다.
-import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile } from '../../engine/src/browser';
+import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile, type WebSource } from '../../engine/src/browser';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
 import { lifeConfig, trackGroups } from './select';
+import { footerLines, moneyRows } from './sources';
 import { ko as t } from './strings.ko';
 import { summaryRows } from './view';
 
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
+let sources: Record<string, WebSource> = {};
+let shownIds: string[] = [];   // 지금 화면에 보인 값의 근거 id(출처 footer 가 읽는다)
 let life: LifeState | undefined;
 let cohort: LifeState[] = [];
 let branched: LifeState | undefined;   // "다른 선택 보기"로 연 분기
@@ -151,7 +154,7 @@ function signedWon(amount: number, sign: 1 | -1): string {
   return `${sign === 1 ? '+' : '−'}${wonText(amount, t)}`;
 }
 
-function renderMoney(root: HTMLElement): void {
+function renderMoneyCard(root: HTMLElement): void {
   root.replaceChildren();
   if (!life || !data) return;
   const M = t.play.money;
@@ -179,6 +182,19 @@ function renderMoney(root: HTMLElement): void {
   frow(M.netWithTuition, wonText(f.netWithTuition, t));
   frow(M.duty, `${f.dutyHours} ${M.dutyUnit}`);
   root.append(fl);
+  // 근거가 있는 값(월 지원, 최근 등록금, 입학금)은 확인 등급 표지와 함께 한 번 더 보이고, 출처 footer 에 올린다(#60).
+  const ev = moneyRows(life, data, t).filter(r => r.ids.length > 0);
+  if (ev.length > 0) {
+    root.append(el('h3', t.sources.moneyHeading));
+    const edl = el('dl');
+    for (const r of ev) {
+      const dd = el('dd', r.value);
+      if (r.mark) { const m = el('span', ` [${r.mark}]`); m.className = 'mark'; dd.append(m); }
+      edl.append(el('dt', r.label), dd);
+      shownIds.push(...r.ids);
+    }
+    root.append(edl);
+  }
   const rows = ledgerRows(life);
   const det = el('details');
   det.append(el('summary', M.ledgerHeading));
@@ -286,12 +302,22 @@ function renderBranch(root: HTMLElement): void {
   root.append(table, el('p', fill(t.cohort.shared, { n: sharedPrefix(life, b) })));
 }
 
+function renderSources(root: HTMLElement): void {
+  root.replaceChildren(el('h2', t.sources.heading), el('p', t.sources.help));
+  if (!data || shownIds.length === 0) { root.append(el('p', t.sources.none)); return; }
+  const ul = el('ul');
+  for (const line of footerLines(shownIds, data, sources, t)) ul.append(el('li', line));
+  root.append(ul);
+}
+
 function render(): void {
-  renderMoney(document.getElementById('money')!);
+  shownIds = [];
+  renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);
   renderCohort(document.getElementById('cohort')!);
   renderBranch(document.getElementById('branch')!);
   renderArchive(document.getElementById('archive')!);
+  renderSources(document.getElementById('sources')!);
   if (pendingFocus !== undefined) {
     document.querySelector<HTMLElement>(`[data-key="${pendingFocus}"]`)?.focus();
     pendingFocus = undefined;
@@ -331,7 +357,9 @@ async function start(): Promise<void> {
   status.textContent = t.loading;
   try {
     const res = await fetch(`${import.meta.env.BASE_URL}data.json`);
-    data = bundleFromWebData((await res.json()) as WebDataFile);
+    const json = (await res.json()) as WebDataFile;
+    data = bundleFromWebData(json);
+    sources = json.sources ?? {};
     status.textContent = '';
   } catch {
     status.textContent = t.loadFailed;

@@ -32,3 +32,5 @@ button:disabled { opacity: .5; }
   main > * { grid-column: 2; }
   main > #money { grid-column: 1; grid-row: 1 / span 6; position: sticky; top: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; }
 }
+.mark { color: var(--muted); font-size: .9rem; }
+#sources li { font-size: .85rem; }
