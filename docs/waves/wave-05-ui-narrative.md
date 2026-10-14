@@ -24,6 +24,8 @@ Wave 4 종료 조건.
 
 - [x] (`data/packs/narratives/humanities-social/records.json` +27건, 출처 `data/sources/registry.d/81-hs-news.json` 21건, fable 감사 pass 12·revise 14·drop 3 반영, #81) 인문사회 서사 레코드 보강: 기사·인터뷰·수기에서 장려금·과제, 아르바이트·조교, 학자금대출, 시간강사·비정규직, 전직, 질병·휴학 장면을 수집했다(원문 미저장, 사용자 요청 2026-10-14). 검증기에 출처 URL 중복 검사를 더했다.
 
+- [x] (`docs/design/brainstorm-random-lines.md`, #112) 무작위 문장 팩 브레인스토밍: 원작 구조 관찰, 범주 4개(박사 이후는 후속), 빈도·선택 규칙 제안, 감사 반영 문장 92줄, 가상 기관명 후보 22곳(실명 대응표는 저장소 밖). 팩 파일·화면 연결은 문서 승인 뒤 후속 PR.
+
 ### Wave 4 회고에서 이관
 출처: [wave-04 §회고](wave-04-engine-impl.md). Wave 5 issue를 발행할 때 각 issue 본문에 이 절을 링크하고 그 issue가 맡는 항목을 나열한다(회고 프롬프트 출력 계약 (c)).
 
