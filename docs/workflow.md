@@ -67,7 +67,7 @@ PR은 `validate-data`와 `test` 워크플로우를 통과해야 한다. 수치 �
 
 - 브랜치 이름: `wave-N/<slug>`, `stats/<topic>`, `adr/<slug>`.
 - PR 본문은 `.github/pull_request_template.md`를 채운다. 연결 issue를 `Closes #N`으로 적는다.
-- 머지는 squash. 머지 후 `docs/waves/STATUS.md`를 같은 PR에서 갱신했는지 확인한다.
+- 머지는 병합 커밋(merge commit)으로 한다. squash·rebase 병합은 쓰지 않는다. wave 체크리스트와 결정 기록이 완료 근거로 인용하는 커밋 해시가 main에서 도달 가능해야 하기 때문이다(결정 기록 0016 §1). 머지 후 `docs/waves/STATUS.md`를 같은 PR에서 갱신했는지 확인한다.
 
 ## needs-judge
 

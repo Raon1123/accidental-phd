@@ -178,7 +178,7 @@ m_r,k = hazard_month(h_r,k),   π0_r,k = m_r,k / s0_r
 3. 채용 추첨:
    s = odds(s0_r, β_skill·z(skill) + β_net·z(network) + γ_S·(min(S, 12) − S_ref) + γ_exp·[academicMonths ≥ 24], lo 0.01, hi 0.60)
    u_hire = draw(seed, "labor", t, "apply:" + r + ":" + n)
-   u_hire < s 이면 채용. 다음 학기 경계 달(교수·강사) 또는 다음 달(그 밖)에 시작.
+   u_hire < s 이면 채용. 급여·계약 기간·학계 개월은 채용 달부터 센다(시작 대기 상태는 두지 않는다).
 ```
 
 | 계수 | 교수·비정년 | 시간강사 | 박사후 | 출연연·공무원 | 기업 | 근거 |
