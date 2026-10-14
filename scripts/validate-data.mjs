@@ -116,6 +116,33 @@ function checkRecordIdMentions(root, errors) {
   }
 }
 
+// Pre-existing groups of registry entries that share one URL on purpose (one portal page, several years or
+// tables). Each group is a list of ids; the duplicate-URL check skips two ids that sit in the same group.
+// Do not add new entries here: give a new source its own URL or reuse the existing id.
+const DUPLICATE_URL_ALLOWLIST = [
+  ['kedi-2022-dataset-dept', 'kedi-2023-dataset-dept', 'kedi-2024-dataset-dept', 'kedi-2025-dataset-dept', 'kedi-2026-dataset-dept'],
+  ['khu-2026-scholarship', 'khu-2026-tuition'],
+  [
+    'scimago-2025-sjr-chem-materials-engineering', 'scimago-2025-sjr-civil-env-engineering', 'scimago-2025-sjr-computer-science',
+    'scimago-2025-sjr-economics', 'scimago-2025-sjr-history-philosophy-korean-literature', 'scimago-2025-sjr-life-science',
+    'scimago-2025-sjr-mathematics', 'scimago-2025-sjr-mech-elec-engineering', 'scimago-2025-sjr-polsci-public-admin',
+    'scimago-2025-sjr-psychology', 'scimago-2025-sjr-sociology', 'scimago-2025-sjr-statistics', 'scimago-2026-portal'
+  ]
+];
+
+// Lowercase scheme and host, drop a leading `www.` and a trailing slash, so equal documents compare equal.
+export function normalizeUrl(u) {
+  const t = u.trim();
+  try {
+    const x = new URL(t);
+    const host = x.host.toLowerCase().replace(/^www\./, '');
+    const path = x.pathname.replace(/\/+$/, '');
+    return `${x.protocol.toLowerCase()}//${host}${path}${x.search}${x.hash}`;
+  } catch {
+    return t.replace(/\/+$/, '');
+  }
+}
+
 export function validate(root) {
   const errors = [];
   const regPath = join(root, 'data/sources/registry.json');
@@ -128,6 +155,15 @@ export function validate(root) {
     for (const f of SOURCE_FIELDS) if (!(f in s)) errors.push(`registry[${i}]: missing ${f}`);
     if (s.id) { if (ids.has(s.id)) errors.push(`registry: duplicate id ${s.id}`); ids.add(s.id); }
   });
+  const byUrl = new Map();
+  for (const s of sources) {
+    if (!s.id || typeof s.url !== 'string') continue;
+    const key = normalizeUrl(s.url);
+    const prev = byUrl.get(key);
+    if (!prev) { byUrl.set(key, s.id); continue; }
+    if (prev === s.id || DUPLICATE_URL_ALLOWLIST.some(group => group.includes(prev) && group.includes(s.id))) continue;
+    errors.push(`registry: duplicate url ${s.url} in ${prev} and ${s.id}`);
+  }
   for (const file of walk(join(root, 'data/packs'), p => p.endsWith('records.json'))) {
     const rel = file.slice(root.length + 1);
     const recs = readJson(file);
