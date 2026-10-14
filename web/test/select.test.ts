@@ -2,10 +2,21 @@
 import { describe, expect, it } from 'vitest';
 import { TRACKS, createLife, groupOf, newSeed } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { lifeConfig, trackGroups, trackLabel } from '../src/select';
+import { departmentLabel, lifeConfig, trackGroups, trackLabel } from '../src/select';
 import { ko } from '../src/strings.ko';
 
 const data = loadData();
+
+describe('department label (#88)', () => {
+  it('is `학과명 (세부전공)`, never a school name, and falls back to the track label without data', () => {
+    for (const track of ['computer', 'history', 'mathematics']) {
+      const s = createLife(lifeConfig(track), newSeed('dept-label'), data);
+      const label = departmentLabel(s.choices, data, ko);
+      expect(label, track).toMatch(/^[^()]+( \([^()]+\))?$/);
+      expect(departmentLabel(s.choices, undefined, ko)).toBe(trackLabel(track, ko));
+    }
+  });
+});
 
 describe('track selection (#54)', () => {
   it('trackNames has exactly the engine tracks', () => {

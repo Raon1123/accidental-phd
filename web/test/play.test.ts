@@ -6,6 +6,7 @@ import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState } 
 import { loadData } from '../../engine/src/index';
 import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
+import { statBars } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -117,7 +118,7 @@ describe('research notes and life map (#55)', () => {
       }
       if (s.career) careerLives += 1;
     }
-    expect(careerLives).toBe(2);   // 경력 칸을 실제로 확인했는지
+    expect(careerLives).toBe(MAP_SEEDS.length);   // 학위 없이 끝나도 경력으로 이어지므로(#85) 모든 생애가 경력 칸에 닿는다
   });
 });
 
@@ -208,5 +209,17 @@ describe('money card', () => {
     expect(wonText(12_345_000, ko)).toBe('1,234.5만 원');
     expect(wonText(-1_300_000, ko)).toBe('-130만 원');
     expect(wonText(0, ko)).toBe('0만 원');
+  });
+});
+
+describe('stat bars (#89)', () => {
+  it('splits each bar into an unchanged part and a changed part, and signs the delta', () => {
+    const s = createLife({ track: 'computer' }, newSeed('bars'), data);
+    const prev = { ...s.stats, health: s.stats.health + 5, mind: s.stats.mind - 3 };
+    const bars = statBars(s, prev, ko);
+    const h = bars.find(b => b.key === 'health')!, m = bars.find(b => b.key === 'mind')!;
+    expect(h.delta).toBe(-5); expect(h.base).toBe(h.pct); expect(h.changed).toBe(5);
+    expect(m.delta).toBe(3); expect(m.base).toBeCloseTo(m.pct - 3); expect(m.changed).toBe(3);
+    expect(statBars(s, undefined, ko).every(b => b.delta === 0 && b.changed === 0)).toBe(true);
   });
 });

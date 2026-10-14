@@ -2,7 +2,7 @@
 import { branch, cohortSeed, createLife, decisionOutcome, type DataBundle, type DecisionId, type LifeState } from '../../engine/src/browser';
 import { step } from './play';
 import { schoolDisplayName } from './schoolName';
-import { trackLabel } from './select';
+import { departmentLabel } from './select';
 import type { Strings } from './strings.ko';
 
 export const COHORT_SIZE = 4;
@@ -32,11 +32,11 @@ export function catchUp(cohort: readonly LifeState[], month: number, data: DataB
 const fill = (template: string, values: Record<string, string | number>): string =>
   template.replace(/\{(\w+)\}/g, (_, k: string) => String(values[k] ?? `{${k}}`));
 
-/** 동기 패널 한 줄: 이름, 트랙·학교(가상 표시명), 지금 단계, 끝난 이유. */
-export function cohortRows(cohort: readonly LifeState[], t: Strings): { name: string; who: string; stage: string; end: string }[] {
+/** 동기 패널 한 줄: 이름, 학과(세부전공)·학교(가상 표시명), 지금 단계, 끝난 이유. */
+export function cohortRows(cohort: readonly LifeState[], t: Strings, data?: DataBundle): { name: string; who: string; stage: string; end: string }[] {
   return cohort.map((c, i) => ({
     name: fill(t.cohort.name, { k: i + 1 }),
-    who: `${trackLabel(c.choices.track, t)} · ${schoolDisplayName(c.choices.school, t)}`,
+    who: `${departmentLabel(c.choices, data, t)} · ${schoolDisplayName(c.choices.school, t)}`,
     stage: t.play.stageNames[c.stage],
     end: c.end ? t.cohort.endReasons[c.end.reason] : t.cohort.none,
   }));
