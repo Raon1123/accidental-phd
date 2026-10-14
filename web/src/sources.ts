@@ -32,6 +32,13 @@ const fill = (template: string, values: Record<string, string | number>): string
   template.replace(/\{(\w+)\}/g, (_, k: string) => String(values[k] ?? `{${k}}`));
 const man = (won: number, t: Strings): string => fill(t.sources.won, { n: Math.round(won / 10_000).toLocaleString('ko-KR') });
 
+/** 월 지원의 근거가 "스타이펜드 최소 보장" 레코드인가(#99). 학교 레코드 `schools-<학교>-all-stipend-min*` 는 기관 지급, 국가 하한 레코드는 국가 하한이다. */
+export function stipendGuarantee(recordIds: readonly string[]): 'institute' | 'national' | null {
+  if (recordIds.some(id => /^schools-[a-z0-9]+-all-stipend-min/.test(id))) return 'institute';
+  if (recordIds.includes('salaries-stipend-stem-living-phd-min')) return 'national';
+  return null;
+}
+
 export interface EvidenceRow { label: string; value: string; mark: string; ids: string[] }
 
 /** 돈 표: 현금·빚(엔진 계산, 근거 없음), 박사과정이면 월 자금 수입·최근 등록금·입학금(레코드나 0014 번호가 근거). */

@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { advanceMonth, createLife, newSeed, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { readWebSources, schoolNamePairs } from '../../engine/sim/web-sources';
-import { confidenceOf, displayId, footerLines, markFor, moneyRows } from '../src/sources';
+import { confidenceOf, displayId, footerLines, markFor, moneyRows, stipendGuarantee } from '../src/sources';
 import { ko } from '../src/strings.ko';
 
 const root = resolve(__dirname, '../..');
@@ -75,5 +75,15 @@ describe('sources footer (#60)', () => {
     expect(lines.filter(l => l.includes(ko.sources.unknownSource))).toEqual([]);
     expect(lines.flatMap(leaks)).toEqual([]);
     for (const k of Object.keys(ko.schoolNames)) expect(lines.some(l => l.split(' ')[0]!.split('-').includes(k))).toBe(false);
+  });
+});
+
+describe('stipend guarantee (#99)', () => {
+  it('tells the institute minimum from the national floor and from non-guarantee records', () => {
+    expect(stipendGuarantee(['schools-kaist-all-stipend-min', 'schools-kaist-all-tuition'])).toBe('institute');
+    expect(stipendGuarantee(['schools-dgist-all-stipend-min-national'])).toBe('institute');
+    expect(stipendGuarantee(['salaries-stipend-stem-living-phd-min'])).toBe('national');
+    expect(stipendGuarantee(['schools-snu-all-stipend-ta', '0014#35'])).toBeNull();
+    expect(stipendGuarantee([])).toBeNull();
   });
 });
