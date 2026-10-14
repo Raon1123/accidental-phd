@@ -5,7 +5,7 @@ import { INSTITUTES } from '../data/salaries';
 import { facultyMarket } from '../data/statistics';
 import { clamp, hazardMonth, odds, z } from '../odds';
 import { draw } from '../rng';
-import type { CareerState, Group, Kedi, LifeState, MonthInput, Path, Route } from '../types';
+import type { CareerState, EndReason, Group, Kedi, LifeState, MonthInput, Path, Route } from '../types';
 import { demand } from './news';
 import { ACADEMIC_ROUTES, addLog, scoreOf, startingPay } from './pay';
 
@@ -117,16 +117,31 @@ export function applyHire(state: LifeState, data: DataBundle, route: Route, mont
   return addLog({ ...state, career }, 'log.hired', ['career', 'hire', route]);
 }
 
+/** 학위 없이 경력으로 넘어간 사람의 구직 경로(선택권 §3.1): 학계 경로는 닫힌다. */
+export const NO_DEGREE_SEARCH_ROUTES: readonly Route[] = ['institute', 'public', 'industry', 'bridge'];
+
+/**
+ * 학위 없이 박사과정을 마치고 경력 단계로 넘어간다(석사 수료 이탈, 이탈, 재학연한 초과, 재정 파탄; #85).
+ * `end` 는 박사과정이 끝난 이유로 남고, 생애는 경력 단계에서 80세까지 이어진다. 구직은 다음 달부터 비학계 경로로 한다.
+ */
+export function leavePhd(s: LifeState, reason: Exclude<EndReason, 'degree' | 'age80'>): LifeState {
+  const career: CareerState = {
+    degreeMonth: s.month, degree: reason === 'exit-master' ? 'master-exit' : 'none', route: 'none', annualPay: 0, yearsInRoute: 0, workYears: 0, academicMonths: 0,
+    paperScore: 0, careerPapers: 0, searching: { routes: [...NO_DEGREE_SEARCH_ROUTES], since: s.month, penalty: 1 },
+  };
+  return { ...s, stage: 'career', end: { reason, month: s.month }, career };
+}
+
 /**
  * 월 구직 처리 (노동 §4.1).
  * 1) 경로마다 슬롯 `post:<경로>` 로 공고를 추첨한다(경로당 한 번, 같은 달 공고 ≤ 1). 2) 경로 순서대로 지원(`input.apply` 기본 true) → 슬롯 `apply:<경로>:<n>` 로 채용 추첨.
  * 임시직(bridge)은 공고 없이 슬롯 `bridge` 로 월 BRIDGE_SEARCH_P 를 바로 추첨한다. 한 달에 채용은 많아야 한 건이고 공고 추첨은 채용 결과와 무관하다.
- * 석사 수료 이탈자는 학계 경로를 못 찾고 나머지 경로의 확률에 hireMult 를 곱한다(선택권 §3.1). 구직 보정(penalty)은 h 에 곱한다.
+ * 학위 없이 넘어온 사람(석사 수료 이탈, #85의 이탈·재학연한·재정 파탄)은 학계 경로를 못 찾고 나머지 경로의 확률에 hireMult 를 곱한다(선택권 §3.1). 구직 보정(penalty)은 h 에 곱한다.
  */
 export function searchMonth(state: LifeState, data: DataBundle, month: number, input?: Pick<MonthInput, 'apply'>): { state: LifeState; postings: Route[]; hired?: Route } {
   const spec = searchSpec(state);
   if (!spec) return { state, postings: [] };
-  const masterExit = state.career?.degree === 'master-exit';
+  const masterExit = state.career !== undefined && state.career.degree !== 'phd';   // 석사 수료·이탈·재학연한·재정 파탄(#85)
   const routes = masterExit ? spec.routes.filter(r => !ACADEMIC_ROUTES.includes(r)) : spec.routes;
   const exitMult = masterExit ? ASSUMED.MASTER_EXIT.hireMult : 1;
   const { group, kedi } = state.choices;

@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { ASSUMED } from '../src/assumed';
 import { loadData } from '../src/data/load';
 import { pensionMonthly } from '../src/career/pay';
+import { careerFlow } from '../src/career/tick';
 import { advanceYear } from '../src/career/tick';
 import { decide } from '../src/decide';
 import { draw } from '../src/rng';
@@ -235,24 +236,48 @@ describe('advanceYear: retirement and old age', () => {
     expect(r.stage).toBe('retired');
   });
 
+  it('#96 monthly settlement in the career: interest on debt, repayment up to 20% of pay, and a shortfall loan', () => {
+    const s = employed('industry', 60_000_000, {}, { month: 100, money: { cash: 0, debt: 10_000_000, loanLimit: 42_000_000 } });
+    const f = careerFlow({ ...s, month: 101 });
+    expect(f.pay).toBe(5_000_000);
+    expect(f.interest).toBe(Math.round(10_000_000 * ASSUMED.LOAN_RATE_ANNUAL / 12));
+    expect(f.repay).toBe(Math.round(5_000_000 * ASSUMED.CAREER_REPAY_SHARE));
+    const r = advanceYear(s, data);
+    const repaid = r.ledger.filter(e => e.kind === 'repay').reduce((a, e) => a - e.amount, 0);
+    const interest = r.ledger.filter(e => e.kind === 'interest').reduce((a, e) => a - e.amount, 0);
+    expect(r.ledger.filter(e => e.kind === 'pay').length).toBe(12);
+    expect(r.money.debt).toBe(10_000_000 + interest - repaid);
+    expect(r.money.debt).toBeLessThan(10_000_000);
+    // 무직이면 생활비 부족분을 한도 안에서 빌린다
+    const idle = employed('none', 0, {}, { month: 100, money: { cash: 0, debt: 0, loanLimit: 42_000_000 } });
+    const g = careerFlow({ ...idle, month: 101 });
+    expect(g.loan).toBe(g.living);
+    expect(g.repay).toBe(0);
+  });
+
   it('a retired year adds one year of age and twelve pension payments', () => {
     const s = employed('professor', 60_000_000, { pensionMonthly: 3_000_000 }, { stage: 'retired', month: 700, ageMonths: 70 * 12, money: { cash: 1_000_000, debt: 0, loanLimit: 0 } });
     const clone = structuredClone(s);
     const r = advanceYear(s, data);
     expect(s).toEqual(clone);
     expect(r).toMatchObject({ stage: 'retired', month: 712, ageMonths: 71 * 12 });
-    expect(r.money.cash).toBe(1_000_000 + 36_000_000);
-    expect(r.ledger.at(-1)).toMatchObject({ kind: 'pension', amount: 36_000_000 });
+    // 달마다 연금이 들어오고 생활비가 나간다(#96 월 정산, 0014 #123). 부채가 없으면 상환도 없다
+    const living = careerFlow(s).living;
+    expect(r.money.cash).toBe(1_000_000 + 12 * (3_000_000 - living));
+    expect(r.ledger.filter(e => e.kind === 'pension')).toEqual(Array.from({ length: 12 }, (_, i) => ({ month: 701 + i, kind: 'pension', amount: 3_000_000 })));
+    expect(r.ledger.filter(e => e.kind === 'living').length).toBe(12);
   });
 
   it('retired year without a cached pension computes it from the career', () => {
     const s = employed('industry', 60_000_000, { workYears: 30 }, { stage: 'retired', ageMonths: 70 * 12 });
-    expect(advanceYear(s, data).money.cash).toBe(12 * pensionMonthly(s));
+    expect(advanceYear(s, data).money.cash).toBe(s.money.cash + 12 * (pensionMonthly(s) - careerFlow(s).living));
   });
 
   it('post-retirement research income covers the months left in the year', () => {
     const s = employed('professor', 60_000_000, { pensionMonthly: 1_000_000, postRetireResearchUntil: 706 }, { stage: 'retired', month: 700, ageMonths: 70 * 12 });
-    expect(advanceYear(s, data).money.cash).toBe(12_000_000 + 6 * ASSUMED.POST_RETIRE_RESEARCH.monthly);
+    const research = advanceYear(s, data).ledger.filter(e => e.kind === 'post-retire-research');
+    expect(research.map(e => e.month)).toEqual([701, 702, 703, 704, 705, 706]);
+    expect(research.every(e => e.amount === ASSUMED.POST_RETIRE_RESEARCH.monthly)).toBe(true);
   });
 
   it('age 80 ends the record with reason age80', () => {

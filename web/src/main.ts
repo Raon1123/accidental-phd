@@ -5,7 +5,7 @@ import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
 import { lifeConfig, trackGroups } from './select';
-import { footerLines, moneyRows } from './sources';
+import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
 import { detailRows, glanceRows, paperView, statBars } from './view';
 
@@ -108,7 +108,14 @@ function renderDecision(root: HTMLElement, s: LifeState, onChoose: (index: numbe
   const box = el('section');
   box.className = 'decision';
   box.setAttribute('role', 'group');
-  box.append(el('h3', t.play.decision), el('p', v.prompt));
+  box.append(el('h3', t.play.decision));
+  if (v.scene) {   // 서사 장면(#57): 창작 표시를 붙인다
+    const sc = el('p', v.scene);
+    sc.className = 'scene';
+    sc.append(el('span', ` [${t.play.creative}]`));
+    box.append(sc);
+  }
+  box.append(el('p', v.prompt));
   const ol = el('ul');
   for (const o of v.options) {
     const li = el('li');
@@ -211,6 +218,7 @@ function renderMoneyCard(root: HTMLElement): void {
   row(M.debt, `${wonText(v.debt, t)} / ${M.loanLimit} ${wonText(v.loanLimit, t)}`);
   if (v.crisisMonths > 0) row(M.crisis, M.crisisMonths.replace('{n}', String(v.crisisMonths)));
   root.append(dl);
+  if (v.careerFlow) { renderCareerFlow(root, v.careerFlow); return; }
   if (!v.flow) { root.append(el('p', M.noPhd)); return; }
   const f = v.flow;
   root.append(el('h3', M.next));
@@ -219,6 +227,16 @@ function renderMoneyCard(root: HTMLElement): void {
   frow(M.funding, t.play.fundingNames[f.funding]);
   frow(M.until, f.fundingUntil < 0 ? M.untilNone : M.untilMonth.replace('{n}', String(f.fundingUntil)));
   frow(M.stipend, signedWon(f.stipend, 1));
+  const ids = life.phd?.fundingState.recordIds ?? [];
+  const basis = stipendGuarantee(ids);
+  if (basis) {   // 스타이펜드 최소 보장 레코드가 근거일 때: 포함·최소 보장·기관/국가·출처 확인 등급을 값 옆에 적는다(#99)
+    const dd = fl.lastElementChild!;
+    const grade = ids.filter(id => stipendGuarantee([id])).map(id => confidenceOf(id, data!));
+    const checked = grade.every(g => g === 'verified') ? M.stipendChecked : t.sources.marks[grade.includes('assumed') ? 'assumed' : 'indexed'];
+    const note = el('span', ` ${M.stipendIncluded} · ${M.stipendBasis[basis]} · ${checked}`);
+    note.className = 'mark';
+    dd.append(note);
+  }
   frow(M.family, signedWon(f.family, 1));
   frow(M.living, signedWon(f.living, -1));
   frow(M.netMonthly, wonText(f.net, t));
@@ -239,6 +257,15 @@ function renderMoneyCard(root: HTMLElement): void {
     }
     root.append(edl);
   }
+  renderLedger(root, ['month', 'stipend', 'family', 'work', 'living', 'tuition', 'interest', 'loan']);
+}
+
+type LedgerKey = 'month' | keyof Omit<ReturnType<typeof ledgerRows>[number], 'month'>;
+
+/** 월별 계산서 표(#75). 경력·은퇴 단계는 급여·연금·상환 열을 쓴다(#96). */
+function renderLedger(root: HTMLElement, keys: readonly LedgerKey[]): void {
+  if (!life) return;
+  const M = t.play.money;
   const rows = ledgerRows(life);
   const det = el('details');
   det.append(el('summary', M.ledgerHeading));
@@ -246,7 +273,6 @@ function renderMoneyCard(root: HTMLElement): void {
   else {
     const tbl = el('table');
     const cols = M.cols;
-    const keys = ['month', 'stipend', 'family', 'work', 'living', 'tuition', 'interest', 'loan'] as const;
     const head = el('tr');
     for (const k of keys) head.append(el('th', cols[k]));
     tbl.append(head);
@@ -293,6 +319,26 @@ function renderPapers(root: HTMLElement, s: LifeState): void {
     ul.append(li);
   }
   root.append(ul);
+}
+
+/** 박사 졸업 뒤 자금 카드(#96): 다음 달 정산 예정치와 경력·은퇴 단계 계산서. */
+function renderCareerFlow(root: HTMLElement, f: NonNullable<ReturnType<typeof moneyView>['careerFlow']>): void {
+  const M = t.play.money;
+  root.append(el('h3', M.nextMonth));
+  const fl = el('dl');
+  const frow = (k: string, val: string): void => { fl.append(el('dt', k), el('dd', val)); };
+  if (life!.stage === 'career') frow(M.pay, signedWon(f.pay, 1));
+  else {
+    frow(M.pension, signedWon(f.pension, 1));
+    if (f.research > 0) frow(M.research, signedWon(f.research, 1));
+  }
+  frow(M.living, signedWon(f.living, -1));
+  frow(M.interest, signedWon(f.interest, -1));
+  if (f.repay > 0) frow(M.repay, signedWon(f.repay, -1));
+  if (f.loan > 0) frow(M.loan, signedWon(f.loan, 1));
+  frow(M.netCareer, wonText(f.net, t));
+  root.append(fl);
+  renderLedger(root, ['month', life!.stage === 'career' ? 'pay' : 'pension', 'work', 'living', 'interest', 'repay', 'loan']);
 }
 
 function renderCurrent(root: HTMLElement): void {

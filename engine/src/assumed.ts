@@ -146,7 +146,7 @@ export const ASSUMED = {
   EWHA_ENGINEERING_TUITION: 7_341_000,                                                 // 0014#58 cs·engineering, 서울 사립 8곳 공학 등록금 중앙값
   EWHA_TUITION_REFERENCE_SCHOOLS: ['yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'cau', 'konkuk'], // 0014#58
   EWHA_MATH_TUITION: 6_367_500,                                                        // 0014#59 math·bio, 같은 8곳 math 등록금 중앙값
-  LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60
+  LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60 (경력·은퇴 단계에도 같은 값: 0014#123, #96)
   CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos'], // 0014#60 수도권
   REGIONAL_SCHOOLS: ['kaist', 'postech', 'gist', 'dgist', 'unist', 'pusan', 'knu', 'jnu', 'cnu'], // 0014#60 비수도권
   LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 42_000_000,                                      // 0014#61 (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; calibration-wave4.md)
@@ -169,6 +169,7 @@ export const ASSUMED = {
     psychology: 'psychology',                                                          // 0014#65 심리학
     history: 'history-philosophy-ko', philosophy: 'history-philosophy-ko', korean_literature: 'history-philosophy-ko', // 0014#65 역사학·철학·한국문학
     english_literature: null, linguistics: null,                                       // 0014#65 분야군 없음: 이름 없는 가상 학술지, 화면에 창작 표시
+    law: null,                                                                         // 0014#65 법학(#70): venues 팩에 법학 분야군이 없다 → 가상 학술지
   } as Record<string, string | null>,
   CONFERENCE_TRACKS: ['computer', 'ai'],                                               // 0014#65 학회는 이 트랙에서만 투고처로 나온다(선택권 §6.3)
   TIER_BASE: { T1: 0.25, T2: 0.35, T3: 0.45, T4: 0.60 } satisfies Record<Tier, number>, // 0014#66
@@ -253,6 +254,7 @@ export const ASSUMED = {
     lecturer: { years: 1, renewP: 0.70 },                                              // 0014#95
   },
   PATH_CHANGE_MULT: 0.8,                                                               // 0014#96
+  CAREER_REPAY_SHARE: 0.20,                                                            // 0014#122 경력·은퇴 단계 월 상환: 그달 소득의 20%까지 부채를 갚는다(#96)
   CAREER_5Y_STAY_MIND: -5,                                                             // 0014#121 career-5y D "한 번 더 버틴다": 마음 −5 (Wave 4 추가)
   EARLY_RETIRE_MULT: 0.85,                                                             // 0014#97
   POST_RETIRE_RESEARCH: { monthly: 500_000, years: 5, p: 0.6 },                        // 0014#98

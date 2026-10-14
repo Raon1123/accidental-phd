@@ -137,6 +137,18 @@ test('duplicate source id across registry.json and registry.d fails', () => {
   assert.ok(r.errors.some(e => e.includes('duplicate id')));
 });
 
+test('same url under two source ids across registry.json and registry.d fails, naming both ids', () => {
+  const root = fixture({ sources: [SRC] });
+  mkdirSync(join(root, 'data/sources/registry.d'), { recursive: true });
+  writeFileSync(join(root, 'data/sources/registry.d/issue-99.json'), JSON.stringify([{ ...SRC, id: 'other-id', url: 'HTTPS://WWW.X/' }]));
+  const r = validate(root);
+  assert.ok(r.errors.some(e => e.includes('duplicate url') && e.includes('krivet-2025-phd') && e.includes('other-id')));
+});
+test('different urls under different source ids pass the duplicate-url check', () => {
+  const root = fixture({ sources: [SRC, { ...SRC, id: 'other-id', url: 'https://y' }] });
+  assert.ok(!validate(root).errors.some(e => e.includes('duplicate url')));
+});
+
 const NAR_HS = {
   id: 'nar-hs-funding-4', track: '인문사회', stage: 'funding', theme: 'x',
   summary: 's', quote: '', source_id: 'krivet-2025-phd', page_or_url: 'p.1', year: 2024, checked_on: '2026-10-13', confidence: 'verified'
@@ -172,5 +184,18 @@ test('text pack items need creative: true and their fields (#58)', () => {
   const r = validate(root);
   assert.ok(r.errors.some(e => e.includes('[1]: creative must be true')));
   assert.ok(r.errors.some(e => e.includes('[1]: missing body')));
+  assert.ok(!r.errors.some(e => e.includes('[0]')));
+});
+test('scene pack items need at, key, text and refs (#57)', () => {
+  const root = fixture();
+  mkdirSync(join(root, 'data/text'), { recursive: true });
+  writeFileSync(join(root, 'data/text/scenes.ko.json'), JSON.stringify([
+    { id: 'a', at: 'log', key: 'log.degree', text: 't', refs: ['assumed'], creative: true },
+    { id: 'b', at: 'log', key: 'log.degree', text: 't', refs: [], creative: true },
+    { id: 'c', at: 'log', text: 't', refs: ['assumed'], creative: true },
+  ]));
+  const r = validate(root);
+  assert.ok(r.errors.some(e => e.includes('[1]: scenes need refs')));
+  assert.ok(r.errors.some(e => e.includes('[2]: missing key')));
   assert.ok(!r.errors.some(e => e.includes('[0]')));
 });

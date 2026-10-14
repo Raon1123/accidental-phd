@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { ASSUMED } from '../src/assumed';
 import { pathDistribution } from '../src/career/path';
 import { pensionMonthly, promotion } from '../src/career/pay';
+import { careerFlow } from '../src/career/tick';
 import { advanceYear } from '../src/career/tick';
 import { taStipend } from '../src/data/funding';
 import { loadData } from '../src/data/load';
@@ -464,7 +465,9 @@ describe('decide: pre-retirement (선택권 §3.7)', () => {
     expect(r.career!.pensionMonthly).toBe(Math.round(pensionMonthly(s) * ASSUMED.EARLY_RETIRE_MULT));
     expect(r.stage).toBe('retired');
     const next = advanceYear(r, data);
-    expect(next.money.cash - r.money.cash).toBe(12 * r.career!.pensionMonthly!);
+    const f = careerFlow({ ...r, month: r.month + 1 });   // 은퇴 뒤에도 달마다 생활비와 상환이 나간다(#96)
+    expect(next.ledger.filter(e => e.kind === 'pension').map(e => e.amount)).toEqual(Array(12).fill(r.career!.pensionMonthly!));
+    expect(f.pension).toBe(r.career!.pensionMonthly);
     expect(next.career!.pensionMonthly).toBe(r.career!.pensionMonthly);
   });
   it('C: the 0.6 draw (life / post-retire) decides; success sets a calendar-month end 60 months after the retirement month', () => {

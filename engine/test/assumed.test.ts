@@ -8,12 +8,12 @@ const sum = (xs: readonly number[]) => xs.reduce((s, x) => s + x, 0);
 
 describe('ASSUMED numbering (decision 0014)', () => {
   const numbers = new Set([...source.matchAll(/0014#(\d+)/g)].map(m => Number(m[1])));
-  const MAX = 121;   // 119 + Wave 4 추가 #120(첫 투고 계층)·#121(career-5y D)
-  it('cites every row 1..121', () => {
+  const MAX = 123;   // 119 + Wave 4 추가 #120(첫 투고 계층)·#121(career-5y D) + #96 추가 #122(경력 상환)·#123(은퇴 뒤 생활비)
+  it('cites every row 1..123', () => {
     const missing = Array.from({ length: MAX }, (_, i) => i + 1).filter(n => !numbers.has(n));
     expect(missing).toEqual([]);
   });
-  it('cites nothing outside 1..121', () => {
+  it('cites nothing outside 1..123', () => {
     expect([...numbers].filter(n => n < 1 || n > MAX)).toEqual([]);
   });
 });
@@ -55,8 +55,8 @@ describe('ASSUMED distributions', () => {
     for (const row of Object.values(ASSUMED.PERM_PATH)) expect(sum(Object.values(row))).toBeCloseTo(1, 12);
     expect(sum(Object.values(ASSUMED.HUMSOC_NONREG_PATH))).toBeCloseTo(1, 12);
   });
-  it('covers the 26 tracks, 6 fields and 4 tiers', () => {
-    expect(Object.keys(ASSUMED.TRACK_VENUE_GROUP).length).toBe(26);
+  it('covers the 27 tracks, 6 fields and 4 tiers', () => {
+    expect(Object.keys(ASSUMED.TRACK_VENUE_GROUP).length).toBe(27);
     expect(Object.keys(ASSUMED.REVIEW_MONTHS).sort()).toEqual(['bio', 'cs', 'engineering', 'humanities', 'math', 'social']);
     expect(Object.keys(ASSUMED.TIER_BASE)).toEqual(['T1', 'T2', 'T3', 'T4']);
     expect(Object.keys(ASSUMED.FOCUS).sort()).toEqual(['network', 'research', 'rest', 'thesis', 'work', 'write']);

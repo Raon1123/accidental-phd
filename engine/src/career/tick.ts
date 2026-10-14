@@ -20,19 +20,52 @@ function livingCost(s: LifeState): number {
   return capital ? ASSUMED.LIVING_COST.capital : ASSUMED.LIVING_COST.regional;
 }
 
+/** 경력·은퇴 단계 한 달 정산 항목(선택권 §5.6, #96). 금액은 모두 양수이고 부호는 원장에서 붙는다. */
+export interface CareerFlow { pay: number; pension: number; research: number; living: number; interest: number; repay: number; loan: number }
+
 /**
- * 월 현금 흐름(상태 §7.2 1단계 (4)): 급여/12 − 생활비를 그대로 현금에 더한다.
- * 대출·이자·재정 위기는 박사과정 규칙(선택권 §5.3–§5.5)이라 경력 단계에는 적용하지 않으므로 무직이 길면 현금이 음수가 될 수 있다.
+ * 이 달(state.month)의 월 정산(선택권 §5.6, #96). 경력이면 급여/12, 은퇴면 노후 월수입과 은퇴 뒤 연구 수입이 들어오고,
+ * 생활비(0014#60, 은퇴 뒤에도 같은 값 0014#123)가 나간다. 부채 이자는 박사과정과 같이 부채에 붙고(0014 #61),
+ * 남는 현금이 있으면 그달 소득의 CAREER_REPAY_SHARE 까지 갚는다(0014#122). 현금이 모자라면 한도 안에서 빌린다(위기 판정은 없다).
  */
-function monthlyCash(s: LifeState): LifeState {
-  const c = s.career!;
-  const pay = Math.round(c.annualPay / ASSUMED.MONTHS_PER_YEAR);
+export function careerFlow(s: LifeState): CareerFlow {
+  const c = s.career;
+  const retired = s.stage === 'retired';
+  const pay = !retired && c ? Math.round(c.annualPay / ASSUMED.MONTHS_PER_YEAR) : 0;
+  const pension = retired ? (c?.pensionMonthly ?? (c ? pensionMonthly(s) : 0)) : 0;
+  const research = retired && c?.postRetireResearchUntil !== undefined && s.month <= c.postRetireResearchUntil ? ASSUMED.POST_RETIRE_RESEARCH.monthly : 0;
   const living = livingCost(s);
+  const interest = Math.round(s.money.debt * ASSUMED.LOAN_RATE_ANNUAL / ASSUMED.MONTHS_PER_YEAR);
+  const debt = s.money.debt + interest;
+  const cash = s.money.cash + pay + pension + research - living;
+  const repay = cash > 0 ? Math.min(debt, cash, Math.round((pay + pension + research) * ASSUMED.CAREER_REPAY_SHARE)) : 0;
+  const loan = cash < 0 ? Math.min(-cash, Math.max(0, s.money.loanLimit - debt)) : 0;
+  return { pay, pension, research, living, interest, repay, loan };
+}
+
+/** 월 정산을 원장과 현금·부채에 반영한다. 경력이면 학계 근무 개월도 센다. */
+function settleMonth(s: LifeState): LifeState {
+  const f = careerFlow(s);
+  const month = s.month;
   const ledger = [...s.ledger];
-  if (pay !== 0) ledger.push({ month: s.month, kind: 'pay', amount: pay });
-  ledger.push({ month: s.month, kind: 'living', amount: -living });
-  const academic = ACADEMIC_ROUTES.includes(c.route) ? 1 : 0;
-  return { ...s, money: { ...s.money, cash: s.money.cash + pay - living }, ledger, career: { ...c, academicMonths: c.academicMonths + academic } };
+  const push = (kind: string, amount: number) => { if (amount !== 0) ledger.push({ month, kind, amount }); };
+  push('pay', f.pay);
+  push('pension', f.pension);
+  push('post-retire-research', f.research);
+  push('living', -f.living);
+  push('interest', -f.interest);   // 현금이 아니라 부채에 붙는 항목이다
+  push('repay', -f.repay);
+  push('loan', f.loan);
+  const cash = s.money.cash + f.pay + f.pension + f.research - f.living - f.repay + f.loan;
+  const debt = s.money.debt + f.interest - f.repay + f.loan;
+  const c = s.career;
+  const career = c && s.stage === 'career' ? { ...c, academicMonths: c.academicMonths + (ACADEMIC_ROUTES.includes(c.route) ? 1 : 0) } : c;
+  return { ...s, money: { ...s.money, cash, debt }, ledger, ...(career ? { career } : {}) };
+}
+
+/** 다음 한 달(month + 1)에 정산될 값(화면 자금 카드용). 경력 틱은 달을 먼저 올리고 정산하므로 같은 순서로 계산한다. */
+export function previewCareerFlow(s: LifeState): CareerFlow {
+  return careerFlow({ ...s, month: s.month + 1, ageMonths: s.ageMonths + 1 });
 }
 
 function optionsFor(dp: DecisionId, route: Route): PendingDecision['options'] {
@@ -51,18 +84,10 @@ function nextTrigger(s: LifeState, retire: number): DecisionId | null {
 }
 
 function retiredYear(s: LifeState): LifeState {
-  const c = s.career;
-  const monthly = c?.pensionMonthly ?? (c ? pensionMonthly(s) : 0);
-  const month = s.month + ASSUMED.MONTHS_PER_YEAR;
-  // 은퇴 후 연구 수입(선택권 §3.7 C, 0014#98): 이 해에 걸친 달 수만큼 월 수입을 더한다.
-  const researchMonths = c?.postRetireResearchUntil === undefined ? 0 : Math.max(0, Math.min(ASSUMED.MONTHS_PER_YEAR, c.postRetireResearchUntil - s.month));
-  const research = researchMonths * ASSUMED.POST_RETIRE_RESEARCH.monthly;
-  const income = monthly * ASSUMED.MONTHS_PER_YEAR;
-  const ledger = [...s.ledger, { month, kind: 'pension', amount: income }];
-  if (research > 0) ledger.push({ month, kind: 'post-retire-research', amount: research });
-  let n: LifeState = { ...s, month, ageMonths: s.ageMonths + ASSUMED.MONTHS_PER_YEAR, money: { ...s.money, cash: s.money.cash + income + research }, ledger };
+  let n: LifeState = s.career && s.career.pensionMonthly === undefined ? { ...s, career: { ...s.career, pensionMonthly: pensionMonthly(s) } } : s;
+  for (let i = 0; i < ASSUMED.MONTHS_PER_YEAR; i++) n = settleMonth({ ...n, month: n.month + 1, ageMonths: n.ageMonths + 1 });   // 은퇴 뒤에도 달마다 정산(#96)
   if (n.ageMonths >= ASSUMED.END_AGE * ASSUMED.MONTHS_PER_YEAR) {
-    n = addLog({ ...n, stage: 'end', end: { reason: 'age80', month } }, 'log.end-age80', ['end']);
+    n = addLog({ ...n, stage: 'end', end: { reason: 'age80', month: n.month } }, 'log.end-age80', ['end']);
   }
   return n;
 }
@@ -85,7 +110,7 @@ export function advanceYear(state: LifeState, data: DataBundle, input?: { apply?
     s = { ...s, month: s.month + 1, ageMonths: s.ageMonths + 1 };
     s = updateNews(s, data);
     if (s.career!.searching) s = searchMonth(s, data, s.month, monthInput).state;
-    s = monthlyCash(s);
+    s = settleMonth(s);
   }
   s = yearEnd(s, data);
 

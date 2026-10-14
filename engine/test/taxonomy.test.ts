@@ -8,8 +8,8 @@ const data = loadData();
 const mapping = JSON.parse(readFileSync(join(data.root, 'data/packs/taxonomy/mapping-tracks.json'), 'utf8')) as { track: string; nrf_code: string; level: number; primary: boolean }[];
 
 describe('track tables', () => {
-  it('26 tracks equal the mapping-tracks.json primary set', () => {
-    expect(TRACKS.length).toBe(26);
+  it('27 tracks equal the mapping-tracks.json primary set', () => {
+    expect(TRACKS.length).toBe(27);
     expect(new Set(TRACKS)).toEqual(new Set(mapping.filter(r => r.primary).map(r => r.track)));
   });
 
@@ -45,8 +45,8 @@ describe('track tables', () => {
     }
   });
 
-  it('tracksOf splits 10 / 16', () => {
-    expect(tracksOf('인문사회').length).toBe(10);
+  it('tracksOf splits 11 / 16', () => {
+    expect(tracksOf('인문사회').length).toBe(11);
     expect(tracksOf('이공').length).toBe(16);
   });
 
