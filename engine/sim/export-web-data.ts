@@ -4,10 +4,12 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { readPackTexts, revisionOf } from '../src/data/load';
+import { readWebSources } from './web-sources';
 
 const out = process.argv[2] ?? 'web/public/data.json';
 const texts = readPackTexts();
-const json = { dataRevision: revisionOf(texts), files: Object.fromEntries([...texts.entries()].sort(([a], [b]) => (a < b ? -1 : 1))) };
+// sources: 출처 footer 용(#60). dataRevision 에는 넣지 않는다(엔진이 읽지 않는다).
+const json = { dataRevision: revisionOf(texts), files: Object.fromEntries([...texts.entries()].sort(([a], [b]) => (a < b ? -1 : 1))), sources: readWebSources(process.cwd()) };
 mkdirSync(dirname(out), { recursive: true });
 writeFileSync(out, JSON.stringify(json));
-console.log(`export-web-data: ${texts.size} files, dataRevision ${json.dataRevision} -> ${out}`);
+console.log(`export-web-data: ${texts.size} files, ${Object.keys(json.sources).length} sources, dataRevision ${json.dataRevision} -> ${out}`);

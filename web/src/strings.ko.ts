@@ -153,6 +153,22 @@ export const ko = {
     won: '{n}만 원',
     shared: '앞의 {n}개 결정은 두 삶이 같습니다.',
   },
+  // 돈 표와 출처 footer(#60). assumed 는 "게임 설정"으로 표시한다(계획 설계 문서 §데이터 규율).
+  sources: {
+    moneyHeading: '돈',
+    cash: '현금',
+    debt: '빚',
+    stipend: '월 자금 수입',
+    tuition: '최근 등록금(학기)',
+    entranceFee: '입학금',
+    won: '{n}만 원',
+    marks: { verified: '', indexed: '색인 값', assumed: '게임 설정' },
+    heading: '출처',
+    help: '화면의 값이 온 레코드와 출처입니다. "색인 값"은 공식 1차 출처가 아닌 자료에서 왔고, "게임 설정"은 출처가 없어 정한 가정입니다(결정 기록 0014). 학교 이름은 가상 표시명으로 바꿔 적습니다.',
+    none: '이 삶에서 화면에 보인 레코드 값이 아직 없습니다.',
+    assumedLine: '결정 기록 0014 {n} — 게임 설정',
+    unknownSource: '출처 기록 없음',
+  },
   // 결정 선택지와 연구노트 한 줄. 키는 엔진의 textKey 그대로이고, 결정은 `decision.<지점>[.<결과>].<선택지>`(decide 의 기록 키와 같다).
   texts: {
     'life.start': '박사과정에 입학했습니다.',

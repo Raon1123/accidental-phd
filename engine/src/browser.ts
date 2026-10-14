@@ -16,8 +16,11 @@ export { TRACKS, groupOf } from './data/taxonomy';
 
 import { bundleFromTexts, type DataBundle } from './data/bundle';
 
+/** 출처 footer 용 출처 한 건(#60). 학교 실명은 내보낼 때 가상 표시명으로 바뀌어 있다. */
+export interface WebSource { title: string; publisher: string; year: number }
+
 /** export-web-data.ts 가 쓰는 JSON 형식. */
-export interface WebDataFile { dataRevision: string; files: Record<string, string> }
+export interface WebDataFile { dataRevision: string; files: Record<string, string>; sources?: Record<string, WebSource> }
 
 export function bundleFromWebData(json: WebDataFile): DataBundle {
   return bundleFromTexts(new Map(Object.entries(json.files)), json.dataRevision);
