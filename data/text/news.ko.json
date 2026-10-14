@@ -1,0 +1,240 @@
+[
+  {
+    "id": "news-rnd-budget-up-1",
+    "type": "rnd-budget-up",
+    "headline": "정부, 내년 연구개발 예산 확대 발표",
+    "body": "정부가 내년 이공 분야 연구개발 예산을 올해보다 늘리겠다고 밝혔다.",
+    "creative": true
+  },
+  {
+    "id": "news-rnd-budget-up-2",
+    "type": "rnd-budget-up",
+    "headline": "내년 연구개발 예산 늘린다, 이공계 과제 확대",
+    "body": "정부가 내년 연구개발 예산을 늘려 이공 분야 연구 과제가 더 열린다.",
+    "creative": true
+  },
+  {
+    "id": "news-rnd-budget-cut-1",
+    "type": "rnd-budget-cut",
+    "headline": "연구개발 예산 조정으로 과제 축소",
+    "body": "연구개발 예산이 조정되면서 이공 분야 연구 과제가 줄어든다.",
+    "creative": true
+  },
+  {
+    "id": "news-rnd-budget-cut-2",
+    "type": "rnd-budget-cut",
+    "headline": "연구개발 예산 삭감, 이공계 과제 감소",
+    "body": "정부가 연구개발 예산을 줄이기로 해 이공 분야 신규 과제가 감소한다.",
+    "creative": true
+  },
+  {
+    "id": "news-ai-boom-1",
+    "type": "ai-boom",
+    "headline": "대형 인공지능 투자 잇따라",
+    "body": "대형 인공지능 투자가 이어지면서 인공지능과 컴퓨터 분야 인력 수요가 늘고 있다.",
+    "creative": true
+  },
+  {
+    "id": "news-ai-boom-2",
+    "type": "ai-boom",
+    "headline": "인공지능 투자 확대, 관련 인력 수요 증가",
+    "body": "인공지능 분야에 대규모 투자가 몰려 관련 채용 공고가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-semi-talent-1",
+    "type": "semi-talent",
+    "headline": "반도체 인력 양성 사업 공고",
+    "body": "정부가 반도체 인력 양성 사업을 공고해 관련 분야 채용과 과제가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-semi-talent-2",
+    "type": "semi-talent",
+    "headline": "반도체 전문 인력 양성에 새 지원 시작",
+    "body": "반도체 인력을 키우는 새 지원이 시작되어 전기·재료 분야 자리가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-battery-shift-1",
+    "type": "battery-shift",
+    "headline": "이차전지·에너지 전환 지원책",
+    "body": "이차전지와 에너지 전환을 돕는 지원책이 나와 관련 분야 채용이 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-battery-shift-2",
+    "type": "battery-shift",
+    "headline": "에너지 전환 지원 강화, 이차전지 인력 수요",
+    "body": "에너지 전환 지원이 강화되어 에너지·화학·재료 분야 자리가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-bio-cluster-1",
+    "type": "bio-cluster",
+    "headline": "바이오 클러스터 새로 지정",
+    "body": "한 지역이 바이오 클러스터로 새로 지정되어 생명과학 분야 자리가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-bio-cluster-2",
+    "type": "bio-cluster",
+    "headline": "바이오 단지 신규 지정, 연구 인력 모집 늘어",
+    "body": "새 바이오 단지가 지정되어 생명과학 분야 연구 인력 모집이 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-climate-program-1",
+    "type": "climate-program",
+    "headline": "기후 대응 연구사업 시작",
+    "body": "정부가 기후 대응 연구사업을 시작해 환경·토목·에너지 분야 자리가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-climate-program-2",
+    "type": "climate-program",
+    "headline": "기후 대응 연구사업 출범, 관련 공고 증가",
+    "body": "기후 대응을 위한 연구사업이 출범해 관련 분야 연구 공고가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-data-demand-1",
+    "type": "data-demand",
+    "headline": "데이터·통계 전문 인력 수요 증가",
+    "body": "데이터와 통계를 다루는 전문 인력의 수요가 늘어 관련 채용이 많아진다.",
+    "creative": true
+  },
+  {
+    "id": "news-data-demand-2",
+    "type": "data-demand",
+    "headline": "데이터 분석 인력 찾는 곳 늘어",
+    "body": "데이터 분석 인력을 찾는 기업과 공공기관이 늘어 통계·수학 분야 공고가 많아진다.",
+    "creative": true
+  },
+  {
+    "id": "news-dept-merger-1",
+    "type": "dept-merger",
+    "headline": "학령인구 감소로 학과 통폐합 확산",
+    "body": "학령인구가 줄어 인문·사회 분야 학과 통폐합이 늘고 교원 자리가 줄어든다.",
+    "creative": true
+  },
+  {
+    "id": "news-dept-merger-2",
+    "type": "dept-merger",
+    "headline": "학과 통폐합 잇따라, 인문사회 교원 자리 감소",
+    "body": "여러 대학이 학과를 합치면서 인문·사회 분야 교원 채용이 줄어든다.",
+    "creative": true
+  },
+  {
+    "id": "news-humanities-fund-1",
+    "type": "humanities-fund",
+    "headline": "인문학 진흥 사업 선정",
+    "body": "인문학 진흥 사업이 선정되어 인문 분야 연구 자리와 강의가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-humanities-fund-2",
+    "type": "humanities-fund",
+    "headline": "인문학 지원 사업 확정, 연구 자리 늘어",
+    "body": "인문학을 지원하는 사업이 확정되어 인문 분야 공고가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-socsci-project-1",
+    "type": "socsci-project",
+    "headline": "사회과학 대형 공동연구 착수",
+    "body": "사회과학 대형 공동연구가 시작되어 관련 분야 연구원 자리가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-socsci-project-2",
+    "type": "socsci-project",
+    "headline": "사회과학 공동연구 출범, 연구원 모집 확대",
+    "body": "여러 기관이 참여하는 사회과학 공동연구가 출범해 연구원 모집이 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-lecturer-policy-1",
+    "type": "lecturer-policy",
+    "headline": "강사 강의 배정 확대 방침",
+    "body": "정부가 대학의 강사 강의 배정을 늘리도록 하는 방침을 밝혔다.",
+    "creative": true
+  },
+  {
+    "id": "news-lecturer-policy-2",
+    "type": "lecturer-policy",
+    "headline": "대학 강사 강의 배정 늘린다",
+    "body": "대학이 강사에게 맡기는 강의를 늘리게 되어 강사 자리가 많아진다.",
+    "creative": true
+  },
+  {
+    "id": "news-univ-freeze-1",
+    "type": "univ-freeze",
+    "headline": "대학 재정 동결, 교원 채용 줄어",
+    "body": "대학 재정이 동결되어 교원 신규 채용이 줄어든다.",
+    "creative": true
+  },
+  {
+    "id": "news-univ-freeze-2",
+    "type": "univ-freeze",
+    "headline": "대학 재정 동결로 교원 신규 채용 감소",
+    "body": "대학 재정이 동결되면서 교수와 비정년 교원 채용 공고가 줄어든다.",
+    "creative": true
+  },
+  {
+    "id": "news-inst-expand-1",
+    "type": "inst-expand",
+    "headline": "출연연 연구인력 정원 확대",
+    "body": "정부출연연구기관의 연구인력 정원이 늘어 채용 공고가 많아진다.",
+    "creative": true
+  },
+  {
+    "id": "news-inst-expand-2",
+    "type": "inst-expand",
+    "headline": "출연연 정원 늘린다, 연구직 채용 확대",
+    "body": "출연연구기관이 정원을 늘리기로 해 이공 분야 연구직 채용이 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-inst-freeze-1",
+    "type": "inst-freeze",
+    "headline": "출연연 신규 채용 동결",
+    "body": "정부출연연구기관이 신규 채용을 동결해 이공 분야 연구직 공고가 줄어든다.",
+    "creative": true
+  },
+  {
+    "id": "news-inst-freeze-2",
+    "type": "inst-freeze",
+    "headline": "출연연 채용 중단, 연구직 공고 감소",
+    "body": "출연연구기관이 채용을 멈추기로 해 연구직 공고가 줄어든다.",
+    "creative": true
+  },
+  {
+    "id": "news-hiring-chill-1",
+    "type": "hiring-chill",
+    "headline": "기업 연구소 채용 축소",
+    "body": "기업 연구소가 채용을 줄이고 있어 기업 연구직 공고가 감소한다.",
+    "creative": true
+  },
+  {
+    "id": "news-hiring-chill-2",
+    "type": "hiring-chill",
+    "headline": "기업 연구소 신규 채용 줄어",
+    "body": "여러 기업 연구소가 신규 채용 규모를 줄인다고 밝혀 기업 연구직 공고가 감소한다.",
+    "creative": true
+  },
+  {
+    "id": "news-policy-research-1",
+    "type": "policy-research",
+    "headline": "정책 연구 수요 증가",
+    "body": "정책 연구를 맡기는 곳이 늘어 경제·행정 분야 연구직 자리가 늘어난다.",
+    "creative": true
+  },
+  {
+    "id": "news-policy-research-2",
+    "type": "policy-research",
+    "headline": "정책 연구 발주 늘어, 관련 인력 수요 증가",
+    "body": "정책 연구 발주가 늘면서 관련 연구기관과 공공기관의 채용이 늘어난다.",
+    "creative": true
+  }
+]

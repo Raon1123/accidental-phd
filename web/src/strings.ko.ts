@@ -136,7 +136,6 @@ export const ko = {
       'no-funding': '연장할 자금이 없습니다.',
     },
     ended: '기록이 끝났습니다.',
-    newsPlaceholder: '분야 소식이 나왔습니다. (헤드라인 문장은 뉴스 텍스트 팩 #58에서 채웁니다)',
     prompts: {
       'post-qualifying.pass': '자격시험에 합격했습니다. 다음 단계를 고르세요.',
       'post-qualifying.fail': '자격시험에 떨어졌습니다. 어떻게 할까요?',
@@ -194,6 +193,18 @@ export const ko = {
     none: '이 삶에서 화면에 보인 레코드 값이 아직 없습니다.',
     assumedLine: '결정 기록 0014 {n} — 게임 설정',
     unknownSource: '출처 기록 없음',
+  },
+  // 가상 뉴스 줄(#58, 노동 스펙 §5.4). 헤드라인·본문은 data/text/news.ko.json, 효과는 엔진 상수(게임 설정).
+  news: {
+    tag: '{target} {routes} 공고 {effect}, {months} (게임 설정)',
+    targetAll: '전 계열',
+    targetGroup: '{v} 계열',
+    kedi: { humanities: '인문 계열', social: '사회 계열', natural: '자연 계열', engineering: '공학 계열' },
+    months: '{n}개월',
+    monthsRange: '{lo}~{hi}개월',
+    effect: '{sign}{n}%',
+    effectRange: '{lo}~{hi}%',
+    disclaimer: '가상 뉴스: 실제 사건·기관·인물이 아닙니다.',
   },
   // 결정 선택지와 연구노트 한 줄. 키는 엔진의 textKey 그대로이고, 결정은 `decision.<지점>[.<결과>].<선택지>`(decide 의 기록 키와 같다).
   texts: {

@@ -162,3 +162,15 @@ test('id mentions inside code fences and non-id backticks are ignored', () => {
   const r = validate(fixture({ spec: '```\n`statistics-nope-1`\n```\n`other-token` `ratio`' }));
   assert.deepEqual(r.errors, []);
 });
+test('text pack items need creative: true and their fields (#58)', () => {
+  const root = fixture();
+  mkdirSync(join(root, 'data/text'), { recursive: true });
+  writeFileSync(join(root, 'data/text/news.ko.json'), JSON.stringify([
+    { id: 'a', type: 't', headline: 'h', body: 'b', creative: true },
+    { id: 'b', type: 't', headline: 'h', body: '' },
+  ]));
+  const r = validate(root);
+  assert.ok(r.errors.some(e => e.includes('[1]: creative must be true')));
+  assert.ok(r.errors.some(e => e.includes('[1]: missing body')));
+  assert.ok(!r.errors.some(e => e.includes('[0]')));
+});

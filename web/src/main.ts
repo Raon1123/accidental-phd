@@ -149,6 +149,7 @@ function renderNotes(root: HTMLElement, s: LifeState): void {
     ol.append(li);
   }
   root.append(ol);
+  if (s.log.some(e => e.textKey.startsWith('news.'))) root.append(el('p', t.news.disclaimer));
 }
 
 /** 수입은 `+`, 지출은 `−`. 0 이면 부호를 붙이지 않는다. */
