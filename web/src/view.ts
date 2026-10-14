@@ -1,5 +1,5 @@
 // DOM 없이 시험할 수 있는 표시 데이터. 학교 이름은 schoolDisplayName 으로만 낸다(결정 기록 0004).
-import { applyWorkInput, growthMultiplier, lectureEligible, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type PartTime } from '../../engine/src/browser';
+import { applyWorkInput, growthMultiplier, lectureEligible, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type Paper, type PartTime } from '../../engine/src/browser';
 import { schoolDisplayName } from './schoolName';
 import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
@@ -89,13 +89,15 @@ export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}):
   };
 }
 
-/** 투고처 레코드 note 의 이름 부분: 첫 문장에서 괄호 앞까지(학회 `SOSP: ACM Symposium on … Principles`, 저널 `Advances in Mathematics`). */
-export function venueName(note: string): string {
-  const first = note.split(' · ')[0]!;
-  const cut = first.indexOf('. ');
-  const sentence = cut > 0 ? first.slice(0, cut) : first;
-  const paren = sentence.indexOf(' (');   // 저널: `이름 (ISSN …)`, KCI: `국문명 (영문명)`
-  return (paren > 0 ? sentence.slice(0, paren) : sentence).trim();
+/**
+ * 투고처 표시(사용자 규칙 2026-10-15): 실제 학술지·학회 이름은 내보내지 않고 사분위 Q1–Q4 와 종류만 보인다.
+ * 계층 T1–T4 는 저널 SJR 사분위·KCI 등재, 학회 CORE 등급에서 온다(결정 기록 0003, engine data/venues.ts). T1 ↔ Q1 … T4 ↔ Q4.
+ */
+export function venueLabel(p: Paper, t: Strings): string {
+  const P = t.play.papers;
+  const q = `Q${(p.tier ?? 'T4').slice(1)}`;
+  const kind = p.venueId?.startsWith('venues-conf-') ? P.venueKind.conference : P.venueKind.journal;
+  return P.venueTier.replace('{q}', q).replace('{kind}', kind);
 }
 
 export interface PaperRow { n: number; status: string; topic: string; venue: string; value: number }
@@ -107,8 +109,7 @@ export function paperView(s: LifeState, t: Strings, data?: DataBundle): PaperVie
   const P = t.play.papers;
   const topic = subfieldName(s.choices.subfield, data) || trackLabel(s.choices.track, t);
   const rows = s.phd.papers.map((p, i): PaperRow => {
-    const rec = p.venueId ? data?.records.get(p.venueId) : undefined;
-    const venue = p.status === 'draft' ? P.notYet : rec ? venueName(rec.note) : P.virtualVenue;
+    const venue = p.status === 'draft' ? P.notYet : venueLabel(p, t);
     return { n: i + 1, status: P.status[p.status], topic, venue, value: Math.min(STAT_MAX, Math.round(p.writing)) };
   });
   return { accepted: s.phd.papers.filter(p => p.status === 'accepted').length, required: s.phd.requiredPapers, rows };

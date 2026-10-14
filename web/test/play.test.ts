@@ -2,11 +2,11 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState } from '../../engine/src/browser';
+import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, type Paper } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
-import { paperView, statBars, venueName, workView } from '../src/view';
+import { paperView, statBars, venueLabel, workView } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -279,11 +279,13 @@ describe('paper view (#105)', () => {
   });
 });
 
-describe('venue name (#105)', () => {
-  it('takes the name part of venue notes', () => {
-    expect(venueName('ACL: Annual Meeting of the Association for Computational Linguistics. 세부분야 natural language processing. ICORE2026 등급 A*.')).toBe('ACL: Annual Meeting of the Association for Computational Linguistics');
-    expect(venueName('Advances in Mathematics (ISSN 1090-2082, 0001-8708). Scimago 주 카테고리')).toBe('Advances in Mathematics');
-    expect(venueName('대한수학회보 (Bulletin of the KMS), 발행 대한수학회, KCI 연구분야 수학.')).toBe('대한수학회보');
+describe('venue label (user rule 2026-10-15: no real venue names, quartiles only)', () => {
+  it('shows Q1–Q4 from the tier and the venue kind, never the venue record name', () => {
+    const P = ko.play.papers;
+    const paper = (tier: Paper['tier'], venueId?: string): Paper => ({ id: 'p', status: 'submitted', writing: 100, quality: 50, attempts: 1, logitBonus: 0, tier, ...(venueId ? { venueId } : {}) });
+    expect(venueLabel(paper('T1', 'venues-conf-x-core-rank'), ko)).toBe(`Q1 ${P.venueKind.conference}`);
+    expect(venueLabel(paper('T3', 'venues-journal-y-kci'), ko)).toBe(`Q3 ${P.venueKind.journal}`);
+    expect(venueLabel(paper('T2'), ko)).toBe(`Q2 ${P.venueKind.journal}`);
   });
 });
 
