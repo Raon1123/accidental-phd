@@ -84,3 +84,8 @@ fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
 .note-decision { border-left-color: var(--accent); }
 .note-leave { border-left-color: var(--note-leave); }
 .note-scene { border-left-style: dashed; }
+
+/* 삶의 정리(#129) */
+.life-summary { border: 2px solid var(--accent); padding: .5rem 1rem; margin: 1rem 0; }
+.life-summary ol { padding-left: 1.25rem; }
+.life-summary li { margin: .25rem 0; }
