@@ -6,7 +6,7 @@ import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState } 
 import { loadData } from '../../engine/src/index';
 import { BASE_MS, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
-import { statBars } from '../src/view';
+import { paperView, statBars, venueName } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -258,5 +258,31 @@ describe('stat bars (#89)', () => {
     expect(h.delta).toBe(-5); expect(h.base).toBe(h.pct); expect(h.changed).toBe(5);
     expect(m.delta).toBe(3); expect(m.base).toBeCloseTo(m.pct - 3); expect(m.changed).toBe(3);
     expect(statBars(s, undefined, ko).every(b => b.delta === 0 && b.changed === 0)).toBe(true);
+  });
+});
+
+describe('paper view (#105)', () => {
+  it('lists drafts with writing progress, subfield as topic and accepted-over-required', () => {
+    const s0 = createLife({ track: 'computer' }, newSeed('papers'), data);
+    expect(s0.phd).toBeDefined();
+    const s = { ...s0, phd: { ...s0.phd!, papers: [
+      { id: 'p1', status: 'accepted' as const, writing: 100, quality: 1, attempts: 1, logitBonus: 0 },
+      { id: 'p2', status: 'draft' as const, writing: 37.4, quality: 0, attempts: 0, logitBonus: 0 },
+    ] } };
+    const v = paperView(s, ko, data)!;
+    expect(v.accepted).toBe(1);
+    expect(v.required).toBe(s0.phd!.requiredPapers);
+    expect(v.rows.map(r => r.value)).toEqual([100, 37]);
+    expect(v.rows[1]!.status).toBe(ko.play.papers.status.draft);
+    expect(v.rows[1]!.venue).toBe(ko.play.papers.notYet);
+    expect(v.rows[0]!.topic.length).toBeGreaterThan(0);
+  });
+});
+
+describe('venue name (#105)', () => {
+  it('takes the name part of venue notes', () => {
+    expect(venueName('ACL: Annual Meeting of the Association for Computational Linguistics. 세부분야 natural language processing. ICORE2026 등급 A*.')).toBe('ACL: Annual Meeting of the Association for Computational Linguistics');
+    expect(venueName('Advances in Mathematics (ISSN 1090-2082, 0001-8708). Scimago 주 카테고리')).toBe('Advances in Mathematics');
+    expect(venueName('대한수학회보 (Bulletin of the KMS), 발행 대한수학회, KCI 연구분야 수학.')).toBe('대한수학회보');
   });
 });

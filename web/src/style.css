@@ -60,3 +60,8 @@ fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
 .bar { display: flex; height: .9rem; background: var(--bar-track); border: 1px solid var(--muted); border-radius: 3px; overflow: hidden; }
 .bar-fill { background: var(--accent); }
 .bar-delta { background: var(--bar-delta); }
+
+/* 진행 중인 논문(#105): 막대는 능력치 막대와 같은 모양, 숫자가 왼쪽. */
+.papers { list-style: none; padding-left: 0; }
+.papers li { margin: .5rem 0 .75rem; }
+.paper-bar { grid-template-columns: 2.2rem 1fr; max-width: 24rem; }

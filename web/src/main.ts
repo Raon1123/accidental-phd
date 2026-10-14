@@ -7,7 +7,7 @@ import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledger
 import { lifeConfig, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
-import { detailRows, glanceRows, statBars } from './view';
+import { detailRows, glanceRows, paperView, statBars } from './view';
 
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
@@ -286,6 +286,41 @@ function renderLedger(root: HTMLElement, keys: readonly LedgerKey[]): void {
   root.append(det);
 }
 
+/** 진행 중인 논문: 논문마다 상태·주제·투고처와 집필 막대(숫자 병기). 채택 편수는 졸업 요건과 함께 한 줄(#105). */
+function renderPapers(root: HTMLElement, s: LifeState): void {
+  const v = paperView(s, t, data);
+  if (!v) return;
+  const P = t.play.papers;
+  root.append(el('h3', P.heading), el('p', fill(P.progress, { a: v.accepted, r: v.required })));
+  if (v.rows.length === 0) { root.append(el('p', P.empty)); return; }
+  const ul = el('ul');
+  ul.className = 'papers';
+  for (const r of v.rows) {
+    const li = el('li');
+    li.append(el('strong', `${fill(P.item, { n: r.n })} · ${r.status}`));
+    li.append(el('div', `${P.topic}: ${r.topic} · ${P.venue}: ${r.venue}`));
+    const row = el('div');
+    row.className = 'stat paper-bar';
+    const num = el('span', String(r.value));
+    num.className = 'stat-num';
+    const bar = el('span');
+    bar.className = 'bar';
+    bar.setAttribute('role', 'meter');
+    bar.setAttribute('aria-valuemin', '0');
+    bar.setAttribute('aria-valuemax', '100');
+    bar.setAttribute('aria-valuenow', String(r.value));
+    bar.setAttribute('aria-label', `${fill(P.item, { n: r.n })} ${r.value}`);
+    const fillEl = el('span');
+    fillEl.className = 'bar-fill';
+    fillEl.style.width = `${r.value}%`;
+    bar.append(fillEl);
+    row.append(num, bar);
+    li.append(row);
+    ul.append(li);
+  }
+  root.append(ul);
+}
+
 /** 박사 졸업 뒤 자금 카드(#96): 다음 달 정산 예정치와 경력·은퇴 단계 계산서. */
 function renderCareerFlow(root: HTMLElement, f: NonNullable<ReturnType<typeof moneyView>['careerFlow']>): void {
   const M = t.play.money;
@@ -316,6 +351,7 @@ function renderCurrent(root: HTMLElement): void {
   renderControls(root, life);
   renderDecision(root, life, i => { if (life && data) { life = decide(life, data, i); render(); } });
   root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
+  renderPapers(root, life);
   renderMap(root, life);
   renderNotes(root, life);
 }
