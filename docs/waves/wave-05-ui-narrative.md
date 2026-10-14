@@ -14,7 +14,7 @@ Wave 4 종료 조건.
 - [x] (#69, 취소) 학교 선택은 만들지 않는다. 학교는 운이고 플레이어는 분야(전공)만 고른다(사용자 결정 2026-10-14). 대학별 개설 전공 차이는 학교·학과 추첨과 세부전공 추첨(#68)에 반영된다.
 - [x] (커밋 821e2b4, `web/test/play.test.ts` 13건, 헤드리스 Chrome 클릭 확인, #55) 1in8b.life 상속 UI: 속도 조절(1×~16×), 자동 모드, 연구노트(기록, 최신순), life map(1칸=1개월 또는 1년), 결정 지점에서 시간 정지.
 - [x] (커밋 7b1add6, `web/test/cohort.test.ts` 7건, `engine/test/branch.test.ts` +2건, 헤드리스 Chrome 클릭 확인, #56) "같은 해 입학한 동기 4명" 패널과 "다른 선택 보기" 분기 화면.
-- [ ] 서사 텍스트 팩: narratives 팩 레코드에 근거한 학과·계열별 장면 텍스트(창작 표시). 완료 조건: 모든 장면이 narratives 레코드 id 또는 `assumed`를 참조.
+- [x] (커밋 58f4297, `data/text/scenes.ko.json` 45건, `web/test/scenes.test.ts` 11건, fable 감사 pass 17·revise 29 반영, #57) 서사 텍스트 팩: narratives 팩 레코드에 근거한 학과·계열별 장면 텍스트(창작 표시). 완료 조건: 모든 장면이 narratives 레코드 id 또는 `assumed`를 참조. 박사 이후 다른 분야로 옮겨 일을 이어가는 장면(채용 장면의 첫 일자리·전환·학위 없이)을 넣었다(사용자 요청 2026-10-14).
 - [x] (커밋 9c67ed7, `data/text/news.ko.json` 34건, `web/test/news.test.ts` 7건, fable 감사 pass 29·revise 5 반영, #58) 가상 분야 뉴스 텍스트 팩: 계열·분야별 월간 헤드라인과 수요 효과 태그(창작 표시). 완료 조건: 뉴스마다 효과 크기·지속 기간이 Wave 3 결정 기록 범위 안.
 - [x] (커밋 257f7a9, `web/test/schoolName.test.ts` 7건: 매핑 표 일치, 화면 경로 하나, 자동 생애 8개 실명 0건, #59) 가상 학교명 표시 함수: 화면·공유 카드·로그에 실명이 나가지 않는 테스트(결정 기록 0004).
 - [x] (커밋 8428f02, `web/test/sources.test.ts` 6건, 헤드리스 Chrome 확인, #60) 출처 footer: registry.json과 registry.d에서 자동 생성.
