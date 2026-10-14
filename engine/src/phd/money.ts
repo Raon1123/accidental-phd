@@ -1,6 +1,7 @@
 // 돈: 장려금·가족 지원·근로 − 생활비 − 등록금 − 이자, 부족분 대출, 재정 위기 카운터(선택권 §5.1–§5.5).
 // applyCashflow 는 달마다 한 번 부른다(틱 순서 6번, 포커스 효과 뒤). 같은 달에 두 번 부르면 아직 정산되지 않은 원장 항목을 다시 합산한다.
 import { ASSUMED } from '../assumed';
+import { nextSpending, spendingOf } from '../spending';
 import type { DataBundle } from '../data/bundle';
 import { tuitionPerSemester } from '../data/tuition';
 import type { LifeState, PhdState } from '../types';
@@ -16,7 +17,7 @@ export function isSemesterBoundary(month: number): boolean {
 
 /** 월 생활비: 수도권 학교 160만 원, 그 밖 130만 원(0014#60). */
 export function livingCost(school: string): number {
-  return (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(school) ? ASSUMED.LIVING_COST.capital : ASSUMED.LIVING_COST.regional;
+  return (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(school) ? ASSUMED.LIVING_COST.capital : ASSUMED.LIVING_COST.regional;   // 지역 기본값(0014#60). 실제 지출은 spendingOf(0014#131)
 }
 
 /** 수업 기간 여부: 입학 후 24개월 동안. 학기 경계 달에 틱이 부른다. */
@@ -66,7 +67,7 @@ function monthlyCashflow(state: LifeState, data: DataBundle): { stipend: number;
   return {
     stipend: fundingActive(phd, state.month) ? Math.round(phd.fundingState.monthly * stipendScale(state)) : 0,   // 과제 참여율 #79
     family: phd.familySupport,
-    living: livingCost(state.choices.school),
+    living: spendingOf(state),   // 사람별 씀씀이(0014#131)
     tuition: charge?.amount ?? 0,
     ...(charge ? { tuitionRecordId: charge.recordId } : {}),
   };
@@ -132,7 +133,7 @@ export function applyCashflow(state: LifeState, data: DataBundle): LifeState {
 
   return {
     ...state,
-    money: { cash, debt, loanLimit },
+    money: { cash, debt, loanLimit, spending: nextSpending(state, stipend + phd.familySupport + Math.max(0, pending)) },
     ledger: [...state.ledger, ...entries],
     phd: { ...phd, crisisMonths, postCrisisMonths },
   };

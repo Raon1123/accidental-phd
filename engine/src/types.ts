@@ -47,7 +47,7 @@ export interface PendingDecision { dp: DecisionId; month: number; context: Recor
 export interface Snapshot { dp: DecisionId; month: number; decisionIndex: number; state: LifeState }
 export interface LifeState {
   version: 1; engineRevision: string; dataRevision: string; seed: string; stage: Stage; month: number; ageMonths: number;
-  stats: Stats; choices: Choices; money: { cash: number; debt: number; loanLimit: number };
+  stats: Stats; choices: Choices; money: { cash: number; debt: number; loanLimit: number; spending?: number };   // spending: 월 생활비 지출 수준(0014#131), 없으면 기본 생활비
   ledger: { month: number; kind: string; amount: number; recordId?: string }[];
   news: NewsEffect[]; decisions: { dp: DecisionId; month: number; option: string; byPolicy: boolean }[];
   log: { month: number; textKey: string; tags: string[]; creative: boolean }[];

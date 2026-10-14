@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { regionLiving } from '../src/spending';
 import { ASSUMED } from '../src/assumed';
 import { loadData } from '../src/data/load';
 import { pensionMonthly } from '../src/career/pay';
@@ -70,14 +71,17 @@ describe('advanceYear: career year', () => {
     expect(a.stage).toBe('career');
   });
 
-  it('cash grows by monthly pay minus living cost (capital 1.6M, regional 1.3M); the +3% raise lands at year end', () => {
-    const cap = advanceYear(employed('industry', 60_000_000), data);
-    expect(cap.money.cash).toBe(12 * (5_000_000 - ASSUMED.LIVING_COST.capital));
+  it('cash grows by monthly pay minus living spending, which starts at the region base and rises with pay (0014#131); the +3% raise lands at year end', () => {
+    const fixed = (s: LifeState): LifeState => ({ ...s, money: { ...s.money, spending: regionLiving(s) } });
+    const cap = advanceYear(fixed(employed('industry', 60_000_000)), data);
+    const living = cap.ledger.filter(l => l.kind === 'living').map(l => -l.amount);
+    expect(cap.money.cash).toBe(12 * 5_000_000 - living.reduce((a, b) => a + b, 0));
     expect(cap.career!.annualPay).toBe(61_800_000);
     expect(cap.ledger.filter(l => l.kind === 'pay')).toHaveLength(12);
-    expect(cap.ledger.filter(l => l.kind === 'living').every(l => l.amount === -ASSUMED.LIVING_COST.capital)).toBe(true);
-    const reg = advanceYear(employed('industry', 60_000_000, {}, { choices: { school: 'kaist' } }), data);
-    expect(reg.money.cash).toBe(12 * (5_000_000 - ASSUMED.LIVING_COST.regional));
+    expect(living[0]).toBe(ASSUMED.LIVING_COST.capital);
+    for (let i = 1; i < 12; i++) expect(living[i]!).toBeGreaterThan(living[i - 1]!);   // 급여가 기본보다 많으면 씀씀이가 는다
+    const reg = advanceYear(fixed(employed('industry', 60_000_000, {}, { choices: { school: 'kaist' } })), data);
+    expect(reg.ledger.find(l => l.kind === 'living')!.amount).toBe(-ASSUMED.LIVING_COST.regional);
   });
 
   it('academic months accrue only on academic routes', () => {
@@ -262,15 +266,17 @@ describe('advanceYear: retirement and old age', () => {
     expect(s).toEqual(clone);
     expect(r).toMatchObject({ stage: 'retired', month: 712, ageMonths: 71 * 12 });
     // 달마다 연금이 들어오고 생활비가 나간다(#96 월 정산, 0014 #123). 부채가 없으면 상환도 없다
-    const living = careerFlow(s).living;
-    expect(r.money.cash).toBe(1_000_000 + 12 * (3_000_000 - living));
+    const living = r.ledger.filter(e => e.kind === 'living').reduce((a, e) => a - e.amount, 0);
+    expect(r.money.cash).toBe(1_000_000 + 12 * 3_000_000 - living);
     expect(r.ledger.filter(e => e.kind === 'pension')).toEqual(Array.from({ length: 12 }, (_, i) => ({ month: 701 + i, kind: 'pension', amount: 3_000_000 })));
     expect(r.ledger.filter(e => e.kind === 'living').length).toBe(12);
   });
 
   it('retired year without a cached pension computes it from the career', () => {
     const s = employed('industry', 60_000_000, { workYears: 30 }, { stage: 'retired', ageMonths: 70 * 12 });
-    expect(advanceYear(s, data).money.cash).toBe(s.money.cash + 12 * (pensionMonthly(s) - careerFlow(s).living));
+    const r = advanceYear(s, data);
+    const living = r.ledger.filter(e => e.kind === 'living').reduce((a, e) => a - e.amount, 0);
+    expect(r.money.cash).toBe(s.money.cash + 12 * pensionMonthly(s) - living);
   });
 
   it('post-retirement research income covers the months left in the year', () => {

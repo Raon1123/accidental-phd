@@ -146,6 +146,8 @@ export const ASSUMED = {
   EWHA_ENGINEERING_TUITION: 7_341_000,                                                 // 0014#58 cs·engineering, 서울 사립 8곳 공학 등록금 중앙값
   EWHA_TUITION_REFERENCE_SCHOOLS: ['yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'cau', 'konkuk'], // 0014#58
   EWHA_MATH_TUITION: 6_367_500,                                                        // 0014#59 math·bio, 같은 8곳 math 등록금 중앙값
+  // 0014#131 씀씀이(사용자 규칙 2026-10-15): 성향 σ, 초과 수입 중 지출로 가는 몫 κ, 월 조정 속도(늘 때 up, 줄 때 down)
+  SPENDING: { tasteSigma: 0.25, kappa: 0.5, up: 0.3, down: 0.03 },
   LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60 (경력·은퇴 단계에도 같은 값: 0014#123, #96)
   CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos', 'akj'], // 0014#60 수도권
   REGIONAL_SCHOOLS: ['kaist', 'postech', 'gist', 'dgist', 'unist', 'pusan', 'knu', 'jnu', 'cnu'], // 0014#60 비수도권

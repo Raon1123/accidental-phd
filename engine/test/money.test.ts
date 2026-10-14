@@ -4,6 +4,7 @@ import { loadData } from '../src/data/load';
 import { tuitionPerSemester } from '../src/data/tuition';
 import { createLife } from '../src/pre/createLife';
 import { applyCashflow, crisisStage, isSemesterBoundary, livingCost, tuitionCharge, updateCoursework } from '../src/phd/money';
+import { spendingOf } from '../src/spending';
 import type { FundingState, LifeState } from '../src/types';
 
 const data = loadData();
@@ -15,7 +16,7 @@ function base(over: { month?: number; cash?: number; debt?: number; coursework?:
   const s = createLife({ funding: 'self', school: 'snu', track: 'philosophy', group: '인문사회' }, SEED, data);
   return {
     ...s, month: over.month ?? 1, ledger: [],
-    money: { ...s.money, cash: over.cash ?? 100_000_000, debt: over.debt ?? 0 },
+    money: { ...s.money, cash: over.cash ?? 100_000_000, debt: over.debt ?? 0, spending: livingCost(s.choices.school) },   // 지역 기본값으로 고정(씀씀이 모형은 spending.test)
     phd: {
       ...s.phd!, coursework: over.coursework ?? true, familySupport: over.family ?? 0, fundingState: over.funding ?? SELF,
       leave: { active: over.leave ?? false, until: over.leave ? 99 : -1, totalMonths: 0 }, enrolledMonths: over.enrolled ?? 1,
@@ -87,7 +88,7 @@ describe('applyCashflow: income and living cost (선택권 §5.2, §5.3)', () =>
     const s0 = createLife({ funding: 'self', school: 'snu', track: 'philosophy', group: '인문사회' }, SEED, data);
     expect(s0.ledger.some(e => e.kind === 'entrance-fee')).toBe(true);
     const s = applyCashflow({ ...s0, month: 1, money: { ...s0.money, cash: 50_000_000 } }, data);
-    expect(s.money.cash).toBe(50_000_000 - 1_600_000 + s0.phd!.familySupport);
+    expect(s.money.cash).toBe(50_000_000 - spendingOf(s0) + s0.phd!.familySupport);   // 생활비는 사람별 씀씀이(0014#131)
   });
 });
 
