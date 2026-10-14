@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>어쩌다 박사</title>
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <a class="skip" id="skip" href="#main"></a>
+  <header><h1 id="title"></h1></header>
+  <main id="main" tabindex="-1">
+    <p id="status" role="status" aria-live="polite"></p>
+    <button id="new-life" type="button" disabled>…</button>
+    <section id="current"></section>
+    <section id="archive"></section>
+  </main>
+  <footer><p id="notice"></p></footer>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 // 월 포커스 효과(선택권 §4.1, §2.6)와 능력치 자연 변화(상태 §1.5).
 // 능력치는 addStats 로만 바꾼다(정수 + statCarry). 현금은 여기서 원장에만 적고, applyCashflow 가 합산한다(틱 순서: 포커스 → 현금 흐름).
 import { ASSUMED } from '../assumed';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import type { Focus, LifeState, Paper } from '../types';
 import { addStats, type StatDelta } from './stats';
 

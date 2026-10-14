@@ -1,7 +1,5 @@
 // 트랙 26종의 계열·분야·교육통계 대응(선택권 §1)과 세부전공 선택지(선택권 §2.3), 번호 접미 학과의 엔진 키(선택권 §11).
-import { existsSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import type { DataBundle } from './load';
+import type { DataBundle } from './bundle';
 import type { Field, Group, Kedi, Ksced } from '../types';
 
 interface TrackInfo { group: Group; field: Field; kedi: Kedi; ksced: Ksced }
@@ -51,20 +49,6 @@ export const kediOf = (track: string): Kedi => info(track).kedi;
 export const kscedOf = (track: string): Ksced => info(track).ksced;
 export const tracksOf = (group: Group): string[] => TRACKS.filter(t => TRACK_INFO[t]!.group === group);
 
-// mapping-tracks.json 은 records.json 이 아니라서 DataBundle 에 없다. data.root 로 읽고 root 별로 캐시한다.
-interface MappingRow { track: string; nrf_code: string; level: number; primary: boolean }
-const mappingCache = new Map<string, MappingRow[]>();
-function mappingTracks(root: string): MappingRow[] {
-  let rows = mappingCache.get(root);
-  if (!rows) {
-    const file = join(root, 'data', 'packs', 'taxonomy', 'mapping-tracks.json');
-    if (!existsSync(file)) throw new Error(`mapping-tracks.json not found: ${file}`);
-    rows = JSON.parse(readFileSync(file, 'utf8')) as MappingRow[];
-    mappingCache.set(root, rows);
-  }
-  return rows;
-}
-
 const codeOf = (recordId: string): string => recordId.slice('taxonomy-nrf-'.length).toUpperCase();
 
 /**
@@ -73,7 +57,8 @@ const codeOf = (recordId: string): string => recordId.slice('taxonomy-nrf-'.leng
  */
 export function subfieldsOf(data: DataBundle, track: string): string[] {
   info(track);
-  const rows = mappingTracks(data.root).filter(r => r.track === track);
+  if (data.mappingTracks.length === 0) throw new Error('mapping-tracks.json not in DataBundle');
+  const rows = data.mappingTracks.filter(r => r.track === track);
   const primary = rows.filter(r => r.primary);
   if (primary.length !== 1) throw new Error(`track ${track}: expected 1 primary mapping, got ${primary.length}`);
   const p = primary[0]!;

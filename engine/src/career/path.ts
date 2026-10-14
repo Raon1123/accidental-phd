@@ -1,6 +1,6 @@
 // 졸업 직전 진로 분포 (선택권 §8). 운에 맡기기와 동기 정책이 쓴다.
 import { ASSUMED } from '../assumed';
-import { get, type DataBundle } from '../data/load';
+import { get, type DataBundle } from '../data/bundle';
 import { permanentShare, postdocFunders } from '../data/statistics';
 import type { Group, Ksced, Path } from '../types';
 

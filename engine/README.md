@@ -6,7 +6,7 @@
 
 ## 1. 공개 API
 
-진입점은 `engine/src/index.ts`다. 패키지 `main`이 없으므로 저장소 안에서 경로로 가져온다.
+진입점은 `engine/src/index.ts`다. 패키지 `main`이 없으므로 저장소 안에서 경로로 가져온다. 브라우저에서는 `engine/src/browser.ts`를 쓴다. `loadData`가 없고, 대신 `bundleFromWebData(json)`이 `npm run build:data` 출력(`web/public/data.json`)으로 묶음을 만든다(결정 기록 0017). 엔진 모듈은 데이터 타입과 조회 함수를 Node 모듈이 없는 `data/bundle.ts`에서 가져온다.
 
 | 함수 | 하는 일 | 던지는 경우 |
 |---|---|---|

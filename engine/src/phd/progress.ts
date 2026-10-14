@@ -1,7 +1,7 @@
 // 진척 공식(선택권 §4.2). Δproject = g_k × U × (0.65 + skill/140) × researchTime × E × A × f × (막힘 0.2).
 import { ASSUMED } from '../assumed';
 import { durationYears } from '../data/statistics';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import { draw } from '../rng';
 import { odds } from '../odds';
 import type { Kedi, LifeState } from '../types';

@@ -1,7 +1,7 @@
 // 돈: 장려금·가족 지원·근로 − 생활비 − 등록금 − 이자, 부족분 대출, 재정 위기 카운터(선택권 §5.1–§5.5).
 // applyCashflow 는 달마다 한 번 부른다(틱 순서 6번, 포커스 효과 뒤). 같은 달에 두 번 부르면 아직 정산되지 않은 원장 항목을 다시 합산한다.
 import { ASSUMED } from '../assumed';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import { tuitionPerSemester } from '../data/tuition';
 import type { LifeState, PhdState } from '../types';
 

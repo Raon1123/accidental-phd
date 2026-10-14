@@ -1,6 +1,6 @@
 // 노동시장: 교수·강사 기준값, 월 공고 확률, 채용 확률, 월 구직 처리 (노동 §2–§4).
 import { ASSUMED } from '../assumed';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import { INSTITUTES } from '../data/salaries';
 import { facultyMarket } from '../data/statistics';
 import { clamp, hazardMonth, odds, z } from '../odds';

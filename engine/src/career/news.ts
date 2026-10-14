@@ -1,6 +1,6 @@
 // 가상 뉴스와 수요 계수 (노동 §5). 뉴스는 전부 창작이라 로그 줄에 creative: true 를 붙인다.
 import { ASSUMED } from '../assumed';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import { clamp } from '../odds';
 import { draw } from '../rng';
 import type { LifeState, NewsEffect, Route } from '../types';

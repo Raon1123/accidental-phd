@@ -1,6 +1,6 @@
 // 경력 연 틱 advanceYear (상태 §7.2·§7.3).
 import { ASSUMED } from '../assumed';
-import type { DataBundle } from '../data/load';
+import type { DataBundle } from '../data/bundle';
 import type { DecisionId, LifeState, MonthInput, PendingDecision, Route } from '../types';
 import { searchMonth } from './labor';
 import { updateNews } from './news';
@@ -9,9 +9,9 @@ import { decide } from '../decide';
 import { policyDecision } from '../policy';
 
 // 결정 지점 트리거 시점(선택권 §3.5–§3.7). 0014 항목이 아닌 구조 상수다.
-const FIVE_YEARS_MONTHS = 5 * ASSUMED.MONTHS_PER_YEAR;
-const TEN_YEARS_MONTHS = 10 * ASSUMED.MONTHS_PER_YEAR;
-const PRE_RETIREMENT_LEAD_YEARS = 2;   // 나이 = retireAge − 2
+const FIVE_YEARS_MONTHS = 5 * ASSUMED.MONTHS_PER_YEAR;   // 선택권 §3.5 career-5y: degreeMonth + 60
+const TEN_YEARS_MONTHS = 10 * ASSUMED.MONTHS_PER_YEAR;   // 선택권 §3.6 career-10y: degreeMonth + 120
+const PRE_RETIREMENT_LEAD_YEARS = 2;   // 나이 = retireAge − 2; 선택권 §3.7 pre-retirement
 
 const ageYears = (s: LifeState): number => Math.floor(s.ageMonths / ASSUMED.MONTHS_PER_YEAR);
 
