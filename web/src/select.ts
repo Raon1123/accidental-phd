@@ -18,6 +18,12 @@ const firstToken = (note: string): string => note.split(' · ')[0]!.trim();
  * 삶이 시작된 뒤의 학과 표기: `학과명 (세부전공)`(#88). 학과명은 학과 레코드 note 의 첫 토큰, 세부전공은 NRF 분류 레코드 note 의 첫 토큰이다.
  * 데이터가 없거나 레코드를 못 찾으면(예: 옛 저장본) 전공군 이름으로 되돌아간다. 학교 이름은 여기서 내지 않는다(0004).
  */
+/** 세부전공 이름(NRF 분류 레코드 note 의 첫 토큰). 레코드가 없으면 빈 문자열. */
+export function subfieldName(subfield: string, data: DataBundle | undefined): string {
+  const rec = data?.records.get(`taxonomy-nrf-${subfield.toLowerCase()}`);
+  return rec ? firstToken(rec.note) : '';
+}
+
 export function departmentLabel(c: { track: string; departmentRecord: string; subfield: string }, data: DataBundle | undefined, t: Strings): string {
   const fallback = trackLabel(c.track, t);
   if (!data) return fallback;
