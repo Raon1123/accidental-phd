@@ -12,6 +12,7 @@ export type * from './types';
 export type { DataBundle, DataRecord, DataValue } from './data/bundle';
 export { newSeed, cohortSeed } from './rng';
 export { policyFocus, policyDecision } from './policy';
+export { TRACKS, groupOf } from './data/taxonomy';
 
 import { bundleFromTexts, type DataBundle } from './data/bundle';
 

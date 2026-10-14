@@ -1,7 +1,8 @@
-// 웹 진입점. 데이터(data.json)를 받아 DataBundle 을 만들고, 새 삶·저장·기록 보관 화면을 그린다.
-// 진행 화면(#55)과 입학 전 선택 화면(#54)은 이 골격 위에 더한다.
+// 웹 진입점. 데이터(data.json)를 받아 DataBundle 을 만들고, 분야 선택·지금 삶·기록 보관 화면을 그린다.
+// 진행 화면(#55)은 이 골격 위에 더한다.
 import { bundleFromWebData, createLife, newSeed, type DataBundle, type LifeState, type WebDataFile } from '../../engine/src/browser';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
+import { lifeConfig, trackGroups } from './select';
 import { ko as t } from './strings.ko';
 import { summaryRows } from './view';
 
@@ -58,15 +59,33 @@ async function start(): Promise<void> {
     status.textContent = t.loadFailed;
     return;
   }
-  const btn = document.getElementById('new-life') as HTMLButtonElement;
-  btn.textContent = t.newLifeAllLuck;
-  btn.disabled = false;
-  btn.addEventListener('click', () => {
-    if (!data) return;
-    life = createLife({}, newSeed(`${Date.now()}-${Math.random()}`), data);
-    render();
-  });
+  renderSelect(document.getElementById('select')!);
   render();
+}
+
+function startLife(track: string | null): void {
+  if (!data) return;
+  life = createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data);
+  render();
+  document.getElementById('current')!.scrollIntoView();
+}
+
+function button(text: string, onClick: () => void): HTMLButtonElement {
+  const b = el('button', text);
+  b.type = 'button';
+  b.addEventListener('click', onClick);
+  return b;
+}
+
+function renderSelect(root: HTMLElement): void {
+  root.replaceChildren(el('h2', t.selectHeading), el('p', t.selectHelp));
+  for (const g of trackGroups(t)) {
+    const fs = el('fieldset');
+    fs.append(el('legend', g.label));
+    for (const tr of g.tracks) fs.append(button(tr.label, () => startLife(tr.track)));
+    root.append(fs);
+  }
+  root.append(button(t.trackAllLuck, () => startLife(null)));
 }
 
 document.title = t.title;
