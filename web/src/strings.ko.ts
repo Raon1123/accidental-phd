@@ -136,7 +136,7 @@ export const ko = {
     work: {
       heading: '근로와 참여율',
       participation: '과제 참여율',
-      participationLocked: '참여율은 학기 경계(6개월마다)에 바꿀 수 있습니다.',
+      participationReadOnly: '과제 참여율 {r}% (학기마다 교수 배정)',
       notProject: '과제 경로가 아니어서 참여율은 없습니다.',
       partTime: '근로',
       none: '하지 않음',
@@ -150,7 +150,7 @@ export const ko = {
       pay: '근로 월 수입 {w}',
       weekly: '주당 근로 {h}시간 (상한 {cap}시간, 필수 시간과 참여 시간 제외)',
       pending: '바꾼 값은 다음 칸에 적용됩니다.',
-      cleared: '근로 설정은 상한(주 {cap}시간)을 넘어 비워졌습니다. 참여율 변경만 적용됩니다.',
+      cleared: '근로 설정은 상한(주 {cap}시간)을 넘어 비워졌습니다.',
     },
     papers: {
       heading: '논문',

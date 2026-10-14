@@ -59,11 +59,8 @@ function stop(): void {
 function advanceWith(s: LifeState, d: DataBundle): LifeState {
   const draft = workDraft;
   workDraft = {};
-  if (draft.participation === undefined && draft.partTime === undefined) return step(s, d, focus);
-  try { return step(s, d, focus, draft); } catch {
-    if (draft.participation !== undefined) { try { return step(s, d, focus, { participation: draft.participation }); } catch { /* 참여율도 거절되면 입력 없이 */ } }
-    return step(s, d, focus);
-  }
+  if (draft.partTime === undefined) return step(s, d, focus);
+  try { return step(s, d, focus, draft); } catch { return step(s, d, focus); }
 }
 
 function tick(): void {
@@ -92,16 +89,7 @@ function renderWork(root: HTMLElement, s: LifeState): void {
   box.className = 'work';
   box.append(el('h3', W.heading));
 
-  const pf = el('fieldset');
-  pf.append(el('legend', W.participation));
-  if (!v.isProject) pf.append(el('span', W.notProject));
-  else {
-    for (const r of [0, 0.25, 0.5, 0.75, 1]) {
-      pf.append(pressed(button(`${Math.round(r * 100)}%`, () => { workDraft = { ...workDraft, participation: r }; render(); }, !v.canParticipate, `part:${r}`), v.participation === r));
-    }
-    if (!v.canParticipate) pf.append(el('span', W.participationLocked));
-  }
-  box.append(pf);
+  box.append(el('p', v.isProject ? fill(W.participationReadOnly, { r: Math.round(v.participation * 100) }) : W.notProject));
 
   const wf = el('fieldset');
   wf.append(el('legend', W.partTime));
@@ -124,7 +112,7 @@ function renderWork(root: HTMLElement, s: LifeState): void {
     el('p', W.growthHelp),
   );
   if (v.cleared) { const c = el('p', fill(W.cleared, { cap: Math.floor(v.cap) })); c.setAttribute('role', 'status'); box.append(c); }
-  if (workDraft.participation !== undefined || workDraft.partTime !== undefined) box.append(el('p', W.pending));
+  if (workDraft.partTime !== undefined) box.append(el('p', W.pending));
   root.append(box);
 }
 
