@@ -1,15 +1,18 @@
 // 웹 진입점. 데이터(data.json)를 받아 DataBundle 을 만들고, 분야 선택·지금 삶(진행 화면)·기록 보관 화면을 그린다.
 // 진행 로직(한 칸, 자동 모드, 결정 지점, 연구노트, 인생 지도)은 play.ts, 동기·분기는 cohort.ts 에 있고, 여기는 DOM 과 타이머만 다룬다.
-import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile } from '../../engine/src/browser';
+import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile, type WebSource } from '../../engine/src/browser';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, lifeMap, notes, setAuto, step, type Speed } from './play';
 import { lifeConfig, trackGroups } from './select';
+import { footerLines, moneyRows } from './sources';
 import { ko as t } from './strings.ko';
 import { summaryRows } from './view';
 
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
+let sources: Record<string, WebSource> = {};
+let shownIds: string[] = [];   // 지금 화면에 보인 값의 근거 id(출처 footer 가 읽는다)
 let life: LifeState | undefined;
 let cohort: LifeState[] = [];
 let branched: LifeState | undefined;   // "다른 선택 보기"로 연 분기
@@ -161,6 +164,7 @@ function renderCurrent(root: HTMLElement): void {
   renderControls(root, life);
   renderDecision(root, life, i => { if (life && data) { life = decide(life, data, i); render(); } });
   root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
+  renderMoney(root, life);
   renderMap(root, life);
   renderNotes(root, life);
 }
@@ -237,11 +241,34 @@ function renderBranch(root: HTMLElement): void {
   root.append(table, el('p', fill(t.cohort.shared, { n: sharedPrefix(life, b) })));
 }
 
+function renderMoney(root: HTMLElement, s: LifeState): void {
+  if (!data) return;
+  root.append(el('h3', t.sources.moneyHeading));
+  const dl = el('dl');
+  for (const r of moneyRows(s, data, t)) {
+    const dd = el('dd', r.value);
+    if (r.mark) { const m = el('span', ` [${r.mark}]`); m.className = 'mark'; dd.append(m); }
+    dl.append(el('dt', r.label), dd);
+    shownIds.push(...r.ids);
+  }
+  root.append(dl);
+}
+
+function renderSources(root: HTMLElement): void {
+  root.replaceChildren(el('h2', t.sources.heading), el('p', t.sources.help));
+  if (!data || shownIds.length === 0) { root.append(el('p', t.sources.none)); return; }
+  const ul = el('ul');
+  for (const line of footerLines(shownIds, data, sources, t)) ul.append(el('li', line));
+  root.append(ul);
+}
+
 function render(): void {
+  shownIds = [];
   renderCurrent(document.getElementById('current')!);
   renderCohort(document.getElementById('cohort')!);
   renderBranch(document.getElementById('branch')!);
   renderArchive(document.getElementById('archive')!);
+  renderSources(document.getElementById('sources')!);
 }
 
 /** 새 삶이나 불러온 삶: 동기를 다시 만들고 열린 분기를 닫는다. */
@@ -277,7 +304,9 @@ async function start(): Promise<void> {
   status.textContent = t.loading;
   try {
     const res = await fetch(`${import.meta.env.BASE_URL}data.json`);
-    data = bundleFromWebData((await res.json()) as WebDataFile);
+    const json = (await res.json()) as WebDataFile;
+    data = bundleFromWebData(json);
+    sources = json.sources ?? {};
     status.textContent = '';
   } catch {
     status.textContent = t.loadFailed;
