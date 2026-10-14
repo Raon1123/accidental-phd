@@ -89,12 +89,14 @@ const LECTURER_AGGREGATES = ['all', 'national', 'private'];
 
 /** 시간강사 연봉 = 시급 × 주 시수 × 주 수(0014#82). 학교 레코드가 없으면 학교 레코드 전체(18건)의 중앙값 시급을 쓰고 assumed. */
 export function lecturerAnnual(data: DataBundle, school: string): DataValue {
-  const mult = ASSUMED.LECTURE.hoursPerWeek * ASSUMED.LECTURE.weeks;
+  const h = lecturerHourly(data, school);
+  return { ...h, value: Math.round(h.value * ASSUMED.LECTURE.hoursPerWeek * ASSUMED.LECTURE.weeks) };
+}
+
+/** 시간강사 시급(원/시간): 학교 레코드, 없으면 학교 레코드 전체의 중앙값(assumed, 0014#82). 박사과정 강의(#79)도 쓴다. */
+export function lecturerHourly(data: DataBundle, school: string): DataValue {
   const own = `salaries-faculty-${school}-lecturer-hourly-hourly`;
-  if (data.records.has(own) && !LECTURER_AGGREGATES.includes(school)) {
-    const r = get(data, own);
-    return { ...r, value: Math.round(r.value * mult) };
-  }
+  if (data.records.has(own) && !LECTURER_AGGREGATES.includes(school)) return get(data, own);
   const hourly = find(data, 'salaries-faculty-')
     .filter(r => { const m = LECTURER_RE.exec(r.id); return m !== null && !LECTURER_AGGREGATES.includes(m[1]!); })
     .map(r => r.value)
@@ -102,7 +104,7 @@ export function lecturerAnnual(data: DataBundle, school: string): DataValue {
   if (hourly.length === 0) throw new Error('no school lecturer-hourly records');
   const n = hourly.length;
   const med = n % 2 ? hourly[(n - 1) / 2]! : (hourly[n / 2 - 1]! + hourly[n / 2]!) / 2;
-  return { value: Math.round(med * mult), confidence: 'assumed', id: '0014#82', unit: 'krw' };
+  return { value: Math.round(med), confidence: 'assumed', id: '0014#82', unit: 'krw' };
 }
 
 /** 기업 초임 대리값(0014#84): 이공 = 이공 현 직장 연봉(2021), 인문사회 = 비이공(2022). */

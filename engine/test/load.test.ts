@@ -8,8 +8,8 @@ const data = loadData();
 
 describe('loadData', () => {
   it('reads every records.json (2774 records, taxonomy included; 법학 학과 11 #70)', () => {
-    expect(data.records.size).toBe(206 + 501 + 237 + 644 + 146 + 1040);
-    expect(data.records.size).toBe(2774);
+    expect(data.records.size).toBe(206 + 501 + 239 + 644 + 148 + 1040);   // #79: 최저시급 2, 물가 2
+    expect(data.records.size).toBe(2778);
     expect(has(data, 'taxonomy-nrf-d131100')).toBe(true);
   });
 
