@@ -21,11 +21,11 @@ export const FOCUSES: readonly Focus[] = ['research', 'write', 'network', 'work'
  * 한 칸 진행: 박사과정은 한 달, 경력·은퇴는 한 해. 결정 지점이 걸려 있거나 기록이 끝났으면 입력을 그대로 돌려준다
  * (엔진은 늘 새 객체를 돌려주므로, 같은 참조는 엔진을 부르지 않았다는 뜻이다).
  */
-export function step(s: LifeState, data: DataBundle, focus?: Focus): LifeState {
+export function step(s: LifeState, data: DataBundle, focus?: Focus, work?: Pick<MonthInput, 'participation' | 'partTime'>): LifeState {
   if (s.pending || s.stage === 'end') return s;
   if (s.stage === 'phd') {
-    const input: MonthInput = focus === undefined || (focus === 'thesis' && !s.phd?.qualified) ? {} : { focus };
-    return advanceMonth(s, data, input);
+    const base: MonthInput = focus === undefined || (focus === 'thesis' && !s.phd?.qualified) ? {} : { focus };
+    return advanceMonth(s, data, { ...base, ...work });
   }
   if (s.stage === 'career' || s.stage === 'retired') return advanceYear(s, data);
   return s;
