@@ -17,3 +17,5 @@ footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--mute
 .map span { width: 8px; height: 8px; background: var(--accent); }
 .map-career span { width: 16px; background: var(--muted); }
 .notes { max-height: 20rem; overflow-y: auto; padding-left: 1.5rem; }
+table { border-collapse: collapse; margin: .5rem 0; }
+th, td { border-bottom: 1px solid var(--muted); padding: .2rem .6rem; text-align: left; vertical-align: top; }
