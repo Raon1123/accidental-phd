@@ -124,6 +124,35 @@ export const ko = {
       'pre-retirement': '은퇴 나이까지 2년 남았습니다.',
     },
   },
+  // 동기 4명과 "다른 선택 보기"(#56, 상태 스펙 §6.3·§6.4, 결정 기록 0005).
+  cohort: {
+    heading: '같은 해 입학한 동기 4명',
+    help: '동기는 같은 계열로 같은 달에 입학했고, 나머지는 운과 자동 진행 규칙으로 삽니다. 뉴스는 모두 같이 겪습니다.',
+    name: '동기 {k}',
+    who: '누구',
+    end: '끝난 이유',
+    none: '—',
+    endReasons: {
+      degree: '학위 취득', dropout: '중도 이탈', residence: '재학 연한 초과', financial: '재정 파탄', 'exit-master': '석사 수료', age80: '80세',
+    },
+    branchHeading: '다른 선택 보기',
+    branchHelp: '지나간 결정 지점으로 돌아가 다른 선택을 하면, 원래 삶과 나란히 비교합니다.',
+    branchNone: '아직 지나간 결정 지점이 없습니다.',
+    branchAt: '{month}개월째 결정으로 돌아가기',
+    branchChosen: '원래 고른 선택지: {key}',
+    branchStep: '분기 한 칸 진행',
+    branchRun: '분기를 다음 결정까지 진행',
+    branchClose: '분기 닫기',
+    original: '원래 삶',
+    branched: '다른 선택',
+    rows: { stage: '단계', month: '진행 개월', end: '끝난 이유', route: '경력 경로', net: '순자산(현금 − 빚)', decisions: '고른 선택지' },
+    routeNames: {
+      professor: '교수', nontenure: '비정년 교원', lecturer: '시간강사', postdoc: '박사후연구원', institute: '출연연', public: '공공 연구직',
+      industry: '기업', startup: '창업', bridge: '임시직', none: '구직 중',
+    },
+    won: '{n}만 원',
+    shared: '앞의 {n}개 결정은 두 삶이 같습니다.',
+  },
   // 결정 선택지와 연구노트 한 줄. 키는 엔진의 textKey 그대로이고, 결정은 `decision.<지점>[.<결과>].<선택지>`(decide 의 기록 키와 같다).
   texts: {
     'life.start': '박사과정에 입학했습니다.',

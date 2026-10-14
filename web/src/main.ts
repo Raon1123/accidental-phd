@@ -1,7 +1,8 @@
 // 웹 진입점. 데이터(data.json)를 받아 DataBundle 을 만들고, 분야 선택·지금 삶(진행 화면)·기록 보관 화면을 그린다.
-// 진행 로직(한 칸, 자동 모드, 결정 지점, 연구노트, 인생 지도)은 play.ts 에 있고, 여기는 DOM 과 타이머만 다룬다.
+// 진행 로직(한 칸, 자동 모드, 결정 지점, 연구노트, 인생 지도)은 play.ts, 동기·분기는 cohort.ts 에 있고, 여기는 DOM 과 타이머만 다룬다.
 import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile } from '../../engine/src/browser';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
+import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, lifeMap, notes, setAuto, step, type Speed } from './play';
 import { lifeConfig, trackGroups } from './select';
 import { ko as t } from './strings.ko';
@@ -10,6 +11,9 @@ import { summaryRows } from './view';
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
 let life: LifeState | undefined;
+let cohort: LifeState[] = [];
+let branched: LifeState | undefined;   // "다른 선택 보기"로 연 분기
+let branchedFrom: { month: number; chosen: string } | undefined;
 let running = false;
 let speed: Speed = 1;
 let focus: Focus | undefined;   // undefined = 지금 포커스 유지
@@ -98,7 +102,7 @@ function renderControls(root: HTMLElement, s: LifeState): void {
   }
 }
 
-function renderDecision(root: HTMLElement, s: LifeState): void {
+function renderDecision(root: HTMLElement, s: LifeState, onChoose: (index: number) => void, note?: string): void {
   if (!s.pending || !data) return;
   const v = decisionView(s, data, t);
   const box = el('section');
@@ -108,12 +112,13 @@ function renderDecision(root: HTMLElement, s: LifeState): void {
   const ol = el('ul');
   for (const o of v.options) {
     const li = el('li');
-    li.append(button(`${o.key}. ${o.label}`, () => { if (life && data) { life = decide(life, data, o.index); render(); } }, o.unavailable !== undefined));
+    li.append(button(`${o.key}. ${o.label}`, () => onChoose(o.index), o.unavailable !== undefined));
     if (o.hint) li.append(el('span', ` ${o.hint}`));
     if (o.unavailable) li.append(el('span', ` ${o.unavailable}`));
     ol.append(li);
   }
   box.append(ol);
+  if (note) box.append(el('p', note));
   root.append(box);
 }
 
@@ -154,7 +159,7 @@ function renderCurrent(root: HTMLElement): void {
   root.append(dl);
   if (life.stage === 'end') root.append(el('p', t.play.ended));
   renderControls(root, life);
-  renderDecision(root, life);
+  renderDecision(root, life, i => { if (life && data) { life = decide(life, data, i); render(); } });
   root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
   renderMap(root, life);
   renderNotes(root, life);
@@ -174,15 +179,76 @@ function renderArchive(root: HTMLElement): void {
   const ul = el('ul');
   for (const e of entries) {
     const li = el('li', `${e.id} · ${t.savedAt} ${localTime(e.savedAt)} `);
-    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); render(); }));
+    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); render(); }));
     ul.append(li);
   }
   root.append(ul);
 }
 
+function renderCohort(root: HTMLElement): void {
+  root.replaceChildren(el('h2', t.cohort.heading), el('p', t.cohort.help));
+  if (!life || !data) { root.append(el('p', t.noLife)); return; }
+  cohort = catchUp(cohort, life.month, data);
+  const table = el('table');
+  const head = el('tr');
+  for (const h of [t.cohort.name.replace(' {k}', ''), t.cohort.who, t.stage, t.cohort.end]) head.append(el('th', h));
+  table.append(head);
+  for (const r of cohortRows(cohort, t)) {
+    const tr = el('tr');
+    for (const v of [r.name, r.who, r.stage, r.end]) tr.append(el('td', v));
+    table.append(tr);
+  }
+  root.append(table);
+}
+
+function renderBranch(root: HTMLElement): void {
+  root.replaceChildren(el('h2', t.cohort.branchHeading), el('p', t.cohort.branchHelp));
+  if (!life || !data) return;
+  const points = branchPoints(life);
+  if (points.length === 0) root.append(el('p', t.cohort.branchNone));
+  const ul = el('ul');
+  for (const p of points) {
+    const label = `${fill(t.cohort.branchAt, { month: p.month })}: ${t.play.prompts[p.prompt as keyof typeof t.play.prompts]}`;
+    const li = el('li');
+    li.append(button(label, () => { if (life && data) { stop(); branched = openBranch(life, data, p.dp, p.month); branchedFrom = p; render(); } }, running));
+    ul.append(li);
+  }
+  root.append(ul);
+  if (!branched || !branchedFrom) return;
+  const b = branched;
+  renderDecision(root, b, i => { if (branched && data) { branched = decide(branched, data, i); render(); } }, fill(t.cohort.branchChosen, { key: branchedFrom.chosen }));
+  const bar = el('div');
+  bar.className = 'controls';
+  bar.append(
+    button(t.cohort.branchStep, () => { if (branched && data) { branched = step(branched, data); render(); } }, halted(b)),
+    button(t.cohort.branchRun, () => { if (branched && data) { branched = runUntilHalt(branched, data); render(); } }, halted(b)),
+    button(t.cohort.branchClose, () => { branched = undefined; branchedFrom = undefined; render(); }),
+  );
+  root.append(bar);
+  const table = el('table');
+  const head = el('tr');
+  for (const h of ['', t.cohort.original, t.cohort.branched]) head.append(el('th', h));
+  table.append(head);
+  for (const row of compareRows(life, b, t)) {
+    const tr = el('tr');
+    for (const v of row) tr.append(el('td', v));
+    table.append(tr);
+  }
+  root.append(table, el('p', fill(t.cohort.shared, { n: sharedPrefix(life, b) })));
+}
+
 function render(): void {
   renderCurrent(document.getElementById('current')!);
+  renderCohort(document.getElementById('cohort')!);
+  renderBranch(document.getElementById('branch')!);
   renderArchive(document.getElementById('archive')!);
+}
+
+/** 새 삶이나 불러온 삶: 동기를 다시 만들고 열린 분기를 닫는다. */
+function resetSide(): void {
+  cohort = life && data ? createCohort(life, data) : [];
+  branched = undefined;
+  branchedFrom = undefined;
 }
 
 function startLife(track: string | null): void {
@@ -190,6 +256,7 @@ function startLife(track: string | null): void {
   stop();
   focus = undefined;
   life = createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data);
+  resetSide();
   render();
   document.getElementById('current')!.scrollIntoView();
 }

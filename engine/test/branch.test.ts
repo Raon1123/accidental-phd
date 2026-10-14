@@ -7,6 +7,7 @@ import { decide } from '../src/decide';
 import { resubmit } from '../src/phd/papers';
 import { advanceMonth } from '../src/phd/tick';
 import { createLife } from '../src/pre/createLife';
+import { policyDecision } from '../src/policy';
 import type { LifeState, Snapshot } from '../src/types';
 
 const data = loadData();
@@ -215,5 +216,37 @@ describe('branch (상태 §6.3)', () => {
     expect(at5y.snapshots[0]!.state.stats.mind).toBe(50);
     expect(at5y.pending!.options.length).toBeGreaterThan(b.pending!.options.length);
     expect(ASSUMED.MONTHS_PER_YEAR).toBe(12);
+  });
+});
+
+describe('branch: month picks one of repeated decision points (#56)', () => {
+  /** 사람처럼 진행하며 결정은 정책 번호로 고른다. 같은 결정 지점이 두 번 나오면 멈춘다. */
+  function repeated(): LifeState {
+    for (let i = 0; i < 40; i++) {
+      let s = createLife({}, `APHD-REPEAT${String(i).padStart(2, '0')}`, data);
+      while (s.stage === 'phd' && s.month < 200) {
+        if (s.pending) s = decide(s, data, policyDecision(s, data, s.pending));
+        else s = advanceMonth(s, data);
+        const dps = s.decisions.map(d => d.dp);
+        if (dps.some((d, j) => dps.indexOf(d) !== j)) return s;
+      }
+    }
+    throw new Error('no life with a repeated decision point');
+  }
+  const s = repeated();
+  const dp = s.decisions.find((d, j) => s.decisions.findIndex(e => e.dp === d.dp) !== j)!.dp;
+  const [first, last] = [s.decisions.find(d => d.dp === dp)!, [...s.decisions].reverse().find(d => d.dp === dp)!];
+
+  it('without month goes to the latest; with month goes to that one', () => {
+    expect(branch(s, data, dp).month).toBe(last.month);
+    const b = branch(s, data, dp, first.month);
+    expect(b.month).toBe(first.month);
+    expect(b.pending).toMatchObject({ dp, month: first.month });
+    expect(b.decisions).toEqual(s.decisions.slice(0, b.decisions.length));
+    expect(b.snapshots.at(-1)).toMatchObject({ dp, month: first.month });
+  });
+
+  it('throws when no snapshot of that point is at that month', () => {
+    expect(() => branch(s, data, dp, first.month + 1)).toThrow(/at month/);
   });
 });
