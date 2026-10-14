@@ -4,6 +4,7 @@ import {
   ASSUMED, advanceMonth, advanceYear, decide, decisionOutcome, describeOptions, policyDecision,
   type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision,
 } from '../../engine/src/browser';
+import { newsLine } from './news';
 import type { Strings } from './strings.ko';
 
 /** 속도 5단계(1×~16×). 1× 는 한 칸에 BASE_MS. */
@@ -76,9 +77,9 @@ export function decisionView(s: LifeState, data: DataBundle, t: Strings): Decisi
 
 type LogEntry = LifeState['log'][number];
 
-/** 연구노트 한 줄의 문장. 가상 뉴스(news.*)는 헤드라인 팩(#58)이 생기기 전까지 자리표시 문장을 쓴다. 모르는 키는 던진다. */
-export function noteText(e: LogEntry, t: Strings): string {
-  if (e.textKey.startsWith('news.')) return t.play.newsPlaceholder;
+/** 연구노트 한 줄의 문장. 가상 뉴스(news.*)는 news.ts 의 헤드라인·효과 태그(#58). 모르는 키는 던진다. */
+export function noteText(e: LogEntry, t: Strings, s?: LifeState): string {
+  if (e.textKey.startsWith('news.')) return newsLine(e, t, s);
   return lookup(t.texts, e.textKey, 'note');
 }
 
@@ -86,7 +87,7 @@ export function noteText(e: LogEntry, t: Strings): string {
 export function notes(s: LifeState, t: Strings): { month: number; text: string; creative: boolean }[] {
   return s.log
     .filter(e => e.textKey !== 'log.month')
-    .map(e => ({ month: e.month, text: noteText(e, t), creative: e.creative }))
+    .map(e => ({ month: e.month, text: noteText(e, t, s), creative: e.creative }))
     .reverse();
 }
 

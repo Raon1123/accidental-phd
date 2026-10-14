@@ -152,6 +152,19 @@ export function validate(root) {
       if (r.id) { if (seen.has(r.id)) errors.push(`${at}: duplicate id ${r.id}`); seen.add(r.id); }
     });
   }
+  // 화면 텍스트 팩(data/text/*.json): 항목마다 id·type·headline·body 와 creative: true (노동 스펙 §5.4, #58).
+  for (const file of walk(join(root, 'data/text'), p => p.endsWith('.json'))) {
+    const rel = file.slice(root.length + 1);
+    const items = readJson(file);
+    if (!Array.isArray(items)) { errors.push(`${rel}: not an array`); continue; }
+    const seen = new Set();
+    items.forEach((x, i) => {
+      const at = `${rel}[${i}]`;
+      for (const f of ['id', 'type', 'headline', 'body']) if (typeof x[f] !== 'string' || !x[f].trim()) errors.push(`${at}: missing ${f}`);
+      if (x.creative !== true) errors.push(`${at}: creative must be true`);
+      if (x.id) { if (seen.has(x.id)) errors.push(`${at}: duplicate id ${x.id}`); seen.add(x.id); }
+    });
+  }
   for (const file of walk(join(root, 'docs/design/decisions'), p => /[\\/][0-9]{4}-[^\\/]+\.md$/.test(p))) {
     const text = readFileSync(file, 'utf8');
     for (const h of DECISION_HEADINGS) if (!text.includes(h)) errors.push(`${file.slice(root.length + 1)}: missing heading ${h}`);
