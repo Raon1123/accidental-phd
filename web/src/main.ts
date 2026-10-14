@@ -4,7 +4,8 @@ import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type F
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, lifeMap, notes, setAuto, step, type Speed } from './play';
-import { lifeConfig, trackGroups } from './select';
+import { compatible, lifeConfig, offerings, schoolIds, trackGroups, type Offerings } from './select';
+import { schoolDisplayName } from './schoolName';
 import { footerLines, moneyRows } from './sources';
 import { ko as t } from './strings.ko';
 import { summaryRows } from './view';
@@ -278,25 +279,44 @@ function resetSide(): void {
   branchedFrom = undefined;
 }
 
-function startLife(track: string | null): void {
+function startLife(track: string | null, school: string | null): void {
   if (!data) return;
   stop();
   focus = undefined;
-  life = createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data);
+  life = createLife(lifeConfig(track, school), newSeed(`${Date.now()}-${Math.random()}`), data);
   resetSide();
   render();
   document.getElementById('current')!.scrollIntoView();
 }
 
-function renderSelect(root: HTMLElement): void {
+/** 선택 화면. 분야와 학교는 서로를 거른다: 맞지 않는 쪽 버튼은 꺼진다(#69). 같은 버튼을 다시 누르면 선택이 풀린다. */
+function renderSelect(root: HTMLElement, o: Offerings, track: string | null = null, school: string | null = null): void {
+  const redo = (tr: string | null, sc: string | null): void => {
+    renderSelect(root, o, tr, sc);
+    root.querySelector<HTMLButtonElement>('button[aria-pressed="true"]')?.focus();
+  };
+  const toggle = (b: HTMLButtonElement, on: boolean): HTMLButtonElement => { b.setAttribute('aria-pressed', String(on)); return b; };
   root.replaceChildren(el('h2', t.selectHeading), el('p', t.selectHelp));
   for (const g of trackGroups(t)) {
     const fs = el('fieldset');
     fs.append(el('legend', g.label));
-    for (const tr of g.tracks) fs.append(button(tr.label, () => startLife(tr.track)));
+    for (const tr of g.tracks) {
+      const on = track === tr.track;
+      fs.append(toggle(button(tr.label, () => redo(on ? null : tr.track, school), !compatible(o, tr.track, school)), on));
+    }
     root.append(fs);
   }
-  root.append(button(t.trackAllLuck, () => startLife(null)));
+  const sfs = el('fieldset');
+  sfs.append(el('legend', t.schoolHeading));
+  for (const id of schoolIds(o, t)) {
+    const on = school === id;
+    sfs.append(toggle(button(schoolDisplayName(id, t), () => redo(track, on ? null : id), !compatible(o, track, id)), on));
+  }
+  root.append(sfs);
+  const name = (v: string | null, f: (x: string) => string): string => (v === null ? t.selectedNone : f(v));
+  root.append(el('p', `${t.selectedTrack}: ${name(track, x => t.trackNames[x as keyof typeof t.trackNames])} · ${t.selectedSchool}: ${name(school, x => schoolDisplayName(x, t))}`));
+  root.append(button(t.startLife, () => startLife(track, school)));
+  root.append(button(t.trackAllLuck, () => startLife(null, null)));
 }
 
 async function start(): Promise<void> {
@@ -312,7 +332,7 @@ async function start(): Promise<void> {
     status.textContent = t.loadFailed;
     return;
   }
-  renderSelect(document.getElementById('select')!);
+  renderSelect(document.getElementById('select')!, offerings(data));
   render();
 }
 
