@@ -6,7 +6,7 @@ import { ASSUMED } from '../assumed';
 import { has, type DataBundle } from '../data/bundle';
 import { indexDepartments, trackWeights, unitKey, unitsForTrack, type DeptIndex } from '../data/departments';
 import { monthlyFromRecord, projectStipend, scholarshipOptions } from '../data/funding';
-import { fieldOf, groupOf, kediOf, kscedOf, subfieldsOf, TRACKS, tracksOf } from '../data/taxonomy';
+import { fieldOf, groupOf, kediOf, kscedOf, subfieldsOfDepartment, TRACKS, tracksOf } from '../data/taxonomy';
 import { entranceFee, waiverRate } from '../data/tuition';
 import { tuitionCharge } from '../phd/money';
 import { draw, drawNormal } from '../rng';
@@ -101,20 +101,26 @@ export function createLife(config: LifeConfig, seed: string, data: DataBundle): 
     track = pickWeighted(draw(seed, 'luck', 0, 'track'), w);
   }
 
-  const subfields = subfieldsOf(data, track);
-  if (config.subfield !== undefined && !subfields.includes(config.subfield)) {
-    throw new Error(`subfield ${config.subfield} is not a choice of track ${track}`);
-  }
-  const subfield = config.subfield ?? pickUniform(draw(seed, 'luck', 0, 'subfield'), subfields);
-
+  // 학과(대학별 전공)를 먼저 정하고, 세부전공은 그 학과의 NRF 하위에서 뽑는다(#68).
+  const nrfSubfields = (rec: string): string[] => subfieldsOfDepartment(data, c.idx.records.get(rec)!.nrf);
   let departmentRecord: string;
   if (explicitRep !== undefined) {
     departmentRecord = explicitRep;
+    if (config.subfield !== undefined && !nrfSubfields(departmentRecord).includes(config.subfield)) {
+      throw new Error(`subfield ${config.subfield} is not offered by department ${config.department}`);
+    }
   } else {
-    const reps = repsFor(c, track, config.school);
+    let reps = repsFor(c, track, config.school);
     if (reps.length === 0) throw new Error(`no department unit for track ${track} at school ${config.school}`);
+    if (config.subfield !== undefined) {
+      const sf = config.subfield;
+      reps = reps.filter(r => nrfSubfields(r).includes(sf));
+      if (reps.length === 0) throw new Error(`subfield ${sf} is not offered by any department of track ${track}`);
+    }
     departmentRecord = pickUniform(draw(seed, 'luck', 0, 'department'), reps);
   }
+  const subfields = nrfSubfields(departmentRecord);
+  const subfield = config.subfield ?? pickUniform(draw(seed, 'luck', 0, 'subfield'), subfields);
   const deptRec = c.idx.records.get(departmentRecord)!;
   const school = deptRec.school;
 

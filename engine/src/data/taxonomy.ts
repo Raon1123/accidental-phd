@@ -51,6 +51,25 @@ export const tracksOf = (group: Group): string[] => TRACKS.filter(t => TRACK_INF
 
 const codeOf = (recordId: string): string => recordId.slice('taxonomy-nrf-'.length).toUpperCase();
 
+/** 중분류 코드 아래 소분류 코드 전부(정렬). */
+function smallFieldsUnder(data: DataBundle, midCode: string): string[] {
+  const out: string[] = [];
+  for (const r of data.records.values()) {
+    if (r.value === 3 && r.id.startsWith('taxonomy-nrf-') && r.note.includes(`상위 ${midCode}`)) out.push(codeOf(r.id));
+  }
+  return out.sort();
+}
+
+/**
+ * 학과(단위)의 세부전공 후보. 학과 레코드의 NRF 코드가 중분류면 그 아래 소분류 전부, 소분류면 그 하나다.
+ * 대학마다 학과가 다루는 범위가 다르므로 전공군 목록(subfieldsOf)이 아니라 이 목록에서 뽑는다(#68).
+ */
+export function subfieldsOfDepartment(data: DataBundle, nrfCode: string): string[] {
+  const kids = nrfCode.endsWith('0000') ? smallFieldsUnder(data, nrfCode) : [];
+  const out = kids.length > 0 ? kids : [nrfCode];
+  return out;
+}
+
 /**
  * 세부전공 선택지(NRF 코드, 선택권 §2.3). primary 가 중분류면 그 아래 소분류 전부,
  * 소분류면 그 하나를 앞에 두고, 이어서 보조 후보(primary=false)를 파일 순서대로 붙인다. 중복은 뺀다.
@@ -64,11 +83,7 @@ export function subfieldsOf(data: DataBundle, track: string): string[] {
   const p = primary[0]!;
   const out: string[] = [];
   if (p.level === 2) {
-    const children: string[] = [];
-    for (const r of data.records.values()) {
-      if (r.value === 3 && r.id.startsWith('taxonomy-nrf-') && r.note.includes(`상위 ${p.nrf_code}`)) children.push(codeOf(r.id));
-    }
-    out.push(...children.sort());
+    out.push(...smallFieldsUnder(data, p.nrf_code));
   } else {
     out.push(p.nrf_code);
   }
