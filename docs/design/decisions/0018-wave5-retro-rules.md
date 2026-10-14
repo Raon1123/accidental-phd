@@ -18,7 +18,7 @@
 4. **공유 파일은 그 파일을 바꾸게 만든 PR이 같은 PR에서 고친다.** (a) 0014에 행을 더하거나 엔진 주석에 새 0014 번호를 쓰는 PR은 같은 PR에서 `scripts/check-assumed.mjs`가 exit 0인지 확인하고 출력 두 줄(missing, out-of-range)을 PR 본문에 붙인다. 이 스크립트는 test 워크플로우에 넣는다(Wave 6 이관). (b) wave/N issue를 닫는 PR은 STATUS의 해당 wave 행과 wave 파일 체크리스트 줄을 같은 PR에서 고친다. design 큐 PR(`[design]` issue)은 STATUS를 고치지 않는다. 충돌을 피하려고 고치지 못했으면 PR 본문에 "STATUS 미갱신"을 적고, 다음에 머지되는 wave/N PR이 고친다. (c) issue 없이 사용자 규칙만으로 여는 PR은 issue를 먼저 만들거나, 같은 PR에서 wave 파일 체크리스트 줄을 더한다. (d) PR 본문에서 판정을 묻는 질문은 `needs-judge` 라벨을 붙인 issue로 옮긴 뒤에만 PR을 머지한다.
 
 ## 결과
-얻는 것: 0005·0004를 읽는 사람이 Wave 5의 범위 변경을 한 곳에서 찾는다. Wave 6 선택 민감도 측정의 대상이 정해진다. #113 실행이 0016 §1의 해시 인용 규칙을 말없이 깨뜨리지 않는다. `check-assumed`와 STATUS가 회고 전에 어긋나는 일이 줄어든다. 영향 받는 파일: `docs/design/decisions/0004-*.md`·`0005-*.md` 상태 줄, `docs/waves/wave-06-balance-retro.md` §Wave 5 회고에서 이관, `docs/prompts/weaver-retro-any.md`·`narrative-collector-wave2.md` 자기 검증 줄. 영향 받는 레코드 id: 없음.
+얻는 것: 0005·0004를 읽는 사람이 Wave 5의 범위 변경을 한 곳에서 찾는다. Wave 6 선택 민감도 측정의 대상이 정해진다. #113 실행이 0016 §1의 해시 인용 규칙을 말없이 깨뜨리지 않는다. `check-assumed`와 STATUS가 회고 전에 어긋나는 일이 줄어든다. 영향 받는 파일: `docs/workflow.md` §브랜치·PR 규약 세 줄(§4), `docs/design/decisions/0004-*.md`·`0005-*.md` 상태 줄, `docs/waves/wave-06-balance-retro.md` §Wave 5 회고에서 이관, `docs/prompts/weaver-retro-any.md`·`narrative-collector-wave2.md` 자기 검증 줄. 영향 받는 레코드 id: 없음.
 
 잃는 것: 플레이어가 고를 수 있는 것이 줄어 "선택이 결과를 바꾼다"(0005)는 체감이 결정 지점과 월 포커스에만 남는다. #113 실행 전에 판정 한 번이 더 든다. PR마다 STATUS·체크리스트·검사 출력을 챙겨야 해서 작은 PR도 손이 더 간다.
 
