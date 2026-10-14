@@ -5,14 +5,8 @@ export const ko = {
   loading: '데이터를 읽는 중입니다.',
   loadFailed: '데이터를 읽지 못했습니다.',
   selectHeading: '하고 싶은 분야',
-  selectHelp: '분야와 학교를 고를 수 있습니다. 고르지 않은 항목, 세부전공, 학과, 자금, 지도교수는 운으로 정해집니다. 학교마다 개설한 분야가 달라서, 한쪽을 고르면 맞지 않는 다른 쪽 선택지는 꺼집니다.',
-  schoolHeading: '학교',
-  schoolLuck: '학교는 운에 맡기기',
-  startLife: '박사과정 시작',
-  selectedNone: '운에 맡김',
-  selectedTrack: '분야',
-  selectedSchool: '학교',
-  trackAllLuck: '모두 운에 맡기고 시작',
+  selectHelp: '분야를 고르면 바로 박사과정이 시작됩니다. 세부전공, 학교와 학과, 자금, 지도교수는 운으로 정해집니다.',
+  trackAllLuck: '분야도 운에 맡기기',
   groupNames: { 인문사회: '인문사회', 이공: '이공' },
   // 전공군 26개(선택권 스펙 §1). 키는 엔진 TRACKS 와 같고, 테스트가 확인한다.
   trackNames: {
