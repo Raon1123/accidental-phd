@@ -2,7 +2,7 @@
 // ?layout=b 처럼 쓰면 <html data-layout="b"> 가 되고, style.css 의 html[data-layout="b"] 규칙이 켜진다.
 // 정해 두지 않으면 기준(a)이다. 선택은 같은 브라우저 안에서 localStorage 에 남는다. ?ab=1 이면 전환 막대가 뜬다.
 const EXPERIMENTS: Record<string, string[]> = {
-  layout: ['a', 'b', 'c'],
+  layout: ['a', 'b', 'c', 'd'],
 };
 const KEY = 'aphd-design-variants';
 
