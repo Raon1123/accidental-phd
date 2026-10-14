@@ -101,7 +101,7 @@ describe('news lines in the research notes (#58)', () => {
     expect(line).toContain('게임 설정');
     const t = TYPES.find(x => x.id === live.type)!;
     expect(newsTag(live.type, e.month, undefined, ko)).toContain(`${t.months[0]}~${t.months[1]}개월`);
-    const n = notes(s, ko).find(x => x.month === e.month && x.creative)!;
+    const n = notes(s, ko).find(x => x.month === e.month && x.creative && !x.scene)!;
     expect(n.text).toBe(line);
   });
 });

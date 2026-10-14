@@ -108,7 +108,14 @@ function renderDecision(root: HTMLElement, s: LifeState, onChoose: (index: numbe
   const box = el('section');
   box.className = 'decision';
   box.setAttribute('role', 'group');
-  box.append(el('h3', t.play.decision), el('p', v.prompt));
+  box.append(el('h3', t.play.decision));
+  if (v.scene) {   // 서사 장면(#57): 창작 표시를 붙인다
+    const sc = el('p', v.scene);
+    sc.className = 'scene';
+    sc.append(el('span', ` [${t.play.creative}]`));
+    box.append(sc);
+  }
+  box.append(el('p', v.prompt));
   const ol = el('ul');
   for (const o of v.options) {
     const li = el('li');
