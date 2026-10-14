@@ -4,6 +4,8 @@ import { advanceYear } from '../src/career/tick';
 import { branch } from '../src/branch';
 import { loadData } from '../src/data/load';
 import { decide } from '../src/decide';
+import { resubmit } from '../src/phd/papers';
+import { advanceMonth } from '../src/phd/tick';
 import { createLife } from '../src/pre/createLife';
 import type { LifeState, Snapshot } from '../src/types';
 
@@ -78,6 +80,50 @@ describe('branch (상태 §6.3)', () => {
     }
     expect(x.news.length + y.news.length).toBeGreaterThanOrEqual(0);
     expect(x.log.some(l => l.tags.includes('news'))).toBe(true);   // 비교가 빈 배열끼리가 아님을 보장
+  });
+
+  it('paper verdict identical across branches (Review Focus 5): a paper submitted before the decision gets the same verdict month and outcome whichever option is chosen', () => {
+    // 결정은 박사 단계의 post-qualifying(자격시험 합격 뒤) 하나로 잡는다: A = 프로젝트 진척·마음 +, B = 휴학.
+    // 둘 다 능력치·휴학 상태·진척을 바꾸지만, 이미 투고된 논문의 판정 입력(질·계층·투고처·재투고 횟수·수정 보정)은 투고 시점에 정해져 있어 이 선택이 닿지 않는다.
+    // 판정 달은 투고 때 정한 dueMonth 이고, 판정 결과는 stream `paper` 슬롯 `p1:verdict:1` 의 추첨값과 acceptProbability(논문 필드만 읽는다)로 정해진다.
+    // focus 선택처럼 skill 을 바꾸는 결정은 일부러 피했다. 질은 투고 때 한 번 정해지므로 그것도 이미 투고한 논문에는 닿지 않지만, 이 테스트는 그 가정 없이 성립한다.
+    const life = createLife({ group: '이공', track: 'computer', school: 'snu' }, SEED, data);
+    const submitMonth = 21;
+    const drafted: LifeState = { ...life, month: submitMonth, phd: { ...life.phd!, papers: [{ id: 'p1', status: 'draft', writing: 100, quality: 55, attempts: 0, logitBonus: 0 }] } };
+    const base = resubmit(drafted, data, 'p1', 'T1');   // 투고: 판정 달(dueMonth)이 이때 정해진다
+    const due = base.phd!.papers[0]!.dueMonth!;
+    expect(due).toBeGreaterThan(submitMonth);
+    const prompt = { dp: 'post-qualifying' as const, month: 24, context: { passed: true }, options: ['A', 'B', 'C'].map(key => ({ key, textKey: `decision.post-qualifying.${key}` })) };
+    const before: LifeState = { ...base, month: 24, ageMonths: base.ageMonths + (24 - submitMonth) };
+    const pending: LifeState = { ...before, pending: prompt, snapshots: [{ dp: 'post-qualifying', month: 24, decisionIndex: 0, state: structuredClone({ ...before, pending: prompt }) }] };
+    const b = branch(decide(pending, data, 0), data, 'post-qualifying');
+
+    /** 논문이 투고 상태를 벗어난 달(판정 달)까지 월 틱을 돌려 그 달과 논문 상태를 돌려준다. 다른 결정이 걸리면 첫 선택지로 넘긴다. */
+    const untilVerdict = (s: LifeState): { month: number; status: string; attempts: number } => {
+      let x = s;
+      for (let i = 0; i < 36; i++) {
+        const p = x.phd!.papers.find(q => q.id === 'p1')!;
+        if (p.status !== 'submitted') return { month: x.month, status: p.status, attempts: p.attempts };
+        x = x.pending ? decide(x, data, 0) : advanceMonth(x, data);
+        expect(x.stage).toBe('phd');
+      }
+      throw new Error('no verdict within 36 months');
+    };
+
+    const x = decide(b, data, 0);   // A
+    const y = decide(b, data, 1);   // B: 휴학
+    expect(x.phd!.leave.active).toBe(false);
+    expect(y.phd!.leave.active).toBe(true);   // 선택이 다르면 상태가 갈라진다
+    expect(x.stats).not.toEqual(y.stats);
+    expect(x.phd!.papers).toEqual(y.phd!.papers);   // 결정 직후 논문은 같고
+
+    const vx = untilVerdict(x);
+    const vy = untilVerdict(y);
+    expect(vx.month).toBe(due);
+    expect(vy.month).toBe(vx.month);
+    expect(vy.status).toBe(vx.status);
+    expect(['accepted', 'revision', 'rejected']).toContain(vx.status);   // 비교가 판정 없음끼리가 아님을 보장
+    expect(vy.attempts).toBe(vx.attempts);
   });
 
   it('truncates snapshots to the branched decision (inclusive) and restores the decisions made before it', () => {
