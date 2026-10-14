@@ -1,6 +1,6 @@
 /* 색 토큰. 글자와 배경의 명도 대비는 web/test/a11y.test.ts 가 4.5:1 이상인지 검사한다(#61). */
-:root { color-scheme: light dark; --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b5394; --btn-bg: #f0f0f0; --btn-fg: #1a1a1a; --btn-off: #5c5c5c; --focus: #0b5394; }
-@media (prefers-color-scheme: dark) { :root { --fg: #ececec; --bg: #161616; --muted: #b8b8b8; --accent: #8ab4f8; --btn-bg: #2b2b2b; --btn-fg: #ececec; --btn-off: #a0a0a0; --focus: #8ab4f8; } }
+:root { color-scheme: light dark; --fg: #1a1a1a; --bg: #ffffff; --muted: #4a4a4a; --accent: #0b5394; --btn-bg: #f0f0f0; --btn-fg: #1a1a1a; --btn-off: #5c5c5c; --focus: #0b5394; --bar-track: #e4e4e4; --bar-delta: #5d93cc; }
+@media (prefers-color-scheme: dark) { :root { --fg: #ececec; --bg: #161616; --muted: #b8b8b8; --accent: #8ab4f8; --btn-bg: #2b2b2b; --btn-fg: #ececec; --btn-off: #a0a0a0; --focus: #8ab4f8; --bar-track: #2f2f2f; --bar-delta: #4f7ab3; } }
 body { margin: 0 auto; max-width: 48rem; padding: 0 1rem; font-family: system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; color: var(--fg); background: var(--bg); line-height: 1.6; }
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 1rem; top: 1rem; background: var(--bg); color: var(--accent); padding: .25rem .5rem; }
@@ -50,3 +50,13 @@ fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
 .glance { margin: 0 0 .75rem; padding-bottom: .5rem; border-bottom: 1px solid var(--muted); }
 #select summary { cursor: pointer; }
 #select summary h2 { display: inline; }
+
+/* 능력치 막대(#89): 숫자 + 막대 + 직전 변화(연한 구간, ▲▼ 숫자). */
+.stats { margin: 0 0 .75rem; }
+.stat { display: grid; grid-template-columns: 4.5rem 2.2rem 2.4rem 1fr; align-items: center; gap: 0 .4rem; margin: .15rem 0; }
+.stat-name { color: var(--muted); }
+.stat-num { font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.stat-delta { font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: .9rem; background: var(--bar-track); border: 1px solid var(--muted); border-radius: 3px; overflow: hidden; }
+.bar-fill { background: var(--accent); }
+.bar-delta { background: var(--bar-delta); }

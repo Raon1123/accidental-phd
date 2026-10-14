@@ -23,5 +23,25 @@ export function glanceRows(s: LifeState, t: Strings, data?: DataBundle): [string
 }
 export function detailRows(s: LifeState, t: Strings, data?: DataBundle): [string, string][] {
   const r = summaryRows(s, t, data);
-  return [r[0]!, ...r.slice(6)];
+  return [r[0]!, ...r.slice(6, 7)];   // 능력치 줄(8번째)은 막대(statBars)가 대신한다
+}
+
+export interface StatBar { key: string; label: string; value: number; delta: number; pct: number; base: number; changed: number }
+export const STAT_MAX = 100;   // 능력치는 0–100 정수(상태 §1.3)
+
+/**
+ * 능력치 막대(#89): 값, 직전 변화량, 막대 길이(%). 진한 구간은 `base`%(변하지 않은 몫), 연한 구간은 `changed`%(늘거나 줄어든 몫)이다.
+ * 늘었으면 진한 구간이 직전 값까지, 연한 구간이 그 위로 현재 값까지. 줄었으면 진한 구간이 현재 값까지, 연한 구간이 직전 값까지다.
+ */
+export function statBars(s: LifeState, prev: LifeState['stats'] | undefined, t: Strings): StatBar[] {
+  const keys = Object.keys(t.play.statNames) as (keyof typeof t.play.statNames)[];
+  return keys.map(k => {
+    const value = s.stats[k];
+    const delta = prev ? value - prev[k] : 0;
+    const lo = Math.min(value, prev ? prev[k] : value);
+    return {
+      key: k, label: t.play.statNames[k], value, delta,
+      pct: (value / STAT_MAX) * 100, base: (lo / STAT_MAX) * 100, changed: (Math.abs(delta) / STAT_MAX) * 100,
+    };
+  });
 }
