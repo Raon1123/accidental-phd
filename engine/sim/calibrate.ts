@@ -158,9 +158,9 @@ export function simulateLife(i: number, data: DataBundle, group?: Group): LifeRe
 function finishPhd(r: LifeRecord, s: LifeState, startNet: number, flags: boolean[]): void {
   r.phdMonths = s.month;
   if (s.stage === 'phd') r.outcome = 'capped';
-  else if (s.stage === 'career') {
-    if (s.career!.degree === 'phd') { r.outcome = 'degree'; r.degreeMonth = s.career!.degreeMonth; } else r.outcome = 'exit-master';
-  } else r.outcome = s.end!.reason === 'dropout' || s.end!.reason === 'residence' || s.end!.reason === 'financial' ? s.end!.reason : 'dropout';
+  else if (s.stage === 'career' && s.career!.degree === 'phd') { r.outcome = 'degree'; r.degreeMonth = s.career!.degreeMonth; }
+  else if (s.end?.reason === 'exit-master') r.outcome = 'exit-master';
+  else r.outcome = s.end!.reason === 'dropout' || s.end!.reason === 'residence' || s.end!.reason === 'financial' ? s.end!.reason : 'dropout';
   const phd = s.phd!;
   r.qualFailEnd = r.outcome === 'dropout' && !phd.qualified && phd.qualAttempts >= ASSUMED.QUAL_EXAM.maxAttempts;
   r.submitted = phd.papers.filter(p => p.status !== 'draft').length;

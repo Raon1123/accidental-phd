@@ -117,7 +117,7 @@ describe('research notes and life map (#55)', () => {
       }
       if (s.career) careerLives += 1;
     }
-    expect(careerLives).toBe(2);   // 경력 칸을 실제로 확인했는지
+    expect(careerLives).toBe(MAP_SEEDS.length);   // 학위 없이 끝나도 경력으로 이어지므로(#85) 모든 생애가 경력 칸에 닿는다
   });
 });
 

@@ -56,6 +56,16 @@ const opt = (dp: string, key: string) => ({ key, textKey: `decision.${dp}.${key}
 const A = (dp: string) => opt(dp, 'A'), B = (dp: string) => opt(dp, 'B'), C = (dp: string) => opt(dp, 'C');
 const median = (xs: number[]): number | undefined => (xs.length ? [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)] : undefined);
 
+
+/** 학위 없이 박사과정이 끝나면 끝난 이유를 남기고 경력 단계로 넘어가 비학계 경로 구직을 시작한다(#85). */
+function expectNoDegreeCareer(s: LifeState, reason: 'dropout' | 'residence' | 'financial', month: number): void {
+  expect(s.stage).toBe('career');
+  expect(s.end).toEqual({ reason, month });
+  expect(s.career).toMatchObject({ degree: 'none', degreeMonth: month, route: 'none' });
+  expect(s.career!.searching!.routes).toEqual(['institute', 'public', 'industry', 'bridge']);
+  expect(s.log.some(e => e.textKey === `log.end-${reason}` && e.month === month)).toBe(true);
+}
+
 describe('advanceMonth guards', () => {
   it('throws while pending (Review Focus 1)', () => {
     const s = { ...make(ENG), pending: { dp: 'post-qualifying' as const, month: 12, context: {}, options: [] } };
@@ -232,8 +242,7 @@ describe('end conditions', () => {
     const at = (n: number) => (sd: string) => make(ENG, { month: 100, phd: { enrolledMonths: n } }, sd);
     const sdEnd = findSeed('RS', sd => advanceMonth(at(limit)(sd), data).end?.reason === 'residence');
     const out = advanceMonth(at(limit)(sdEnd), data);
-    expect(out.stage).toBe('end');
-    expect(out.end).toEqual({ reason: 'residence', month: 101 });
+    expectNoDegreeCareer(out, 'residence', 101);
     expect(out.phd!.enrolledMonths).toBe(limit + 1);
     // 96 을 넘어도 연장 12개월 동안은 계속 다닌다
     const sdOk = findSeed('RS2', sd => advanceMonth(at(ASSUMED.RESIDENCE_MONTHS)(sd), data).stage === 'phd');
@@ -269,8 +278,7 @@ describe('end conditions', () => {
     expect(s.decisions).toEqual([{ dp: 'funding-expiry', month: 3, option: 'B', byPolicy: false }]);
     for (let i = 0; i < 2; i++) { s = advanceMonth(s, data); expect(s.stage).toBe('phd'); expect(s.pending).toBeNull(); }
     s = advanceMonth(s, data);
-    expect(s.stage).toBe('end');
-    expect(s.end).toEqual({ reason: 'financial', month: 6 });
+    expectNoDegreeCareer(s, 'financial', 6);
     expect(s.money.debt).toBeGreaterThanOrEqual(0);
   });
   it('auto: the forced funding-expiry is decided by policy and the life still ends as financial', () => {
@@ -341,7 +349,7 @@ describe('decision points', () => {
       const bad = (x: string): LifeState => make(ENG, { month: 28, stats: { skill: 0, health: 0 }, phd: { enrolledMonths: 29, qualAttempts: 2 } }, x);
       const sd = findSeed('Q3', x => advanceMonth(bad(x), data).end?.reason === 'dropout' && advanceMonth(bad(x), data).phd!.qualAttempts === 3);
       const out = advanceMonth(bad(sd), data);
-      expect(out.stage).toBe('end'); expect(out.pending).toBeNull();
+      expectNoDegreeCareer(out, 'dropout', out.month); expect(out.pending).toBeNull();
     });
   });
 
@@ -571,7 +579,8 @@ describe('graduation', () => {
   it('no job search before the path is chosen', () => {
     for (let i = 0; i < 100; i++) {
       const out = ticks(make(ENG, { month: 20, stats: { skill: 95, network: 95 }, phd: { enrolledMonths: 20, qualified: true, focus: 'rest' } }, seedOf('JN', i)), 12);
-      expect(out.career).toBeUndefined();
+      // 학위 없이 끝나 경력으로 넘어간 생애(#85)만 career 가 있고, 그때도 채용 기록은 없다
+      if (out.career) { expect(out.career.degree).toBe('none'); expect(out.log.some(e => e.textKey === 'log.hired')).toBe(false); }
     }
   });
   it('a life that has graduated cannot tick again in the phd loop', () => {
