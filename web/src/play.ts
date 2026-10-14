@@ -3,11 +3,55 @@
 import {
   ASSUMED, advanceMonth, advanceYear, decide, decisionOutcome, describeOptions, policyDecision, previewCareerFlow, previewCashflow,
   type CareerFlow,
-  type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision,
+  type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision, type Route,
 } from '../../engine/src/browser';
 import { newsLine } from './news';
 import { decisionResult, logScene, pendingScene } from './scenes';
 import type { Strings } from './strings.ko';
+
+/** 비정규직 경로(계약·임시직): 박사후연구원, 시간강사, 비정년 교원, 임시직. 그 밖(창업 제외)은 정규직이다. */
+export const NON_REGULAR_ROUTES: readonly Route[] = ['postdoc', 'lecturer', 'nontenure', 'bridge'];
+// 엔진 달력: 0개월째 = 입학 연도(최저시급 기준 연도) 3월. 표시용으로만 쓴다.
+const ENTRY_YEAR = ASSUMED.MIN_WAGE_YEAR;
+const ENTRY_MONTH_OFFSET = 2;
+
+/**
+ * 현재 신분 한 줄(#83). 엔진 상태(stage, phd.enrolledMonths·coursework·leave, career.route·searching·employer·degree, end)에서만 계산한다.
+ * 학기는 재학 개월을 6개월로 나눠 센다(휴학 달은 재학 개월에 들어가지 않는다). 학위 취득 달에는 앞에 "학위 취득"을 붙인다.
+ * 경력은 경로·고용처·정규직 여부·연차와, 계약이 있으면 계약 끝 달을 보인다(사용자 요청 2026-10-15).
+ */
+export function statusLine(s: LifeState, t: Strings): string {
+  const S = t.play.status;
+  const fill = (tpl: string, v: Record<string, string | number>): string => tpl.replace(/\{(\w+)\}/g, (_, k: string) => String(v[k] ?? `{${k}}`));
+  switch (s.stage) {
+    case 'pre': return S.pre;
+    case 'phd': {
+      const phd = s.phd!;
+      const n = Math.floor(phd.enrolledMonths / ASSUMED.SEMESTER_MONTHS) + 1;
+      if (phd.leave.active) return fill(S.leave, { n });
+      return fill(phd.coursework ? S.enrolled : S.completed, { n });
+    }
+    case 'career': {
+      const c = s.career!;
+      let line: string;
+      if (c.searching || c.route === 'none') {
+        line = c.degree === 'master-exit' ? S.searchingAfterMaster : c.degree === 'none' ? S.searchingAfterDropout : S.searching;
+      } else {
+        const route = t.cohort.routeNames[c.route];
+        const kind = c.route === 'startup' ? S.kind.self : NON_REGULAR_ROUTES.includes(c.route) ? S.kind.nonRegular : S.kind.regular;
+        const employer = S.employer[c.employer?.kind ?? (c.route === 'startup' ? 'self' : 'company')];
+        line = fill(S.job, { route, employer, kind, y: c.yearsInRoute + 1 });
+        if (c.contractUntil !== undefined) {
+          const m = c.contractUntil + ENTRY_MONTH_OFFSET;   // 0개월째 = 입학 연도 3월
+          line += ` · ${fill(S.contract, { year: ENTRY_YEAR + Math.floor(m / 12), month: (m % 12) + 1 })}`;
+        }
+      }
+      return c.degree === 'phd' && c.degreeMonth === s.month ? `${S.degree} · ${line}` : line;
+    }
+    case 'retired': return S.retired;
+    case 'end': return fill(S.ended, { reason: t.cohort.endReasons[s.end!.reason] });
+  }
+}
 
 /** 속도 5단계(1×~16×). 1× 는 한 칸에 BASE_MS. */
 export const SPEEDS = [1, 2, 4, 8, 16] as const;
