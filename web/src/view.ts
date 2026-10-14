@@ -1,7 +1,7 @@
 // DOM 없이 시험할 수 있는 표시 데이터. 학교 이름은 schoolDisplayName 으로만 낸다(결정 기록 0004).
 import { applyWorkInput, growthMultiplier, lectureEligible, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type PartTime } from '../../engine/src/browser';
 import { schoolDisplayName } from './schoolName';
-import { departmentLabel } from './select';
+import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
 
 export function summaryRows(s: LifeState, t: Strings, data?: DataBundle): [string, string][] {
@@ -46,6 +46,9 @@ export function statBars(s: LifeState, prev: LifeState['stats'] | undefined, t: 
   });
 }
 
+/** 엔진 계산에만 쓰는 학교 키(화면 글자로 내지 않는다, 0004). */
+const schoolKey = (s: LifeState): string => { const { school } = s.choices; return school; };
+
 export type WorkDraft = Pick<MonthInput, 'participation' | 'partTime'>;
 export interface WorkView {
   participation: number;            // 지금 적용될 참여율(0이면 과제 경로가 아님)
@@ -65,8 +68,11 @@ export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}):
   if (s.stage !== 'phd' || !s.phd || s.phd.leave.active) return undefined;
   const isProject = s.phd.fundingState.route === 'project';
   const canParticipate = isProject && s.month % 6 === 0;
+  // 초안이 상한을 넘으면 엔진이 던진다. 근로를 빼고 참여율만, 그것도 안 되면 지금 상태를 보인다.
   let next = s;
-  try { next = applyWorkInput(s, { ...draft }); } catch { next = s; }
+  try { next = applyWorkInput(s, { ...draft }); } catch {
+    try { next = applyWorkInput(s, draft.participation === undefined ? {} : { participation: draft.participation }); } catch { next = s; }
+  }
   const participation = participationOf(next);
   const cap = partTimeCap(next);
   const hourOptions: number[] = [];
@@ -76,6 +82,31 @@ export function workView(s: LifeState, data: DataBundle, draft: WorkDraft = {}):
   return {
     participation, canParticipate, isProject, partTime: pt, weekHours: partTimeWeekHours(pt), cap,
     hourOptions: [...new Set(hourOptions)], lecture: lectureEligible(next),
-    growth: growthMultiplier(next), pay: partTimePay(pt, s.month, data, s.choices.school),
+    growth: growthMultiplier(next), pay: partTimePay(pt, s.month, data, schoolKey(s)),
   };
+}
+
+/** 투고처 레코드 note 의 이름 부분: 첫 문장에서 괄호 앞까지(학회 `SOSP: ACM Symposium on … Principles`, 저널 `Advances in Mathematics`). */
+export function venueName(note: string): string {
+  const first = note.split(' · ')[0]!;
+  const cut = first.indexOf('. ');
+  const sentence = cut > 0 ? first.slice(0, cut) : first;
+  const paren = sentence.indexOf(' (');   // 저널: `이름 (ISSN …)`, KCI: `국문명 (영문명)`
+  return (paren > 0 ? sentence.slice(0, paren) : sentence).trim();
+}
+
+export interface PaperRow { n: number; status: string; topic: string; venue: string; value: number }
+export interface PaperView { accepted: number; required: number; rows: PaperRow[] }
+
+/** 진행 중인 논문(#105): 집필 진척(0–100), 상태, 주제(세부전공 이름), 투고처 이름. 박사과정이 아니면 undefined. */
+export function paperView(s: LifeState, t: Strings, data?: DataBundle): PaperView | undefined {
+  if (!s.phd) return undefined;
+  const P = t.play.papers;
+  const topic = subfieldName(s.choices.subfield, data) || trackLabel(s.choices.track, t);
+  const rows = s.phd.papers.map((p, i): PaperRow => {
+    const rec = p.venueId ? data?.records.get(p.venueId) : undefined;
+    const venue = p.status === 'draft' ? P.notYet : rec ? venueName(rec.note) : P.virtualVenue;
+    return { n: i + 1, status: P.status[p.status], topic, venue, value: Math.min(STAT_MAX, Math.round(p.writing)) };
+  });
+  return { accepted: s.phd.papers.filter(p => p.status === 'accepted').length, required: s.phd.requiredPapers, rows };
 }
