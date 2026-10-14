@@ -40,3 +40,8 @@ button:disabled { opacity: .5; }
 }
 .mark { color: var(--muted); font-size: .9rem; }
 #sources li { font-size: .85rem; }
+
+/* 시작 화면 모양(#86, 실험 0001 변형 d): 두 열 배치는 그대로 두고 분야 단추를 키우고 제목을 크게 한다. */
+h1 { margin: 1.25rem 0 .5rem; font-size: 2rem; border-bottom: 3px solid var(--accent); padding-bottom: .4rem; }
+fieldset { gap: .6rem; padding: .75rem 1rem 1rem; border-radius: 6px; }
+fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
