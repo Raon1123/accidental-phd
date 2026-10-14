@@ -76,24 +76,19 @@ if (s.pending) {
 | 1 | `month`·`ageMonths` +1, 휴학이 아니면 `enrolledMonths` +1 | `phd/tick.ts` |
 | 2 | 가상 뉴스: 만료 제거, 새 뉴스 추첨, 수요 계수 | `career/news.ts` (`updateNews`) |
 | 3 | 학기 경계(`month mod 6 = 0`): 장학 유지 판정, 수업 기간 종료. 등록금 청구는 6단계에서 한다 | `phd/money.ts` (`updateCoursework`), `phd/tick.ts` |
-| 4 | 포커스 효과: 능력치, 진척, 논문 초고 | `phd/focus.ts`, `phd/progress.ts`, `phd/papers.ts` |
+| 4 | 진척(이번 달 갱신 전 능력치로 계산), 포커스 효과: 능력치, 논문 초고 | `phd/focus.ts`, `phd/progress.ts`, `phd/papers.ts` |
 | 5 | 능력치 자연 변화 | `phd/focus.ts` (`applyDrift`) |
 | 6 | 현금 흐름(학기 경계 달의 등록금 청구 포함), 부족분 대출, 재정 위기 카운터 | `phd/money.ts` (`applyCashflow`) |
 | 7 | 논문 파이프라인: 투고, 심사 시계, 판정 추첨 | `phd/papers.ts` |
-| 8 | 자격시험 창, 학위 심사, 졸업 직전 구직, 졸업(학위 취득 → `stage: 'career'`) | `phd/exams.ts`, `career/labor.ts`, `phd/tick.ts` |
+| 8 | 자격시험 창, 학위 심사, 졸업 직전 구직(진로 결정 다음 달부터), 학위 취득(`stage: 'career'`). 학위 취득 달은 여기서 끝나고 9단계 이후를 거치지 않는다 | `phd/exams.ts`, `career/labor.ts`, `phd/tick.ts` |
 | 9 | 위험률: 휴학, 이탈, 번아웃 | `phd/hazards.ts` |
-| 10 | 결정 지점 트리거. 걸리면 스냅샷을 쌓고 `pending`을 채운다 | `phd/triggers.ts` |
-| 11 | 종료 확인: 재학연한, 재정 파탄 | `phd/tick.ts` |
+| 10 | 종료 확인: 재학연한, 재정 파탄. 종료가 걸리면 11단계를 열지 않는다 | `phd/tick.ts` |
+| 11 | 결정 지점 트리거. 걸리면 스냅샷을 쌓고 `pending`을 채운다 | `phd/triggers.ts` |
 | 12 | 기록 | `phd/tick.ts` |
 
-`pre-graduation-path`를 고른 다음 달부터 학위 취득까지 구직 하위 단계(`career/labor.ts`의 `searchMonth`)가 월 틱 8단계 안에서 함께 돈다. 선택권 §3.4는 결정한 달부터라고 쓰지만, 결정은 10단계에서 내려지므로 그 달의 8단계는 이미 지났다.
+`pre-graduation-path`를 고른 다음 달부터 학위 취득까지 구직 하위 단계(`career/labor.ts`의 `searchMonth`)가 월 틱 8단계 안에서 함께 돈다. 결정은 11단계(결정 지점)에서 내려지므로 그 달의 8단계는 이미 지났다(선택권 §3.4, 상태 §7.1).
 
-코드가 상태 §7.1의 번호와 다른 곳:
-- 등록금 청구는 3단계가 아니라 6단계(`applyCashflow`)에서 한다.
-- 졸업과 졸업 직전 구직은 8단계에서 한다. 졸업하는 달은 8단계 끝에서 반환하므로 9단계(위험률)와 10단계(결정 지점)를 거치지 않는다.
-- 11단계(종료 확인)를 10단계(결정 지점)보다 먼저 평가한다. 종료가 걸리면 결정 지점을 열지 않는다.
-
-경력 연 틱(`advanceYear`, `career/tick.ts`): 월 하위 단계 12회(뉴스 → 구직 중이면 공고·지원·채용 → 월 현금 흐름) 뒤 연말 처리(`career/pay.ts`의 `yearEnd`: 나이, 근속, 호봉, 연봉 인상, 계약 만료, 창업 존속, 경력 논문)를 한다. 그 다음 은퇴 확인을 먼저 하고 결정 지점 트리거를 본다. 상태 §7.2는 트리거를 은퇴 확인 앞에 두지만, 은퇴 나이에 이른 해에 결정 지점을 열어도 효과가 없어 코드는 은퇴를 먼저 처리한다. 한 틱에 결정 지점은 하나이고 우선순위는 `pre-retirement` > `career-10y` > `career-5y`다. 은퇴 연 틱은 나이 +1과 노후 월수입 × 12를 더하고, 80세가 되면 `end.reason = 'age80'`이다(상태 §7.3). `auto: true`면 걸린 결정을 같은 연 틱 안에서 정책으로 바로 닫는다.
+경력 연 틱(`advanceYear`, `career/tick.ts`): 월 하위 단계 12회(뉴스 → 구직 중이면 공고·지원·채용 → 월 현금 흐름) 뒤 연말 처리(`career/pay.ts`의 `yearEnd`: 나이, 근속, 호봉, 연봉 인상, 계약 만료, 창업 존속, 경력 논문)를 한다. 그 다음 결정 지점 트리거를 보고 은퇴를 확인한다(상태 §7.2 3단계 → 4단계). 은퇴 나이에 이른 해에도 아직 열리지 않은 결정 지점은 은퇴 확인보다 먼저 열린다. 한 틱에 결정 지점은 하나이고 우선순위는 `pre-retirement` > `career-10y` > `career-5y`다. 은퇴 연 틱은 나이 +1과 노후 월수입 × 12를 더하고, 80세가 되면 `end.reason = 'age80'`이다(상태 §7.3). `auto: true`면 걸린 결정을 같은 연 틱 안에서 정책으로 바로 닫는다.
 
 ## 5. 결정 지점
 

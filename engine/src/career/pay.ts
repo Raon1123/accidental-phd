@@ -100,7 +100,7 @@ export function careerPaperProbability(skill: number, researchFocus: boolean): n
  * 연말 처리(상태 §7.2 2단계, 선택권 §9). 나이는 월 틱이 올린다.
  * 순서: 근속 → 호봉·연봉 인상 → 계약 만료 → 창업 존속 → 경력 논문.
  * 재계약 실패·폐업 뒤 다시 찾는 경로는 스펙에 없어 가정이다: 박사후·강사 = 학계 4경로, 창업 = 기업(`industry`).
- * 계약 만료는 연말에만 확인하므로 만료 달이 지난 첫 연말에 판정한다(최대 11개월 늦다).
+ * 계약 만료는 상태 §7.2 2단계(연말 처리)에서만 확인하므로 만료 달이 지난 첫 연말에 판정한다(최대 11개월 늦다).
  */
 export function yearEnd(state: LifeState, data: DataBundle): LifeState {
   if (!state.career) return state;
@@ -216,8 +216,8 @@ export function retireAge(state: LifeState, _data?: DataBundle): number {
 }
 
 /**
- * 노후 월수입(0014#101): 55만 원 + min(0.6·W_last, a·근속연수·W_avg).
- * 단순화: 평균 월급 W_avg 를 기록하는 필드가 없어 W_avg = W_last(마지막 월급)로 둔다. 경력 중 인상이 있으면 실제 평균보다 크게 나온다.
+ * 노후 월수입(0014#101, 선택권 §9.4): 55만 원 + min(0.6·W_last, a·근속연수·W_last).
+ * W_last 는 은퇴 시점 월 급여(연봉 ÷ 12)다. 평균 급여를 저장하는 필드가 없어 평균 대신 W_last 를 쓴다(선택권 §9.4).
  */
 export function pensionMonthly(state: LifeState): number {
   const c = state.career;

@@ -21,7 +21,7 @@ function livingCost(s: LifeState): number {
 }
 
 /**
- * 월 현금 흐름(상태 §7.2 1단계 (4)). 단순화: 급여/12 − 생활비를 그대로 현금에 더한다.
+ * 월 현금 흐름(상태 §7.2 1단계 (4)): 급여/12 − 생활비를 그대로 현금에 더한다.
  * 대출·이자·재정 위기는 박사과정 규칙(선택권 §5.3–§5.5)이라 경력 단계에는 적용하지 않으므로 무직이 길면 현금이 음수가 될 수 있다.
  */
 function monthlyCash(s: LifeState): LifeState {
@@ -68,8 +68,8 @@ function retiredYear(s: LifeState): LifeState {
 }
 
 /**
- * 경력 연 틱. 순서: 월 하위 단계 12회(뉴스 → 구직 → 현금) → 연말 처리 → 은퇴 확인 → 결정 지점 트리거 → 기록.
- * 스펙은 트리거를 은퇴 확인 앞에 두지만, 이미 은퇴 나이가 된 해에는 결정 지점을 열지 않고 바로 은퇴시킨다(열어 봐야 효과가 없다).
+ * 경력 연 틱. 순서: 월 하위 단계 12회(뉴스 → 구직 → 현금) → 연말 처리 → 결정 지점 트리거 → 은퇴 확인 → 기록(상태 §7.2 1–5단계).
+ * 은퇴 나이에 이른 해에도 아직 열리지 않은 결정 지점(pre-retirement 등)은 은퇴 확인보다 먼저 연다. 자동이면 정책이 닫은 뒤 은퇴 확인으로 간다.
  * 결정 지점은 한 틱에 하나이고 우선순위는 pre-retirement > career-10y > career-5y 이며, 걸리면 snapshot 을 먼저 쌓고 `pending` 을 채운다.
  * 결정 처리(`decide`)는 호출하는 쪽의 몫이다. 단 `auto` 이면 걸린 결정을 정책(`policyDecision`)으로 이 틱 안에서 바로 닫는다.
  */
@@ -94,20 +94,24 @@ export function advanceYear(state: LifeState, data: DataBundle, input?: { apply?
   if (s.career!.route !== 'none' && s.career!.retireAge === undefined) s = { ...s, career: { ...s.career!, retireAge: retire } };
   retire = retireAge(s, data);
 
+  // 상태 §7.2 3단계(결정 지점 트리거) → 4단계(은퇴 확인). 은퇴 나이에 이른 해에도 아직 못 연 결정 지점은 먼저 연다.
+  const dp = nextTrigger(s, retire);
+  if (dp) {
+    s = addLog(s, 'log.career-year', ['career', 'year']);
+    const pending = { dp, month: s.month, context: { route: s.career!.route, rank: s.career!.rank }, options: optionsFor(dp, s.career!.route) };
+    // 스냅샷 계약(상태 §6.3, branch.ts): 결정 직전 상태 + 그 결정의 pending 프롬프트, decisions 에는 그 결정이 없다
+    const snapshot = { dp, month: s.month, decisionIndex: s.decisions.length, state: structuredClone({ ...s, snapshots: [], pending }) };
+    s = { ...s, snapshots: [...s.snapshots, snapshot], pending };
+    // 자동 진행(동기 정책, 선택권 §4.4): 월 틱과 같이 연 틱 안에서 바로 고른다. 닫은 뒤에는 은퇴 확인으로 간다.
+    if (s.auto) s = decide(s, data, policyDecision(s, data, pending), true);
+    // 플레이어가 고를 차례이거나, pre-retirement B 가 이미 stage 를 retired 로 옮겼으면 여기서 끝낸다
+    if (s.pending || s.stage !== 'career') return s;
+  }
   if (ageYears(s) >= retire) {
     // 이미 정해진 노후 월수입(예: pre-retirement B 조기 은퇴 ×0.85)은 덮어쓰지 않는다
     s = { ...s, stage: 'retired', career: { ...s.career!, pensionMonthly: s.career!.pensionMonthly ?? pensionMonthly(s) } };
     return addLog(s, 'log.retired', ['career', 'retire']);
   }
-  const dp = nextTrigger(s, retire);
-  s = addLog(s, 'log.career-year', ['career', 'year']);
-  if (dp) {
-    const pending = { dp, month: s.month, context: { route: s.career!.route, rank: s.career!.rank }, options: optionsFor(dp, s.career!.route) };
-    // 스냅샷 계약(상태 §6.3, branch.ts): 결정 직전 상태 + 그 결정의 pending 프롬프트, decisions 에는 그 결정이 없다
-    const snapshot = { dp, month: s.month, decisionIndex: s.decisions.length, state: structuredClone({ ...s, snapshots: [], pending }) };
-    s = { ...s, snapshots: [...s.snapshots, snapshot], pending };
-    // 자동 진행(동기 정책, 선택권 §4.4): 월 틱과 같이 연 틱 안에서 바로 고른다
-    if (s.auto) s = decide(s, data, policyDecision(s, data, pending), true);
-  }
+  if (!dp) s = addLog(s, 'log.career-year', ['career', 'year']);
   return s;
 }

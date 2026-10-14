@@ -258,7 +258,7 @@ export const ASSUMED = {
   POST_RETIRE_RESEARCH: { monthly: 500_000, years: 5, p: 0.6 },                        // 0014#98
   RETIRE_AGE: { professor: 65, institute: 61, public: 60 },                            // 0014#99 교수 65, 출연연 61, 연구직 공무원 60
   RETIRE_AGE_OTHER_RANGE: [60, 67],                                                    // 0014#100 U{60, …, 67}
-  PENSION_BASE_MONTHLY: 550_000, PENSION_CAP_RATIO: 0.6,                               // 0014#101 55만 원 + min(0.6·W_last, a·근속·W_avg)
+  PENSION_BASE_MONTHLY: 550_000, PENSION_CAP_RATIO: 0.6,                               // 0014#101 55만 원 + min(0.6·W_last, a·근속·W_last)
   PENSION_ACCRUAL_PUBLIC: 0.019, PENSION_ACCRUAL_OTHER: 0.010,                         // 0014#101
   PENSION_PUBLIC_ROUTES: ['professor', 'public'],                                      // 0014#101 공적연금 경로: 교수·연구직 공무원
 

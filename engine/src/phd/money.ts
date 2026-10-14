@@ -92,7 +92,7 @@ export function applyCashflow(state: LifeState, data: DataBundle): LifeState {
     push('loan', borrowed);
   }
 
-  // 한도를 다 써도 현금이 음수이면 위기 달이다. 현금은 음수로 남는다(§5.4 는 한도 초과분을 정하지 않는다).
+  // 한도를 다 써도 현금이 음수이면 위기 달이다. 현금은 음수로 남는다(선택권 §5.5: `debt ≥ loanLimit` 이고 `cash < 0` 이 위기 조건이고, §5.4 이자 문장은 한도와 무관하게 부채에 붙는다).
   let { crisisMonths, postCrisisMonths } = phd;
   if (cash < 0) {
     const done = crisisMonths >= ASSUMED.CRISIS_MONTHS && expiryDecidedSince(state, crisisStartMonth(state, crisisMonths + postCrisisMonths));
