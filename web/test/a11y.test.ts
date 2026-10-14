@@ -27,7 +27,7 @@ export function contrast(a: string, b: string): number {
 
 // 글자 쌍: 본문, 흐린 글자(dt·legend·footer·표시), 강조(건너뛰기 링크), 버튼, 꺼진 버튼. 테두리·포커스 윤곽은 비글자라 3:1.
 const TEXT: [string, string][] = [['fg', 'bg'], ['muted', 'bg'], ['accent', 'bg'], ['btn-fg', 'btn-bg'], ['btn-off', 'btn-bg']];
-const NON_TEXT: [string, string][] = [['focus', 'bg'], ['muted', 'bg'], ['accent', 'bg'], ['bar-delta', 'bg']];
+const NON_TEXT: [string, string][] = [['focus', 'bg'], ['muted', 'bg'], ['accent', 'bg'], ['bar-delta', 'bg'], ['note-good', 'bg'], ['note-bad', 'bg'], ['note-news', 'bg'], ['note-leave', 'bg']];
 
 describe('contrast (#61)', () => {
   for (const [name, theme] of [['light', light], ['dark', dark]] as const) {
