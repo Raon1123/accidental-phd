@@ -35,3 +35,4 @@
 
 ## 목록
 - [0001 landing 배치](0001-landing-layout.md)
+- [0002 픽셀 장면과 삽화](0002-pixel-scenes.md)
