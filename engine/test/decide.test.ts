@@ -15,6 +15,7 @@ import { odds, sigmoid, z } from '../src/odds';
 import { acceptProbability, lowerTier, reReviewDuration, resolveVerdicts } from '../src/phd/papers';
 import { draw } from '../src/rng';
 import { createLife } from '../src/pre/createLife';
+import { advanceMonth } from '../src/index';
 import { pickUniform } from '../src/util';
 import type { AdvisorType, CareerState, Choices, DecisionId, LifeState, Paper, Stats } from '../src/types';
 
@@ -331,8 +332,28 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
     expect(r.phd!.fundingState.monthly).toBe(ASSUMED.TA_FALLBACK_MONTHLY);
     expect(r.phd!.fundingState.recordIds[0]).toBe('0014#35');
   });
-  it('C: self-funding — no stipend, no waiver, no end date', () => {
-    expect(choose(expiry(project, 24), 'C').phd!.fundingState).toEqual({ route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] });
+  const SELF_RESET = { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] };
+  it('C on funding that ends this month: self-funding — no stipend, no waiver, no end date (0014#139)', () => {
+    expect(choose(expiry(project, 24), 'C').phd!.fundingState).toEqual(SELF_RESET);
+    expect(choose(expiry(project, 24, {}, { cause: 'crisis' }), 'C').phd!.fundingState).toEqual(SELF_RESET);
+  });
+  it('C in a crisis on live project or scholarship funding keeps the funding state and next month’s stipend (0014#139)', () => {
+    const stipendNext = (s: LifeState): number =>
+      advanceMonth({ ...s, pending: null }, data).ledger.filter(e => e.month === s.month + 1 && e.kind === 'stipend').reduce((a, e) => a + e.amount, 0);
+    for (const live of [{ ...project, until: 34 }, { ...scholarship, until: 34 }]) {
+      const s = expiry(live, 24, { phd: { participation: 0.5 } }, { cause: 'crisis' });
+      const r = choose(s, 'C');
+      expect(r.phd!.fundingState).toEqual(s.phd!.fundingState);
+      expect(fundingExpired(r)).toBe(false);
+      const want = stipendNext(s);
+      expect(want).toBeGreaterThan(0);
+      expect(stipendNext(r)).toBe(want);
+    }
+  });
+  it('C on the self route resets to the bare self state, including after D (the 0014#36 leave-work marker is cleared)', () => {
+    const afterD = { route: 'self' as const, monthly: 2_000_000, tuitionWaiver: 0, until: 20, dutyHours: 0, recordIds: ['0014#36'] };
+    const s = withPending(phdFixture({ phd: { fundingState: afterD } }), 'funding-expiry', { cause: 'crisis' });
+    expect(choose(s, 'C').phd!.fundingState).toEqual(SELF_RESET);
   });
   it('D: leave for 12 months with the job-income marker; the monthly leave-work line is Task 7’s', () => {
     const s = expiry(project, 24);
@@ -353,7 +374,7 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
       expect(want.recordIds).toEqual([taStipend(data, school).id, waiverRate(data, school, 'project').id]);
     }
   });
-  it('self-funded TA life (decision 0022): never expires; on forced expiry A is no-funding, B gives the project-route TA state, C zeroes the TA income (current rule, until the crisis-rule judgment)', () => {
+  it('self-funded TA life (decision 0022): never expires; on forced expiry A is no-funding, B gives the project-route TA state, C resets the self route and zeroes the TA income (0014#139)', () => {
     const ta = taFundingState(data, 'snu', 'self');
     const s = phdFixture({ month: 99, phd: { fundingState: ta } });
     expect(fundingExpired(s)).toBe(false);

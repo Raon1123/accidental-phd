@@ -289,6 +289,38 @@ describe('end conditions', () => {
     expect(seenDecision).toBe(true);
     expect(s.end).toEqual({ reason: 'financial', month: 6 });
   });
+  // 결정 기록 0023: 과제 자금이 살아 있는 삶(장려금이 생활비에 못 미쳐 적자)의 위기 강제
+  const LIVE_PROJECT = { route: 'project' as const, monthly: 100_000, tuitionWaiver: 1, until: 100, dutyHours: 0, recordIds: [] as string[] };
+  const brokeLive = (seed: string): LifeState => { const s = broke({ auto: false }, seed); return { ...s, phd: { ...s.phd!, fundingState: { ...LIVE_PROJECT }, participation: 0.5 } }; };
+  const crisisC = (seed: string): LifeState => { const s = ticks(brokeLive(seed), 3); return s.pending ? decide(s, data, 2) : s; };
+  it('crisis on live project funding: C keeps the funding, the prompt does not reopen, and the life still ends as financial (0014#139)', () => {
+    const sd = findSeed('FC', x => ticks(crisisC(x), 3).end?.reason === 'financial');
+    let s = ticks(brokeLive(sd), 3);
+    expect(s.pending).toMatchObject({ dp: 'funding-expiry', month: 3, context: { cause: 'crisis' } });
+    expect(s.pending!.options.map(o => o.key)).toEqual(['A', 'B', 'C', 'D']);
+    s = decide(s, data, 2);
+    expect(s.phd!.fundingState).toEqual(LIVE_PROJECT);
+    for (let i = 0; i < 2; i++) {
+      s = advanceMonth(s, data);
+      expect(s.stage).toBe('phd'); expect(s.pending).toBeNull(); expect(fundingExpired(s)).toBe(false);
+      expect(s.ledger.some(e => e.month === s.month && e.kind === 'stipend' && e.amount > 0)).toBe(true);
+    }
+    s = advanceMonth(s, data);
+    expect(s.decisions).toHaveLength(1);
+    expectNoDegreeCareer(s, 'financial', 6);
+  });
+  it('crisis on live project funding: after C, cash that recovers resets the crisis counters and the life goes on', () => {
+    const sd = findSeed('FR', x => { const s = crisisC(x); return s.stage === 'phd' && ticks({ ...s, phd: { ...s.phd!, familySupport: 20_000_000 } }, 6).stage === 'phd'; });
+    let s = crisisC(sd);
+    s = { ...s, phd: { ...s.phd!, familySupport: 20_000_000 } };   // 결정 뒤(위기에 든 뒤)에 지원을 키워 쌓인 음수 현금을 한 달에 메운다. 처음부터 크면 위기에 들지 않는다
+    s = advanceMonth(s, data);
+    expect(s.phd!.crisisMonths).toBe(0);
+    expect(s.phd!.postCrisisMonths).toBe(0);
+    s = ticks(s, 5);
+    expect(s.stage).toBe('phd');
+    expect(s.end).toBeUndefined();
+    expect(s.decisions.filter(d => d.dp === 'funding-expiry')).toHaveLength(1);
+  });
   it('a life whose cash recovers never reaches the crisis', () => {
     const s = ticks(make(ENG, { phd: { focus: 'rest', familySupport: 0, fundingState: { route: 'project', monthly: 5_000_000, tuitionWaiver: 1, until: 100, dutyHours: 0, recordIds: [] } } }), 8);
     expect(s.phd?.crisisMonths ?? 0).toBe(0);

@@ -82,6 +82,8 @@ export const ASSUMED = {
   FUNDING_EXTEND: { p0: 0.50, betaRelation: 0.6, betaSkill: 0.4, gammaPapers: 0.3, papersCap: 2, lo: 0.10, hi: 0.90 }, // 0014#34
   // 0014#136 자비 경로 입학 때 조교 추첨 확률은 레코드 statistics-ta-income-living-cost-2015(data/funding.ts selfTaProbability, 결정 기록 0022), 새 수치 없음.
   // 0014#137 그 조교 상태는 아래 두 값과 #21 감면 규칙을 쓴다(data/funding.ts taFundingState).
+  // 0014#138 funding-expiry A 는 자금이 이번 달 끝날 때(fundingExpired)만 연다. 끝나지 않은 자금은 'not-expiring'(decide.ts optionUnavailable, 결정 기록 0023), 새 수치 없음.
+  // 0014#139 funding-expiry C 는 끝난 자금·자비 경로만 자비로 전환하고 살아 있는 과제·장학 자금은 유지한다(decide.ts fundingExpiry, 결정 기록 0023), 새 수치 없음.
   TA_FALLBACK_MONTHLY: 400_000, TA_DUTY_HOURS: 10,                                     // 0014#35; 입학 때 조교 추첨 #137에도 쓴다
   LEAVE_JOB_INCOME: 2_000_000,                                                         // 0014#36
   PRE_GRAD_PROJECT_MIN: 90, JOB_SEARCH_MONTHS: 6,                                      // 0014#37 심사 준비 단계 진척 ≥ 90, 구직 약 6개월
