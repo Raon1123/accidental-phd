@@ -13,7 +13,7 @@
 //  - 학위 후 1년 안 취업 = 첫 'log.hired' 의 달 ≤ 졸업 달 + 12 (졸업 전 구직 채용 포함, 임시직 bridge 포함). 석사 수료 이탈자는 분모에서 뺀다.
 //  - 수요 계수 = 경력 단계의 매 달 demand(state, route) 평균. advanceYear 는 연말 상태만 돌려주므로, 같은 newsSeed 로 updateNews 를 달마다 다시 돌리는
 //    그림자 상태에서 표본을 뽑는다(뉴스는 newsSeed 와 달에만 의존한다). 연말에 그림자 뉴스와 실제 뉴스가 다르면 shadowMismatch 로 센다.
-//  - M̄ 실현값 = 휴학이 아니고 project < 100 인 박사과정 달마다 progressGain(g = 1) 을 틱과 같은 입력(월+1, 정책 포커스, 수업 기간)으로 다시 계산한 값의 평균.
+//  - M̄ 실현값 = 휴학이 아니고 project < 100 인 박사과정 달마다 progressGain(g = 1) × 성장 배수(#79) 를 틱과 같은 입력(월+1, 정책 포커스, 수업 기간)으로 다시 계산한 값의 평균.
 //
 // --override 는 가져온 ASSUMED 객체에 Object.assign 하는 sim 전용 편법이다(런타임에는 동결되지 않은 보통 객체). 얕은 덮어쓰기이고, 실행이 끝나면 되돌린다.
 // 모듈 안에서 import 시점에 값을 굳히는 상수(career/tick.ts 의 FIVE_YEARS_MONTHS 등, phd/papers.ts 의 FIRST_TIER, decide.ts 의 CAREER_5Y_STAY_MIND)는 덮어써도 닿지 않는다.
@@ -30,6 +30,7 @@ import { professorBaseline } from '../src/career/labor';
 import { acceptedCount } from '../src/phd/papers';
 import { policyFocus } from '../src/policy';
 import { progressGain, blockedProbability, researchTime } from '../src/phd/progress';
+import { growthMultiplier } from '../src/phd/work';
 import { draw } from '../src/rng';
 import type { FundingRoute, Group, Kedi, Ksced, LifeState, Route } from '../src/types';
 
@@ -95,7 +96,7 @@ function realizedM(state: LifeState, data: DataBundle): number | null {
   return progressGain({
     g: 1, u: draw(state.seed, 'progress', month, 'gain'), skill: state.stats.skill, researchTime: researchTime(withFocus), health: state.stats.health,
     support: phd.advisor.support, rigor: phd.advisor.rigor, f: ASSUMED.FOCUS[focus].f, blocked,
-  });
+  }) * growthMultiplier(withFocus);   // 성장 배수(#79)도 틱처럼 곱한다
 }
 
 const sumLedger = (s: LifeState): Record<string, number> => {
