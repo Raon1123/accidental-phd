@@ -3,8 +3,8 @@
 import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile, type WebSource } from '../../engine/src/browser';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
-import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
-import { lifeConfig, trackGroups } from './select';
+import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
+import { lifeConfig, selfTaNote, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
 import { calendarLabel, elapsedLabel } from './dates';
@@ -282,7 +282,7 @@ function renderMoneyCard(root: HTMLElement): void {
   root.append(el('h3', M.next));
   const fl = el('dl');
   const frow = (k: string, val: string): void => { fl.append(el('dt', k), el('dd', val)); };
-  frow(M.funding, t.play.fundingNames[f.funding]);
+  frow(M.funding, fundingStatus(f, t));
   frow(M.until, f.fundingUntil < 0 ? M.untilNone : M.untilMonth.replace('{n}', calendarLabel(f.fundingUntil, t)));
   frow(M.stipend, signedWon(f.stipend, 1));
   const ids = life.phd?.fundingState.recordIds ?? [];
@@ -592,7 +592,7 @@ function renderSelect(root: HTMLElement): void {
   det.open = true;
   const sum = el('summary');
   sum.append(el('h2', t.selectHeading));
-  det.append(sum, el('p', t.selectHelp));
+  det.append(sum, el('p', t.selectHelp), el('p', selfTaNote(data!, t)));
   for (const g of trackGroups(t)) {
     const fs = el('fieldset');
     fs.append(el('legend', g.label));

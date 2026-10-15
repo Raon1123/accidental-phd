@@ -193,7 +193,7 @@ export interface MoneyView {
   /** 학자금대출 잔액(#80): 등록금 부채와 생활비 부채를 일반 대출(debt)과 따로 보인다. */
   tuitionLoan: number; livingLoan: number;
   /** 박사과정 중에만 있다. 다음 달 정산 예정치(양수 = 크기). */
-  flow?: { stipend: number; family: number; living: number; tuition: number; net: number; netWithTuition: number; dutyHours: number; funding: 'scholarship' | 'project' | 'self'; fundingUntil: number };
+  flow?: { stipend: number; family: number; living: number; tuition: number; net: number; netWithTuition: number; dutyHours: number; fundingMonthly: number; funding: 'scholarship' | 'project' | 'self'; fundingUntil: number };
   /** 경력·은퇴 단계에만 있다(#96). 다음 달 정산 예정치: 급여·연금·은퇴 뒤 연구 수입, 생활비, 이자(부채에 붙음), 상환, 부족분 대출, 월 수지. */
   careerFlow?: CareerFlow & { net: number };
   crisisMonths: number;
@@ -210,7 +210,7 @@ export function moneyView(s: LifeState, data: DataBundle): MoneyView {
   const c = previewCashflow(s, data);
   const net = c.stipend + c.family - c.living;
   const f = s.phd.fundingState;
-  return { ...base, flow: { stipend: c.stipend, family: c.family, living: c.living, tuition: c.tuition, net, netWithTuition: net - c.tuition, dutyHours: f.dutyHours, funding: f.route, fundingUntil: f.until } };
+  return { ...base, flow: { stipend: c.stipend, family: c.family, living: c.living, tuition: c.tuition, net, netWithTuition: net - c.tuition, dutyHours: f.dutyHours, fundingMonthly: f.monthly, funding: f.route, fundingUntil: f.until } };
 }
 
 export interface LedgerRow { month: number; stipend: number; family: number; work: number; living: number; tuition: number; interest: number; loan: number; pay: number; pension: number; repay: number }
@@ -236,6 +236,14 @@ export function ledgerRows(s: LifeState, n = 12): LedgerRow[] {
 }
 
 /** 원 단위 금액을 `1,102.5만 원` 꼴로. 부호는 그대로 둔다(0 은 `0만 원`). */
+/** 자금 경로 표시. 자비인데 월 수입이 있으면(입학 때 조교 추첨, 결정 기록 0022) '자비 · 조교 월 N만 원'. */
+export function fundingStatus(f: Pick<NonNullable<MoneyView['flow']>, 'funding' | 'fundingMonthly'>, t: Strings): string {
+  const name = t.play.fundingNames[f.funding];
+  return f.funding === 'self' && f.fundingMonthly > 0
+    ? t.play.fundingSelfTa.replace('{route}', name).replace('{n}', wonText(f.fundingMonthly, t))
+    : name;
+}
+
 export function wonText(amount: number, t: Strings): string {
   const man = Math.round(amount / 1000) / 10;
   return t.play.money.won.replace('{n}', man.toLocaleString('ko-KR', { maximumFractionDigits: 1 }));

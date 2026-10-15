@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, type Paper } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { BASE_MS, SPEEDS, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
+import { BASE_MS, SPEEDS, fundingStatus, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
 import { participationReason, paperView, statBars, venueLabel, workView } from '../src/view';
 
@@ -395,5 +395,37 @@ describe('student loan rows (#135)', () => {
     expect(v.tuitionLoan).toBe(3_000_000);
     expect(v.livingLoan).toBe(1_200_000);
     expect(moneyView(s0, data).tuitionLoan).toBe(0);
+  });
+});
+
+describe('funding status with a self-route TA post (#163)', () => {
+  const flowOf = (funding: 'scholarship' | 'project' | 'self', monthly: number) => ({ funding, fundingMonthly: monthly }) as Parameters<typeof fundingStatus>[0];
+
+  it('self route with monthly > 0 reads as self + TA income, not as no stipend', () => {
+    const text = fundingStatus(flowOf('self', 400000), ko);
+    expect(text).toContain(ko.play.fundingNames.self);
+    expect(text).toContain(wonText(400000, ko));
+    expect(text).not.toBe(ko.play.fundingNames.self);
+  });
+
+  it('plain self (no income) and the other routes keep their bare names', () => {
+    expect(fundingStatus(flowOf('self', 0), ko)).toBe(ko.play.fundingNames.self);
+    expect(fundingStatus(flowOf('project', 1600000), ko)).toBe(ko.play.fundingNames.project);
+  });
+
+  it('a real self-route life drawn with a TA post carries monthly > 0 and dutyHours 10 into the view', () => {
+    let seen = false;
+    for (let k = 0; k < 200 && !seen; k++) {
+      const s = createLife({ funding: 'self' }, newSeed(`self-ta-${k}`), data);
+      const f = s.phd!.fundingState;
+      if (f.route === 'self' && f.monthly > 0) {
+        const v = moneyView(s, data);
+        expect(v.flow!.fundingMonthly).toBe(f.monthly);
+        expect(v.flow!.dutyHours).toBe(10);
+        expect(fundingStatus(v.flow!, ko)).toContain(wonText(f.monthly, ko));
+        seen = true;
+      }
+    }
+    expect(seen).toBe(true);
   });
 });

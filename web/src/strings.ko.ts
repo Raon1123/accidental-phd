@@ -7,6 +7,11 @@ export const ko = {
   loadFailed: '데이터를 읽지 못했습니다.',
   selectHeading: '하고 싶은 분야',
   selectHelp: '분야를 고르면 바로 박사과정이 시작됩니다. 세부전공, 학교와 학과, 자금, 지도교수는 운으로 정해집니다.',
+  // 자비로 정해질 때의 조교 자리(선택권 스펙 §2.5): 확률은 엔진 값을 {p} 에 채운다
+  selfTa: {
+    odds: '자금 경로는 운으로 정해집니다. 자비로 정해지면 확률 {p}%로 학교 조교 자리를 얻습니다(월 수입, 기한 없음, 주 10시간).',
+    offer: '조교 자리는 제안일 뿐 의무가 아닙니다.',
+  },
   trackAllLuck: '분야도 운에 맡기기',
   groupNames: { 인문사회: '인문사회', 이공: '이공' },
   // 전공군 26개(선택권 스펙 §1). 키는 엔진 TRACKS 와 같고, 테스트가 확인한다.
@@ -112,6 +117,7 @@ export const ko = {
     age: '나이',
     ageUnit: '세',
     stats: '능력치',
+    fundingSelfTa: '{route} · 조교 월 {n}',
     fundingNames: { scholarship: '장학', project: '과제', self: '자비' },
     statNames: { health: '체력', mind: '마음', skill: '역량', relation: '관계', network: '네트워크' },
     money: {
