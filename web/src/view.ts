@@ -1,6 +1,8 @@
 // DOM 없이 시험할 수 있는 표시 데이터. 학교 이름은 schoolDisplayName 으로만 낸다(결정 기록 0004).
 import { ASSUMED, applyWorkInput, researchMarket, growthMultiplier, lectureEligible, participationMean, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type Paper, type PartTime } from '../../engine/src/browser';
+import { calendarLabel, elapsedLabel } from './dates';
 import { schoolDisplayName } from './schoolName';
+import { notes, type NoteKind } from './play';
 import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
 
@@ -8,7 +10,7 @@ export function summaryRows(s: LifeState, t: Strings, data?: DataBundle): [strin
   return [
     [t.seed, s.seed],
     [t.stage, t.play.stageNames[s.stage]],
-    [t.month, String(s.month)],
+    [t.month, elapsedLabel(s.month, t)],
     [t.play.age, `${Math.floor(s.ageMonths / 12)}${t.play.ageUnit}`],
     [t.department, departmentLabel(s.choices, data, t)],
     [t.school, schoolDisplayName(s.choices.school, t)],
@@ -123,4 +125,21 @@ export function paperView(s: LifeState, t: Strings, data?: DataBundle): PaperVie
     return { n: i + 1, status: P.status[p.status], topic, venue, value: Math.min(STAT_MAX, Math.round(p.writing)) };
   });
   return { accepted: s.phd.papers.filter(p => p.status === 'accepted').length, required: s.phd.requiredPapers, rows };
+}
+
+export interface SummaryItem { when: string; kind: string; text: string }
+export interface LifeSummary { span: string; items: SummaryItem[] }
+
+const SUMMARY_KINDS: ReadonlySet<NoteKind> = new Set<NoteKind>(['good', 'bad', 'decision', 'leave', 'start', 'end']);
+
+/** 삶의 정리(#129): 주요 사건과 선택의 순간을 시간순으로. 가상 뉴스·창작 장면·평범한 기록은 뺀다. */
+export function lifeSummary(s: LifeState, t: Strings): LifeSummary {
+  const items = notes(s, t)
+    .filter(n => !n.scene && SUMMARY_KINDS.has(n.kind))
+    .reverse()   // notes() 는 최신순
+    .map(n => ({ when: calendarLabel(n.month, t), kind: t.play.noteKinds[n.kind], text: n.text }));
+  const to = s.end?.month ?? s.month;
+  const span = t.play.summary.span
+    .replace('{from}', calendarLabel(0, t)).replace('{to}', calendarLabel(to, t)).replace('{elapsed}', elapsedLabel(to, t));
+  return { span, items };
 }

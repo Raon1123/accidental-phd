@@ -7,7 +7,8 @@ import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledger
 import { lifeConfig, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
-import { detailRows, glanceRows, paperView, statBars, workView, type WorkDraft } from './view';
+import { calendarLabel, elapsedLabel } from './dates';
+import { detailRows, glanceRows, lifeSummary, paperView, statBars, workView, type WorkDraft } from './view';
 
 const store: KeyValueStore = window.localStorage;
 let data: DataBundle | undefined;
@@ -208,7 +209,7 @@ function renderFeed(root: HTMLElement): void {
     li.className = `note note-${n.kind}`;
     const tag = el('span', t.play.noteKinds[n.kind]);
     tag.className = 'note-kind';
-    li.append(tag, el('span', ` ${n.month}${t.play.monthSuffix} · ${n.text}`));
+    li.append(tag, el('span', ` ${calendarLabel(n.month, t)} · ${n.text}`));
     if (n.creative) li.append(el('span', ` [${t.play.creative}]`));
     ol.append(li);
   }
@@ -271,7 +272,7 @@ function renderMoneyCard(root: HTMLElement): void {
   const row = (k: string, val: string): void => { dl.append(el('dt', k), el('dd', val)); };
   row(M.cash, wonText(v.cash, t));
   row(M.debt, `${wonText(v.debt, t)} / ${M.loanLimit} ${wonText(v.loanLimit, t)}`);
-  if (v.crisisMonths > 0) row(M.crisis, M.crisisMonths.replace('{n}', String(v.crisisMonths)));
+  if (v.crisisMonths > 0) row(M.crisis, M.crisisMonths.replace('{n}', elapsedLabel(v.crisisMonths, t)));
   root.append(dl);
   if (v.careerFlow) { renderCareerFlow(root, v.careerFlow); return; }
   if (!v.flow) { root.append(el('p', M.noPhd)); return; }
@@ -280,7 +281,7 @@ function renderMoneyCard(root: HTMLElement): void {
   const fl = el('dl');
   const frow = (k: string, val: string): void => { fl.append(el('dt', k), el('dd', val)); };
   frow(M.funding, t.play.fundingNames[f.funding]);
-  frow(M.until, f.fundingUntil < 0 ? M.untilNone : M.untilMonth.replace('{n}', String(f.fundingUntil)));
+  frow(M.until, f.fundingUntil < 0 ? M.untilNone : M.untilMonth.replace('{n}', calendarLabel(f.fundingUntil, t)));
   frow(M.stipend, signedWon(f.stipend, 1));
   const ids = life.phd?.fundingState.recordIds ?? [];
   const basis = stipendGuarantee(ids);
@@ -333,7 +334,7 @@ function renderLedger(root: HTMLElement, keys: readonly LedgerKey[]): void {
     tbl.append(head);
     for (const r of rows) {
       const tr = el('tr');
-      for (const k of keys) tr.append(el('td', k === 'month' ? String(r.month) : wonText(r[k], t)));
+      for (const k of keys) tr.append(el('td', k === 'month' ? calendarLabel(r.month, t) : wonText(r[k], t)));
       tbl.append(tr);
     }
     det.append(tbl);
@@ -396,13 +397,33 @@ function renderCareerFlow(root: HTMLElement, f: NonNullable<ReturnType<typeof mo
   renderLedger(root, ['month', life!.stage === 'career' ? 'pay' : 'pension', 'work', 'living', 'interest', 'repay', 'loan']);
 }
 
+/** 삶의 정리(#129): 기록이 끝났을 때 한 번. 일자는 달력 연월, 기간은 경과 기간. */
+function renderSummary(root: HTMLElement, s: LifeState): void {
+  const v = lifeSummary(s, t);
+  const S = t.play.summary;
+  const box = el('section');
+  box.className = 'life-summary';
+  box.append(el('h3', S.heading), el('p', S.help), el('p', v.span));
+  if (v.items.length === 0) { box.append(el('p', S.empty)); root.append(box); return; }
+  const ol = el('ol');
+  for (const it of v.items) {
+    const li = el('li');
+    const tag = el('span', it.kind);
+    tag.className = 'note-kind';
+    li.append(el('strong', it.when), ' ', tag, el('span', ` ${it.text}`));
+    ol.append(li);
+  }
+  box.append(ol);
+  root.append(box);
+}
+
 function renderCurrent(root: HTMLElement): void {
   root.replaceChildren(el('h2', t.currentHeading));
   if (!life) { root.append(el('p', t.noLife)); return; }
   const dl = el('dl');
   for (const [k, v] of detailRows(life, t, data)) dl.append(el('dt', k), el('dd', v));
   root.append(dl);
-  if (life.stage === 'end') root.append(el('p', t.play.ended));
+  if (life.stage === 'end') { root.append(el('p', t.play.ended)); renderSummary(root, life); }
   renderControls(root, life);
   renderDecision(root, life, i => { if (life && data) { life = decide(life, data, i); render(); } });
   root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
@@ -453,7 +474,7 @@ function renderBranch(root: HTMLElement): void {
   if (points.length === 0) root.append(el('p', t.cohort.branchNone));
   const ul = el('ul');
   for (const p of points) {
-    const label = `${fill(t.cohort.branchAt, { month: p.month })}: ${t.play.prompts[p.prompt as keyof typeof t.play.prompts]}`;
+    const label = `${fill(t.cohort.branchAt, { month: calendarLabel(p.month, t) })}: ${t.play.prompts[p.prompt as keyof typeof t.play.prompts]}`;
     const li = el('li');
     li.append(button(label, () => { if (life && data) { stop(); branched = openBranch(life, data, p.dp, p.month); branchedFrom = p; render(); } }, running));
     ul.append(li);

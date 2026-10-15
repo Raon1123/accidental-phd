@@ -1,5 +1,6 @@
 // 동기 4명(상태 §6.4, 결정 기록 0005)과 "다른 선택 보기" 분기(상태 §6.3)의 DOM 없는 부분(#56).
 import { branch, cohortSeed, createLife, decisionOutcome, type DataBundle, type DecisionId, type LifeState } from '../../engine/src/browser';
+import { calendarLabel, elapsedLabel } from './dates';
 import { step } from './play';
 import { schoolDisplayName } from './schoolName';
 import { departmentLabel } from './select';
@@ -93,11 +94,11 @@ export function compareRows(a: LifeState, b: LifeState, t: Strings): [string, st
   const R = t.cohort.rows;
   const one = (s: LifeState) => ({
     stage: t.play.stageNames[s.stage],
-    month: String(s.month),
+    month: elapsedLabel(s.month, t),
     end: s.end ? t.cohort.endReasons[s.end.reason] : t.cohort.none,
     route: s.career ? t.cohort.routeNames[s.career.route] : t.cohort.none,
     net: fill(t.cohort.won, { n: Math.round((s.money.cash - s.money.debt) / 10_000).toLocaleString('ko-KR') }),
-    decisions: s.decisions.map(d => `${d.month}:${d.option}`).join(' ') || t.cohort.none,
+    decisions: s.decisions.map(d => `${calendarLabel(d.month, t)} ${d.option}`).join(' · ') || t.cohort.none,
   });
   const x = one(a), y = one(b);
   return (Object.keys(R) as (keyof typeof R)[]).map(k => [R[k], x[k], y[k]]);
