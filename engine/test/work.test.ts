@@ -162,6 +162,47 @@ describe('auto policy (#79)', () => {
     expect(autoPartTime({ ...working, money: { ...working.money, cash: 100_000_000 } })).toBeUndefined();
   });
 
+  // 결정 기록 0025: 시작 조건은 "지난달 정산에 부족분"(대출 전 현금 < 0) — 지난달 대출 항목이 있거나 현금이 음수로 남음.
+  it('starts work when last month settled a shortfall with a loan (decision 0025)', () => {
+    const s = base({ month: 5, cash: 0 });
+    for (const kind of ['living-loan', 'loan', 'tuition-loan']) {
+      expect(autoPartTime({ ...s, ledger: [{ month: 4, kind, amount: 500_000 }] })).toEqual({ kind: 'job', hours: ASSUMED.AUTO_PART_TIME.jobHours });
+    }
+    const lecturer = base({ month: 5, cash: 0, qualified: true, papers: [ACCEPTED] });
+    expect(autoPartTime({ ...lecturer, ledger: [{ month: 4, kind: 'loan', amount: 500_000 }] })).toEqual({ kind: 'lecture', hours: ASSUMED.AUTO_PART_TIME.lectureHours });
+  });
+
+  it('ignores loans older than last month, interest entries and zero amounts', () => {
+    const s = base({ month: 5, cash: 0 });
+    expect(autoPartTime({ ...s, ledger: [{ month: 3, kind: 'loan', amount: 500_000 }] })).toBeUndefined();
+    expect(autoPartTime({ ...s, ledger: [{ month: 4, kind: 'interest', amount: -10_000 }, { month: 4, kind: 'living-loan-interest', amount: -2_000 }] })).toBeUndefined();
+    expect(autoPartTime({ ...s, ledger: [{ month: 4, kind: 'loan', amount: 0 }] })).toBeUndefined();
+  });
+
+  it('keeps current work without a new shortfall, and the stop rule wins over a last-month loan', () => {
+    const working = applyWorkInput(base({ month: 5 }), { partTime: { kind: 'job', hours: 10 } });
+    expect(autoPartTime({ ...working, money: { ...working.money, cash: 0 } })).toEqual({ kind: 'job', hours: 10 });
+    const loan = [{ month: 4, kind: 'loan', amount: 500_000 }];
+    expect(autoPartTime({ ...working, ledger: loan, money: { ...working.money, cash: 100_000_000 } })).toBeUndefined();
+    const idle = base({ month: 5 });
+    expect(autoPartTime({ ...idle, ledger: loan, money: { ...idle.money, cash: 100_000_000 } })).toBeUndefined();
+  });
+
+  it('an auto life with zero cash starts work the month after its first loan, not at the credit limit', () => {
+    let s = base({ auto: true, cash: 0 });
+    const firstWork: number[] = [];
+    for (let i = 0; i < 6 && s.stage === 'phd'; i++) {
+      s = advanceMonth(s, data);
+      if (s.phd!.partTime) firstWork.push(s.month);
+    }
+    const loanMonths = s.ledger.filter(e => ['loan', 'tuition-loan', 'living-loan'].includes(e.kind) && e.amount > 0).map(e => e.month);
+    expect(loanMonths.length).toBeGreaterThan(0);
+    const firstLoan = Math.min(...loanMonths);
+    expect(firstWork[0]).toBe(firstLoan + 1);
+    expect(s.ledger.some(e => e.month === firstLoan + 1 && (e.kind === 'part-time' || e.kind === 'lecture'))).toBe(true);
+    expect(s.money.debt).toBeLessThan(s.money.loanLimit);
+  });
+
   it('an auto life with a cash shortfall picks up part-time work', () => {
     let s = { ...base({ auto: true, cash: -1 }) };
     s = advanceMonth(s, data);

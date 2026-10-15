@@ -275,7 +275,7 @@ export const ASSUMED = {
   GROWTH_FLOOR: 0,                                                                     // 0014#126 성장 배수 = max(0, 1 − 근로 시간/40 − 참여율/2) (사용자 규칙, 합산)
   WEEKS_PER_MONTH: 4.345, MIN_WAGE_YEAR: 2027,                                       // 0014#127 아르바이트 시급 = 최저시급 레코드(2027) × (1 + 물가 목표 레코드)^(연도 − 2027), 월 4.345주
   PHD_LECTURE: { timeMult: 3, steps: [3, 6, 9] },                                     // 0014#128 박사과정 강의: 주당 시간 = 시수 × 3(사용자 규칙), 강의료 = 시수 × 학교 시간강사 시급 레코드 × (연 32주/12)(0014#82)
-  AUTO_PART_TIME: { jobHours: 15, lectureHours: 3, stopCashMonths: 3 },               // 0014#129 자동 정책: 현금 < 0 이면 근로 시작(강의 자격이면 강의), 현금 ≥ 생활비 × 3 이면 그만둔다
+  AUTO_PART_TIME: { jobHours: 15, lectureHours: 3, stopCashMonths: 3 },               // 0014#129 자동 정책: 지난달 정산에 부족분(대출 전 현금 < 0)이 있으면 근로 시작(강의 자격이면 강의), 현금 ≥ 생활비 × 3 이면 그만둔다 (2026-10-15 결정 기록 0025: 정산 뒤 현금 < 0 조건에서 수정)
   CAREER_REPAY_SHARE: 0.20,                                                          // 0014#122 경력·은퇴 단계 월 상환: 그달 소득의 20%까지 부채를 갚는다(#96)
   CAREER_5Y_STAY_MIND: -5,                                                             // 0014#121 career-5y D "한 번 더 버틴다": 마음 −5 (Wave 4 추가)
   EARLY_RETIRE_MULT: 0.85,                                                             // 0014#97
