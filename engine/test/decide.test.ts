@@ -335,16 +335,15 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
     expect(optionUnavailable(s, s.pending!, 'B')).toBeUndefined();
     expect(describeOptions(s, data).find(o => o.key === 'A')!.unavailable).toBe('no-funding');
     expect(() => decide(s, data, 0)).toThrow(/unavailable \(no-funding\)/);
-    const ta = { ...project, until: -1 };
-    const t = expiry(ta, 24, {}, { cause: 'crisis' });
+    const t = withPending(phdFixture({ month: 24, phd: { fundingState: taFundingState(data, 'snu') } }), 'funding-expiry', { cause: 'crisis' });
     expect(optionUnavailable(t, t.pending!, 'A')).toBe('no-funding');
     expect(optionUnavailable(expiry(project, 24), expiry(project, 24).pending!, 'A')).toBeUndefined();
   });
-  it('B: teaching assistant — the school TA stipend, 10 duty hours, no end date, project route', () => {
+  it('B: teaching assistant — the school TA stipend, 10 duty hours, no end date, self route (0014#140)', () => {
     const r = choose(expiry(project, 24), 'B');
     const ta = taStipend(data, 'snu');
     expect(ta.value).toBe(300_000);
-    expect(r.phd!.fundingState).toMatchObject({ route: 'project', monthly: 300_000, dutyHours: ASSUMED.TA_DUTY_HOURS, until: -1 });
+    expect(r.phd!.fundingState).toMatchObject({ route: 'self', monthly: 300_000, dutyHours: ASSUMED.TA_DUTY_HOURS, until: -1 });
     expect(r.phd!.fundingState.recordIds[0]).toBe(ta.id);
   });
   it('B: a school without a TA record falls back to 400,000 won', () => {
@@ -386,22 +385,33 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
     const s = expiry(project, 24, { phd: { leave: { active: false, until: -1, totalMonths: 30 } } });
     expect(() => choose(s, 'D')).toThrow(/cap/);
   });
-  it('B equals taFundingState(…, project) exactly (refactor regression: monthly, waiver, dutyHours, recordIds order)', () => {
+  it('B equals taFundingState(…) exactly (refactor regression: monthly, waiver, dutyHours, recordIds order)', () => {
     for (const school of ['snu', 'korea', 'hanyang']) {
       const r = choose(expiry(project, 24, { choices: { school } }), 'B');
-      const want = taFundingState(data, school, 'project');
+      const want = taFundingState(data, school);
       expect(r.phd!.fundingState).toEqual(want);
       expect(want.recordIds).toEqual([taStipend(data, school).id, waiverRate(data, school, 'project').id]);
     }
   });
-  it('self-funded TA life (decision 0022): never expires; on forced expiry A is no-funding, B gives the project-route TA state, C resets the self route and zeroes the TA income (0014#139)', () => {
-    const ta = taFundingState(data, 'snu', 'self');
+  it('self-funded TA life (decision 0022): never expires; on forced expiry A is no-funding, B gives the same TA state, C keeps the TA income (0014#141)', () => {
+    const ta = taFundingState(data, 'snu');
     const s = phdFixture({ month: 99, phd: { fundingState: ta } });
     expect(fundingExpired(s)).toBe(false);
     const p = withPending(s, 'funding-expiry', { cause: 'crisis' });
     expect(optionUnavailable(p, p.pending!, 'A')).toBe('no-funding');
-    expect(choose(p, 'B').phd!.fundingState).toEqual(taFundingState(data, 'snu', 'project'));
-    expect(choose(p, 'C').phd!.fundingState.monthly).toBe(0);
+    expect(choose(p, 'B').phd!.fundingState).toEqual(ta);
+    const c = choose(p, 'C');
+    expect(c.phd!.fundingState).toEqual(ta);
+    expect(c.phd!.fundingState.monthly).toBe(300_000);
+    expect(fundingExpired(c)).toBe(false);
+  });
+  it('C keeps a TA state reached through B but resets the post-D marker state (0014#141; 0023)', () => {
+    const viaB = choose(expiry(project, 24), 'B');
+    const p = withPending({ ...viaB, pending: null, month: 30 }, 'funding-expiry', { cause: 'crisis' });
+    expect(choose(p, 'C').phd!.fundingState).toEqual(viaB.phd!.fundingState);
+    const afterD = { route: 'self' as const, monthly: 2_000_000, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: ['0014#36'] };
+    const d = withPending(phdFixture({ phd: { fundingState: afterD } }), 'funding-expiry', { cause: 'crisis' });
+    expect(choose(d, 'C').phd!.fundingState).toEqual(SELF_RESET);
   });
 });
 

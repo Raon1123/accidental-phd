@@ -212,7 +212,7 @@ describe('auto policy (#79)', () => {
 });
 
 describe('self-funded TA life (0014#137, decision 0022): existing work rules unchanged', () => {
-  const ta = taFundingState(data, 'snu', 'self');
+  const ta = taFundingState(data, 'snu');
   it('cap = 40 − 10 duty = 30; auto policy still starts the 15-hour job when cash < 0', () => {
     expect(partTimeCap(base({ funding: ta }))).toBe(30);
     expect(autoPartTime(base({ funding: ta, cash: -1 }))).toEqual({ kind: 'job', hours: ASSUMED.AUTO_PART_TIME.jobHours });
@@ -223,5 +223,32 @@ describe('self-funded TA life (0014#137, decision 0022): existing work rules unc
     expect(growthMultiplier({ ...withTa, phd: { ...withTa.phd!, partTime: job } })).toBe(growthMultiplier({ ...without, phd: { ...without.phd!, partTime: job } }));
     const course = withTa.phd!.coursework ? ASSUMED.COURSEWORK_HOURS : 0;
     expect(researchTime(withTa)).toBeCloseTo((44 - 10 - course) / 44, 10);
+  });
+});
+
+describe('TA state reached through funding-expiry B equals the entry TA state under the work rules (0014#140, decision 0026)', () => {
+  const ta = taFundingState(data, 'snu');
+  const entry = base({ month: 25, funding: ta });
+  // B 는 fundingState 만 taFundingState 로 바꾼다(decide.test). 과제 삶의 참여율 값은 남아도 읽히지 않는다.
+  const fromProject = (r: number): LifeState => { const s = base({ month: 25, funding: PROJECT }); return { ...s, phd: { ...s.phd!, participation: r, fundingState: ta } }; };
+  for (const r of [0.25, 1]) {
+    it(`former project life with r = ${r}: no participation, stipend scale 1, cap 30, same growth multiplier, no draw next month`, () => {
+      const s = fromProject(r);
+      expect(participationOf(s)).toBe(0);
+      expect(stipendScale(s)).toBe(1);
+      expect(partTimeCap(s)).toBe(partTimeCap(entry));
+      expect(partTimeCap(s)).toBe(30);
+      expect(growthMultiplier(s)).toBe(growthMultiplier(entry));
+      const next = drawParticipation({ ...s, month: 26 });
+      expect(next.phd!.participation).toBe(r);
+      const t = advanceMonth(s, data);
+      const stipend = t.ledger.filter(e => e.month === 26 && e.kind === 'stipend').reduce((a, e) => a + e.amount, 0);
+      if (!t.phd?.leave.active) expect(stipend).toBe(ta.monthly);
+    });
+  }
+  it('a self life without participation stays without it after the B state', () => {
+    const s = base({ month: 25, funding: ta });
+    expect(s.phd!.participation).toBeUndefined();
+    expect(drawParticipation({ ...s, month: 26 }).phd!.participation).toBeUndefined();
   });
 });

@@ -1,6 +1,6 @@
 // 장학·과제·조교 장려금 접근자(선택권 §5.2, §3.3). 월액은 원 정수.
 import { ASSUMED } from '../assumed';
-import type { FundingRoute, FundingState, Group } from '../types';
+import type { FundingState, Group } from '../types';
 import { find, get, type DataBundle, type DataRecord, type DataValue } from './bundle';
 import { waiverRate } from './tuition';
 
@@ -83,10 +83,11 @@ export function selfTaProbability(data: DataBundle): DataValue {
 /**
  * 조교 자금 상태(0014#137). funding-expiry B(선택권 §3.3)와 입학 때 조교 추첨(선택권 §5.2)이 같은 값을 쓴다:
  * 월 수입 = taStipend(0014#35 규칙), 감면 = 과제 감면 규칙(0014#21 `-ra`·`-ta` 토큰), 기한 없음(until −1), 의무 주 10시간.
- * route 는 호출자가 정한다(B 는 'project', 입학 때 추첨은 'self' — 참여율 추첨·배수가 조교 수입에 걸리지 않게).
+ * 표식은 경로 'self' + 의무 시간(0014#140, 결정 기록 0026): 조교 판정 술어는 dutyHours > 0 이고, 참여율 추첨·장려금 배수·성장 배수·근로 상한의
+ * 참여율 항(0014#125·#126·#130)은 과제 경로에만 걸리므로 조교 수입에 걸리지 않는다. 경로 'project' 인 조교 상태는 만들 수 없다.
  */
-export function taFundingState(data: DataBundle, school: string, route: FundingRoute): FundingState {
+export function taFundingState(data: DataBundle, school: string): FundingState {
   const ta = taStipend(data, school);
   const waiver = waiverRate(data, school, 'project');   // 조교·연구조교 레코드의 등록금 감면 비율(자금 경로 'project' 규칙)
-  return { route, monthly: ta.value, tuitionWaiver: waiver.value, until: -1, dutyHours: ASSUMED.TA_DUTY_HOURS, recordIds: [ta.id, waiver.id] };
+  return { route: 'self', monthly: ta.value, tuitionWaiver: waiver.value, until: -1, dutyHours: ASSUMED.TA_DUTY_HOURS, recordIds: [ta.id, waiver.id] };
 }
