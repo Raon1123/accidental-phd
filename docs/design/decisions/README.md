@@ -43,3 +43,4 @@
 - [0019 학교 akj의 운 추첨 가중치: 단위 수 가중치 유지](0019-akj-luck-weight.md)
 - [0020 실명 기록 삭제 때 커밋 해시 인용 처리: 대응표 커밋과 인용 치환, PR 번호 유지](0020-history-rewrite-hash-citations.md)
 - [0021 재정 파탄 목표와 일반 대출 한도: 4,200만 유지, 목표를 이탈 레코드에서 유도](0021-financial-target-loan-limit.md)
+- [0022 자비 경로 수입 구성: 입학 때 조교 추첨(P_TA 0.265, 생활비 재원 조사 레코드)](0022-self-funding-income.md)
