@@ -109,9 +109,11 @@ export function optionUnavailable(s: LifeState, p: PendingDecision, key: string)
   if (p.dp === 'post-qualifying' && key === 'B' && leaveBlocked(s, ASSUMED.POST_QUAL_REST_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'D' && leaveBlocked(s, FUNDING_D_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'A' && ctxOf<FundingExpiryContext>(p).retry) return 'already-tried';
-  if (p.dp === 'funding-expiry' && key === 'A') {   // 연장할 자금이 없다: 자비, 또는 끝나는 날이 없는 자금(조교 등)
+  if (p.dp === 'funding-expiry' && key === 'A') {
     const f = s.phd?.fundingState;
-    if (!f || f.route === 'self' || f.until < 0) return 'no-funding';
+    if (!f || f.route === 'self' || f.until < 0) return 'no-funding';   // 연장할 자금이 없다: 자비, 또는 끝나는 날이 없는 자금(조교 등)
+    // 0014#138(결정 기록 0023): 연장은 이번 달 끝나는 자금(기한 도달, 장학 유지 실패)에만 신청한다. 재정 위기 강제가 살아 있는 자금에 걸리면 닫는다.
+    if (!fundingExpired(s)) return 'not-expiring';
   }
   return undefined;
 }
@@ -231,10 +233,17 @@ function fundingExpiry(s: LifeState, data: DataBundle, p: PendingDecision, key: 
   // B: 조교 상태(0014#35, 입학 때 조교 추첨과 같은 값 — data/funding.ts taFundingState).
   // 메모(결정 기록 0022, 이번에 안 고침): 경로 표식이 'project' 라 참여율 추첨(#130)·장려금 배수(#125)·성장 배수(#126)가 조교 수입에 걸린다.
   // 입학 때 조교 추첨은 'self' 로 둔다. 이 차이는 다음 wave 첫 PR의 차이 감사(0016 §2)에 올린다.
-  // 메모: 입학 때 조교를 얻은 자비 삶이 §5.5 강제 만료로 여기 오면 B 는 같은 값을 다시 준다((b) 재정 위기 규칙 판정에서 다룬다).
+  // 입학 때 조교를 얻은 자비 삶이 §5.5 강제 만료로 여기 오면 B 는 같은 값을 다시 준다. 결정 기록 0023 은 B 효과를 바꾸지 않는다(수입 비교를 가용 조건에 넣지 않는다).
   if (key === 'B') return patchPhd(s, { fundingState: taFundingState(data, s.choices.school, 'project') });
-  // 메모(결정 기록 0022): C 는 입학 때 얻은 조교 수입도 0으로 되돌린다((b) 재정 위기 규칙 판정에서 다룬다).
-  if (key === 'C') return patchPhd(s, { fundingState: { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] } });
+  // C(0014#139, 결정 기록 0023): 자금이 끝났거나(fundingExpired) 자비 경로이면 자비로 전환하고, 살아 있는 과제·장학 자금은 그대로 둔다.
+  // 끝난 자금을 유지하면 route 가 과제·장학인 채 기한이 지나 checkTriggers 가 달마다 funding-expiry 를 다시 연다 — 그래서 전환한다.
+  // 자비 경로는 유지가 아니라 초기화한다: D 뒤의 자비 상태(monthly 200만, '0014#36' 표지)가 남으면 이후 휴학마다 leave-work 가 지급된다.
+  // 입학 때 조교(0022)를 얻은 자비 삶의 조교 수입도 이 초기화로 0이 된다(옛 C 와 같다). 새 대출은 §5.4 한도 규칙만 정하고 C 가 열지 않는다.
+  if (key === 'C') {
+    return (fundingExpired(s) || f.route === 'self')
+      ? patchPhd(s, { fundingState: { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] } })
+      : s;
+  }
   // D: 휴학하고 일한다. 월 근로 수입(LEAVE_JOB_INCOME)은 fundingState 에 표지로만 적는다. 휴학 중에는 money.fundingActive 가 거짓이라 지급되지 않으므로
   // 달마다 'leave-work' 원장 항목을 넣는 일은 Task 7 의 틱이 한다(recordIds 의 '0014#36' 표지와 leave.active 로 알아본다).
   const left = restLeave(s, FUNDING_D_LEAVE_MONTHS);
@@ -412,10 +421,10 @@ export function describeOptions(state: LifeState, data: DataBundle): OptionInfo[
   if (!pending) throw new Error('describeOptions: no pending decision');
   return pending.options.map(o => {
     const info: OptionInfo = { key: o.key };
-    const hint = hintFor(state, data, pending, o.key);
-    if (hint) info.probabilityHint = hint;
     const unavailable = optionUnavailable(state, pending, o.key);
     if (unavailable) info.unavailable = unavailable;
+    const hint = unavailable ? undefined : hintFor(state, data, pending, o.key);   // 고를 수 없는 선택지에는 확률 힌트를 붙이지 않는다
+    if (hint) info.probabilityHint = hint;
     return info;
   });
 }
