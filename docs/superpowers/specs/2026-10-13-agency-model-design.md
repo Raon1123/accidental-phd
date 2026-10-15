@@ -65,9 +65,9 @@ P(이공) = (공학 8895 + 자연 4339) / (인문 3497 + 사회 6406 + 공학 88
 |  |  |  |  | linguistics | 6.5 |
 |  |  |  |  | law | 11 |
 
-2026-10-15: 한국학중심대학원(`akj`, #100)의 5단위(history·philosophy·korean_literature·political·sociology 각 1)를 더했다. 아래 합계 문장은 그 전 값이다.
+2026-10-15: 한국학중심대학원(`akj`, #100)의 5단위(history·philosophy·korean_literature·political·sociology 각 1)를 더했다.
 
-이공 합 319, 인문사회 합 141, 전체 460(= 고유 단위 수). 출처: departments 레코드 483건 note의 `track`과 `same_unit_as`(conf v 480 / i 3). 학과 수를 가중치로 쓰는 것은 assumed (결정 기록 0014 #13).
+이공 합 319, 인문사회 합 157, 전체 476(= 고유 단위 수; 법학 11 #70, akj 5 #100 포함). 출처: departments 레코드 note의 `track`과 `same_unit_as`. 학과 수를 가중치로 쓰는 것은 assumed (결정 기록 0014 #13). 학교 akj도 같은 규칙이다(결정 기록 0019).
 
 - 바꾸는 상태: `choices.track`, `choices.ksced`(§1), 세부전공 선택지, 학과 선택지, 투고처 분야군(§6.3), 뉴스 표적 일치 여부(노동시장 스펙 §5).
 
