@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { ASSUMED } from '../src/assumed';
 import { loadData, has } from '../src/data/load';
-import { indexDepartments, unitKey, unitsForTrack } from '../src/data/departments';
+import { indexDepartments, trackWeights, unitKey, unitsForTrack } from '../src/data/departments';
 import { entranceFee } from '../src/data/tuition';
 import { scholarshipOptions } from '../src/data/funding';
 import { newSeed } from '../src/rng';
 import { pickUniform, pickWeighted } from '../src/util';
 import { createLife } from '../src/pre/createLife';
-import { subfieldsOfDepartment } from '../src/data/taxonomy';
+import { subfieldsOfDepartment, tracksOf } from '../src/data/taxonomy';
 
 const data = loadData();
 const idx = indexDepartments(data);
@@ -341,5 +341,37 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
       .toEqual([c.choices.group, c.choices.track, c.choices.subfield, c.choices.departmentRecord, c.choices.funding]);
     expect(d.stats).toEqual(c.stats);
     expect(d.ageMonths).toBe(c.ageMonths);
+  });
+});
+
+describe('akj enters the luck draw with unit-count weight (decision 0019, #139)', () => {
+  const AKJ_UNITS: Record<string, number> = { history: 19, philosophy: 16, korean_literature: 16, political: 17, sociology: 15 };
+  const share = (n: number, f: (i: number) => boolean) => { let k = 0; for (let i = 0; i < n; i++) if (f(i)) k++; return k / n; };
+
+  it('each of the five tracks holds one akj unit among the counted units', () => {
+    for (const [t, n] of Object.entries(AKJ_UNITS)) {
+      const units = unitsForTrack(idx, t);
+      expect(units.filter(u => u === `departments-akj-${t}`)).toHaveLength(1);
+      expect(units).toHaveLength(n);
+    }
+  });
+  it('a chosen track lands at akj with probability 1 / units', () => {
+    for (const t of Object.keys(AKJ_UNITS)) {
+      const p = share(3000, i => createLife({ track: t }, newSeed(`akj-${t}-${i}`), data).choices.school === 'akj');
+      expect(Math.abs(p - 1 / unitsForTrack(idx, t).length)).toBeLessThan(0.02);
+    }
+  });
+  it('a lucky 인문사회 life lands at akj with probability 5 / group units', () => {
+    const w = trackWeights(idx);
+    const total = tracksOf('인문사회').reduce((s, t) => s + (w[t] ?? 0), 0);
+    expect(total).toBe(157);
+    const lives = Array.from({ length: 4000 }, (_, i) => createLife({ group: '인문사회' }, newSeed(`akj-g-${i}`), data));
+    expect(Math.abs(lives.filter(l => l.choices.school === 'akj').length / lives.length - 5 / total)).toBeLessThan(0.01);
+    expect(lives.every(l => l.choices.byLuck.track && l.choices.byLuck.department)).toBe(true);
+  });
+  it('akj never appears outside its five tracks', () => {
+    for (let i = 0; i < 500; i++) expect(createLife({ track: 'economics' }, newSeed(`akj-e-${i}`), data).choices.school).not.toBe('akj');
+    for (let i = 0; i < 50; i++) expect(Object.keys(AKJ_UNITS)).toContain(createLife({ school: 'akj', group: '인문사회' }, newSeed(`akj-s-${i}`), data).choices.track);
+    expect(() => createLife({ school: 'akj', track: 'economics' }, newSeed('akj-x'), data)).toThrow();
   });
 });
