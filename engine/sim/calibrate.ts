@@ -1,6 +1,7 @@
 // 보정 하네스 (계획 Task 11, 선택권 §4.2·§4.6, 노동 §4.3). 사용법:
 //   npm run calibrate -- --seeds 1000 [--out docs/oracle/calibration-wave4.md] [--group 이공|인문사회]
-//                        [--override KEY=JSON ...] [--candidates] [--candidate-seeds 300] [--json]
+//                        [--override KEY=JSON ...] [--record RECORD_ID=NUMBER ...] [--candidates] [--candidate-seeds 300] [--json]
+//   --record 는 레코드 값을 덮은 번들로 돈다(레코드에 기댄 환경 값의 민감도용, 예: statistics-ta-income-living-cost-2015=0.62).
 // 읽기 전용 모의실험이다. engine/src 는 한 줄도 바꾸지 않는다.
 //
 // 측정 정의 (표 아래 "측정 정의"에도 같은 내용이 찍힌다):
@@ -57,7 +58,9 @@ const EMPLOY_WINDOW_MONTHS = MONTHS;           // 졸업 후 1년
 export interface LifeRecord {
   i: number; seed: string; group: Group; kedi: Kedi; ksced: Ksced; track: string; capital: boolean; entryAge: number;
   funding0: FundingRoute;                       // 처음 자금 경로(운 반영 뒤)
+  ta0: boolean;                                 // 입학 때 조교 추첨에 걸린 자비 삶(0014#137): route self 이고 monthly > 0
   stipend0: number; waiver0: number; family0: number;   // 입학 때 월 장려금, 등록금 감면율, 월 가족 지원
+  workMonths: number;                           // 휴학이 아닌 박사과정 달 중 근로 설정(partTime)이 있는 달 수
   leaveStarts: { hazard: number; burnout: number; voluntary: number };   // 휴학 시작 횟수(이유별)
   qualFailEnd: boolean;                         // 자격시험 3회 불합격으로 끝났는가
   paperReadyMonth?: number;                     // 채택 논문 수가 학위 요건(계층 하한 포함)을 처음 채운 달
@@ -78,7 +81,8 @@ export interface LifeRecord {
 const rec0 = (i: number, s: LifeState): LifeRecord => ({
   i, seed: s.seed, group: s.choices.group, kedi: s.choices.kedi, ksced: s.choices.ksced, track: s.choices.track,
   capital: (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(s.choices.school), entryAge: Math.floor(s.ageMonths / MONTHS),
-  funding0: s.phd!.fundingState.route, stipend0: s.phd!.fundingState.monthly, waiver0: s.phd!.fundingState.tuitionWaiver, family0: s.phd!.familySupport,
+  funding0: s.phd!.fundingState.route, ta0: s.phd!.fundingState.route === 'self' && s.phd!.fundingState.monthly > 0,
+  stipend0: s.phd!.fundingState.monthly, waiver0: s.phd!.fundingState.tuitionWaiver, family0: s.phd!.familySupport, workMonths: 0,
   leaveStarts: { hazard: 0, burnout: 0, voluntary: 0 }, qualFailEnd: false, submitted: 0, accepted: 0, outcome: 'capped', phdMonths: 0, leaveMonths: 0, leaveHit: 0, peakDebt: 0, ledgerPhd: {}, netMonthly: 0,
   demandSum: DEMAND_ROUTES.map(() => 0), demandN: 0, shadowMismatch: 0, mSum: 0, mN: 0, careerMonths: 0,
 });
@@ -120,6 +124,7 @@ export function simulateLife(i: number, data: DataBundle, group?: Group): LifeRe
     const phd = s.phd!, t = s.month;
     leaveFlags.push(phd.leave.active);
     if (phd.leave.active) r.leaveMonths += 1;
+    else if (phd.partTime) r.workMonths += 1;
     if (phd.qualified && r.qualMonth === undefined) r.qualMonth = t;
     if (r.paperReadyMonth === undefined && acceptedCount(phd.papers, ASSUMED.REQUIRED_PAPERS[s.choices.group].minTier) >= phd.requiredPapers) r.paperReadyMonth = t;
     if (phd.project >= ASSUMED.PRE_GRAD_PROJECT_MIN && r.project90Month === undefined) r.project90Month = t;
@@ -260,9 +265,25 @@ export interface Diagnostics {
     income0: Record<string, { n: number; stipend: number | null; stipendMin: number | null; stipendMax: number | null; family: number | null; waiver: number | null; livingCapital: number; livingRegional: number }>;
     papers: { meanSubmitted: number | null; meanAccepted: number | null; n: number };
     employmentVariants: Record<string, { n: number; all: number | null; exLecturer: number | null; exLecturerStartup: number | null; ref: number }>;
+    /** 처음 자금 경로(self·조교 분리) × 재정 파탄 원인 분해(3단계 §1 표의 상설판). 키 'all' 은 전체. */
+    financialByFunding: Record<string, {
+      n: number; financial: number; byFamily: { monthly: number; n: number; rate: number | null }[]; capital: number | null; regional: number | null;
+      loanMonthly: number | null; limitOverLoan: number | null; financialMonth: number | null; degreeMonth: number | null;
+    }>;
+  };
+  /** 보고만 지표(결정 기록 0022): 입학 때 조교 비율 대 조교 수입 레코드, 근로 비율 대 아르바이트 레코드. */
+  reportOnly: {
+    ta: { lives: number; all: number; self: number; shareAll: number | null; shareSelf: number | null; ref: number; refId: string };
+    work: { lives: number; all: number; shareLives: number | null; workMonths: number; activeMonths: number; shareMonths: number | null; ref: number; refId: string };
   };
   shadowMismatch: number; nLives: number;
 }
+
+/** 표의 자금 경로 키. 자비는 입학 때 조교 추첨(0014#137) 여부로 나눈다. */
+export const FUNDING_KEYS = ['scholarship', 'project', 'self·조교', 'self'] as const;
+export const fundingKey = (r: LifeRecord): string => (r.funding0 === 'self' ? (r.ta0 ? 'self·조교' : 'self') : r.funding0);
+const TA_RECORD = 'statistics-ta-income-living-cost-2015';
+const PART_TIME_RECORD = 'statistics-part-time-income-living-cost-2015';
 
 export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
   const blank = (): Record<Outcome, number> & { n: number } => ({ degree: 0, dropout: 0, residence: 0, financial: 0, 'exit-master': 0, capped: 0, n: 0 });
@@ -272,10 +293,9 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
   const outcomeMonthMedian = {} as Diagnostics['outcomeMonthMedian'];
   for (const o of OUTCOMES) outcomeMonthMedian[o] = median(records.filter(r => r.outcome === o).map(r => r.phdMonths));
 
-  const fundings: FundingRoute[] = ['scholarship', 'project', 'self'];
   const loanBy: Diagnostics['loan']['byFunding'] = {}, netBy: Diagnostics['netByFunding'] = {};
-  for (const f of fundings) {
-    const rs = records.filter(r => r.funding0 === f);
+  for (const f of FUNDING_KEYS) {
+    const rs = records.filter(r => fundingKey(r) === f);
     const hit = rs.filter(r => r.limitMonth !== undefined);
     loanBy[f] = { n: rs.length, hitLimit: hit.length, medLimitMonth: median(hit.map(r => r.limitMonth!)),
       medFirstDebtMonth: median(rs.filter(r => r.firstDebtMonth !== undefined).map(r => r.firstDebtMonth!)), medPeakDebt: median(rs.map(r => r.peakDebt)) };
@@ -303,7 +323,21 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
   }
   const nAll = records.reduce((a, r) => a + r.mN, 0);
 
-  const causes: Diagnostics['causes'] = { leaveStartsPerYear: {}, dropoutPerYear: {}, gradMilestones: {} as never, firstHireRoutes: {}, income0: {}, papers: {} as never, employmentVariants: {} };
+  const causes: Diagnostics['causes'] = { leaveStartsPerYear: {}, dropoutPerYear: {}, gradMilestones: {} as never, firstHireRoutes: {}, income0: {}, papers: {} as never, employmentVariants: {}, financialByFunding: {} };
+  const familyLevels = ASSUMED.FAMILY_SUPPORT.map(fs => fs.monthly);
+  for (const key of ['all', ...FUNDING_KEYS]) {
+    const rs = key === 'all' ? records : records.filter(r => fundingKey(r) === key);
+    const fin = rs.filter(r => r.outcome === 'financial');
+    const rate = (xs: LifeRecord[]): number | null => share(xs.filter(r => r.outcome === 'financial').length, xs.length);
+    const loanMonthly = mean(fin.filter(r => r.phdMonths > 0).map(r => (r.ledgerPhd.loan ?? 0) / r.phdMonths));
+    causes.financialByFunding[key] = {
+      n: rs.length, financial: fin.length,
+      byFamily: familyLevels.map(m => { const xs = rs.filter(r => r.family0 === m); return { monthly: m, n: xs.length, rate: rate(xs) }; }),
+      capital: rate(rs.filter(r => r.capital)), regional: rate(rs.filter(r => !r.capital)),
+      loanMonthly, limitOverLoan: loanMonthly ? ASSUMED.LOAN_LIMIT / loanMonthly : null,
+      financialMonth: median(fin.map(r => r.phdMonths)), degreeMonth: median(rs.filter(r => r.outcome === 'degree').map(r => r.degreeMonth!)),
+    };
+  }
   for (const key of ['all', ...KEDIS]) {
     const rs = key === 'all' ? records : records.filter(r => r.kedi === key);
     const py = rs.reduce((a, r) => a + r.phdMonths / MONTHS, 0);
@@ -334,9 +368,9 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
     }
     causes.firstHireRoutes[g] = dist;
   }
-  for (const f of fundings) {
-    const rs = records.filter(r => r.funding0 === f);
-    causes.income0[f] = { n: rs.length, stipend: median(rs.map(r => r.stipend0)), stipendMin: rs.length ? Math.min(...rs.map(r => r.stipend0)) : null, stipendMax: rs.length ? Math.max(...rs.map(r => r.stipend0)) : null, family: mean(rs.map(r => r.family0)), waiver: mean(rs.map(r => r.waiver0)),
+  for (const f of FUNDING_KEYS) {
+    const rs = records.filter(r => fundingKey(r) === f);
+    causes.income0[f] ={ n: rs.length, stipend: median(rs.map(r => r.stipend0)), stipendMin: rs.length ? Math.min(...rs.map(r => r.stipend0)) : null, stipendMax: rs.length ? Math.max(...rs.map(r => r.stipend0)) : null, family: mean(rs.map(r => r.family0)), waiver: mean(rs.map(r => r.waiver0)),
       livingCapital: ASSUMED.LIVING_COST.capital, livingRegional: ASSUMED.LIVING_COST.regional };
   }
   for (const c of KSCEDS) {
@@ -351,7 +385,17 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
   }
   const longLives = records.filter(r => r.phdMonths >= 48);
   causes.papers = { meanSubmitted: mean(longLives.map(r => r.submitted)), meanAccepted: mean(longLives.map(r => r.accepted)), n: longLives.length };
+  const selfLives = records.filter(r => r.funding0 === 'self'), taLives = records.filter(r => r.ta0);
+  const workLives = records.filter(r => r.workMonths > 0);
+  const workMonths = records.reduce((a, r) => a + r.workMonths, 0), activeMonths = records.reduce((a, r) => a + r.phdMonths - r.leaveMonths, 0);
+  const reportOnly: Diagnostics['reportOnly'] = {
+    ta: { lives: taLives.length, all: records.length, self: selfLives.length, shareAll: share(taLives.length, records.length), shareSelf: share(taLives.length, selfLives.length),
+      ref: data.records.get(TA_RECORD)?.value ?? NaN, refId: TA_RECORD },
+    work: { lives: workLives.length, all: records.length, shareLives: share(workLives.length, records.length), workMonths, activeMonths, shareMonths: share(workMonths, activeMonths),
+      ref: data.records.get(PART_TIME_RECORD)?.value ?? NaN, refId: PART_TIME_RECORD },
+  };
   return {
+    reportOnly,
     outcomeByGroup, outcomeMonthMedian, loan: { byFunding: loanBy, medLimitMonthAll: median(allHit.map(r => r.limitMonth!)) }, netByFunding: netBy,
     noPaperShare: { all: share(noPaper(records), records.length), longLived: share(noPaper(long), long.length), nAll: records.length, nLong: long.length },
     milestones: {
@@ -398,11 +442,26 @@ export function withOverrides<T>(overrides: Record<string, unknown>, fn: () => T
   } finally { for (const u of undo.reverse()) u(); }
 }
 
-export interface RunOptions { seeds: number; group?: Group; overrides?: Record<string, unknown>; data?: DataBundle }
-export interface CalibrationResult { options: { seeds: number; group?: Group; overrides: Record<string, unknown> }; records: LifeRecord[]; table: TargetRow[]; diagnostics: Diagnostics; seconds: number }
+/**
+ * 레코드 값을 덮은 번들(sim·테스트 전용). ASSUMED 가 아니라 레코드에 기댄 환경 값(예: 입학 때 조교 추첨 확률
+ * `statistics-ta-income-living-cost-2015`, 0014#136)의 민감도를 잴 때 쓴다. 없는 id 는 던진다. 원래 번들은 바꾸지 않는다.
+ */
+export function withRecordValues(data: DataBundle, values: Record<string, number>): DataBundle {
+  if (Object.keys(values).length === 0) return data;
+  const records = new Map(data.records);
+  for (const [id, value] of Object.entries(values)) {
+    const rec = records.get(id);
+    if (!rec) throw new Error(`record override: unknown record id ${id}`);
+    records.set(id, { ...rec, value });
+  }
+  return { ...data, records };
+}
+
+export interface RunOptions { seeds: number; group?: Group; overrides?: Record<string, unknown>; records?: Record<string, number>; data?: DataBundle }
+export interface CalibrationResult { options: { seeds: number; group?: Group; overrides: Record<string, unknown>; records?: Record<string, number> }; records: LifeRecord[]; table: TargetRow[]; diagnostics: Diagnostics; seconds: number }
 
 export function runCalibration(opts: RunOptions): CalibrationResult {
-  const data = opts.data ?? loadData();
+  const data = withRecordValues(opts.data ?? loadData(), opts.records ?? {});
   const overrides = opts.overrides ?? {};
   const t0 = Date.now();
   const records = withOverrides(overrides, () => {
@@ -412,7 +471,7 @@ export function runCalibration(opts: RunOptions): CalibrationResult {
   });
   const table = withOverrides(overrides, () => buildTable(records, data));
   const diagnostics = withOverrides(overrides, () => diagnose(records, data));
-  return { options: { seeds: opts.seeds, ...(opts.group ? { group: opts.group } : {}), overrides }, records, table, diagnostics, seconds: (Date.now() - t0) / 1000 };
+  return { options: { seeds: opts.seeds, ...(opts.group ? { group: opts.group } : {}), overrides, ...(opts.records && Object.keys(opts.records).length ? { records: opts.records } : {}) }, records, table, diagnostics, seconds: (Date.now() - t0) / 1000 };
 }
 
 // ───────────────────────── 단일 override 후보 ─────────────────────────
@@ -508,6 +567,18 @@ export function renderDiagnostics(d: Diagnostics, data: DataBundle): string {
     L.push(`| ${f} | ${v.n} | ${man(v.netMonthly)} | ${man(pm.stipend ?? 0)} | ${man(pm.family ?? 0)} | ${man(pm.living ?? 0)} | ${man(pm.tuition ?? 0)} | ${man(pm.interest ?? 0)} | ${other} |`);
   }
 
+  const fb = d.causes.financialByFunding;
+  const famHead = (fb.all?.byFamily ?? []).map(x => man(x.monthly)).join(' / ');
+  L.push('', '### 처음 자금 경로 × 재정 파탄 (원인 분해, 3단계 §1 표의 상설판)', '',
+    `| 처음 자금 경로 | n | 재정 파탄 | 가족 지원 ${famHead} 의 파탄 비율 | 수도권 / 비수도권 | 파탄 삶의 일반 대출 월평균 | 한도 ${man(ASSUMED.LOAN_LIMIT)} ÷ 그 값(개월) | 파탄 달 중앙값 | 졸업자 졸업 달 중앙값 |`, '|---|---|---|---|---|---|---|---|---|');
+  for (const [k, v] of Object.entries(fb)) {
+    L.push(`| ${k === 'all' ? '전체' : k} | ${v.n} | ${pct(share(v.financial, v.n))} (${v.financial}) | ${v.byFamily.map(x => pct(x.rate)).join(' / ')} | ${pct(v.capital)} / ${pct(v.regional)} | ${man(v.loanMonthly)} | ${mo(v.limitOverLoan)} | ${mo(v.financialMonth)} | ${mo(v.degreeMonth)} |`);
+  }
+  const ro = d.reportOnly;
+  L.push('', '### 보고만 지표 (결정 기록 0022, 판정에 쓰지 않는다)', '',
+    `- 입학 때 조교 비율: 전체 ${pct(ro.ta.shareAll)} (${ro.ta.lives} ÷ ${ro.ta.all}), 자비 경로 안 ${pct(ro.ta.shareSelf)} (${ro.ta.lives} ÷ ${ro.ta.self}) 대 \`${ro.ta.refId}\` ${f2(ro.ta.ref, 3)}.`,
+    `- 근로 비율: 근로 설정이 1달 이상 있는 삶 ${pct(ro.work.shareLives)} (${ro.work.lives} ÷ ${ro.work.all}), 근로 달 ÷ 휴학 아닌 박사과정 달 ${pct(ro.work.shareMonths)} (${ro.work.workMonths} ÷ ${ro.work.activeMonths}) 대 \`${ro.work.refId}\` ${f2(ro.work.ref, 3)}. 근로는 자동 정책(0014 #129)의 결과다.`);
+
   const ms = d.milestones;
   L.push('', '### 마일스톤과 논문', '',
     `- 논문을 한 번도 투고하지 않은 삶: 전체 ${pct(d.noPaperShare.all)} (n=${d.noPaperShare.nAll}), 36개월 이상 지속한 삶 ${pct(d.noPaperShare.longLived)} (n=${d.noPaperShare.nLong}).`,
@@ -576,6 +647,7 @@ export function renderMarkdown(args: MarkdownArgs): string {
     `- 날짜: ${args.date}`, `- 커밋: ${args.commit} (engine/src 를 마지막으로 바꾼 커밋. 3절의 구 상수 실행을 빼면 모든 실행이 이 커밋의 상수 위에서 돌았다)`,
     `- N: ${o.seeds}${o.group ? ` (group = ${o.group}, createLife 에 group 을 고정)` : ''}`,
     `- 사용자 override: ${Object.keys(o.overrides).length ? Object.entries(o.overrides).map(([k, v]) => `${k}=${JSON.stringify(v)}`).join(', ') : '없음'}`,
+    ...(o.records ? [`- 레코드 값 override(\`--record\`): ${Object.entries(o.records).map(([k, v]) => `\`${k}\`=${v}`).join(', ')}`] : []),
     `- 명령: \`${args.command}\``, '',
     `> **기본 상수에서 자동 생애의 ${pct(share(all.financial, all.n))} 는 여전히 재정 파탄(\`financial\`)으로 끝나고 졸업은 ${pct(share(all.degree, all.n))} 뿐이다.** 이 균형(생활비·장려금·가족 지원·대출)은 결정 기록 0015 §4 에 따라 Wave 6 이 맞춘다. 그래서 두 번 잰다: 1절은 기본 상수, 2절은 대출 한도를 없애 재정 파탄을 걷어낸 재정 중립 측정이다. 학위 기간·휴학·이탈·취업·수요의 보정 판정은 2절을 기준으로 읽는다.`, '');
   L.push(...sectionHead(`## 1. ${CONTEXT_LABEL.default}`, result), renderTable(result.table), '', '### 측정 정의', '', ...DEFINITIONS.map(x => `- ${x}`), '',
@@ -660,10 +732,10 @@ export function renderMbar(res: { realized: number | null; runs: MbarRun[] }, da
 }
 
 // ───────────────────────── CLI ─────────────────────────
-export interface CliArgs { seeds: number; out?: string; group?: Group; overrides: Record<string, unknown>; candidates: boolean; candidateSeeds: number; mbar: boolean; json: boolean }
+export interface CliArgs { seeds: number; out?: string; group?: Group; overrides: Record<string, unknown>; records: Record<string, number>; candidates: boolean; candidateSeeds: number; mbar: boolean; json: boolean }
 
 export function parseArgs(argv: string[]): CliArgs {
-  const a: CliArgs = { seeds: 1000, overrides: {}, candidates: false, candidateSeeds: 300, mbar: false, json: false };
+  const a: CliArgs = { seeds: 1000, overrides: {}, records: {}, candidates: false, candidateSeeds: 300, mbar: false, json: false };
   for (let i = 0; i < argv.length; i++) {
     const k = argv[i]!;
     const next = (): string => { const v = argv[++i]; if (v === undefined) throw new Error(`${k} needs a value`); return v; };
@@ -675,6 +747,13 @@ export function parseArgs(argv: string[]): CliArgs {
         const kv = argv[++i]!, eq = kv.indexOf('=');
         if (eq < 1) throw new Error(`--override expects KEY=JSON, got ${kv}`);
         a.overrides[kv.slice(0, eq)] = JSON.parse(kv.slice(eq + 1));
+      }
+    }
+    else if (k === '--record') {
+      while (argv[i + 1] !== undefined && !argv[i + 1]!.startsWith('--')) {
+        const kv = argv[++i]!, eq = kv.indexOf('='), v = Number(kv.slice(eq + 1));
+        if (eq < 1 || !Number.isFinite(v)) throw new Error(`--record expects RECORD_ID=NUMBER, got ${kv}`);
+        a.records[kv.slice(0, eq)] = v;
       }
     }
     else if (k === '--candidates') a.candidates = true;
@@ -708,9 +787,10 @@ const CURRENT: Candidate = { id: 'current', label: '(현재 상수)', overrides:
 
 export function main(argv: string[]): void {
   const args = parseArgs(argv);
-  const data = loadData();
+  const data = withRecordValues(loadData(), args.records);   // --record 는 모든 실행(후보·재정 중립 포함)에 걸린다
   const group = args.group ? { group: args.group } : {};
   const result = runCalibration({ seeds: args.seeds, ...group, overrides: args.overrides, data });
+  if (Object.keys(args.records).length) result.options.records = args.records;   // 머리말에 적는다(번들은 이미 덮었다)
   if (args.json) { console.log(JSON.stringify({ options: result.options, table: result.table, diagnostics: result.diagnostics, seconds: result.seconds })); return; }
   const ctxRun = (seeds: number, ctx: ContextId, extra: Record<string, unknown> = {}): CalibrationResult =>
     runCalibration({ seeds, ...group, overrides: { ...args.overrides, ...extra, ...CONTEXTS[ctx] }, data });   // 맥락이 마지막: 구 상수의 LOAN_LIMIT 이 재정 중립을 덮지 않게

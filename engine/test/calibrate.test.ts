@@ -59,6 +59,36 @@ describe('calibration harness (N=20 smoke)', () => {
   });
 });
 
+describe('self·조교 split and report-only lines (decision 0022, N=50)', () => {
+  const r50 = runCalibration({ seeds: 50, data });
+  const d = r50.diagnostics;
+  it('splits self into self·조교 and self; their n sum to the self n', () => {
+    const selfN = r50.records.filter(r => r.funding0 === 'self').length;
+    for (const table of [d.loan.byFunding, d.netByFunding, d.causes.income0, d.causes.financialByFunding]) {
+      expect(Object.keys(table)).toEqual(expect.arrayContaining(['self·조교', 'self']));
+      expect(table['self·조교']!.n + table.self!.n).toBe(selfN);
+    }
+    expect(r50.records.filter(r => r.ta0).every(r => r.funding0 === 'self' && r.stipend0 > 0)).toBe(true);
+    const md = renderMarkdown({ result: r50, command: 'x', commit: 'test', date: '2026-10-15', causes: '## 원인 후보', candidates: [], baselines: {}, data });
+    expect(md).toContain('| self·조교 |');
+    expect(md).toContain('- 입학 때 조교 비율:');
+    expect(md).toContain('- 근로 비율:');
+    expect(md).toContain('### 처음 자금 경로 × 재정 파탄');
+  });
+  it('--record overrides a record value: P_TA 0 gives no TA lives and P_TA 1 makes every self life a TA life', () => {
+    const id = 'statistics-ta-income-living-cost-2015';
+    expect(parseArgs(['--record', `${id}=0.62`]).records).toEqual({ [id]: 0.62 });
+    expect(() => parseArgs(['--record', `${id}=x`])).toThrow();
+    const zero = runCalibration({ seeds: 30, data, records: { [id]: 0 } });
+    expect(zero.records.some(r => r.ta0)).toBe(false);
+    expect(zero.options.records).toEqual({ [id]: 0 });
+    const one = runCalibration({ seeds: 30, data, records: { [id]: 1 } });
+    expect(one.records.filter(r => r.funding0 === 'self').every(r => r.ta0)).toBe(true);
+    expect(data.records.get(id)!.value).toBe(0.265);   // 원래 번들은 그대로
+    expect(() => runCalibration({ seeds: 1, data, records: { nope: 1 } })).toThrow(/unknown record/);
+  });
+});
+
 describe('--override', () => {
   it('LOAN_LIMIT reaches createLife and lowers the financial-end share', () => {
     const base = runCalibration({ seeds: 40, data });
