@@ -3,7 +3,7 @@ import { ASSUMED } from '../src/assumed';
 import { ACADEMIC_ROUTES } from '../src/career/pay';
 import { applyHire } from '../src/career/labor';
 import { loadData } from '../src/data/load';
-import { decide, extensionProbability, fundingExpired, optionUnavailable } from '../src/decide';
+import { decide, describeOptions, extensionProbability, fundingExpired, optionUnavailable } from '../src/decide';
 import { odds, z } from '../src/odds';
 import { advanceMonth } from '../src/index';
 import { checkTriggers } from '../src/phd/triggers';
@@ -298,6 +298,7 @@ describe('end conditions', () => {
     let s = ticks(brokeLive(sd), 3);
     expect(s.pending).toMatchObject({ dp: 'funding-expiry', month: 3, context: { cause: 'crisis' } });
     expect(s.pending!.options.map(o => o.key)).toEqual(['A', 'B', 'C', 'D']);
+    expect(describeOptions(s, data).map(o => o.unavailable)).toEqual(['not-expiring', undefined, undefined, undefined]);   // 0014#138
     s = decide(s, data, 2);
     expect(s.phd!.fundingState).toEqual(LIVE_PROJECT);
     for (let i = 0; i < 2; i++) {
@@ -320,6 +321,19 @@ describe('end conditions', () => {
     expect(s.stage).toBe('phd');
     expect(s.end).toBeUndefined();
     expect(s.decisions.filter(d => d.dp === 'funding-expiry')).toHaveLength(1);
+  });
+  it('a crisis in the month the funding ends: A is open; when it fails, next month reopens with retry (B–D)', () => {
+    const ending = (seed: string): LifeState => { const s = brokeLive(seed); return { ...s, phd: { ...s.phd!, fundingState: { ...LIVE_PROJECT, until: 3 } } }; };
+    const sd = findSeed('FX', x => { const s = ticks(ending(x), 3); return !!s.pending && draw(s.seed, 'funding', 3, 'funding:extend') >= extensionProbability(s); });
+    let s = ticks(ending(sd), 3);
+    expect(s.pending).toMatchObject({ dp: 'funding-expiry', month: 3, context: { cause: 'crisis' } });
+    expect(fundingExpired(s)).toBe(true);
+    expect(optionUnavailable(s, s.pending!, 'A')).toBeUndefined();
+    s = decide(s, data, 0);
+    expect(s.phd!.fundingState.until).toBe(3);
+    s = advanceMonth(s, data);
+    expect(s.pending).toMatchObject({ dp: 'funding-expiry', month: 4, context: { cause: 'until', retry: true } });
+    expect(s.pending!.options.map(o => o.key)).toEqual(['B', 'C', 'D']);
   });
   it('a life whose cash recovers never reaches the crisis', () => {
     const s = ticks(make(ENG, { phd: { focus: 'rest', familySupport: 0, fundingState: { route: 'project', monthly: 5_000_000, tuitionWaiver: 1, until: 100, dutyHours: 0, recordIds: [] } } }), 8);

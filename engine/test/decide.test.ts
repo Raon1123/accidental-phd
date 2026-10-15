@@ -286,12 +286,12 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
     const again = withPending(r, 'funding-expiry', { cause: 'until', retry: true }, ['B', 'C', 'D']);
     expect(optionUnavailable(again, again.pending!, 'A')).toBe('already-tried');
   });
-  it('A success on a scholarship: inside the term nothing changes; after the term it is re-selected for a fresh term', () => {
+  it('A success on a scholarship after the term: re-selected for a fresh term (inside the term A is not-expiring, 0014#138)', () => {
     const m = findMonth(30, k => draw(SEED, 'funding', k, 'funding:extend') < 0.5);
-    const inside = retarget(expiry(scholarship, 30, {}, { cause: 'scholarship-review' }), m);
-    const stays = inside.phd!.fundingState.until;
-    expect(choose({ ...inside, phd: { ...inside.phd!, fundingState: { ...inside.phd!.fundingState, until: m + 20 } } }, 'A').phd!.fundingState.until).toBe(m + 20);
-    expect(stays).toBe(48);
+    const inside = retarget(expiry(scholarship, 30, {}, { cause: 'crisis' }), m);
+    expect(inside.phd!.fundingState.until).toBe(48);
+    expect(optionUnavailable(inside, inside.pending!, 'A')).toBe('not-expiring');
+    expect(() => choose(inside, 'A')).toThrow(/unavailable \(not-expiring\)/);
     const m2 = findMonth(48, k => draw(SEED, 'funding', k, 'funding:extend') < 0.5);
     expect(choose(retarget(expiry(scholarship, 48), m2), 'A').phd!.fundingState.until).toBe(m2 + ASSUMED.SCHOLARSHIP_MONTHS);
   });
@@ -307,6 +307,26 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
     // 실패하면 기한은 이번 달로 남는다
     const mf = findMonth(24, k => draw(SEED, 'funding', k, 'funding:extend') >= 0.5);
     expect(choose(retarget(expiry(failed, 24, {}, { cause: 'scholarship-review', originalUntil: 48 }), mf), 'A').phd!.fundingState.until).toBe(mf);
+  });
+  it('A is open only on funding that ends this month: until reached, or a failed scholarship review; live funding is not-expiring (0014#138)', () => {
+    for (const live of [{ ...project, until: 34 }, { ...scholarship, until: 34 }]) {
+      for (const cause of ['crisis', 'until'] as const) {
+        const s = expiry(live, 24, {}, { cause });
+        expect(fundingExpired(s)).toBe(false);
+        expect(optionUnavailable(s, s.pending!, 'A')).toBe('not-expiring');
+        expect(() => choose(s, 'A')).toThrow(/unavailable \(not-expiring\)/);
+        const a = describeOptions(s, data).find(o => o.key === 'A')!;
+        expect(a.unavailable).toBe('not-expiring');
+        expect(a.probabilityHint).toBeUndefined();
+        expect(['B', 'C', 'D'].map(k => optionUnavailable(s, s.pending!, k))).toEqual([undefined, undefined, undefined]);
+      }
+    }
+    // 기한 도달(until === month), 재정 위기가 같은 달 겹쳐도
+    for (const cause of ['until', 'crisis'] as const) expect(optionUnavailable(expiry(project, 24, {}, { cause }), expiry(project, 24, {}, { cause }).pending!, 'A')).toBeUndefined();
+    // 장학 유지 실패: 틱이 기한을 이번 달로 당기고 원래 기한을 context 에 싣는다
+    const review = expiry({ ...scholarship, until: 30 }, 30, {}, { cause: 'scholarship-review', originalUntil: 48 });
+    expect(optionUnavailable(review, review.pending!, 'A')).toBeUndefined();
+    expect(describeOptions(review, data)[0]!.probabilityHint).toBeDefined();
   });
   it('A is unavailable on a self-funded student, and on funding with no end date; decide throws', () => {
     const self = { route: 'self' as const, monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] };
@@ -593,7 +613,8 @@ describe('describeOptions: probability hints (선택권 §3 표)', () => {
     expect(lowerTier('T1')).toBe('T2');
   });
   it('funding-expiry: A shows the extension probability', () => {
-    const s = withPending(phdFixture(), 'funding-expiry', { cause: 'until' });
+    const f = phdFixture().phd!.fundingState;
+    const s = withPending(phdFixture({ phd: { fundingState: { ...f, until: 24 } } }), 'funding-expiry', { cause: 'until' });
     expect(describeOptions(s, data)[0]!.probabilityHint!.p).toBeCloseTo(sigmoid(0), 12);
     expect(describeOptions(s, data).slice(1).every(o => o.probabilityHint === undefined)).toBe(true);
   });

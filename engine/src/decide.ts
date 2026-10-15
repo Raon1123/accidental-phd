@@ -109,9 +109,11 @@ export function optionUnavailable(s: LifeState, p: PendingDecision, key: string)
   if (p.dp === 'post-qualifying' && key === 'B' && leaveBlocked(s, ASSUMED.POST_QUAL_REST_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'D' && leaveBlocked(s, FUNDING_D_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'A' && ctxOf<FundingExpiryContext>(p).retry) return 'already-tried';
-  if (p.dp === 'funding-expiry' && key === 'A') {   // 연장할 자금이 없다: 자비, 또는 끝나는 날이 없는 자금(조교 등)
+  if (p.dp === 'funding-expiry' && key === 'A') {
     const f = s.phd?.fundingState;
-    if (!f || f.route === 'self' || f.until < 0) return 'no-funding';
+    if (!f || f.route === 'self' || f.until < 0) return 'no-funding';   // 연장할 자금이 없다: 자비, 또는 끝나는 날이 없는 자금(조교 등)
+    // 0014#138(결정 기록 0023): 연장은 이번 달 끝나는 자금(기한 도달, 장학 유지 실패)에만 신청한다. 재정 위기 강제가 살아 있는 자금에 걸리면 닫는다.
+    if (!fundingExpired(s)) return 'not-expiring';
   }
   return undefined;
 }
@@ -419,10 +421,10 @@ export function describeOptions(state: LifeState, data: DataBundle): OptionInfo[
   if (!pending) throw new Error('describeOptions: no pending decision');
   return pending.options.map(o => {
     const info: OptionInfo = { key: o.key };
-    const hint = hintFor(state, data, pending, o.key);
-    if (hint) info.probabilityHint = hint;
     const unavailable = optionUnavailable(state, pending, o.key);
     if (unavailable) info.unavailable = unavailable;
+    const hint = unavailable ? undefined : hintFor(state, data, pending, o.key);   // 고를 수 없는 선택지에는 확률 힌트를 붙이지 않는다
+    if (hint) info.probabilityHint = hint;
     return info;
   });
 }
