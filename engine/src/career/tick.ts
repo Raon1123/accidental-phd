@@ -1,5 +1,6 @@
 // 경력 연 틱 advanceYear (상태 §7.2·§7.3).
 import { ASSUMED } from '../assumed';
+import { nextSpending, spendingOf } from '../spending';
 import type { DataBundle } from '../data/bundle';
 import type { DecisionId, LifeState, MonthInput, PendingDecision, Route } from '../types';
 import { searchMonth } from './labor';
@@ -15,13 +16,11 @@ const PRE_RETIREMENT_LEAD_YEARS = 2;   // 나이 = retireAge − 2; 선택권 §
 
 const ageYears = (s: LifeState): number => Math.floor(s.ageMonths / ASSUMED.MONTHS_PER_YEAR);
 
-function livingCost(s: LifeState): number {
-  const capital = (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(s.choices.school);
-  return capital ? ASSUMED.LIVING_COST.capital : ASSUMED.LIVING_COST.regional;
-}
-
 /** 경력·은퇴 단계 한 달 정산 항목(선택권 §5.6, #96). 금액은 모두 양수이고 부호는 원장에서 붙는다. */
-export interface CareerFlow { pay: number; pension: number; research: number; living: number; interest: number; repay: number; loan: number }
+export interface CareerFlow {
+  pay: number; pension: number; research: number; living: number; interest: number; repay: number; loan: number;
+  tuitionLoanInterest: number; livingLoanInterest: number; tuitionLoanRepay: number; livingLoanRepay: number;   // 학자금대출(#80)
+}
 
 /**
  * 이 달(state.month)의 월 정산(선택권 §5.6, #96). 경력이면 급여/12, 은퇴면 노후 월수입과 은퇴 뒤 연구 수입이 들어오고,
@@ -34,13 +33,20 @@ export function careerFlow(s: LifeState): CareerFlow {
   const pay = !retired && c ? Math.round(c.annualPay / ASSUMED.MONTHS_PER_YEAR) : 0;
   const pension = retired ? (c?.pensionMonthly ?? (c ? pensionMonthly(s) : 0)) : 0;
   const research = retired && c?.postRetireResearchUntil !== undefined && s.month <= c.postRetireResearchUntil ? ASSUMED.POST_RETIRE_RESEARCH.monthly : 0;
-  const living = livingCost(s);
+  const living = spendingOf(s);   // 사람별 씀씀이(0014#131)
   const interest = Math.round(s.money.debt * ASSUMED.LOAN_RATE_ANNUAL / ASSUMED.MONTHS_PER_YEAR);
   const debt = s.money.debt + interest;
   const cash = s.money.cash + pay + pension + research - living;
-  const repay = cash > 0 ? Math.min(debt, cash, Math.round((pay + pension + research) * ASSUMED.CAREER_REPAY_SHARE)) : 0;
+  // 상환 예산(0014#122)은 일반 대출 → 등록금대출 → 생활비대출 순으로 쓴다(0014#132). 학자금대출 이자는 각 잔액에 붙는다.
+  const sl = s.money.studentLoan;
+  const tuitionLoanInterest = sl ? Math.round(sl.tuition * sl.rate / ASSUMED.MONTHS_PER_YEAR) : 0;
+  const livingLoanInterest = sl ? Math.round(sl.living * sl.rate / ASSUMED.MONTHS_PER_YEAR) : 0;
+  let budget = cash > 0 ? Math.min(cash, Math.round((pay + pension + research) * ASSUMED.CAREER_REPAY_SHARE)) : 0;
+  const repay = Math.min(debt, budget); budget -= repay;
+  const tuitionLoanRepay = sl ? Math.min(sl.tuition + tuitionLoanInterest, budget) : 0; budget -= tuitionLoanRepay;
+  const livingLoanRepay = sl ? Math.min(sl.living + livingLoanInterest, budget) : 0;
   const loan = cash < 0 ? Math.min(-cash, Math.max(0, s.money.loanLimit - debt)) : 0;
-  return { pay, pension, research, living, interest, repay, loan };
+  return { pay, pension, research, living, interest, repay, loan, tuitionLoanInterest, livingLoanInterest, tuitionLoanRepay, livingLoanRepay };
 }
 
 /** 월 정산을 원장과 현금·부채에 반영한다. 경력이면 학계 근무 개월도 센다. */
@@ -56,11 +62,17 @@ function settleMonth(s: LifeState): LifeState {
   push('interest', -f.interest);   // 현금이 아니라 부채에 붙는 항목이다
   push('repay', -f.repay);
   push('loan', f.loan);
-  const cash = s.money.cash + f.pay + f.pension + f.research - f.living - f.repay + f.loan;
+  push('tuition-loan-interest', -f.tuitionLoanInterest);
+  push('living-loan-interest', -f.livingLoanInterest);
+  push('tuition-loan-repay', -f.tuitionLoanRepay);
+  push('living-loan-repay', -f.livingLoanRepay);
+  const cash = s.money.cash + f.pay + f.pension + f.research - f.living - f.repay + f.loan - f.tuitionLoanRepay - f.livingLoanRepay;
   const debt = s.money.debt + f.interest - f.repay + f.loan;
+  const sl = s.money.studentLoan;
+  const studentLoan = sl ? { ...sl, tuition: sl.tuition + f.tuitionLoanInterest - f.tuitionLoanRepay, living: sl.living + f.livingLoanInterest - f.livingLoanRepay } : undefined;
   const c = s.career;
   const career = c && s.stage === 'career' ? { ...c, academicMonths: c.academicMonths + (ACADEMIC_ROUTES.includes(c.route) ? 1 : 0) } : c;
-  return { ...s, money: { ...s.money, cash, debt }, ledger, ...(career ? { career } : {}) };
+  return { ...s, money: { ...s.money, cash, debt, ...(studentLoan ? { studentLoan } : {}), spending: nextSpending(s, f.pay + f.pension + f.research) }, ledger, ...(career ? { career } : {}) };
 }
 
 /** 다음 한 달(month + 1)에 정산될 값(화면 자금 카드용). 경력 틱은 달을 먼저 올리고 정산하므로 같은 순서로 계산한다. */

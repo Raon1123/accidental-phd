@@ -9,3 +9,4 @@ jobs:
         with: { node-version: 20 }
       - run: npm ci
       - run: npm test
+      - run: node scripts/check-assumed.mjs   # 0014 번호 인용 검사(Wave 5 회고, 결정 기록 0018)

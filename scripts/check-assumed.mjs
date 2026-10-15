@@ -7,7 +7,7 @@ import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const MAX = 121;   // 0014 #120·#121 은 Wave 4 에서 추가(첫 투고 계층, career-5y D 효과)
+export const MAX = 132;   // 0014 #120·#121 Wave 4, #122–#130 Wave 5, #131·#132 Wave 6(씀씀이, 학자금대출 순서)
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {

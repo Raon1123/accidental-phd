@@ -15,6 +15,8 @@ export type EndReason = 'degree' | 'dropout' | 'residence' | 'financial' | 'exit
 export type Confidence = 'verified' | 'indexed' | 'assumed';
 export type Stream = 'init' | 'luck' | 'progress' | 'paper' | 'exam' | 'hazard' | 'funding' | 'labor' | 'news' | 'life' | 'policy';
 
+/** 학자금대출 잔액(#80). 등록금대출과 생활비대출은 잔액·이자·상환을 따로 기록한다(사용자 요청 2026-10-14). livingSemester 는 이번 학기에 빌린 생활비. */
+export interface StudentLoan { tuition: number; living: number; livingSemester: number; rate: number }   // rate: 대출 당시 연 금리(레코드)
 export interface Stats { health: number; mind: number; skill: number; relation: number; network: number }
 export interface Choices {
   group: Group; track: string; subfield: string; department: string; departmentRecord: string; school: string;
@@ -47,7 +49,7 @@ export interface PendingDecision { dp: DecisionId; month: number; context: Recor
 export interface Snapshot { dp: DecisionId; month: number; decisionIndex: number; state: LifeState }
 export interface LifeState {
   version: 1; engineRevision: string; dataRevision: string; seed: string; stage: Stage; month: number; ageMonths: number;
-  stats: Stats; choices: Choices; money: { cash: number; debt: number; loanLimit: number };
+  stats: Stats; choices: Choices; money: { cash: number; debt: number; loanLimit: number; spending?: number; studentLoan?: StudentLoan };   // spending: 월 생활비 지출 수준(0014#131), 없으면 기본 생활비
   ledger: { month: number; kind: string; amount: number; recordId?: string }[];
   news: NewsEffect[]; decisions: { dp: DecisionId; month: number; option: string; byPolicy: boolean }[];
   log: { month: number; textKey: string; tags: string[]; creative: boolean }[];

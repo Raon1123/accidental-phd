@@ -365,3 +365,13 @@ describe('participation reason (#119)', () => {
     expect(participationReason(hi).market).toBe(r.market);
   });
 });
+
+describe('student loan balances on the money card (#80)', () => {
+  it('moneyView shows the tuition and living loan balances separately from the general loan', () => {
+    const s = createLife({ auto: true }, newSeed('money-loan'), data);
+    const t = { ...s, money: { ...s.money, debt: 1_000_000, studentLoan: { tuition: 5_000_000, living: 2_000_000, livingSemester: 0, rate: 0.017 } } };
+    const v = moneyView(t, data);
+    expect([v.debt, v.tuitionLoan, v.livingLoan]).toEqual([1_000_000, 5_000_000, 2_000_000]);
+    expect(moneyView(s, data).tuitionLoan).toBe(0);
+  });
+});

@@ -262,7 +262,7 @@ describe('end conditions', () => {
   // 재정 위기 연쇄 (Review Focus 3): 현금 0, 부채 한도, 장려금·가족 지원 0 이라 달마다 생활비만큼 현금이 음수로 깊어진다
   const broke = (over: Partial<LifeState> = {}, seed = SEED): LifeState => {
     const s = make(ENG, { phd: { focus: 'rest', crisisMonths: 0, postCrisisMonths: 0, familySupport: 0, fundingState: { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] } } }, seed);
-    return { ...s, money: { cash: 0, debt: s.money.loanLimit, loanLimit: s.money.loanLimit }, ...over };
+    return { ...s, money: { cash: 0, debt: s.money.loanLimit, loanLimit: s.money.loanLimit, studentLoan: { tuition: 90_000_000, living: 44_000_000, livingSemester: 2_000_000, rate: 0.017 } }, ...over };   // 학자금대출(#80)도 한도까지 쓴 상태
   };
   it('manual: 3 crisis months force funding-expiry (time stops), 3 more after the decision end the life as financial', () => {
     const sd = findSeed('FN', x => play(broke({ auto: false }, x), 8, undefined, 1).end?.reason === 'financial');

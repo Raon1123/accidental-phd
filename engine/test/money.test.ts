@@ -4,6 +4,7 @@ import { loadData } from '../src/data/load';
 import { tuitionPerSemester } from '../src/data/tuition';
 import { createLife } from '../src/pre/createLife';
 import { applyCashflow, crisisStage, isSemesterBoundary, livingCost, tuitionCharge, updateCoursework } from '../src/phd/money';
+import { spendingOf } from '../src/spending';
 import type { FundingState, LifeState } from '../src/types';
 
 const data = loadData();
@@ -11,11 +12,11 @@ const SEED = 'APHD-AAAAAAAA';
 const SELF: FundingState = { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] };
 
 /** 철학·서울대·자비. 가족 지원 0, 현금은 충분히 둔다(대출이 끼지 않게). */
-function base(over: { month?: number; cash?: number; debt?: number; coursework?: boolean; funding?: FundingState; family?: number; leave?: boolean; enrolled?: number } = {}): LifeState {
+function base(over: { month?: number; cash?: number; debt?: number; coursework?: boolean; funding?: FundingState; family?: number; leave?: boolean; enrolled?: number; studentLoanFull?: boolean } = {}): LifeState {
   const s = createLife({ funding: 'self', school: 'snu', track: 'philosophy', group: '인문사회' }, SEED, data);
   return {
     ...s, month: over.month ?? 1, ledger: [],
-    money: { ...s.money, cash: over.cash ?? 100_000_000, debt: over.debt ?? 0 },
+    money: { ...s.money, cash: over.cash ?? 100_000_000, debt: over.debt ?? 0, spending: livingCost(s.choices.school), ...(over.studentLoanFull ? { studentLoan: { tuition: 90_000_000, living: 44_000_000, livingSemester: 2_000_000, rate: 0.017 } } : {}) },   // 지역 기본값으로 고정(씀씀이 모형은 spending.test)
     phd: {
       ...s.phd!, coursework: over.coursework ?? true, familySupport: over.family ?? 0, fundingState: over.funding ?? SELF,
       leave: { active: over.leave ?? false, until: over.leave ? 99 : -1, totalMonths: 0 }, enrolledMonths: over.enrolled ?? 1,
@@ -87,7 +88,7 @@ describe('applyCashflow: income and living cost (선택권 §5.2, §5.3)', () =>
     const s0 = createLife({ funding: 'self', school: 'snu', track: 'philosophy', group: '인문사회' }, SEED, data);
     expect(s0.ledger.some(e => e.kind === 'entrance-fee')).toBe(true);
     const s = applyCashflow({ ...s0, month: 1, money: { ...s0.money, cash: 50_000_000 } }, data);
-    expect(s.money.cash).toBe(50_000_000 - 1_600_000 + s0.phd!.familySupport);
+    expect(s.money.cash).toBe(50_000_000 - spendingOf(s0) + s0.phd!.familySupport);   // 생활비는 사람별 씀씀이(0014#131)
   });
 });
 
@@ -162,7 +163,7 @@ describe('applyCashflow: interest (선택권 §5.4)', () => {
 
 describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () => {
   it('negative cash is borrowed into debt; cash returns to 0', () => {
-    const s = applyCashflow(base({ cash: 0 }), data);
+    const s = applyCashflow(base({ studentLoanFull: true, cash: 0 }), data);
     expect(s.money.cash).toBe(0);
     expect(s.money.debt).toBe(1_600_000);
     expect(kind(s, 'loan')).toEqual([{ month: 1, kind: 'loan', amount: 1_600_000 }]);
@@ -170,7 +171,7 @@ describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () =>
   });
 
   it('borrows only up to the limit; cash stays negative and the month counts as a crisis month', () => {
-    const s0 = base({ cash: 0, debt: ASSUMED.LOAN_LIMIT - 1_000_000 });
+    const s0 = base({ studentLoanFull: true, cash: 0, debt: ASSUMED.LOAN_LIMIT - 1_000_000 });
     const s = applyCashflow(s0, data);
     // 이자: (한도 − 100만) × 0.03 / 12 → 부채에 더해지고, 남은 한도만큼만 빌린다 (한도 4,200만이면 이자 102,500, 대출 가능 897,500)
     const interest = Math.round((ASSUMED.LOAN_LIMIT - 1_000_000) * ASSUMED.LOAN_RATE_ANNUAL / 12);
@@ -184,7 +185,7 @@ describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () =>
 
   it('negative cash borrows up to limit, then crisis after 3 months (no new borrowing, cash stays negative)', () => {
     let s = createLife({ funding: 'self', school: 'snu', track: 'philosophy', group: '인문사회' }, SEED, data);
-    s = { ...s, money: { ...s.money, cash: 0, debt: s.money.loanLimit } };
+    s = { ...s, money: { ...s.money, cash: 0, debt: s.money.loanLimit, studentLoan: { tuition: 90_000_000, living: 44_000_000, livingSemester: 2_000_000, rate: 0.017 } } };   // 학자금대출(#80)도 한도까지
     for (let i = 0; i < 3; i++) s = applyCashflow(s, data);
     expect(s.phd!.crisisMonths).toBe(3);
     expect(kind(s, 'loan')).toEqual([]);                       // 한도가 찼으니 새로 빌리지 못한다
@@ -196,7 +197,7 @@ describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () =>
   });
 
   it('a month with enough cash resets both counters', () => {
-    const s0 = base({ cash: 10_000_000 });
+    const s0 = base({ studentLoanFull: true, cash: 10_000_000 });
     const hurt = { ...s0, phd: { ...s0.phd!, crisisMonths: 2, postCrisisMonths: 1 } };
     const s = applyCashflow(hurt, data);
     expect(s.phd!.crisisMonths).toBe(0);
@@ -204,7 +205,7 @@ describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () =>
   });
 
   it('after the funding-expiry decision is recorded, further crisis months count as postCrisisMonths', () => {
-    let s = base({ month: 1, cash: 0, debt: ASSUMED.LOAN_LIMIT });
+    let s = base({ studentLoanFull: true, month: 1, cash: 0, debt: ASSUMED.LOAN_LIMIT });
     const stages: string[] = [];
     for (let m = 1; m <= 3; m++) { s = applyCashflow({ ...s, month: m }, data); stages.push(crisisStage(s)); }
     expect(stages).toEqual(['none', 'none', 'force-funding-expiry']);
@@ -223,7 +224,7 @@ describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () =>
   });
 
   it('a funding-expiry decision from before the crisis does not count', () => {
-    let s = base({ month: 1, cash: 0, debt: ASSUMED.LOAN_LIMIT });
+    let s = base({ studentLoanFull: true, month: 1, cash: 0, debt: ASSUMED.LOAN_LIMIT });
     s = { ...s, decisions: [{ dp: 'funding-expiry', month: 0, option: 'extend', byPolicy: false }] };
     for (let m = 1; m <= 3; m++) s = applyCashflow({ ...s, month: m }, data);
     expect(crisisStage(s)).toBe('force-funding-expiry');
@@ -239,7 +240,7 @@ describe('applyCashflow: loans and the financial crisis (Review Focus 3)', () =>
   });
 
   it('debt is never negative and the input is not mutated', () => {
-    const s0 = base({ cash: 0 });
+    const s0 = base({ studentLoanFull: true, cash: 0 });
     const snap = JSON.stringify(s0);
     const s = applyCashflow(s0, data);
     expect(JSON.stringify(s0)).toBe(snap);

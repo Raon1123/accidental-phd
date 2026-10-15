@@ -1,13 +1,15 @@
 // 돈: 장려금·가족 지원·근로 − 생활비 − 등록금 − 이자, 부족분 대출, 재정 위기 카운터(선택권 §5.1–§5.5).
 // applyCashflow 는 달마다 한 번 부른다(틱 순서 6번, 포커스 효과 뒤). 같은 달에 두 번 부르면 아직 정산되지 않은 원장 항목을 다시 합산한다.
 import { ASSUMED } from '../assumed';
+import { nextSpending, spendingOf } from '../spending';
+import { studentLoanTerms } from '../data/loans';
 import type { DataBundle } from '../data/bundle';
 import { tuitionPerSemester } from '../data/tuition';
 import type { LifeState, PhdState } from '../types';
 import { stipendScale, drawParticipation } from './work';
 
 /** applyCashflow 가 직접 쓰거나(또는 createLife 가 이미 현금에 반영한) 원장 종류. 이 밖의 종류는 이번 달 정산 대기 항목으로 보고 합산한다. */
-export const SETTLED_KINDS: readonly string[] = ['entrance-fee', 'stipend', 'family', 'living', 'tuition', 'interest', 'loan'];
+export const SETTLED_KINDS: readonly string[] = ['entrance-fee', 'stipend', 'family', 'living', 'tuition', 'interest', 'loan', 'tuition-loan', 'living-loan', 'tuition-loan-interest', 'living-loan-interest'];
 
 /** 학기 경계 달(3월·9월): month mod 6 === 0. */
 export function isSemesterBoundary(month: number): boolean {
@@ -16,7 +18,7 @@ export function isSemesterBoundary(month: number): boolean {
 
 /** 월 생활비: 수도권 학교 160만 원, 그 밖 130만 원(0014#60). */
 export function livingCost(school: string): number {
-  return (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(school) ? ASSUMED.LIVING_COST.capital : ASSUMED.LIVING_COST.regional;
+  return (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(school) ? ASSUMED.LIVING_COST.capital : ASSUMED.LIVING_COST.regional;   // 지역 기본값(0014#60). 실제 지출은 spendingOf(0014#131)
 }
 
 /** 수업 기간 여부: 입학 후 24개월 동안. 학기 경계 달에 틱이 부른다. */
@@ -66,7 +68,7 @@ function monthlyCashflow(state: LifeState, data: DataBundle): { stipend: number;
   return {
     stipend: fundingActive(phd, state.month) ? Math.round(phd.fundingState.monthly * stipendScale(state)) : 0,   // 과제 참여율 #79
     family: phd.familySupport,
-    living: livingCost(state.choices.school),
+    living: spendingOf(state),   // 사람별 씀씀이(0014#131)
     tuition: charge?.amount ?? 0,
     ...(charge ? { tuitionRecordId: charge.recordId } : {}),
   };
@@ -113,6 +115,21 @@ export function applyCashflow(state: LifeState, data: DataBundle): LifeState {
   push('interest', -interest);   // 현금이 아니라 부채에 붙는 항목이다
   debt += interest;
 
+  // 학자금대출(#80): 이자는 각 잔액에 붙는다. 모자란 현금은 등록금대출(이번 달 등록금까지) → 생활비대출(학기당 한도) → 일반 대출 순으로 메운다(0014#132).
+  const T = studentLoanTerms(data);
+  const sl = { ...(state.money.studentLoan ?? { tuition: 0, living: 0, livingSemester: 0, rate: T.rate }) };
+  if (isSemesterBoundary(month)) sl.livingSemester = 0;
+  const tInt = Math.round(sl.tuition * sl.rate / ASSUMED.MONTHS_PER_YEAR), lInt = Math.round(sl.living * sl.rate / ASSUMED.MONTHS_PER_YEAR);
+  sl.tuition += tInt; sl.living += lInt;
+  push('tuition-loan-interest', -tInt);
+  push('living-loan-interest', -lInt);
+  if (cash < 0 && (ASSUMED.STUDENT_LOAN_ON_LEAVE || !phd.leave.active)) {   // 휴학 중에는 학자금대출을 받지 않는다(재학생 대상, 0014#132)
+    const t = Math.min(-cash, tuition, Math.max(0, T.tuitionLimit - sl.tuition));
+    if (t > 0) { sl.tuition += t; cash += t; push('tuition-loan', t); }
+    const l = cash < 0 ? Math.min(-cash, Math.max(0, T.livingPerSemester - sl.livingSemester), Math.max(0, T.livingLimit - sl.living)) : 0;
+    if (l > 0) { sl.living += l; sl.livingSemester += l; cash += l; push('living-loan', l); }
+  }
+
   if (cash < 0) {
     const borrowed = Math.min(-cash, Math.max(0, loanLimit - debt));
     debt += borrowed;
@@ -132,7 +149,7 @@ export function applyCashflow(state: LifeState, data: DataBundle): LifeState {
 
   return {
     ...state,
-    money: { cash, debt, loanLimit },
+    money: { cash, debt, loanLimit, studentLoan: sl, spending: nextSpending(state, stipend + phd.familySupport + Math.max(0, pending)) },
     ledger: [...state.ledger, ...entries],
     phd: { ...phd, crisisMonths, postCrisisMonths },
   };
