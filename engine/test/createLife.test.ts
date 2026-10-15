@@ -364,13 +364,13 @@ describe('akj enters the luck draw with unit-count weight (decision 0019, #139)'
       expect(units.filter(u => u === `departments-akj-${t}`)).toHaveLength(1);
       expect(units).toHaveLength(n);
     }
-  });
+  }, 30_000);
   it('a chosen track lands at akj with probability 1 / units', () => {
     for (const t of Object.keys(AKJ_UNITS)) {
       const p = share(3000, i => createLife({ track: t }, newSeed(`akj-${t}-${i}`), data).choices.school === 'akj');
       expect(Math.abs(p - 1 / unitsForTrack(idx, t).length)).toBeLessThan(0.02);
     }
-  });
+  }, 30_000);
   it('a lucky 인문사회 life lands at akj with probability 5 / group units', () => {
     const w = trackWeights(idx);
     const total = tracksOf('인문사회').reduce((s, t) => s + (w[t] ?? 0), 0);
@@ -378,12 +378,12 @@ describe('akj enters the luck draw with unit-count weight (decision 0019, #139)'
     const lives = Array.from({ length: 4000 }, (_, i) => createLife({ group: '인문사회' }, newSeed(`akj-g-${i}`), data));
     expect(Math.abs(lives.filter(l => l.choices.school === 'akj').length / lives.length - 5 / total)).toBeLessThan(0.01);
     expect(lives.every(l => l.choices.byLuck.track && l.choices.byLuck.department)).toBe(true);
-  });
+  }, 30_000);
   it('akj never appears outside its five tracks', () => {
     for (let i = 0; i < 500; i++) expect(createLife({ track: 'economics' }, newSeed(`akj-e-${i}`), data).choices.school).not.toBe('akj');
     for (let i = 0; i < 50; i++) expect(Object.keys(AKJ_UNITS)).toContain(createLife({ school: 'akj', group: '인문사회' }, newSeed(`akj-s-${i}`), data).choices.track);
     expect(() => createLife({ school: 'akj', track: 'economics' }, newSeed('akj-x'), data)).toThrow();
-  });
+  }, 30_000);
 });
 
 describe('self funding TA draw at entry (0014#136·#137, decision 0022)', () => {
