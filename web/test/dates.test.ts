@@ -44,6 +44,14 @@ describe('life summary (#129)', () => {
     expect(v.items.map(i => i.when)).toContain('2029년 9월');   // 30개월째 자격시험 합격
     expect(v.items.length).toBeGreaterThanOrEqual(2);
   });
+  it('each summary line carries the icon of its record (#151)', () => {
+    const s = createLife({ track: 'computer', auto: true }, newSeed('summary-icons'), data);
+    const log = [...s.log, { month: 30, textKey: 'log.qual-pass', tags: [], creative: false }, { month: 70, textKey: 'log.degree', tags: [], creative: false }];
+    const v = lifeSummary({ ...s, log, stage: 'end' as const, end: { reason: 'degree' as const, month: 70 } }, ko);
+    expect(v.items.find(i => i.when === '2029년 9월')?.icon).toBe('star');
+    expect(v.items.find(i => i.when === '2033년 1월')?.icon).toBe('degree');
+    expect(v.items.every(i => i.icon !== undefined)).toBe(true);
+  });
 });
 
 describe('glance status line (#132)', () => {

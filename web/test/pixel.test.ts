@@ -119,3 +119,17 @@ describe('pixel color tokens (#151)', () => {
     for (const c of used) if (/^(lab|car|ret)-/.test(c)) expect(dark.has(c), c).toBe(true);
   });
 });
+
+describe('icons on screen (#151)', () => {
+  const css = readFileSync(resolve(__dirname, '../src/style.css'), 'utf8');
+  const main = readFileSync(resolve(__dirname, '../src/main.ts'), 'utf8');
+  it('the kind label is hidden only while an icon is shown, and comes back when pictures are off', () => {
+    expect(css).toMatch(/html:not\(\[data-art="off"\]\) \.px-icon \+ \.note-kind\s*\{[^}]*clip/);
+    expect(css).toMatch(/html\[data-art="off"\] \.px-icon/);
+  });
+  it('icons are drawn with SVG elements, never innerHTML, and are hidden from screen readers', () => {
+    expect(main).not.toMatch(/innerHTML/);
+    expect(main).toMatch(/createElementNS\(SVG_NS, 'rect'\)/);
+    expect(main).toMatch(/aria-hidden', 'true'/);
+  });
+});

@@ -5,6 +5,7 @@ import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
+import { iconOf, iconRects, type Icon, type Rect } from './pixel';
 import { lifeConfig, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
@@ -33,6 +34,29 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLE
   if (text !== undefined) e.textContent = text;
   if (tag === 'h2' || tag === 'h3') e.tabIndex = -1;   // 스크립트가 포커스를 옮길 수 있게(Tab 순서에는 넣지 않는다)
   return e;
+}
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+/** 픽셀 사각형 → SVG(#151). 색은 토큰(var(--…))만 쓴다. 장식이므로 화면 낭독기에서 숨긴다. */
+function pixelSvg(width: number, height: number, rects: readonly Rect[]): SVGSVGElement {
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('class', 'px');
+  svg.setAttribute('aria-hidden', 'true');
+  for (const r of rects) {
+    const e = document.createElementNS(SVG_NS, 'rect');
+    e.setAttribute('x', String(r.x)); e.setAttribute('y', String(r.y));
+    e.setAttribute('width', String(r.w)); e.setAttribute('height', String(r.h));
+    e.setAttribute('fill', `var(--${r.c})`);
+    svg.append(e);
+  }
+  return svg;
+}
+function iconEl(icon: Icon): HTMLElement {
+  const s = el('span');
+  s.className = 'px-icon';
+  s.append(pixelSvg(12, 12, iconRects(icon)));
+  return s;
 }
 
 /** `key`(data-k)는 다시 그린 뒤 키보드 포커스를 같은 조작으로 되돌릴 때 쓴다(#61). 없으면 글자. */
@@ -211,6 +235,8 @@ function renderFeed(root: HTMLElement): void {
     li.className = `note note-${n.kind}`;
     const tag = el('span', t.play.noteKinds[n.kind]);
     tag.className = 'note-kind';
+    const icon = iconOf(n.key, n.kind);
+    if (icon) li.append(iconEl(icon));
     li.append(tag, el('span', ` ${calendarLabel(n.month, t)} · ${n.text}`));
     if (n.creative) li.append(el('span', ` [${t.play.creative}]`));
     ol.append(li);
@@ -414,7 +440,9 @@ function renderSummary(root: HTMLElement, s: LifeState): void {
     const li = el('li');
     const tag = el('span', it.kind);
     tag.className = 'note-kind';
-    li.append(el('strong', it.when), ' ', tag, el('span', ` ${it.text}`));
+    li.append(el('strong', it.when), ' ');
+    if (it.icon) li.append(iconEl(it.icon));
+    li.append(tag, el('span', ` ${it.text}`));
     ol.append(li);
   }
   box.append(ol);
