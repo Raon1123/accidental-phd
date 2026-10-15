@@ -1,6 +1,6 @@
 // 월 표기(#129): 달력 연월과 경과 기간, 삶의 정리.
 import { describe, expect, it } from 'vitest';
-import { createLife, newSeed } from '../../engine/src/browser';
+import { createLife, newSeed, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { calendarLabel, elapsedLabel } from '../src/dates';
 import { ko } from '../src/strings.ko';
@@ -51,5 +51,16 @@ describe('glance status line (#132)', () => {
     const s = createLife({ track: 'computer' }, newSeed('glance'), data);
     const row = glanceRows(s, ko, data).find(r => r[0] === ko.stage)!;
     expect(row[1]).toBe(statusLine(s, ko));
+  });
+
+  it('shows statusLine as the stage row in the career stage too', () => {
+    const base = createLife({ track: 'computer' }, newSeed('glance-career'), data);
+    const s: LifeState = {
+      ...base, stage: 'career', month: 100,
+      career: { degreeMonth: 90, degree: 'phd', route: 'industry', employer: { kind: 'company' }, annualPay: 0, yearsInRoute: 1, workYears: 1, academicMonths: 0, paperScore: 0, careerPapers: 0 },
+    };
+    const row = glanceRows(s, ko, data).find(r => r[0] === ko.stage)!;
+    expect(row[1]).toBe(statusLine(s, ko));
+    expect(row[1]).toContain('기업');
   });
 });
