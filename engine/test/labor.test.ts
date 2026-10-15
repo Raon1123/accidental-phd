@@ -275,6 +275,11 @@ describe('applyHire employers', () => {
     expect(applyHire(base(), data, 'lecturer', 7).career!.contractUntil).toBe(7 + 12);
     expect(applyHire(base(), data, 'industry', 7).career!.contractUntil).toBeUndefined();
   });
+  it('non-tenure faculty and temporary jobs get contract periods too; regular routes do not (#84, 0014 #133·#134)', () => {
+    expect(applyHire(base(), data, 'nontenure', 7).career!.contractUntil).toBe(7 + ASSUMED.CONTRACT.nontenure.years * 12);
+    expect(applyHire(base(), data, 'bridge', 7).career!.contractUntil).toBe(7 + ASSUMED.CONTRACT.bridge.years * 12);
+    for (const r of ['professor', 'institute', 'public', 'startup'] as const) expect(applyHire(base(), data, r, 7).career!.contractUntil).toBeUndefined();
+  });
   it('replaces an existing job and resets yearsInRoute, keeping totals', () => {
     const s = fixtureCareerState({ career: { route: 'postdoc', annualPay: 37_800_000, yearsInRoute: 3, workYears: 3, academicMonths: 36, paperScore: 4, searching: { routes: ['professor'], since: 90, penalty: 1 }, retireAge: 61 } });
     const c = applyHire(s, data, 'professor', 101).career!;

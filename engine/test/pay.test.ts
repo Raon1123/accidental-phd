@@ -2,7 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { ASSUMED } from '../src/assumed';
 import { loadData, get } from '../src/data/load';
 import { INSTITUTES, industryPay, institutePay, lecturerAnnual, nationalStep0, officerStepFrom, privateFacultyPay, stepPay } from '../src/data/salaries';
-import { pensionMonthly, promotion, retireAge, startingPay, yearEnd } from '../src/career/pay';
+import { layoffMonth, pensionMonthly, promotion, retireAge, startingPay, yearEnd } from '../src/career/pay';
+import { hazardMonth } from '../src/odds';
 import { odds } from '../src/odds';
 import { draw, drawNormal } from '../src/rng';
 import type { CareerState, Choices, LifeState, Route, Stats } from '../src/types';
@@ -142,6 +143,37 @@ describe('yearEnd (선택권 §9.1·§9.3, 상태 §7.2)', () => {
     for (let m = 100; m < 1100; m++) if (yearEnd(emp('lecturer', 14_000_000, { contractUntil: 100 }, { month: m }), data).career!.route === 'lecturer') renewed++;
     expect(Math.abs(renewed / 1000 - ASSUMED.CONTRACT.lecturer.renewP)).toBeLessThan(0.05);
   });
+  it('non-tenure faculty contract: renew 0.70 for 2 years via slot renew:nontenure, otherwise academic search (#84, 0014#133)', () => {
+    let renewed = 0;
+    for (let m = 100; m < 1100; m++) {
+      const c = yearEnd(emp('nontenure', 38_710_000, { contractUntil: 100, rank: 'nontenure', employer: { kind: 'university', national: false } }, { month: m }), data).career!;
+      if (draw(SEED, 'labor', m, 'renew:nontenure') < ASSUMED.CONTRACT.nontenure.renewP) {
+        renewed++; expect(c).toMatchObject({ route: 'nontenure', contractUntil: m + 24 });
+      } else {
+        expect(c).toMatchObject({ route: 'none', annualPay: 0 }); expect(c.contractUntil).toBeUndefined();
+        expect(c.searching).toEqual({ routes: ['postdoc', 'lecturer', 'nontenure', 'professor'], since: m, penalty: 1 });
+      }
+    }
+    expect(Math.abs(renewed / 1000 - ASSUMED.CONTRACT.nontenure.renewP)).toBeLessThan(0.05);
+  });
+  it('temporary (bridge) contract: renew 0.50 for 1 year via slot renew:bridge, otherwise bridge and industry search (#84, 0014#134)', () => {
+    let renewed = 0;
+    for (let m = 100; m < 1100; m++) {
+      const s = emp('bridge', 24_000_000, { contractUntil: 100, employer: { kind: 'company' } }, { month: m });
+      const out = yearEnd(s, data);
+      const c = out.career!;
+      if (draw(SEED, 'labor', m, 'renew:bridge') < ASSUMED.CONTRACT.bridge.renewP) {
+        renewed++; expect(c).toMatchObject({ route: 'bridge', contractUntil: m + 12 });
+      } else {
+        expect(c).toMatchObject({ route: 'none', annualPay: 0 }); expect(c.contractUntil).toBeUndefined();
+        expect(c.searching).toEqual({ routes: ['bridge', 'industry'], since: m, penalty: 1 });
+        expect(out.log.at(-1)!.textKey).toBe('log.contract-ended');
+      }
+    }
+    expect(Math.abs(renewed / 1000 - ASSUMED.CONTRACT.bridge.renewP)).toBeLessThan(0.05);
+    // 만료 전 계약은 그대로
+    expect(yearEnd(emp('bridge', 24_000_000, { contractUntil: 150 }, { month: 100 }), data).career!).toMatchObject({ route: 'bridge', contractUntil: 150 });
+  });
   it('startup closes with p 0.20 via slot startup:close and otherwise redraws its income', () => {
     for (let m = 1; m <= 300; m++) {
       const c = yearEnd(emp('startup', 30_000_000, { employer: { kind: 'self' } }, { month: m }), data).career!;
@@ -252,12 +284,13 @@ describe('promotion (선택권 §9.3)', () => {
   it('nontenure → tenure-track assistant professor (p0 0.15)', () => {
     let ok = 0;
     for (let m = 1; m <= 1500; m++) {
-      const s = fixtureCareerState({ month: m, career: { route: 'nontenure', rank: 'nontenure', annualPay: 38_710_000, yearsInRoute: 5, retireAge: 99, employer: { kind: 'university', national: false } } });
+      const s = fixtureCareerState({ month: m, career: { route: 'nontenure', rank: 'nontenure', annualPay: 38_710_000, yearsInRoute: 5, retireAge: 99, contractUntil: m + 10, employer: { kind: 'university', national: false } } });
       const r = promotion(s, data, 'career-5y');
       if (r.promoted) {
         ok++;
         expect(r.state.career).toMatchObject({ route: 'professor', rank: 'assistant', yearsInRoute: 0, annualPay: privateFacultyPay(data, 'assistant').value });
         expect(r.state.career!.retireAge).toBeUndefined();
+        expect(r.state.career!.contractUntil).toBeUndefined();   // 정년트랙은 계약 기간이 없다(#84)
       }
     }
     expect(Math.abs(ok / 1500 - 0.15)).toBeLessThan(0.04);
@@ -292,6 +325,50 @@ describe('promotion (선택권 §9.3)', () => {
   it('does not mutate its input', () => {
     const s = prof('assistant'); const clone = structuredClone(s);
     promotion(s, data, 'career-5y'); expect(s).toEqual(clone);
+  });
+});
+
+describe('layoffMonth (#84, 0014#135)', () => {
+  const job = (route: Route, seed: string, o: Partial<CareerState> = {}) =>
+    fixtureCareerState({ seed, career: { route, annualPay: 60_000_000, rank: 'staff', employer: { kind: 'company' }, ...o } });
+  it('lays off industry employees at the monthly hazard of the yearly company rate via slot layoff', () => {
+    const n = 20_000;
+    let laid = 0;
+    for (let i = 0; i < n; i++) {
+      const seed = `APHD-L${String(i).padStart(7, '0')}`;
+      const out = layoffMonth(job('industry', seed));
+      const hit = draw(seed, 'labor', 100, 'layoff') < hazardMonth(ASSUMED.LAYOFF_YEAR.industry);
+      expect(out.career!.route === 'none').toBe(hit);
+      if (hit) {
+        laid++;
+        expect(out.career).toMatchObject({ route: 'none', annualPay: 0, yearsInRoute: 0 });
+        expect(out.career!.employer).toBeUndefined();
+        expect(out.career!.searching).toEqual({ routes: ['industry'], since: 100, penalty: 1 });
+        expect(out.log.at(-1)!.textKey).toBe('log.laid-off');
+      }
+    }
+    const p = hazardMonth(ASSUMED.LAYOFF_YEAR.industry);
+    expect(Math.abs(laid / n - p)).toBeLessThan(4 * Math.sqrt(p * (1 - p) / n));
+  });
+  it('institute layoffs are rarer and search institute and public research jobs', () => {
+    const n = 40_000;
+    let laid = 0;
+    for (let i = 0; i < n; i++) {
+      const out = layoffMonth(job('institute', `APHD-I${String(i).padStart(7, '0')}`, { rank: 'junior', employer: { kind: 'institute', instituteId: 'kist' } }));
+      if (out.career!.route === 'none') { laid++; expect(out.career!.searching!.routes).toEqual(['institute', 'public']); }
+    }
+    const p = hazardMonth(ASSUMED.LAYOFF_YEAR.institute);
+    expect(Math.abs(laid / n - p)).toBeLessThan(4 * Math.sqrt(p * (1 - p) / n));
+  });
+  it('never lays off professors, public researchers, contract jobs, startups, or the unemployed', () => {
+    expect(ASSUMED.LAYOFF_YEAR.professor).toBe(0);
+    expect(ASSUMED.LAYOFF_YEAR.public).toBe(0);
+    for (const r of ['professor', 'public', 'nontenure', 'postdoc', 'lecturer', 'bridge', 'startup', 'none'] as Route[]) {
+      for (let i = 0; i < 2000; i++) {
+        const s = job(r, `APHD-Z${String(i).padStart(7, '0')}`);
+        expect(layoffMonth(s)).toBe(s);
+      }
+    }
   });
 });
 

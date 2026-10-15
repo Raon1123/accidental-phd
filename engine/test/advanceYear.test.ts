@@ -7,6 +7,7 @@ import { careerFlow } from '../src/career/tick';
 import { advanceYear } from '../src/career/tick';
 import { decide } from '../src/decide';
 import { draw } from '../src/rng';
+import { hazardMonth } from '../src/odds';
 import type { CareerState, Choices, LifeState, Route, Stats } from '../src/types';
 
 const data = loadData();
@@ -123,6 +124,28 @@ describe('advanceYear: career year', () => {
   it('retire age is cached for employed routes and left open while unemployed', () => {
     expect(advanceYear(employed('professor', 60_000_000, { employer: { kind: 'university', national: false } }), data).career!.retireAge).toBe(65);
     expect(advanceYear(fixtureCareerState({ career: { route: 'none' } }), data).career!.retireAge).toBeUndefined();
+  });
+
+  it('a layoff lands after that month is paid; the search starts the next month (#84, 0014#135)', () => {
+    let laid = 0;
+    const n = 2000;
+    for (let i = 0; i < n; i++) {
+      const seed = `APHD-Y${String(i).padStart(7, '0')}`;
+      const s = employed('industry', 60_000_000, { rank: 'staff', employer: { kind: 'company' } }, { seed });
+      const out = advanceYear(s, data);
+      const firstHit = Array.from({ length: 12 }, (_, k) => s.month + 1 + k).find(m => draw(seed, 'labor', m, 'layoff') < hazardMonth(ASSUMED.LAYOFF_YEAR.industry));
+      const entry = out.log.find(l => l.textKey === 'log.laid-off');
+      expect(entry?.month).toBe(firstHit);
+      if (firstHit === undefined) continue;
+      laid++;
+      const paid = out.ledger.filter(l => l.kind === 'pay').map(l => l.month);
+      expect(paid).toContain(firstHit);   // 해고된 달까지 급여를 받고
+      // 해고된 달에는 채용 추첨이 없다. 다음 달 급여는 그달 다시 채용됐을 때만 있다
+      expect(out.log.some(l => l.textKey === 'log.hired' && l.month === firstHit)).toBe(false);
+      if (paid.includes(firstHit + 1)) expect(out.log.some(l => l.textKey === 'log.hired' && l.month === firstHit + 1)).toBe(true);
+    }
+    const pYear = ASSUMED.LAYOFF_YEAR.industry;
+    expect(Math.abs(laid / n - pYear)).toBeLessThan(4 * Math.sqrt(pYear * (1 - pYear) / n));
   });
 });
 
