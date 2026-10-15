@@ -2,7 +2,7 @@
 import { ASSUMED, applyWorkInput, researchMarket, growthMultiplier, lectureEligible, participationMean, participationOf, partTimeCap, partTimePay, partTimeWeekHours, type DataBundle, type LifeState, type MonthInput, type Paper, type PartTime } from '../../engine/src/browser';
 import { calendarLabel, elapsedLabel } from './dates';
 import { schoolDisplayName } from './schoolName';
-import { notes, statusLine, type NoteKind } from './play';
+import { fundingStatus, notes, statusLine, type NoteKind } from './play';
 import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
 
@@ -14,7 +14,8 @@ export function summaryRows(s: LifeState, t: Strings, data?: DataBundle): [strin
     [t.play.age, `${Math.floor(s.ageMonths / 12)}${t.play.ageUnit}`],
     [t.department, departmentLabel(s.choices, data, t)],
     [t.school, schoolDisplayName(s.choices.school, t)],
-    [t.funding, t.play.fundingNames[s.choices.funding]],
+    // 자비라도 입학 때 조교 자리를 얻었으면 월 수입을 함께 보인다(#163, 결정 기록 0022)
+    [t.funding, s.phd ? fundingStatus({ funding: s.phd.fundingState.route, fundingMonthly: s.phd.fundingState.monthly }, t) : t.play.fundingNames[s.choices.funding]],
     [t.play.stats, (Object.keys(t.play.statNames) as (keyof typeof t.play.statNames)[]).map(k => `${t.play.statNames[k]} ${s.stats[k]}`).join(' · ')],
   ];
 }

@@ -6,7 +6,7 @@ import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, t
 import { loadData } from '../../engine/src/index';
 import { BASE_MS, SPEEDS, fundingStatus, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
-import { participationReason, paperView, statBars, venueLabel, workView } from '../src/view';
+import { participationReason, paperView, statBars, summaryRows, venueLabel, workView } from '../src/view';
 
 const data = loadData();
 const CAP = 12 * 90;
@@ -406,6 +406,13 @@ describe('funding status with a self-route TA post (#163)', () => {
     expect(text).toContain(ko.play.fundingNames.self);
     expect(text).toContain(wonText(400000, ko));
     expect(text).not.toBe(ko.play.fundingNames.self);
+  });
+
+  it('the current-life panel funding row shows the TA income too (review of #163)', () => {
+    const s = createLife({ track: 'computer', auto: true }, newSeed('self-ta-row'), data);
+    const ta = { ...s, phd: { ...s.phd!, fundingState: { ...s.phd!.fundingState, route: 'self' as const, monthly: 400000 } } };
+    const row = summaryRows(ta, ko).find(([k]) => k === ko.funding)!;
+    expect(row[1]).toContain(wonText(400000, ko));
   });
 
   it('plain self (no income) and the other routes keep their bare names', () => {
