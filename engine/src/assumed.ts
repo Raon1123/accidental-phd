@@ -153,7 +153,7 @@ export const ASSUMED = {
   LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60 (경력·은퇴 단계에도 같은 값: 0014#123, #96)
   CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos', 'akj'], // 0014#60 수도권
   REGIONAL_SCHOOLS: ['kaist', 'postech', 'gist', 'dgist', 'unist', 'pusan', 'knu', 'jnu', 'cnu'], // 0014#60 비수도권
-  LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 42_000_000,                                      // 0014#61 (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; calibration-wave4.md)
+  LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 42_000_000,                                      // 0014#61 (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; calibration-wave4.md. 판정 2026-10-15 유지: 결정 기록 0021)
   CRISIS_MONTHS: 3, POST_CRISIS_MONTHS: 3,                                             // 0014#62
 
   // ── 논문 (0014 #63–#71) ──

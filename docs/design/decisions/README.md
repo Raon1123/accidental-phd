@@ -42,3 +42,4 @@
 - [0018 Wave 5 회고 반영: 플레이어 선택 범위, 실명 금지 범위, 기록 다시 쓰기 전 판정, 병렬 세션의 공유 파일 책임](0018-wave5-retro-rules.md)
 - [0019 학교 akj의 운 추첨 가중치: 단위 수 가중치 유지](0019-akj-luck-weight.md)
 - [0020 실명 기록 삭제 때 커밋 해시 인용 처리: 대응표 커밋과 인용 치환, PR 번호 유지](0020-history-rewrite-hash-citations.md)
+- [0021 재정 파탄 목표와 일반 대출 한도: 4,200만 유지, 목표를 이탈 레코드에서 유도](0021-financial-target-loan-limit.md)
