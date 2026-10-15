@@ -95,13 +95,13 @@ fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
 :root {
   --px-ink: #1d1b2a; --px-white: #f4f4ee; --px-skin: #f1c27d; --px-hair: #3b2a20; --px-shirt: #2f6db5; --px-pants: #38405a;
   --px-sun: #ffc93c; --px-red: #d6453d; --px-wood: #9a6233; --px-wood2: #6b4020; --px-leaf: #3f9b4a; --px-leaf2: #69c06b; --px-trunk: #6b4020;
-  --px-book1: #c0392b; --px-book2: #2e86c1; --px-book3: #27ae60; --px-chair: #5a5f73;
+  --px-book1: #c0392b; --px-book2: #2e86c1; --px-book3: #27ae60; --px-chair: #5a5f73; --px-tile: #8e9ab0;
   --lab-wall: #d9d2c5; --lab-wall2: #bfb5a3; --lab-floor: #8c7a66; --lab-frame: #6b4020; --lab-night: #24305e; --lab-moon: #fff3b0; --lab-screen: #9fe3c9;
   --car-sky: #8fd0ff; --car-cloud: #ffffff; --car-bldg: #e8dcc4; --car-bldg2: #c9b48f; --car-win: #4a6fa5; --car-grass: #6cc070; --car-path: #d8c6a0;
   --ret-d1: #ffb37a; --ret-d2: #ff9a76; --ret-d3: #f07c8a; --ret-d4: #c9739e; --ret-hill: #5e8f5a; --ret-hill2: #46704a; --ret-grass: #4f7f4d;
 }
 @media (prefers-color-scheme: dark) { :root {
-  --px-white: #e6e3d8;
+  --px-white: #e6e3d8; --px-tile: #8e9ab0;
   --lab-wall: #3a3550; --lab-wall2: #2d2940; --lab-floor: #4a3d33; --lab-frame: #6b4020; --lab-night: #0f1430; --lab-moon: #fff3b0; --lab-screen: #7fe0c0;
   --car-sky: #26315e; --car-cloud: #3d4a7a; --car-bldg: #6e6656; --car-bldg2: #5a5243; --car-win: #ffd36b; --car-grass: #2f6a3a; --car-path: #6b604c;
   --ret-d1: #5b3a6e; --ret-d2: #4a2f63; --ret-d3: #3a2657; --ret-d4: #2b1d47; --ret-hill: #2d4a33; --ret-hill2: #22392a; --ret-grass: #1f3324;
@@ -113,7 +113,8 @@ svg.px { display: block; shape-rendering: crispEdges; }
 .art button { padding: .1rem .55rem; }
 html[data-art="off"] .px-icon, html[data-art="off"] .px-scene, html[data-art="lite"] .px-scene { display: none; }
 
-/* 연구노트·삶의 정리 아이콘(#151, 안 b). 아이콘이 보이는 동안 종류 글자는 화면 낭독기용으로만 남는다. */
-.px-icon { display: inline-block; width: 1.25rem; height: 1.25rem; vertical-align: -0.3rem; margin-right: .3rem; }
+/* 연구노트·삶의 정리 아이콘(#151, 안 b). 아이콘이 보이는 동안 종류 글자는 화면 낭독기용으로만 남는다.
+   아이콘은 잉크(검정)·흰 종이·노랑을 모두 쓰므로 두 테마에서 모두 구별되는 중간 밝기 타일(--px-tile) 위에 그린다. */
+.px-icon { display: inline-block; width: 1.25rem; height: 1.25rem; padding: 2px; box-sizing: content-box; background: var(--px-tile); border-radius: 3px; vertical-align: -0.4rem; margin-right: .3rem; }
 .px-icon svg { width: 100%; height: 100%; }
 html:not([data-art="off"]) .px-icon + .note-kind { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

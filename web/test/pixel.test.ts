@@ -118,6 +118,20 @@ describe('pixel color tokens (#151)', () => {
     const dark = defined(darkBlocks);
     for (const c of used) if (/^(lab|car|ret)-/.test(c)) expect(dark.has(c), c).toBe(true);
   });
+  it('icons sit on a tile that every icon color stands out from, in both themes (review of #151)', () => {
+    // 아이콘 색(잉크·흰 종이·노랑…)은 테마와 상관없이 같으므로, 페이지 배경이 아니라 타일과의 대비가 아이콘을 보이게 한다.
+    expect(css).toMatch(/\.px-icon\s*\{[^}]*background:\s*var\(--px-tile\)/);
+    const hex = (block: string, name: string) => new RegExp(`--${name}:\\s*(#[0-9a-f]{6})`, 'i').exec(block)?.[1];
+    const lum = (h: string) => { const [r, g, b] = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(c => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)); return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!; };
+    const ratio = (a: string, b: string) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x! + 0.05) / (y! + 0.05); };
+    const iconColors = new Set<string>();
+    for (const name of Object.keys(ICONS) as Icon[]) for (const r of iconRects(name)) iconColors.add(r.c);
+    for (const block of [lightBlocks, darkBlocks]) {
+      const tile = hex(block, 'px-tile');
+      expect(tile, 'px-tile defined').toBeDefined();
+      for (const c of iconColors) expect(ratio(hex(block, c) ?? hex(lightBlocks, c)!, tile!), `${c} on tile`).toBeGreaterThanOrEqual(1.4);
+    }
+  });
 });
 
 describe('icons on screen (#151)', () => {
