@@ -66,6 +66,7 @@ export function entranceFee(data: DataBundle, school: string): DataValue {
  * 등록금 감면 비율(0014#21). 장학 = `-scholarship-tuition-rate` 레코드 중 최대값.
  * 과제 = 그 접미 뒤 id 토큰에 `ra` 또는 `ta` 가 있는 레코드(id 사전순 첫째). 자비 = 0.
  * 주의: `-rate` 안에 `-ra` 부분 문자열이 들어 있고 `-rate-taa`·`-rate-tac` 는 `-ta` 로 시작하므로, 접미를 토큰으로 갈라 비교한다.
+ * 메모(결정 기록 0022, 이번에 안 고침): 이 토큰 규칙은 konkuk `-taa`·`-tac`, snu `-lecture-research` 조교 감면을 놓친다(#21 규칙 수정 후보).
  */
 export function waiverRate(data: DataBundle, school: string, route: FundingRoute): DataValue {
   const none: DataValue = { value: 0, confidence: 'assumed', id: '0014#21', unit: 'ratio' };

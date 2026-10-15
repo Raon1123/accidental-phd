@@ -4,7 +4,8 @@ import { pathDistribution } from '../src/career/path';
 import { pensionMonthly, promotion } from '../src/career/pay';
 import { careerFlow } from '../src/career/tick';
 import { advanceYear } from '../src/career/tick';
-import { taStipend } from '../src/data/funding';
+import { taFundingState, taStipend } from '../src/data/funding';
+import { waiverRate } from '../src/data/tuition';
 import { loadData } from '../src/data/load';
 import {
   PATH_OPTIONS, advisorChangeProbability, decide, decisionOutcome, describeOptions, extensionProbability, fundingExpired, optionUnavailable, promotionProbability,
@@ -343,6 +344,23 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
   it('D past the leave cap throws', () => {
     const s = expiry(project, 24, { phd: { leave: { active: false, until: -1, totalMonths: 30 } } });
     expect(() => choose(s, 'D')).toThrow(/cap/);
+  });
+  it('B equals taFundingState(…, project) exactly (refactor regression: monthly, waiver, dutyHours, recordIds order)', () => {
+    for (const school of ['snu', 'korea', 'hanyang']) {
+      const r = choose(expiry(project, 24, { choices: { school } }), 'B');
+      const want = taFundingState(data, school, 'project');
+      expect(r.phd!.fundingState).toEqual(want);
+      expect(want.recordIds).toEqual([taStipend(data, school).id, waiverRate(data, school, 'project').id]);
+    }
+  });
+  it('self-funded TA life (decision 0022): never expires; on forced expiry A is no-funding, B gives the project-route TA state, C zeroes the TA income (current rule, until the crisis-rule judgment)', () => {
+    const ta = taFundingState(data, 'snu', 'self');
+    const s = phdFixture({ month: 99, phd: { fundingState: ta } });
+    expect(fundingExpired(s)).toBe(false);
+    const p = withPending(s, 'funding-expiry', { cause: 'crisis' });
+    expect(optionUnavailable(p, p.pending!, 'A')).toBe('no-funding');
+    expect(choose(p, 'B').phd!.fundingState).toEqual(taFundingState(data, 'snu', 'project'));
+    expect(choose(p, 'C').phd!.fundingState.monthly).toBe(0);
   });
 });
 

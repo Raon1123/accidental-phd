@@ -1,7 +1,8 @@
 // 장학·과제·조교 장려금 접근자(선택권 §5.2, §3.3). 월액은 원 정수.
 import { ASSUMED } from '../assumed';
-import type { Group } from '../types';
+import type { FundingRoute, FundingState, Group } from '../types';
 import { find, get, type DataBundle, type DataRecord, type DataValue } from './bundle';
+import { waiverRate } from './tuition';
 
 export type RecordPeriod = 'krw-per-month' | 'krw-per-semester' | 'krw-per-year' | 'krw-total';
 
@@ -69,4 +70,23 @@ export function projectStipend(data: DataBundle, school: string, group: Group): 
 export function taStipend(data: DataBundle, school: string): DataValue {
   const own = find(data, `schools-${school}-all-stipend-ta`)[0];
   return own ? monthlyValue(own) : { value: ASSUMED.TA_FALLBACK_MONTHLY, confidence: 'assumed', id: '0014#35', unit: 'krw-per-month' };
+}
+
+// 입학 때 조교 추첨 확률의 레코드 id(값이 아니라 id 이므로 상수 파일 밖에 둔다). 결정 기록 0022.
+const SELF_TA_P_RECORD = 'statistics-ta-income-living-cost-2015';
+
+/** 자비로 확정된 삶이 입학 때 조교 수입을 얻을 확률(0014#136) = 대학원생 생활비 재원 조사의 조교 수입 비율 레코드. */
+export function selfTaProbability(data: DataBundle): DataValue {
+  return get(data, SELF_TA_P_RECORD);
+}
+
+/**
+ * 조교 자금 상태(0014#137). funding-expiry B(선택권 §3.3)와 입학 때 조교 추첨(선택권 §5.2)이 같은 값을 쓴다:
+ * 월 수입 = taStipend(0014#35 규칙), 감면 = 과제 감면 규칙(0014#21 `-ra`·`-ta` 토큰), 기한 없음(until −1), 의무 주 10시간.
+ * route 는 호출자가 정한다(B 는 'project', 입학 때 추첨은 'self' — 참여율 추첨·배수가 조교 수입에 걸리지 않게).
+ */
+export function taFundingState(data: DataBundle, school: string, route: FundingRoute): FundingState {
+  const ta = taStipend(data, school);
+  const waiver = waiverRate(data, school, 'project');   // 조교·연구조교 레코드의 등록금 감면 비율(자금 경로 'project' 규칙)
+  return { route, monthly: ta.value, tuitionWaiver: waiver.value, until: -1, dutyHours: ASSUMED.TA_DUTY_HOURS, recordIds: [ta.id, waiver.id] };
 }

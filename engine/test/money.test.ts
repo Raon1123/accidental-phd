@@ -5,6 +5,8 @@ import { tuitionPerSemester } from '../src/data/tuition';
 import { createLife } from '../src/pre/createLife';
 import { applyCashflow, crisisStage, isSemesterBoundary, livingCost, tuitionCharge, updateCoursework } from '../src/phd/money';
 import { spendingOf } from '../src/spending';
+import { taFundingState } from '../src/data/funding';
+import { stipendScale } from '../src/phd/work';
 import type { FundingState, LifeState } from '../src/types';
 
 const data = loadData();
@@ -126,6 +128,21 @@ describe('applyCashflow: tuition (선택권 §5.1)', () => {
     const expired: FundingState = { ...SELF, route: 'project', monthly: 1_000_000, tuitionWaiver: 1, until: 24 };
     const s = applyCashflow(base({ month: 30, coursework: true, funding: expired }), data);
     expect(-kind(s, 'tuition')[0]!.amount).toBe(full);
+  });
+});
+
+describe('applyCashflow: self-funded TA life (0014#137, decision 0022)', () => {
+  const ta = taFundingState(data, 'snu', 'self');
+  it('stipend = monthly on every non-leave month, still paid at month 99 (until −1), 0 on leave; no participation scale', () => {
+    for (const month of [1, 7, 30, 99]) expect(kind(applyCashflow(base({ month, funding: ta }), data), 'stipend')).toEqual([{ month, kind: 'stipend', amount: 300_000 }]);
+    expect(kind(applyCashflow(base({ month: 8, funding: ta, leave: true }), data), 'stipend')).toEqual([]);
+    expect(stipendScale(base({ funding: ta }))).toBe(1);
+  });
+  it('the korea TA waiver (1.0) removes tuition; snu TA has no waiver', () => {
+    const korea = taFundingState(data, 'korea', 'self');
+    expect(korea.tuitionWaiver).toBe(1);
+    expect(kind(applyCashflow(base({ month: 12, funding: korea }), data), 'tuition').reduce((a, e) => a + e.amount, 0)).toBe(0);
+    expect(-kind(applyCashflow(base({ month: 12, funding: ta }), data), 'tuition')[0]!.amount).toBe(tuitionOf(base()).value);
   });
 });
 
