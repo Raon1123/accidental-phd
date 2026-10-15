@@ -15,7 +15,7 @@ export function summaryRows(s: LifeState, t: Strings, data?: DataBundle): [strin
     [t.department, departmentLabel(s.choices, data, t)],
     [t.school, schoolDisplayName(s.choices.school, t)],
     // 자비라도 입학 때 조교 자리를 얻었으면 월 수입을 함께 보인다(#163, 결정 기록 0022)
-    [t.funding, s.phd ? fundingStatus({ funding: s.phd.fundingState.route, fundingMonthly: s.phd.fundingState.monthly }, t) : t.play.fundingNames[s.choices.funding]],
+    [t.funding, s.phd ? fundingStatus({ funding: s.phd.fundingState.route, fundingMonthly: s.phd.fundingState.monthly, dutyHours: s.phd.fundingState.dutyHours }, t) : t.play.fundingNames[s.choices.funding]],
     [t.play.stats, (Object.keys(t.play.statNames) as (keyof typeof t.play.statNames)[]).map(k => `${t.play.statNames[k]} ${s.stats[k]}`).join(' · ')],
   ];
 }

@@ -236,10 +236,10 @@ export function ledgerRows(s: LifeState, n = 12): LedgerRow[] {
 }
 
 /** 원 단위 금액을 `1,102.5만 원` 꼴로. 부호는 그대로 둔다(0 은 `0만 원`). */
-/** 자금 경로 표시. 자비인데 월 수입이 있으면(입학 때 조교 추첨, 결정 기록 0022) '자비 · 조교 월 N만 원'. */
-export function fundingStatus(f: Pick<NonNullable<MoneyView['flow']>, 'funding' | 'fundingMonthly'>, t: Strings): string {
+/** 자금 경로 표시. 조교 근무가 있으면(엔진 판별식 dutyHours > 0: 입학 때 조교 추첨 0022, 만료 결정 B 조교 전환 0026) '자비 · 조교 월 N만 원'. */
+export function fundingStatus(f: Pick<NonNullable<MoneyView['flow']>, 'funding' | 'fundingMonthly' | 'dutyHours'>, t: Strings): string {
   const name = t.play.fundingNames[f.funding];
-  return f.funding === 'self' && f.fundingMonthly > 0
+  return f.funding === 'self' && f.dutyHours > 0
     ? t.play.fundingSelfTa.replace('{route}', name).replace('{n}', wonText(f.fundingMonthly, t))
     : name;
 }

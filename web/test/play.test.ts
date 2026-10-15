@@ -399,7 +399,7 @@ describe('student loan rows (#135)', () => {
 });
 
 describe('funding status with a self-route TA post (#163)', () => {
-  const flowOf = (funding: 'scholarship' | 'project' | 'self', monthly: number) => ({ funding, fundingMonthly: monthly }) as Parameters<typeof fundingStatus>[0];
+  const flowOf = (funding: 'scholarship' | 'project' | 'self', monthly: number) => ({ funding, fundingMonthly: monthly, dutyHours: funding === 'self' && monthly > 0 ? 10 : 0 }) as Parameters<typeof fundingStatus>[0];
 
   it('self route with monthly > 0 reads as self + TA income, not as no stipend', () => {
     const text = fundingStatus(flowOf('self', 400000), ko);
@@ -410,7 +410,7 @@ describe('funding status with a self-route TA post (#163)', () => {
 
   it('the current-life panel funding row shows the TA income too (review of #163)', () => {
     const s = createLife({ track: 'computer', auto: true }, newSeed('self-ta-row'), data);
-    const ta = { ...s, phd: { ...s.phd!, fundingState: { ...s.phd!.fundingState, route: 'self' as const, monthly: 400000 } } };
+    const ta = { ...s, phd: { ...s.phd!, fundingState: { ...s.phd!.fundingState, route: 'self' as const, monthly: 400000, dutyHours: 10 } } };
     const row = summaryRows(ta, ko).find(([k]) => k === ko.funding)!;
     expect(row[1]).toContain(wonText(400000, ko));
   });
