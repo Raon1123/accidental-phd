@@ -148,6 +148,9 @@ describe('crisis funding-expiry (#164, decision 0023)', () => {
 
   it('C line states the loan limit and the three-month deadline only when the cause is crisis', () => {
     expect(cOf(pending('crisis')).label).toContain(ko.play.crisisC);
+    // 위기에서는 대출로 버틸 수 없으므로 기본 C 문구('…대출로 버틴다')를 쓰지 않는다
+    expect(cOf(pending('crisis')).label).toContain(ko.play.crisisCLabel);
+    expect(cOf(pending('crisis')).label).not.toContain(ko.texts['decision.funding-expiry.C']);
     expect(ko.play.crisisC).toContain('대출 한도');
     expect(ko.play.crisisC).toContain('3개월');
     expect(cOf(pending('until')).label).toBe(ko.texts['decision.funding-expiry.C']);

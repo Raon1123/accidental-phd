@@ -118,8 +118,8 @@ export function decisionView(s: LifeState, data: DataBundle, t: Strings): Decisi
     options: p.options.map((o, index) => {
       const info = infos[index]!;
       const view: DecisionView['options'][number] = { index, key: o.key, label: lookup(t.texts, optionKey(p, o.key), 'option') };
-      // 재정 위기로 걸린 만료의 C 는 대출 한도가 이미 바닥이라는 점과 3개월 기한을 덧붙인다(결정 기록 0023).
-      if (p.dp === 'funding-expiry' && o.key === 'C' && causeOf(p) === 'crisis') view.label = `${view.label}. ${t.play.crisisC}`;
+      // 재정 위기로 걸린 만료의 C 는 대출로 버틸 수 없으므로 '대출로 버틴다' 대신 위기용 문구와 3개월 기한을 쓴다(결정 기록 0023).
+      if (p.dp === 'funding-expiry' && o.key === 'C' && causeOf(p) === 'crisis') view.label = `${t.play.crisisCLabel}. ${t.play.crisisC}`;
       if (info.probabilityHint && !info.unavailable) view.hint = `${t.play.hint} ${Math.round(info.probabilityHint.p * 100)}%`;
       if (info.unavailable) view.unavailable = lookup(t.play.unavailable, info.unavailable, 'unavailable');
       return view;

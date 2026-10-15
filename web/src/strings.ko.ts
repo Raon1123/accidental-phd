@@ -206,6 +206,7 @@ export const ko = {
       'no-funding': '연장할 자금이 없습니다.',
       'not-expiring': '아직 끝나지 않은 자금은 연장을 신청할 수 없습니다.',
     },
+    crisisCLabel: '지금 자금과 수입으로 버틴다',
     crisisC: '대출 한도를 다 썼다. 3개월 안에 현금이 0 이상이 되지 않으면 박사과정이 끝난다.',
     ended: '기록이 끝났습니다.',
     prompts: {
