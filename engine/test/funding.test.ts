@@ -1,6 +1,18 @@
 import { describe, it, expect } from 'vitest';
 import { find, loadData } from '../src/data/load';
-import { monthlyFromRecord, periodOf, projectStipend, scholarshipOptions, taStipend } from '../src/data/funding';
+import { monthlyFromRecord, periodOf, projectStipend, scholarshipOptions, selfTaProbability, taFundingState, taStipend } from '../src/data/funding';
+
+describe('self-funding TA draw values (0014#136·#137, decision 0022)', () => {
+  const data = loadData();
+  it('selfTaProbability is the TA-income record value 0.265', () => {
+    expect(selfTaProbability(data)).toMatchObject({ value: 0.265, id: 'statistics-ta-income-living-cost-2015' });
+  });
+  it('taFundingState: snu 300,000, no end date, 10 duty hours; schools without a TA record carry 0014#35', () => {
+    expect(taFundingState(data, 'snu', 'self')).toMatchObject({ route: 'self', monthly: 300_000, until: -1, dutyHours: 10 });
+    expect(taFundingState(data, 'yonsei', 'self').recordIds).toContain('0014#35');
+    expect(taFundingState(data, 'snu', 'project').route).toBe('project');
+  });
+});
 
 const data = loadData();
 const rec = (id: string) => data.records.get(id)!;

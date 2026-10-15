@@ -5,8 +5,7 @@ import { applyHire, leavePhd } from './career/labor';
 import { pathDistribution } from './career/path';
 import { ACADEMIC_ROUTES, addLog, pensionMonthly, promotion, retireAge, scoreOf } from './career/pay';
 import type { DataBundle } from './data/bundle';
-import { taStipend } from './data/funding';
-import { waiverRate } from './data/tuition';
+import { taFundingState } from './data/funding';
 import { clamp, odds, z } from './odds';
 import { canStartLeave, startLeave } from './phd/hazards';
 import { acceptProbability, acceptedCount, lowerTier, reReviewDuration, resubmit, type Verdict } from './phd/papers';
@@ -229,13 +228,12 @@ function fundingExpiry(s: LifeState, data: DataBundle, p: PendingDecision, key: 
     // 실패: 자금이 이번 달로 끝난다. 다음 달 fundingExpired 가 참이라 Task 7 이 B–D 로 다시 연다(retry).
     return patchPhd(s, { fundingState: { ...f, until: s.month } });
   }
-  if (key === 'B') {
-    const ta = taStipend(data, s.choices.school);
-    const waiver = waiverRate(data, s.choices.school, 'project');   // 조교·연구조교 레코드의 등록금 감면 비율(자금 경로 'project' 규칙)
-    return patchPhd(s, { fundingState: {
-      route: 'project', monthly: ta.value, tuitionWaiver: waiver.value, until: -1, dutyHours: ASSUMED.TA_DUTY_HOURS, recordIds: [ta.id, waiver.id],
-    } });
-  }
+  // B: 조교 상태(0014#35, 입학 때 조교 추첨과 같은 값 — data/funding.ts taFundingState).
+  // 메모(결정 기록 0022, 이번에 안 고침): 경로 표식이 'project' 라 참여율 추첨(#130)·장려금 배수(#125)·성장 배수(#126)가 조교 수입에 걸린다.
+  // 입학 때 조교 추첨은 'self' 로 둔다. 이 차이는 다음 wave 첫 PR의 차이 감사(0016 §2)에 올린다.
+  // 메모: 입학 때 조교를 얻은 자비 삶이 §5.5 강제 만료로 여기 오면 B 는 같은 값을 다시 준다((b) 재정 위기 규칙 판정에서 다룬다).
+  if (key === 'B') return patchPhd(s, { fundingState: taFundingState(data, s.choices.school, 'project') });
+  // 메모(결정 기록 0022): C 는 입학 때 얻은 조교 수입도 0으로 되돌린다((b) 재정 위기 규칙 판정에서 다룬다).
   if (key === 'C') return patchPhd(s, { fundingState: { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] } });
   // D: 휴학하고 일한다. 월 근로 수입(LEAVE_JOB_INCOME)은 fundingState 에 표지로만 적는다. 휴학 중에는 money.fundingActive 가 거짓이라 지급되지 않으므로
   // 달마다 'leave-work' 원장 항목을 넣는 일은 Task 7 의 틱이 한다(recordIds 의 '0014#36' 표지와 leave.active 로 알아본다).

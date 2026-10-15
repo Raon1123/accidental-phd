@@ -5,7 +5,8 @@ import { get } from '../src/data/bundle';
 import { loadData } from '../src/data/load';
 import { lecturerHourly } from '../src/data/salaries';
 import { advanceMonth } from '../src/phd/tick';
-import { applyProgress } from '../src/phd/progress';
+import { applyProgress, researchTime } from '../src/phd/progress';
+import { taFundingState } from '../src/data/funding';
 import {
   applyPartTimePay, applyWorkInput, autoPartTime, calendarYear, growthMultiplier, hourlyWage, lectureEligible,
   drawParticipation, participationMean, participationOf, partTimeCap, partTimePay, researchMarket, stipendScale,
@@ -166,5 +167,20 @@ describe('auto policy (#79)', () => {
     s = advanceMonth(s, data);
     expect(s.phd!.partTime).toBeDefined();
     expect(s.ledger.some(e => e.kind === 'part-time' || e.kind === 'lecture')).toBe(true);
+  });
+});
+
+describe('self-funded TA life (0014#137, decision 0022): existing work rules unchanged', () => {
+  const ta = taFundingState(data, 'snu', 'self');
+  it('cap = 40 − 10 duty = 30; auto policy still starts the 15-hour job when cash < 0', () => {
+    expect(partTimeCap(base({ funding: ta }))).toBe(30);
+    expect(autoPartTime(base({ funding: ta, cash: -1 }))).toEqual({ kind: 'job', hours: ASSUMED.AUTO_PART_TIME.jobHours });
+  });
+  it('growth multiplier ignores dutyHours (no participation on self); researchTime removes the 10 duty hours', () => {
+    const job = { kind: 'job' as const, hours: 15 };
+    const withTa = base({ funding: ta }), without = base();
+    expect(growthMultiplier({ ...withTa, phd: { ...withTa.phd!, partTime: job } })).toBe(growthMultiplier({ ...without, phd: { ...without.phd!, partTime: job } }));
+    const course = withTa.phd!.coursework ? ASSUMED.COURSEWORK_HOURS : 0;
+    expect(researchTime(withTa)).toBeCloseTo((44 - 10 - course) / 44, 10);
   });
 });
