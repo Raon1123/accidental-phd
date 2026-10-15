@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { cohortSeed, createLife, decide, newSeed, policyDecision, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { COHORT_SIZE, branchPoints, catchUp, cohortRows, compareRows, createCohort, openBranch, runUntilHalt, sharedPrefix } from '../src/cohort';
+import { calendarLabel } from '../src/dates';
 import { ko } from '../src/strings.ko';
 
 const data = loadData();
@@ -86,7 +87,7 @@ describe('see another choice (#56)', () => {
     expect(b.decisions[k]!.option).not.toBe(p.chosen);
     const rows = compareRows(life, b, ko);
     expect(rows.map(r => r[0])).toEqual(Object.values(ko.cohort.rows));
-    expect(rows.find(r => r[0] === ko.cohort.rows.decisions)![1]).toContain(`${p.month}:${p.chosen}`);
+    expect(rows.find(r => r[0] === ko.cohort.rows.decisions)![1]).toContain(`${calendarLabel(p.month, ko)} ${p.chosen}`);
   });
 
   it('an earlier occurrence of a repeated decision point can be opened', () => {
