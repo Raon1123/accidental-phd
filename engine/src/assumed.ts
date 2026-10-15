@@ -256,7 +256,11 @@ export const ASSUMED = {
   CONTRACT: {
     postdoc: { years: 2, renewP: 0.50 },                                               // 0014#95
     lecturer: { years: 1, renewP: 0.70 },                                              // 0014#95
+    nontenure: { years: 2, renewP: 0.70 },                                             // 0014#133 비정년 교원 2년 임용·재임용 0.70 (#84)
+    bridge: { years: 1, renewP: 0.50 },                                                // 0014#134 임시직 1년 계약·재계약 0.50 (#84)
   },
+  // 0014#135 정규직 해고(기업 기준, #84): 연 비율, 월 위험률 = hazardMonth(연 비율). 교수·연구직 공무원은 법정 신분 보장으로 0
+  LAYOFF_YEAR: { industry: 0.02, institute: 0.005, professor: 0, public: 0 },
   PATH_CHANGE_MULT: 0.8,                                                               // 0014#96
   // 과제 참여율과 박사과정 중 근로(#79, 선택권 §4.7)
   PART_WEEK_HOURS: 40,                                                                 // 0014#124 참여율·근로 시간의 기준 주(사용자 규칙: 주 40시간 중 비율)

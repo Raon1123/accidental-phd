@@ -5,7 +5,7 @@ import type { DataBundle } from '../data/bundle';
 import type { DecisionId, LifeState, MonthInput, PendingDecision, Route } from '../types';
 import { searchMonth } from './labor';
 import { updateNews } from './news';
-import { ACADEMIC_ROUTES, addLog, pensionMonthly, retireAge, yearEnd } from './pay';
+import { ACADEMIC_ROUTES, addLog, layoffMonth, pensionMonthly, retireAge, yearEnd } from './pay';
 import { decide } from '../decide';
 import { policyDecision } from '../policy';
 
@@ -105,7 +105,7 @@ function retiredYear(s: LifeState): LifeState {
 }
 
 /**
- * 경력 연 틱. 순서: 월 하위 단계 12회(뉴스 → 구직 → 현금) → 연말 처리 → 결정 지점 트리거 → 은퇴 확인 → 기록(상태 §7.2 1–5단계).
+ * 경력 연 틱. 순서: 월 하위 단계 12회(뉴스 → 구직 → 현금 → 해고) → 연말 처리 → 결정 지점 트리거 → 은퇴 확인 → 기록(상태 §7.2 1–5단계).
  * 은퇴 나이에 이른 해에도 아직 열리지 않은 결정 지점(pre-retirement 등)은 은퇴 확인보다 먼저 연다. 자동이면 정책이 닫은 뒤 은퇴 확인으로 간다.
  * 결정 지점은 한 틱에 하나이고 우선순위는 pre-retirement > career-10y > career-5y 이며, 걸리면 snapshot 을 먼저 쌓고 `pending` 을 채운다.
  * 결정 처리(`decide`)는 호출하는 쪽의 몫이다. 단 `auto` 이면 걸린 결정을 정책(`policyDecision`)으로 이 틱 안에서 바로 닫는다.
@@ -121,8 +121,10 @@ export function advanceYear(state: LifeState, data: DataBundle, input?: { apply?
   for (let i = 0; i < ASSUMED.MONTHS_PER_YEAR; i++) {
     s = { ...s, month: s.month + 1, ageMonths: s.ageMonths + 1 };
     s = updateNews(s, data);
-    if (s.career!.searching) s = searchMonth(s, data, s.month, monthInput).state;
+    let hired = false;
+    if (s.career!.searching) { const r = searchMonth(s, data, s.month, monthInput); s = r.state; hired = r.hired !== undefined; }
     s = settleMonth(s);
+    if (!hired) s = layoffMonth(s);   // 그달 급여를 받은 뒤 판정하고, 채용된 달에는 하지 않는다(0014#135). 구직은 다음 달부터
   }
   s = yearEnd(s, data);
 

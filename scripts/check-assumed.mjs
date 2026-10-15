@@ -7,7 +7,7 @@ import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const MAX = 132;   // 0014 #120·#121 Wave 4, #122–#130 Wave 5, #131·#132 Wave 6(씀씀이, 학자금대출 순서)
+export const MAX = 135;   // 0014 #120·#121 Wave 4, #122–#130 Wave 5, #131·#132 Wave 6(씀씀이, 학자금대출 순서), #133–#135 계약 기간·해고(#84)
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {

@@ -7,7 +7,7 @@ import { clamp, hazardMonth, odds, z } from '../odds';
 import { draw } from '../rng';
 import type { CareerState, EndReason, Group, Kedi, LifeState, MonthInput, Path, Route } from '../types';
 import { demand } from './news';
-import { ACADEMIC_ROUTES, addLog, scoreOf, startingPay } from './pay';
+import { ACADEMIC_ROUTES, addLog, isContractRoute, scoreOf, startingPay } from './pay';
 
 /** 교수 공고 기준값 B_k = (신규채용 × stock_k ÷ stock_전체) ÷ 박사 학위 취득자_k, h = min(0.10, 0.5·B_k) (노동 §2.2·§2.3, 0014#103·#104). */
 export function professorBaseline(data: DataBundle, kedi: Kedi): { B: number; h: number } {
@@ -108,7 +108,7 @@ export function applyHire(state: LifeState, data: DataBundle, route: Route, mont
     default: employer = { kind: 'company' };
   }
   const pay = startingPay({ ...state, month, career: base }, data, route, employer);
-  const contract = route === 'postdoc' || route === 'lecturer' ? ASSUMED.CONTRACT[route] : undefined;
+  const contract = isContractRoute(route) ? ASSUMED.CONTRACT[route] : undefined;   // 0014 #95·#133·#134
   const career: CareerState = {
     ...base, route, rank: pay.rank, employer, annualPay: pay.annualPay, step: pay.step, yearsInRoute: 0,
     searching: undefined, retireAge: undefined,
