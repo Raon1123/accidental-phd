@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// 엔진 소스의 `0014#n` 주석을 모아 결정 기록 0014 의 번호 1..MAX (119 + Wave 4 추가분)와 대조한다.
+// 엔진 소스의 `0014#n` 주석을 모아 결정 기록 0014 의 번호 1..MAX 와 대조한다.
+//  - MAX 는 0014 표의 마지막 행 번호다(손으로 적지 않는다, 0018 §4). 표 행 번호가 1..MAX 로 빈틈·중복 없이 이어지지 않으면 exit 1.
 //  - 범위 밖 번호가 있으면 exit 1.
 //  - 소스에 없는 번호마다 engine/README.md 에 `| n | … | UI 전용 또는 엔진 밖 … |` 행이 있어야 한다. 없으면 exit 1.
 // Usage: node scripts/check-assumed.mjs [rootDir]
@@ -7,7 +8,13 @@ import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const MAX = 135;   // 0014 #120·#121 Wave 4, #122–#130 Wave 5, #131·#132 Wave 6(씀씀이, 학자금대출 순서), #133–#135 계약 기간·해고(#84)
+export const DECISION_0014 = 'docs/design/decisions/0014-assumed-probabilities.md';
+
+// 0014 의 `| n | …` 표 행 번호 목록(문서 순서).
+export function rowNumbers(root) {
+  const text = readFileSync(join(root, DECISION_0014), 'utf8');
+  return [...text.matchAll(/^\|\s*(\d+)\s*\|/gm)].map(m => Number(m[1]));
+}
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -22,6 +29,12 @@ export function check(root) {
   const lines = [];
   const srcDir = join(root, 'engine/src');
   if (!existsSync(srcDir)) return { code: 1, lines: ['engine/src does not exist yet'] };
+  if (!existsSync(join(root, DECISION_0014))) return { code: 1, lines: [`${DECISION_0014} is missing`] };
+  const rows = rowNumbers(root);
+  const MAX = Math.max(0, ...rows);
+  if (rows.length !== MAX || new Set(rows).size !== MAX) {
+    return { code: 1, lines: [`0014 rows are not 1..${MAX} without gaps or repeats (${rows.length} rows, ${new Set(rows).size} distinct)`] };
+  }
   const found = new Set();
   for (const f of walk(srcDir)) for (const m of readFileSync(f, 'utf8').matchAll(/0014#(\d+)/g)) found.add(Number(m[1]));
   const missing = [];
@@ -46,7 +59,7 @@ export function check(root) {
     lines.push(`no "UI 전용"/"엔진 밖" row in engine/README.md for: [${unexplained.join(', ')}]`);
     code = 1;
   }
-  if (!code) lines.push(`check-assumed: ok (${found.size} numbers cited in engine/src, ${missing.length} explained in engine/README.md)`);
+  if (!code) lines.push(`check-assumed: ok (0014 rows 1..${MAX}; ${found.size} numbers cited in engine/src, ${missing.length} explained in engine/README.md)`);
   return { code, lines };
 }
 

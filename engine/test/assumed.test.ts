@@ -8,12 +8,19 @@ const sum = (xs: readonly number[]) => xs.reduce((s, x) => s + x, 0);
 
 describe('ASSUMED numbering (decision 0014)', () => {
   const numbers = new Set([...source.matchAll(/0014#(\d+)/g)].map(m => Number(m[1])));
-  const MAX = 135;   // 119 + Wave 4 추가 #120(첫 투고 계층)·#121(career-5y D) + #96 추가 #122(경력 상환)·#123(은퇴 뒤 생활비) + #79 추가 #124–#129(참여율·근로) + #130(참여율 추첨) + #131(씀씀이) + #132(학자금대출 순서) + #133–#135(계약 기간·해고)
-  it('cites every row 1..135', () => {
+  // MAX = 0014 표의 마지막 행 번호(손으로 적지 않는다, 0018 §4)
+  const decision = readFileSync(fileURLToPath(new URL('../../docs/design/decisions/0014-assumed-probabilities.md', import.meta.url)), 'utf8');
+  const rows = [...decision.matchAll(/^\|\s*(\d+)\s*\|/gm)].map(m => Number(m[1]));
+  const MAX = Math.max(...rows);
+  it('0014 rows run 1..MAX without gaps or repeats', () => {
+    expect(rows).toHaveLength(MAX);
+    expect(new Set(rows).size).toBe(MAX);
+  });
+  it('cites every 0014 row', () => {
     const missing = Array.from({ length: MAX }, (_, i) => i + 1).filter(n => !numbers.has(n));
     expect(missing).toEqual([]);
   });
-  it('cites nothing outside 1..135', () => {
+  it('cites nothing outside 1..MAX', () => {
     expect([...numbers].filter(n => n < 1 || n > MAX)).toEqual([]);
   });
 });
