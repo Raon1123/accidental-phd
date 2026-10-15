@@ -51,6 +51,14 @@ describe('stepping and decision stops (#55)', () => {
     for (const o of v.options) if (o.unavailable) expect(o.hint).toBeUndefined();
   });
 
+  it('every reason optionUnavailable can return has screen text (#160 not-expiring)', () => {
+    const src = readFileSync(resolve('engine/src/decide.ts'), 'utf8');
+    const body = src.slice(src.indexOf('function optionUnavailable'), src.indexOf('function fundingExpired'));
+    const reasons = [...body.matchAll(/return '([a-z-]+)'/g)].map(m => m[1]);
+    expect(reasons).toContain('not-expiring');
+    for (const r of reasons) expect(ko.play.unavailable[r as keyof typeof ko.play.unavailable]).toBeTruthy();
+  });
+
   it('turning auto on closes the open decision by policy', () => {
     const a = setAuto(s, data, true);
     expect(a.pending).toBeNull();

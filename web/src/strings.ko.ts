@@ -204,6 +204,7 @@ export const ko = {
       'leave-cap': '휴학 누적 상한에 걸려 고를 수 없습니다.',
       'already-tried': '이번 만료에서 이미 연장을 신청했습니다.',
       'no-funding': '연장할 자금이 없습니다.',
+      'not-expiring': '아직 끝나지 않은 자금은 연장을 신청할 수 없습니다.',
     },
     ended: '기록이 끝났습니다.',
     prompts: {
