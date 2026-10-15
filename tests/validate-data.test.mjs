@@ -186,6 +186,29 @@ test('text pack items need creative: true and their fields (#58)', () => {
   assert.ok(r.errors.some(e => e.includes('[1]: missing body')));
   assert.ok(!r.errors.some(e => e.includes('[0]')));
 });
+test('flavor and storyline lines follow the line rules and hold no real name (#138)', () => {
+  const root = fixture();
+  mkdirSync(join(root, 'data/text'), { recursive: true });
+  mkdirSync(join(root, 'data/packs/schools'), { recursive: true });
+  writeFileSync(join(root, 'data/packs/schools/README.md'), '| school_id | 실명 | 표시명 |\n|---|---|---|\n| xu | 가나다라대학교 | 가상대학교 |\n');
+  const ok = '연구실 창가에 앉아 오래된 노트를 다시 펼쳐 본다.';
+  writeFileSync(join(root, 'data/text/flavor.ko.json'), JSON.stringify([
+    { id: 'a', category: 'phd-daily', stage: 'phd', text: ok, tags: ['일상'], creative: true },
+    { id: 'b', category: 'phd-daily', stage: 'phd', text: '짧다', tags: ['일상'], creative: true },
+    { id: 'c', category: 'phd-daily', stage: 'phd', text: '가나다라대 도서관에서 오래된 노트를 다시 펼쳐 본다.', tags: ['일상'], creative: true },
+    { id: 'd', category: 'phd-daily', stage: 'phd', text: '연구실 창가에서 노트 세 권을 2번 다시 펼쳐 본다.', tags: [], creative: true },
+  ]));
+  writeFileSync(join(root, 'data/text/storylines.ko.json'), JSON.stringify([
+    { id: 's', title: 't', start_when: 'stage=phd', creative: true, beats: [{ text: ok, gap_months: '0', continue_if: '항상' }] },
+  ]));
+  const r = validate(root);
+  assert.ok(!r.errors.some(e => e.includes('flavor.ko.json[0]')));
+  assert.ok(r.errors.some(e => e.includes('[1]: text length')));
+  assert.ok(r.errors.some(e => e.includes('[2]: text has a real name')));
+  assert.ok(r.errors.some(e => e.includes('[3]: text has digits')));
+  assert.ok(r.errors.some(e => e.includes('[3]: flavor needs tags')));
+  assert.ok(r.errors.some(e => e.includes('storylines.ko.json[0]: storylines need 2..4 beats')));
+});
 test('scene pack items need at, key, text and refs (#57)', () => {
   const root = fixture();
   mkdirSync(join(root, 'data/text'), { recursive: true });
