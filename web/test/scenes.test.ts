@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { advanceMonth, createLife, newSeed, type LifeState } from '../../engine/src/browser';
+import { advanceMonth, createLife, decide, newSeed, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { schoolNamePairs } from '../../engine/sim/web-sources';
 import { decisionView, notes, step } from '../src/play';
@@ -136,5 +136,53 @@ describe('scenes on screen (#57)', () => {
 
   it('decision scene lookup prefers the player group', () => {
     for (const g of GROUPS) expect(decisionScene(g, 'funding-expiry')!.group).toBe(g);
+  });
+});
+
+describe('crisis funding-expiry (#164, decision 0023)', () => {
+  const pending = (cause: string): LifeState => {
+    const s = createLife({ auto: false, track: 'history' }, newSeed('crisis-expiry'), data);
+    return { ...s, pending: { dp: 'funding-expiry', month: 3, context: { cause }, options: ['A', 'B', 'C', 'D'].map(key => ({ key, textKey: `decision.funding-expiry.${key}` })) } };
+  };
+  const cOf = (s: LifeState) => decisionView(s, data, ko).options.find(o => o.key === 'C')!;
+
+  it('C line states the loan limit and the three-month deadline only when the cause is crisis', () => {
+    expect(cOf(pending('crisis')).label).toContain(ko.play.crisisC);
+    expect(ko.play.crisisC).toContain('대출 한도');
+    expect(ko.play.crisisC).toContain('3개월');
+    expect(cOf(pending('until')).label).toBe(ko.texts['decision.funding-expiry.C']);
+    expect(cOf(pending('scholarship-review')).label).toBe(ko.texts['decision.funding-expiry.C']);
+  });
+
+  it('crisis scene variants exist per group, are creative, cite the base scene records, and replace the savings claim', () => {
+    for (const g of GROUPS) {
+      const base = SCENES.find(x => x.key === 'funding-expiry' && x.group === g && !x.cause)!;
+      const v = SCENES.find(x => x.key === 'funding-expiry' && x.group === g && x.cause === 'crisis')!;
+      expect(v, g).toBeDefined();
+      expect(v.creative).toBe(true);
+      expect(v.refs).toEqual(base.refs);
+      expect(v.options!.C).not.toContain('저축');
+      const s = { ...pending('crisis'), choices: { ...pending('crisis').choices, group: g } };
+      expect(decisionView(s, data, ko).scene).toBe(v.text);
+      expect(decisionView({ ...s, pending: { ...s.pending!, context: { cause: 'until' } } }, data, ko).scene).toBe(base.text);
+    }
+  });
+
+  it('the chosen-option result follows the cause recorded on the decision line', () => {
+    for (const g of GROUPS) {
+      const v = SCENES.find(x => x.key === 'funding-expiry' && x.group === g && x.cause === 'crisis')!;
+      const base = SCENES.find(x => x.key === 'funding-expiry' && x.group === g && !x.cause)!;
+      expect(decisionResult(g, 'decision.funding-expiry.C', 'crisis')).toBe(v.options!.C);
+      expect(decisionResult(g, 'decision.funding-expiry.C')).toBe(base.options!.C);
+      expect(decisionResult(g, 'decision.funding-expiry.B', 'crisis')).toBe(base.options!.B);
+    }
+  });
+
+  it('a crisis decision line records the cause and the note under it shows the crisis result', () => {
+    const s = pending('crisis');
+    const v = SCENES.find(x => x.key === 'funding-expiry' && x.group === s.choices.group && x.cause === 'crisis')!;
+    const done = decide(s, data, 2);
+    expect(done.log.at(-1)!.tags).toEqual(['decision', 'funding-expiry', 'C', 'crisis']);
+    expect(notes(done, ko).some(n => n.scene && n.text === v.options!.C)).toBe(true);
   });
 });
