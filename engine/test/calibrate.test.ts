@@ -89,7 +89,7 @@ describe('--override', () => {
   it('rejects an unknown key and restores state when the callback throws', () => {
     expect(() => withOverrides({ NOT_A_CONSTANT: 1 }, () => 0)).toThrow(/unknown ASSUMED key/);
     expect(() => withOverrides({ LOAN_LIMIT: 1 }, () => { throw new Error('boom'); })).toThrow('boom');
-    expect(ASSUMED.LOAN_LIMIT).toBe(42_000_000);   // 0014#61 (보정 2026-10-14)
+    expect(ASSUMED.LOAN_LIMIT).toBe(42_000_000);   // 0014#61 (보정 2026-10-14; 판정 2026-10-15 유지)
   });
 
   it('parses repeated KEY=JSON pairs and rejects bad input', () => {
