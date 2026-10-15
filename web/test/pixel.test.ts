@@ -1,9 +1,11 @@
 // 픽셀 그림(#151, docs/design/pixel-scenes.md): 그림 지도 모양, 기록 → 아이콘, 색은 토큰만.
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createLife, newSeed } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { notes } from '../src/play';
-import { ICONS, PAL, iconOf, iconRects, spriteRects, type Icon } from '../src/pixel';
+import { ICONS, PAL, SCENE_H, iconOf, iconRects, isBigEvent, sceneOf, scenePerson, sceneRects, spriteRects, type Icon, type SceneStage } from '../src/pixel';
 import { ko } from '../src/strings.ko';
 
 const data = loadData();
@@ -60,5 +62,60 @@ describe('note → icon (#151)', () => {
     const list = notes(s, ko);
     expect(list.length).toBeGreaterThan(0);
     for (const n of list) expect(s.log.some(e => e.textKey === n.key), n.key).toBe(true);
+  });
+});
+
+const STAGES: SceneStage[] = ['phd', 'career', 'retire'];
+
+describe('scenes (#151)', () => {
+  it('centered scenes stay inside the box at several widths, bubble included', () => {
+    for (const st of STAGES) for (const width of [96, 128, 160]) {
+      for (const r of sceneRects(st, { width, bubble: 'star' })) {
+        expect(r.x >= 0 && r.y >= 0 && r.x + r.w <= width && r.y + r.h <= SCENE_H, `${st} ${width} ${JSON.stringify(r)}`).toBe(true);
+      }
+    }
+  });
+  it('a person stands in each scene', () => {
+    for (const st of STAGES) {
+      const p = scenePerson(st);
+      expect(p.x).toBeGreaterThan(0);
+      expect(p.y).toBeGreaterThanOrEqual(17);
+    }
+  });
+  it('the same arguments return the cached list', () => {
+    expect(sceneRects('phd', { width: 96 })).toBe(sceneRects('phd', { width: 96 }));
+  });
+  it('stage → scene covers every engine stage', () => {
+    const base = { career: undefined, log: [] as { month: number; textKey: string; tags: string[]; creative: boolean }[] };
+    expect(sceneOf({ ...base, stage: 'pre' })).toBeUndefined();
+    expect(sceneOf({ ...base, stage: 'phd' })).toBe('phd');
+    expect(sceneOf({ ...base, stage: 'career' })).toBe('career');
+    expect(sceneOf({ ...base, stage: 'retired' })).toBe('retire');
+    expect(sceneOf({ ...base, stage: 'end' })).toBe('phd');
+    expect(sceneOf({ ...base, stage: 'end', career: {} as never })).toBe('career');
+    expect(sceneOf({ ...base, stage: 'end', log: [{ month: 9, textKey: 'log.retired', tags: [], creative: false }] })).toBe('retire');
+  });
+  it('big events are enrolment, degree, hiring, retirement and every record end', () => {
+    for (const k of ['life.start', 'log.degree', 'log.hired', 'log.retired', 'log.end-age80', 'log.end-financial']) expect(isBigEvent(k), k).toBe(true);
+    for (const k of ['log.qual-pass', 'news.x', 'decision.qual-fail.A', 'log.month']) expect(isBigEvent(k), k).toBe(false);
+  });
+});
+
+describe('pixel color tokens (#151)', () => {
+  const css = readFileSync(resolve(__dirname, '../src/style.css'), 'utf8');
+  const defined = (block: string) => new Set([...block.matchAll(/--([a-z0-9-]+):/g)].map(m => m[1]!));
+  const lightBlocks = [...css.matchAll(/(?:^|\n):root\s*\{([^}]*)\}/g)].map(m => m[1]!).join('\n');
+  const darkBlocks = [...css.matchAll(/prefers-color-scheme:\s*dark\)\s*\{\s*:root\s*\{([^}]*)\}/g)].map(m => m[1]!).join('\n');
+  const used = new Set<string>();
+  for (const name of Object.keys(ICONS) as Icon[]) for (const r of iconRects(name)) used.add(r.c);
+  for (const st of STAGES) for (const r of sceneRects(st, { width: 160, bubble: 'star' })) used.add(r.c);
+
+  it('every color the pictures use is a token defined in a light :root block', () => {
+    const light = defined(lightBlocks);
+    for (const c of used) expect(light.has(c), c).toBe(true);
+  });
+  it('scene colors are redefined for the dark theme (night scenes)', () => {
+    const dark = defined(darkBlocks);
+    for (const c of used) if (/^(lab|car|ret)-/.test(c)) expect(dark.has(c), c).toBe(true);
   });
 });

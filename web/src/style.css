@@ -89,3 +89,21 @@ fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
 .life-summary { border: 2px solid var(--accent); padding: .5rem 1rem; margin: 1rem 0; }
 .life-summary ol { padding-left: 1.25rem; }
 .life-summary li { margin: .25rem 0; }
+
+/* 픽셀 장면과 삽화(#151, docs/design/pixel-scenes.md): 그림 색 토큰. 그림은 비글자라 대비 검사 대상이 아니고,
+   그림 위 글자는 --fg/--bg 를 쓴다. 장면 토큰(lab·car·ret)은 어두운 테마에서 밤 색으로 바뀐다. */
+:root {
+  --px-ink: #1d1b2a; --px-white: #f4f4ee; --px-skin: #f1c27d; --px-hair: #3b2a20; --px-shirt: #2f6db5; --px-pants: #38405a;
+  --px-sun: #ffc93c; --px-red: #d6453d; --px-wood: #9a6233; --px-wood2: #6b4020; --px-leaf: #3f9b4a; --px-leaf2: #69c06b; --px-trunk: #6b4020;
+  --px-book1: #c0392b; --px-book2: #2e86c1; --px-book3: #27ae60; --px-chair: #5a5f73;
+  --lab-wall: #d9d2c5; --lab-wall2: #bfb5a3; --lab-floor: #8c7a66; --lab-frame: #6b4020; --lab-night: #24305e; --lab-moon: #fff3b0; --lab-screen: #9fe3c9;
+  --car-sky: #8fd0ff; --car-cloud: #ffffff; --car-bldg: #e8dcc4; --car-bldg2: #c9b48f; --car-win: #4a6fa5; --car-grass: #6cc070; --car-path: #d8c6a0;
+  --ret-d1: #ffb37a; --ret-d2: #ff9a76; --ret-d3: #f07c8a; --ret-d4: #c9739e; --ret-hill: #5e8f5a; --ret-hill2: #46704a; --ret-grass: #4f7f4d;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --px-white: #e6e3d8;
+  --lab-wall: #3a3550; --lab-wall2: #2d2940; --lab-floor: #4a3d33; --lab-frame: #6b4020; --lab-night: #0f1430; --lab-moon: #fff3b0; --lab-screen: #7fe0c0;
+  --car-sky: #26315e; --car-cloud: #3d4a7a; --car-bldg: #6e6656; --car-bldg2: #5a5243; --car-win: #ffd36b; --car-grass: #2f6a3a; --car-path: #6b604c;
+  --ret-d1: #5b3a6e; --ret-d2: #4a2f63; --ret-d3: #3a2657; --ret-d4: #2b1d47; --ret-hill: #2d4a33; --ret-hill2: #22392a; --ret-grass: #1f3324;
+} }
+svg.px { display: block; shape-rendering: crispEdges; }
