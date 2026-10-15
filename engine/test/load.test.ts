@@ -7,9 +7,9 @@ import { loadData, get, has, find } from '../src/data/load';
 const data = loadData();
 
 describe('loadData', () => {
-  it('reads every records.json (2794 records, taxonomy included; 법학 학과 11 #70; akj 10 #100)', () => {
-    expect(data.records.size).toBe(211 + 506 + 239 + 650 + 148 + 1040);   // #79: 최저시급 2, 물가 2; #100: schools 5, departments 5; Wave 6: statistics 6 (학자금대출 4, 가족 지원 1, 1인가구 소비 1)
-    expect(data.records.size).toBe(2794);
+  it('reads every records.json (2796 records, taxonomy included; 법학 학과 11 #70; akj 10 #100)', () => {
+    expect(data.records.size).toBe(211 + 506 + 239 + 654 + 146 + 1040);   // schools, departments, salaries, statistics, venues, taxonomy. #79: 최저시급 2, 물가 2; #100: schools 5, departments 5; Wave 6: statistics 8 (학자금대출 4, 가족 지원 1, 1인가구 소비 1, 생활비 재원 조교·아르바이트 2 결정 기록 0022)
+    expect(data.records.size).toBe(2796);
     expect(has(data, 'taxonomy-nrf-d131100')).toBe(true);
   });
 

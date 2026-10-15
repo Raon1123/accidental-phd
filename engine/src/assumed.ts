@@ -80,7 +80,11 @@ export const ASSUMED = {
     acceptC: { project: 5 },                                                           // 0014#33 채택 C
   },
   FUNDING_EXTEND: { p0: 0.50, betaRelation: 0.6, betaSkill: 0.4, gammaPapers: 0.3, papersCap: 2, lo: 0.10, hi: 0.90 }, // 0014#34
-  TA_FALLBACK_MONTHLY: 400_000, TA_DUTY_HOURS: 10,                                     // 0014#35
+  // 0014#136 자비 경로 입학 때 조교 추첨 확률은 레코드 statistics-ta-income-living-cost-2015(data/funding.ts selfTaProbability, 결정 기록 0022), 새 수치 없음.
+  // 0014#137 그 조교 상태는 아래 두 값과 #21 감면 규칙을 쓴다(data/funding.ts taFundingState).
+  // 0014#138 funding-expiry A 는 자금이 이번 달 끝날 때(fundingExpired)만 연다. 끝나지 않은 자금은 'not-expiring'(decide.ts optionUnavailable, 결정 기록 0023), 새 수치 없음.
+  // 0014#139 funding-expiry C 는 끝난 자금·자비 경로만 자비로 전환하고 살아 있는 과제·장학 자금은 유지한다(decide.ts fundingExpiry, 결정 기록 0023), 새 수치 없음.
+  TA_FALLBACK_MONTHLY: 400_000, TA_DUTY_HOURS: 10,                                     // 0014#35; 입학 때 조교 추첨 #137에도 쓴다
   LEAVE_JOB_INCOME: 2_000_000,                                                         // 0014#36
   PRE_GRAD_PROJECT_MIN: 90, JOB_SEARCH_MONTHS: 6,                                      // 0014#37 심사 준비 단계 진척 ≥ 90, 구직 약 6개월
   CAREER_10Y_RESEARCH: { skill: 5, network: -3, paperP0: 0.70 },                       // 0014#38
@@ -153,7 +157,7 @@ export const ASSUMED = {
   LIVING_COST: { capital: 1_600_000, regional: 1_300_000 },                            // 0014#60 (경력·은퇴 단계에도 같은 값: 0014#123, #96)
   CAPITAL_SCHOOLS: ['snu', 'yonsei', 'korea', 'skku', 'hanyang', 'sogang', 'khu', 'ewha', 'cau', 'konkuk', 'uos', 'akj'], // 0014#60 수도권
   REGIONAL_SCHOOLS: ['kaist', 'postech', 'gist', 'dgist', 'unist', 'pusan', 'knu', 'jnu', 'cnu'], // 0014#60 비수도권
-  LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 42_000_000,                                      // 0014#61 (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; calibration-wave4.md)
+  LOAN_RATE_ANNUAL: 0.03, LOAN_LIMIT: 42_000_000,                                      // 0014#61 (보정 2026-10-14: 3,000만 → 4,200만, v3.5 최상위 한도; calibration-wave4.md. 판정 2026-10-15 유지: 결정 기록 0021)
   CRISIS_MONTHS: 3, POST_CRISIS_MONTHS: 3,                                             // 0014#62
 
   // ── 논문 (0014 #63–#71) ──
@@ -256,7 +260,11 @@ export const ASSUMED = {
   CONTRACT: {
     postdoc: { years: 2, renewP: 0.50 },                                               // 0014#95
     lecturer: { years: 1, renewP: 0.70 },                                              // 0014#95
+    nontenure: { years: 2, renewP: 0.70 },                                             // 0014#133 비정년 교원 2년 임용·재임용 0.70 (#84)
+    bridge: { years: 1, renewP: 0.50 },                                                // 0014#134 임시직 1년 계약·재계약 0.50 (#84)
   },
+  // 0014#135 정규직 해고(기업 기준, #84): 연 비율, 월 위험률 = hazardMonth(연 비율). 교수·연구직 공무원은 법정 신분 보장으로 0
+  LAYOFF_YEAR: { industry: 0.02, institute: 0.005, professor: 0, public: 0 },
   PATH_CHANGE_MULT: 0.8,                                                               // 0014#96
   // 과제 참여율과 박사과정 중 근로(#79, 선택권 §4.7)
   PART_WEEK_HOURS: 40,                                                                 // 0014#124 참여율·근로 시간의 기준 주(사용자 규칙: 주 40시간 중 비율)

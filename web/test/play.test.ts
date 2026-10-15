@@ -51,6 +51,14 @@ describe('stepping and decision stops (#55)', () => {
     for (const o of v.options) if (o.unavailable) expect(o.hint).toBeUndefined();
   });
 
+  it('every reason optionUnavailable can return has screen text (#160 not-expiring)', () => {
+    const src = readFileSync(resolve('engine/src/decide.ts'), 'utf8');
+    const body = src.slice(src.indexOf('function optionUnavailable'), src.indexOf('function fundingExpired'));
+    const reasons = [...body.matchAll(/return '([a-z-]+)'/g)].map(m => m[1]);
+    expect(reasons).toContain('not-expiring');
+    for (const r of reasons) expect(ko.play.unavailable[r as keyof typeof ko.play.unavailable]).toBeTruthy();
+  });
+
   it('turning auto on closes the open decision by policy', () => {
     const a = setAuto(s, data, true);
     expect(a.pending).toBeNull();
@@ -342,6 +350,9 @@ describe('status line (#83)', () => {
     // 0개월째 = 2027년 3월 → 118개월째 = 2037년 1월
     expect(statusLine(careerOf(s, { route: 'postdoc', employer: { kind: 'university' }, contractUntil: 118 }), ko)).toBe('박사후연구원 · 대학 · 비정규직 · 1년째 · 계약 2037년 1월까지');
     expect(statusLine(careerOf(s, { route: 'bridge', employer: { kind: 'company' } }), ko)).toBe('임시직 · 기업 · 비정규직 · 1년째');
+    // 비정년 교원·임시직도 계약 기간이 있다(#84): 엔진이 붙인 contractUntil 이 그대로 보인다
+    expect(statusLine(careerOf(s, { route: 'nontenure', employer: { kind: 'university', national: false }, contractUntil: 118 }), ko)).toBe('비정년 교원 · 대학 · 비정규직 · 1년째 · 계약 2037년 1월까지');
+    expect(statusLine(careerOf(s, { route: 'bridge', employer: { kind: 'company' }, contractUntil: 112 }), ko)).toBe('임시직 · 기업 · 비정규직 · 1년째 · 계약 2036년 7월까지');
     expect(statusLine(careerOf(s, { route: 'startup', employer: { kind: 'self' } }), ko)).toBe('창업 · 자기 사업 · 자영 · 1년째');
   });
 

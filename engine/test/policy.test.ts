@@ -108,8 +108,12 @@ describe('policyDecision (선택권 §4.4, 0014#46)', () => {
     near(decisionFreq(s, 'first-paper-verdict', { paperId: 'p1', verdict: 'revision' }), T['first-paper-verdict:revise']);
     near(decisionFreq(s, 'first-paper-verdict', { paperId: 'p1', verdict: 'accepted' }), T['first-paper-verdict:accept']);
   });
+  // funding-expiry A 는 이번 달 끝나는 자금에만 열린다(0014#138): 가중치 표를 그대로 보려면 기한을 이번 달로 둔다
+  const expiring = life({ phd: { fundingState: { route: 'project', monthly: 1_100_000, tuitionWaiver: 0, until: 30, dutyHours: 0, recordIds: [] } } });
+  const liveProject = life({ phd: { fundingState: { route: 'project', monthly: 1_100_000, tuitionWaiver: 0, until: 60, dutyHours: 0, recordIds: [] } } });
   it('funding-expiry (0.5, 0.3, 0.1, 0.1); career-10y (0.5, 0.3, 0.1, 0.1); pre-retirement (0.6, 0.2, 0.2)', () => {
-    near(decisionFreq(s, 'funding-expiry', { cause: 'until' }), T['funding-expiry']);
+    near(decisionFreq(expiring, 'funding-expiry', { cause: 'until' }), T['funding-expiry']);
+    near(decisionFreq(expiring, 'funding-expiry', { cause: 'crisis' }), T['funding-expiry']);
     near(decisionFreq(s, 'career-10y', { route: 'industry' }), T['career-10y']);
     near(decisionFreq(s, 'pre-retirement', { route: 'industry' }), T['pre-retirement']);
   });
@@ -121,6 +125,15 @@ describe('policyDecision (선택권 §4.4, 0014#46)', () => {
   });
   it('weights follow the option keys, not their positions: a retry (B–D) renormalizes 0.3 / 0.1 / 0.1', () => {
     near(decisionFreq(s, 'funding-expiry', { cause: 'until', retry: true }, ['B', 'C', 'D']), [0.6, 0.2, 0.2]);
+  });
+  it('a crisis on live funding never picks A (not-expiring, 0014#138): B / C / D renormalize to 0.6 / 0.2 / 0.2; with D capped, B / C 0.75 / 0.25', () => {
+    const f = decisionFreq(liveProject, 'funding-expiry', { cause: 'crisis' });
+    expect(f[0]).toBe(0);
+    near(f, [0, 0.6, 0.2, 0.2]);
+    const capped = { ...liveProject, phd: { ...liveProject.phd!, leave: { active: false, until: -1, totalMonths: 34 } } };
+    const g = decisionFreq(capped, 'funding-expiry', { cause: 'crisis' });
+    expect(g[0]).toBe(0); expect(g[3]).toBe(0);
+    near(g, [0, 0.75, 0.25, 0]);
   });
   it('leaves that would exceed the 36-month cap are never chosen (post-qualifying B, funding-expiry D)', () => {
     const capped = life({ phd: { leave: { active: false, until: -1, totalMonths: 34 } } });
@@ -153,7 +166,7 @@ describe('policyDecision (선택권 §4.4, 0014#46)', () => {
       ['first-paper-verdict', { paperId: 'p1', verdict: 'rejected' }, withPaper('rejected')],
       ['first-paper-verdict', { paperId: 'p1', verdict: 'revision' }, withPaper('revision')],
       ['first-paper-verdict', { paperId: 'p1', verdict: 'accepted' }, withPaper('accepted')],
-      ['funding-expiry', { cause: 'until' }, s], ['pre-graduation-path', {}, s],
+      ['funding-expiry', { cause: 'until' }, s], ['funding-expiry', { cause: 'crisis' }, liveProject], ['pre-graduation-path', {}, s],
     ];
     for (const [dp, ctx, st] of cases) {
       for (let m = 0; m < 200; m++) {

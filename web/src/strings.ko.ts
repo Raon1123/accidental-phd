@@ -204,6 +204,7 @@ export const ko = {
       'leave-cap': '휴학 누적 상한에 걸려 고를 수 없습니다.',
       'already-tried': '이번 만료에서 이미 연장을 신청했습니다.',
       'no-funding': '연장할 자금이 없습니다.',
+      'not-expiring': '아직 끝나지 않은 자금은 연장을 신청할 수 없습니다.',
     },
     ended: '기록이 끝났습니다.',
     prompts: {
@@ -291,6 +292,7 @@ export const ko = {
     'log.scholarship-review-failed': '장학 유지 심사에서 떨어졌습니다.',
     'log.hired': '새 자리에 채용됐습니다.',
     'log.contract-ended': '계약이 끝났습니다. 다시 자리를 찾습니다.',
+    'log.laid-off': '회사 사정으로 해고됐습니다. 다시 자리를 찾습니다.',
     'log.startup-closed': '창업한 회사를 닫았습니다. 기업 자리를 찾습니다.',
     'log.promotion': '승진하거나 정규직으로 전환됐습니다.',
     'log.promotion-failed': '승진·전환에 실패했습니다.',

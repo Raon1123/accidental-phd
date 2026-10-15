@@ -1,0 +1,612 @@
+[
+  {
+    "id": "story-hs-phd-1",
+    "title": "조교 근무표",
+    "group": "인문사회",
+    "start_when": "stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 AND month 3~18",
+    "ending": "흐지부지 (근무표는 그대로이고 서약서 안내가 온다). 중간 마무리: phd.leave.active가 시작되면 끊김 대신 '휴학 신청 전에 근무표 인수 서류를 후배 조교에게 넘긴다.'",
+    "beats": [
+      {
+        "text": "방학 중 평일 종일 근무표가 하루 단위로 행정실 공지에 올라온다.",
+        "gap_months": "0",
+        "continue_if": "route=project AND dutyHours>0 AND NOT leave.active"
+      },
+      {
+        "text": "신입 조교들이 순번제를 부탁하러 갔다가 건방지다는 말을 듣는다.",
+        "gap_months": "1-3",
+        "continue_if": "route=project AND dutyHours>0 AND NOT leave.active"
+      },
+      {
+        "text": "비밀유지 서약서 서명 안내가 오고 근무표는 그대로 붙어 있다.",
+        "gap_months": "1-3",
+        "continue_if": "항상"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-hs-phd-2",
+    "title": "먼저 나온 논문",
+    "group": "인문사회",
+    "start_when": "stage=phd AND phd.qualified=true AND phd.project 하위 구간 AND phd.focus in {research, thesis} AND choices.track in {sociology, political, psychology, public_administration}",
+    "ending": "좋게 (질문을 좁혀 다시 쓰기 시작한다). 중간 마무리: leave.start가 생기면 '휴학 전에 선행 논문 초록과 질문지 초안을 한 폴더에 모아 둔다.'",
+    "beats": [
+      {
+        "text": "검색 결과에서 같은 질문을 다룬 최근 논문을 찾아 초록을 인쇄한다.",
+        "gap_months": "0",
+        "continue_if": "phd.qualified=true AND phd.project 하위 구간 유지"
+      },
+      {
+        "text": "그 논문의 연구 틀을 빌려도 되는지 선행연구 목록 옆에 적어 둔다.",
+        "gap_months": "1-2",
+        "continue_if": "phd.focus in {research, thesis} AND NOT leave.active"
+      },
+      {
+        "text": "지도교수에게 주제를 바꾸겠다고 하자 질문부터 다시 써 보라는 답이 돌아온다.",
+        "gap_months": "1-3",
+        "continue_if": "phd.project가 첫 메모 시점보다 증가 AND NOT leave.active"
+      },
+      {
+        "text": "워크숍에서 받은 과학성 질문을 정리해 연구 질문을 좁혀 다시 쓴다.",
+        "gap_months": "2-4",
+        "continue_if": "항상"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-hs-phd-3",
+    "title": "첫 강의 학기",
+    "group": "인문사회",
+    "start_when": "stage=phd AND phd.partTime.kind=lecture",
+    "ending": "나쁘게 (다음 학기 강사 지원서가 서랍에 남는다; 마지막 메모는 mind 하위 구간이고 partTime.kind가 더 이상 lecture가 아닐 때만 붙는다). 중간 마무리: leave.start가 생기면 '휴학 전 학기의 성적 입력은 끝내 둔다.'",
+    "beats": [
+      {
+        "text": "첫 강의 전날 강의안 순서를 여러 번 바꿔 인쇄한다.",
+        "gap_months": "0",
+        "continue_if": "partTime.kind=lecture"
+      },
+      {
+        "text": "수강생 상담 메일에 답하고 나면 연구에 쓸 저녁 시간이 남지 않는다.",
+        "gap_months": "1-3",
+        "continue_if": "partTime.kind=lecture AND 학기 말(month%6==0 전후)에 도달"
+      },
+      {
+        "text": "강의 평가의 서술 의견을 한 줄 읽고 나머지 파일은 열지 않는다.",
+        "gap_months": "2-4",
+        "continue_if": "stats.mind 하위 구간 AND 다음 학기 경계까지 부분 시간 근무가 lecture에서 벗어남"
+      },
+      {
+        "text": "다음 학기 강사 지원 기간이 끝나도 지원서는 서랍에 그대로 있다.",
+        "gap_months": "4-7",
+        "continue_if": "항상"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-hs-phd-4",
+    "title": "떠난 동기의 책상",
+    "group": "인문사회",
+    "start_when": "stage=phd AND phd.qualified=true AND month>=36",
+    "ending": "나쁘게 (빈 자리와 남은 짐). 중간 마무리: leave.start가 생기면 '휴학원을 내러 가는 복도에 동기의 짐 상자가 아직 있다.'",
+    "beats": [
+      {
+        "text": "강의와 패스트푸드점 근무를 같이 하던 동기가 급여를 못 받았다고 말한다.",
+        "gap_months": "0",
+        "continue_if": "stage=phd"
+      },
+      {
+        "text": "동기가 연구실 책상을 비운 뒤 남은 책과 머그컵 상자가 복도에 놓여 있다.",
+        "gap_months": "2-4",
+        "continue_if": "항상"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-hs-phd-5",
+    "title": "공동 계좌 내역",
+    "group": "인문사회",
+    "start_when": "stage=phd AND phd.fundingState.route=project AND stats.relation 하위 구간",
+    "ending": "흐지부지 (내역을 모아 둔 파일만 남고, 신고나 처분 결과는 쓰지 않는다; 지도교수 유형과 무관). 중간 마무리: leave.start가 생기면 '휴학 신청 뒤 단체방 알림을 끄고 내역 파일만 남겨 둔다.'",
+    "beats": [
+      {
+        "text": "과제 인건비 일부를 공동 계좌로 모으라는 안내가 단체방에 또 올라온다.",
+        "gap_months": "0",
+        "continue_if": "route=project AND NOT leave.active"
+      },
+      {
+        "text": "같은 과제의 선배와 입금 내역을 나란히 놓고 비교해 본다.",
+        "gap_months": "1-3",
+        "continue_if": "route=project AND NOT leave.active"
+      },
+      {
+        "text": "비교한 내역을 폴더에 모아 두기만 하고 아직 어디에도 내지 않는다.",
+        "gap_months": "2-4",
+        "continue_if": "항상"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-hs-phd-6",
+    "title": "계획서 접수 대기",
+    "group": "인문사회",
+    "start_when": "stage=phd AND log.qual-pass가 있는 달 이후 AND choices.track in {history, philosophy, korean_literature, english_literature, linguistics}",
+    "ending": "좋게 (심사 일정 공지가 붙는다; 승인 여부는 쓰지 않는다). 중간 마무리: leave.start가 생기면 '휴학 전에 접수 확인서를 클리어파일 맨 앞에 끼워 둔다.'",
+    "beats": [
+      {
+        "text": "학위논문 계획서를 학과에 내고 접수 확인서만 받은 채 심사 순서를 기다린다.",
+        "gap_months": "0",
+        "continue_if": "log.qual-pass 존재 AND NOT leave.active"
+      },
+      {
+        "text": "대기가 다음 학기로 넘어간 뒤 학과 게시판에 심사 일정 공지가 붙는다.",
+        "gap_months": "2-4",
+        "continue_if": "학기 경계(month%6==0)를 한 번 이상 지남 AND stage=phd"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-stem-phd-1",
+    "title": "장비 도면과 장학 신청서",
+    "group": "이공",
+    "start_when": "stage=phd AND month 6~12 AND phd.fundingState.route=project AND choices.track in {mechanical, materials, electrical, chemical, energy, semiconductor}",
+    "ending": "흐지부지",
+    "beats": [
+      {
+        "text": "과제용 진공 장비의 마지막 배관 도면을 지도교수와 다시 고친다.",
+        "gap_months": "0",
+        "continue_if": "phd.leave.active=false"
+      },
+      {
+        "text": "지도교수가 장학금 신청서의 연구 성과 문단을 함께 읽으며 고친다.",
+        "gap_months": "1-2",
+        "continue_if": "phd.leave.active=false"
+      },
+      {
+        "text": "신청서를 접수 시스템에 올리고 확인서를 파일철에 끼운다.",
+        "gap_months": "1-2",
+        "continue_if": "항상 (결과는 엔진에 없으므로 제출에서 끝낸다)"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-stem-phd-2",
+    "title": "감사의 글 한 줄",
+    "group": "이공",
+    "start_when": "stage=phd AND choices.track in {life_science, neuroscience, systems_biology, bioengineering} AND phd.papers[]의 어떤 논문이 draft에서 submitted로 바뀐 달",
+    "ending": "나쁘게",
+    "beats": [
+      {
+        "text": "투고 직전 동료가 돌려 준 대조 실험이 감사의 글 한 줄로 정리된다.",
+        "gap_months": "0",
+        "continue_if": "해당 논문 status in {submitted, revision, accepted, rejected}"
+      },
+      {
+        "text": "연구실을 나간 선배가 공저자 자리를 요구하는 메일을 보낸다.",
+        "gap_months": "2-4",
+        "continue_if": "해당 논문 status != dropped"
+      },
+      {
+        "text": "동료에게 미안한 채 감사의 글 문장을 다시 고친다.",
+        "gap_months": "1-3",
+        "continue_if": "항상"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-stem-phd-3",
+    "title": "인건비 명세서와 설문",
+    "group": "이공",
+    "start_when": "stage=phd AND month>=24 AND phd.fundingState.route=project AND phd.participation>=0.75 AND choices.track in {statistics, mathematics}",
+    "ending": "흐지부지",
+    "beats": [
+      {
+        "text": "연구와 무관한 자료 입력 작업이 이어지는 달의 인건비 명세서를 받는다.",
+        "gap_months": "0",
+        "continue_if": "phd.fundingState.route=project (monthly 변화 없음, 인상은 쓰지 않는다)"
+      },
+      {
+        "text": "총학생회 설문의 체류 시간과 최저임금 항목이 게시판에 붙는다.",
+        "gap_months": "2-5",
+        "continue_if": "항상 (게시판에 붙는 데서 끝낸다)"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-stem-phd-4",
+    "title": "예산 칸막이와 출장 반려",
+    "group": "이공",
+    "start_when": "stage=phd AND news.rnd-budget-cut 유효 AND choices.track in {computer, ai}",
+    "ending": "나쁘게",
+    "beats": [
+      {
+        "text": "재료비 칸 잔액으로는 연산 장비 부품을 못 산다는 공지가 온다.",
+        "gap_months": "0",
+        "continue_if": "news.rnd-budget-cut 유효 (깨지면 조용히 끊김)"
+      },
+      {
+        "text": "신규 학생을 받지 못한다는 말이 돌고 출장 신청서는 반려된다.",
+        "gap_months": "2-4",
+        "continue_if": "항상"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-stem-phd-5",
+    "title": "지도교수를 바꾸다",
+    "group": "이공",
+    "start_when": "stage=phd AND decisions에 decision.post-qualifying.pass.C 존재 (시작 시점의 phd.advisor.type을 기록해 둔다)",
+    "ending": "좋게",
+    "beats": [
+      {
+        "text": "정해진 면담 시간에 들어가자 지도교수가 그동안 무엇을 시도해 봤는지 묻는다.",
+        "gap_months": "0",
+        "continue_if": "phd.leave.active=false AND log.degree 없음"
+      },
+      {
+        "text": "제출 기한 한 달 전부터 지도교수와 연락이 끊겨 초안만 공유 폴더에 있다.",
+        "gap_months": "3-6",
+        "continue_if": "log.degree 없음 AND log.end-dropout 없음"
+      },
+      {
+        "text": "지도교수가 더는 함께 일하기 어렵겠다는 짧은 메일을 보낸다.",
+        "gap_months": "1-3",
+        "continue_if": "log.degree 없음 AND log.end-dropout 없음 [조건 깨짐 시 마무리 메모: 공유 폴더의 초안 파일이 마지막 수정 그대로 남는다.]"
+      },
+      {
+        "text": "새 연구실 첫 랩미팅에서 교수의 가설을 검증할 대안 실험 계획을 발표한다.",
+        "gap_months": "3-6",
+        "continue_if": "갈래 A(좋게): phd.advisor.type이 시작 시점 값에서 바뀌었음 -> 이 메모. 갈래 B(흐지부지): 값이 안 바뀜 -> '옮길 연구실을 찾지 못해 기존 연구실 책상이 그대로 남는다.'"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-stem-phd-6",
+    "title": "첫 논문의 긴 심사",
+    "group": "이공",
+    "start_when": "stage=phd AND decisions에 decision.first-paper-verdict.reject.A 또는 decision.first-paper-verdict.reject.B AND choices.track not in {computer, ai, mathematics, statistics}",
+    "ending": "좋게",
+    "beats": [
+      {
+        "text": "거절 메일의 세 심사평을 인쇄해 사흘 뒤 줄을 치며 끝까지 읽는다.",
+        "gap_months": "0",
+        "continue_if": "해당 논문 status in {rejected, submitted, revision} AND phd.papers[].attempts>=1"
+      },
+      {
+        "text": "추가 실험 요구 항목에 맞춰 장비 예약표의 빈 시간을 확인한다.",
+        "gap_months": "1-3",
+        "continue_if": "해당 논문 status in {submitted, revision, accepted, rejected}"
+      },
+      {
+        "text": "재투고 뒤 받은 수정 요청에 심사자별 답변서를 여러 번 고쳐 올린다.",
+        "gap_months": "3-6",
+        "continue_if": "해당 논문 status in {revision, accepted} OR attempts>=2 [조건 깨짐 시 마무리 메모: 심사평 인쇄본이 서랍에 접힌 채 남는다.]"
+      },
+      {
+        "text": "학회 포스터 세션 뒤 숙소에서 옆 포스터와 견준 강점 목록을 적는다.",
+        "gap_months": "3-6",
+        "continue_if": "갈래 A(좋게): 해당 논문 status=accepted -> 이 메모. 갈래 B(나쁘게): status=rejected이고 attempts가 늘어남 -> '거절 통지서가 또 와서 심사평 파일이 폴더 하나를 채운다.'"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-career-1",
+    "title": "계약 만료 통보",
+    "group": "이공",
+    "start_when": "stage=career, career.route in {institute, postdoc}, career.contractUntil이 12개월 이내",
+    "ending": "나쁘게 (log.contract-ended가 있을 때 마지막 메모). 끊김 마무리: 계약이 연장되어 contract-ended가 없으면 '노조 모임 안내문을 접어 수첩 사이에 끼워 둔다.'로 흐지부지 처리",
+    "beats": [
+      {
+        "text": "계약 만료 전에 나갈 준비를 하라는 구두 통보를 복도에서 듣는다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "동료의 권유로 노조 모임에 나가 구제 신청 서류 양식을 받아 온다.",
+        "gap_months": "12",
+        "continue_if": "항상"
+      },
+      {
+        "text": "추천서를 부탁하러 간 자리에서 책임자가 구제 신청 철회를 넌지시 말한다.",
+        "gap_months": "12-24",
+        "continue_if": "career.route in {institute, postdoc} 또는 log.contract-ended"
+      },
+      {
+        "text": "반납한 출입증 대신 임시 방문증을 받아 목에 건다.",
+        "gap_months": "12-24",
+        "continue_if": "log.contract-ended"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-career-2",
+    "title": "해외 박사후 자리의 서류",
+    "group": "이공",
+    "start_when": "stage=phd, phd.path=academia, phd.graduationMonth까지 6개월 이내",
+    "ending": "좋게 (경력 첫해 log.hired 태그 postdoc). 끊김 마무리: 경력 첫해 career.route=none이면 '답이 오지 않은 지원서 사본을 연구실 공유 폴더에 남겨 둔다.'로 흐지부지 처리",
+    "beats": [
+      {
+        "text": "졸업을 앞두고 연구실 책상에서 해외 박사후 지원서를 고친다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "연구소가 인턴 경력 확인용 옛 담당자 연락처를 요구해 밤새 파일을 뒤진다.",
+        "gap_months": "2-4",
+        "continue_if": "phd.path=academia"
+      },
+      {
+        "text": "비자 면접 대기실에서 거절 사례를 듣고 합격 통지서를 다시 확인한다.",
+        "gap_months": "12",
+        "continue_if": "stage=career 이고 log.hired(postdoc)가 있을 때"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-career-3",
+    "title": "지원서를 쌓는 해들",
+    "group": "공통",
+    "start_when": "stage=career, career.searching이 학계 경로(professor, postdoc, lecturer 등)를 포함",
+    "ending": "나쁘게 (구직이 3년 넘게 이어질 때 실패담 원고). 갈래: log.hired가 있으면 좋게, 마지막 메모 '거절이 이어진 주 뒤 제안 전화를 받고 현황 표를 닫는다.'",
+    "beats": [
+      {
+        "text": "새벽 화상 면접을 마치고 지원 현황 표에 응답 없음 칸을 늘린다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "지원서 업적 칸에서 오래된 논문을 뺄지 목록을 놓고 따져 본다.",
+        "gap_months": "12-24",
+        "continue_if": "career.searching이 학계 경로를 포함"
+      },
+      {
+        "text": "실패담을 써 달라는 후배의 요청에 빈 문서만 열어 둔다.",
+        "gap_months": "12-36",
+        "continue_if": "구직이 3년 넘게 이어지고 log.hired가 없음"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-career-4",
+    "title": "강사 제도 개편 무렵",
+    "group": "인문사회",
+    "start_when": "stage=career, career.route=lecturer, news.lecturer-policy 유효, choices.group=인문사회",
+    "ending": "흐지부지 (협동조합 회의록에 이름만 남는다)",
+    "beats": [
+      {
+        "text": "강사 제도 개편 직전에 학과가 다음 학기 강의 배정 축소를 통보한다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "저서와 번역 실적을 정리하며 신청서 기관란에 쓸 말을 고른다.",
+        "gap_months": "12",
+        "continue_if": "career.route=lecturer"
+      },
+      {
+        "text": "지역 인문학 박사들이 만든 협동조합 회의록에 이름이 오른다.",
+        "gap_months": "12-24",
+        "continue_if": "career.route=lecturer 또는 career.searching"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-career-5",
+    "title": "증명의 오류와 중간 평가",
+    "group": "이공",
+    "start_when": "stage=career, career.route=professor, career.rank=assistant, career.yearsInRoute 2~5, choices.track in {mathematics, statistics}",
+    "ending": "좋게 (log.promotion이 있을 때 마지막 메모). 갈래: log.promotion-failed가 있으면 나쁘게, 마지막 메모 '심사 통보서를 서랍에 넣고 복도 끝에 한참 서 있는다.'",
+    "beats": [
+      {
+        "text": "몇 달 쓴 증명에서 반례가 나와 칠판 사진을 지운다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "정년 보장 서류철 앞장에 반례 노트에서 정리한 조건을 끼운다.",
+        "gap_months": "12-24",
+        "continue_if": "log.promotion이 있음 (promotion-failed이면 갈래 메모)"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-career-6",
+    "title": "비정년의 긴 시간",
+    "group": "인문사회",
+    "start_when": "stage=career, career.route=nontenure, career.yearsInRoute>=5",
+    "ending": "흐지부지 (연금 계산 메모지가 서류철에 남는다)",
+    "beats": [
+      {
+        "text": "정년트랙 절반 수준인 급여명세서를 받고 다음 학기 강의 시수를 센다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "승진 규정 표에서 비정년 교원이 들어갈 항목을 찾지 못한다.",
+        "gap_months": "24-36",
+        "continue_if": "career.route=nontenure"
+      },
+      {
+        "text": "자신보다 높은 직급으로 부임하는 신임 교수 소개 공지를 읽는다.",
+        "gap_months": "24-48",
+        "continue_if": "career.route=nontenure 이고 log.promotion이 없음"
+      },
+      {
+        "text": "연금 가입 기간을 계산한 메모지를 서랍 속 서류철에 끼운다.",
+        "gap_months": "24-48",
+        "continue_if": "career.route=nontenure 이고 log.promotion이 없음"
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-life-family-retire-1",
+    "title": "멈춘 논문과 운동화",
+    "group": "공통",
+    "start_when": "stage=phd 이고 phd.leave.active=true 이고 leave.start 태그가 burnout",
+    "ending": "좋게",
+    "beats": [
+      {
+        "text": "이틀 밤을 새운 몸으로 휴학 서류에 지도교수 서명을 받는다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "신발장 안쪽에서 오래 안 신은 운동화가 나온다.",
+        "gap_months": "2-3",
+        "continue_if": "stage=phd 이고 phd.leave.active=true"
+      },
+      {
+        "text": "병원에서 진단이 바뀌었다는 말을 듣고 논문 파일을 닫아 둔다.",
+        "gap_months": "2-3",
+        "continue_if": "stage=phd 이고 phd.leave.active=true"
+      },
+      {
+        "text": "복학 첫 주, 운동화를 현관에 두고 하루 끝에 진전을 짧게 적는다.",
+        "gap_months": "2-3",
+        "continue_if": "phd.leave.active=false 이고 stage=phd. 박사과정이 끝나거나 휴학이 이어지면 조용히 끊긴다. 마무리 메모: 휴학 서류철이 학과 사무실 서랍에서 다른 서류 아래로 밀려난다."
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-life-family-retire-2",
+    "title": "제본한 논문을 건넨 날",
+    "group": "공통",
+    "start_when": "stage=phd 이고 month>=36 이고 (phd.partTime.kind=job 또는 phd.familySupport=0)",
+    "ending": "갈래: log.degree가 있으면 좋게(제본 메모로 끝). log.end-dropout 또는 log.end-financial이면 흐지부지(마무리 메모: 과외 교재를 끈으로 묶어 현관 앞에 내놓는다.)",
+    "beats": [
+      {
+        "text": "등록금 고지서와 학자금 대출 안내문 사이에 과외 일정을 끼워 넣는다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "통과 뒤 제본한 논문 한 권을 가족에게 건네고 그동안 든 비용을 짚어 본다.",
+        "gap_months": "12-24",
+        "continue_if": "log.degree가 있을 때 이 메모. log.end-dropout 또는 log.end-financial이면 이 메모 대신 결말의 마무리 메모."
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-life-family-retire-3",
+    "title": "노부모 수납 영수증",
+    "group": "공통",
+    "start_when": "stage=career 이고 career.route in {lecturer, nontenure, postdoc} 이고 ageMonths 가 45세에 해당하는 달 이상",
+    "ending": "흐지부지",
+    "beats": [
+      {
+        "text": "노부모의 병원 수납 영수증이 계약서 사본 옆에 매달 쌓인다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "학원 면접 일정이 잡힌 날, 가족은 대학을 떠나지 말라고 말한다.",
+        "gap_months": "12-24",
+        "continue_if": "stage=career 이고 career.route 가 lecturer, nontenure, postdoc 중 하나"
+      },
+      {
+        "text": "도서관 출입증 갱신 신청서를 쓰다 말고 서랍에 넣는다.",
+        "gap_months": "12-24",
+        "continue_if": "stage=career. 조건이 깨지면 마무리 메모 없이 조용히 끊긴다."
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-life-family-retire-4",
+    "title": "비어 있는 달력",
+    "group": "공통",
+    "start_when": "stage=retired 이고 log.retired 존재",
+    "ending": "나쁘게",
+    "beats": [
+      {
+        "text": "퇴임식 다음 날, 달력에 적힌 일정이 하나도 없다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "도서관 대출 권한이 퇴직자 등급으로 바뀐다는 안내문이 온다.",
+        "gap_months": "12-24",
+        "continue_if": "stage=retired. log.end-age80 이 먼저 오면 이 메모 대신 마무리 메모: 달력은 여전히 벽에 걸려 있다."
+      },
+      {
+        "text": "후배에게 보낼 안부 문자를 쓰다 지우고 달력을 넘긴다.",
+        "gap_months": "12-24",
+        "continue_if": "stage=retired. log.end-age80 이면 마무리 메모만 붙는다."
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-life-family-retire-5",
+    "title": "지하 연구실의 서가",
+    "group": "인문사회",
+    "start_when": "decision.pre-retirement.A 선택 AND career.route=professor AND choices.group=인문사회",
+    "ending": "좋게",
+    "beats": [
+      {
+        "text": "학과장이 퇴임 뒤 계획을 묻는데 아직 정해 둔 것이 없다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "대학이 강의를 맡기겠다고 하지만 후배 강사 자리를 생각해 거절한다.",
+        "gap_months": "12-24",
+        "continue_if": "decision.pre-retirement.A 이고 stage=career 또는 log.retired"
+      },
+      {
+        "text": "건물 지하의 작은 연구실로 서가를 옮기고 책등 순서를 맞춘다.",
+        "gap_months": "12-24",
+        "continue_if": "log.retired 존재. 조건이 깨지면 마무리 메모 없이 조용히 끊긴다."
+      }
+    ],
+    "creative": true
+  },
+  {
+    "id": "story-life-family-retire-6",
+    "title": "넘기지 못한 요령",
+    "group": "이공",
+    "start_when": "decision.pre-retirement.C 선택 이고 choices.group=이공",
+    "ending": "나쁘게",
+    "beats": [
+      {
+        "text": "퇴임을 앞두고 장비 운용 요령을 후배에게 넘기려 하나 문서가 없다.",
+        "gap_months": "0",
+        "continue_if": "항상"
+      },
+      {
+        "text": "자문을 맡은 제조업체 첫 회의에서 장비 운용 노트를 꺼내 놓는다.",
+        "gap_months": "12-24",
+        "continue_if": "ledger 에 post-retire-research 수입이 있고 decision.pre-retirement.C.declined 가 아님. declined 이면 이 단계 대신 짧게 나쁘게 끝나는 마무리 메모: 연구 자리 거절 통지서가 장비 운용 노트 위에 놓인다."
+      },
+      {
+        "text": "제조업체 사장이 품질 문제를 말로만 설명하고 측정 자료는 없다.",
+        "gap_months": "12-24",
+        "continue_if": "post-retire-research 수입 유지 이고 career.postRetireResearchUntil 이전"
+      },
+      {
+        "text": "보안 서약서의 책임 범위 문구를 고치다 서명란을 비워 둔다.",
+        "gap_months": "12-24",
+        "continue_if": "career.postRetireResearchUntil 이전. 그 달에 수입이 끝나면 흐지부지 끊긴다."
+      }
+    ],
+    "creative": true
+  }
+]

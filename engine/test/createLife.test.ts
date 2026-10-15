@@ -1,17 +1,22 @@
 import { describe, it, expect } from 'vitest';
 import { ASSUMED } from '../src/assumed';
 import { loadData, has } from '../src/data/load';
-import { indexDepartments, unitKey, unitsForTrack } from '../src/data/departments';
-import { entranceFee } from '../src/data/tuition';
-import { scholarshipOptions } from '../src/data/funding';
+import { indexDepartments, trackWeights, unitKey, unitsForTrack } from '../src/data/departments';
+import { entranceFee, waiverRate } from '../src/data/tuition';
+import { scholarshipOptions, selfTaProbability, taStipend } from '../src/data/funding';
+import type { DataBundle } from '../src/data/bundle';
 import { newSeed } from '../src/rng';
 import { pickUniform, pickWeighted } from '../src/util';
 import { createLife } from '../src/pre/createLife';
-import { subfieldsOfDepartment } from '../src/data/taxonomy';
+import { subfieldsOfDepartment, tracksOf } from '../src/data/taxonomy';
 
 const data = loadData();
 const idx = indexDepartments(data);
 const SEED = 'APHD-AAAAAAAA';
+const TA_P_ID = 'statistics-ta-income-living-cost-2015';
+/** 레코드 하나의 값만 바꾼 번들(입학 때 조교 추첨 확률 0·1 고정용). */
+const withRecordValue = (id: string, value: number): DataBundle => ({ ...data, records: new Map(data.records).set(id, { ...data.records.get(id)!, value }) });
+const P_TA0 = withRecordValue(TA_P_ID, 0), P_TA1 = withRecordValue(TA_P_ID, 1);
 
 describe('util', () => {
   it('pickWeighted follows key order and skips zero weights', () => {
@@ -70,8 +75,11 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
   });
 
   it('self funding subtracts 5 mind after the 30–70 clamp (0014#17)', () => {
-    const self = createLife({ funding: 'self' }, SEED, data);
+    const self = createLife({ funding: 'self' }, SEED, P_TA0);   // 조교 추첨 확률 0: 옛 자비 상태 그대로
     expect(self.phd!.fundingState).toMatchObject({ route: 'self', monthly: 0, until: -1, tuitionWaiver: 0, dutyHours: 0, recordIds: [] });
+    const ta = createLife({ funding: 'self' }, SEED, P_TA1);     // 확률 1: §3.3 B 와 같은 조교 상태, 경로 self
+    const school = ta.choices.school, stipend = taStipend(data, school), waiver = waiverRate(data, school, 'project');
+    expect(ta.phd!.fundingState).toEqual({ route: 'self', monthly: stipend.value, tuitionWaiver: waiver.value, until: -1, dutyHours: ASSUMED.TA_DUTY_HOURS, recordIds: [stipend.id, waiver.id] });
     // 같은 seed 에서 능력치 추첨은 선택과 무관하다: 자비가 아닌 쪽과 비교하면 마음만 5 낮다.
     let compared = 0;
     for (let i = 0; i < 40 && compared < 5; i++) {
@@ -156,8 +164,10 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
           expect(f.monthly).toBeGreaterThan(0);
           expect(f.dutyHours).toBe(0);
         }
+        // 자비: 조교 추첨(0014#137)에 걸리면 monthly > 0 이고 의무 10시간, 아니면 monthly 0·의무 0.
+        if (f.route === 'self') expect(f.dutyHours).toBe(f.monthly > 0 ? ASSUMED.TA_DUTY_HOURS : 0);
       }
-      for (const id of f.recordIds) expect(has(data, id)).toBe(true);
+      for (const id of f.recordIds) if (!id.startsWith('0014#')) expect(has(data, id)).toBe(true);   // 0014#35·#21 은 assumed 대체값 표지
     }
     expect(routes.scholarship).toBeGreaterThan(0);
     expect(projectFallback).toBeGreaterThan(0);
@@ -341,5 +351,117 @@ describe('createLife (선택권 §2, 상태 §1.4)', () => {
       .toEqual([c.choices.group, c.choices.track, c.choices.subfield, c.choices.departmentRecord, c.choices.funding]);
     expect(d.stats).toEqual(c.stats);
     expect(d.ageMonths).toBe(c.ageMonths);
+  });
+});
+
+describe('akj enters the luck draw with unit-count weight (decision 0019, #139)', () => {
+  const AKJ_UNITS: Record<string, number> = { history: 19, philosophy: 16, korean_literature: 16, political: 17, sociology: 15 };
+  const share = (n: number, f: (i: number) => boolean) => { let k = 0; for (let i = 0; i < n; i++) if (f(i)) k++; return k / n; };
+
+  it('each of the five tracks holds one akj unit among the counted units', () => {
+    for (const [t, n] of Object.entries(AKJ_UNITS)) {
+      const units = unitsForTrack(idx, t);
+      expect(units.filter(u => u === `departments-akj-${t}`)).toHaveLength(1);
+      expect(units).toHaveLength(n);
+    }
+  }, 30_000);
+  it('a chosen track lands at akj with probability 1 / units', () => {
+    for (const t of Object.keys(AKJ_UNITS)) {
+      const p = share(3000, i => createLife({ track: t }, newSeed(`akj-${t}-${i}`), data).choices.school === 'akj');
+      expect(Math.abs(p - 1 / unitsForTrack(idx, t).length)).toBeLessThan(0.02);
+    }
+  }, 30_000);
+  it('a lucky 인문사회 life lands at akj with probability 5 / group units', () => {
+    const w = trackWeights(idx);
+    const total = tracksOf('인문사회').reduce((s, t) => s + (w[t] ?? 0), 0);
+    expect(total).toBe(157);
+    const lives = Array.from({ length: 4000 }, (_, i) => createLife({ group: '인문사회' }, newSeed(`akj-g-${i}`), data));
+    expect(Math.abs(lives.filter(l => l.choices.school === 'akj').length / lives.length - 5 / total)).toBeLessThan(0.01);
+    expect(lives.every(l => l.choices.byLuck.track && l.choices.byLuck.department)).toBe(true);
+  }, 30_000);
+  it('akj never appears outside its five tracks', () => {
+    for (let i = 0; i < 500; i++) expect(createLife({ track: 'economics' }, newSeed(`akj-e-${i}`), data).choices.school).not.toBe('akj');
+    for (let i = 0; i < 50; i++) expect(Object.keys(AKJ_UNITS)).toContain(createLife({ school: 'akj', group: '인문사회' }, newSeed(`akj-s-${i}`), data).choices.track);
+    expect(() => createLife({ school: 'akj', track: 'economics' }, newSeed('akj-x'), data)).toThrow();
+  }, 30_000);
+});
+
+describe('self funding TA draw at entry (0014#136·#137, decision 0022)', () => {
+  const taShare = (lives: ReturnType<typeof createLife>[]): number => {
+    const self = lives.map(l => l.phd!.fundingState).filter(f => f.route === 'self');
+    return self.filter(f => f.monthly > 0).length / self.length;
+  };
+
+  it('P_TA comes from the record (0.265)', () => {
+    expect(selfTaProbability(data)).toMatchObject({ value: 0.265, id: TA_P_ID });
+  });
+
+  it('chosen self: TA share 0.265 ± 0.05 over 1,000 seeds', () => {
+    const lives = Array.from({ length: 1000 }, (_, i) => createLife({ funding: 'self' }, newSeed(`ta${i}`), data));
+    expect(lives.every(l => l.phd!.fundingState.route === 'self')).toBe(true);
+    expect(Math.abs(taShare(lives) - 0.265)).toBeLessThan(0.05);
+  });
+
+  it('fallen-to-self lives (chose project) draw too: TA share 0.265 ± 0.05', () => {
+    const lives = Array.from({ length: 2000 }, (_, i) => createLife({ funding: 'project' }, newSeed(`taf${i}`), data));
+    const self = lives.filter(l => l.phd!.fundingState.route === 'self');
+    expect(self.length).toBeGreaterThan(300);
+    expect(Math.abs(taShare(self) - 0.265)).toBeLessThan(0.05);
+  });
+
+  it('every self life is TA under P_TA 1 (chosen self included) and none under P_TA 0; dutyHours follows monthly', () => {
+    for (let i = 0; i < 100; i++) {
+      for (const funding of ['self', 'project', 'scholarship'] as const) {
+        const f1 = createLife({ funding }, newSeed(`tp${i}`), P_TA1).phd!.fundingState;
+        const f0 = createLife({ funding }, newSeed(`tp${i}`), P_TA0).phd!.fundingState;
+        if (f1.route === 'self') {
+          expect(f1.monthly).toBeGreaterThan(0); expect(f1.dutyHours).toBe(ASSUMED.TA_DUTY_HOURS); expect(f1.until).toBe(-1);
+          expect(f0).toEqual({ route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] });
+        } else {
+          expect(f1.dutyHours).toBe(0);
+        }
+      }
+    }
+  });
+
+  it('the new slot does not shift other draws: non-self lives are equal under P_TA 0 and 1', () => {
+    let compared = 0;
+    for (let i = 0; i < 60; i++) {
+      for (const funding of ['project', 'scholarship'] as const) {
+        const a = createLife({ funding }, newSeed(`iso${i}`), P_TA0), b = createLife({ funding }, newSeed(`iso${i}`), P_TA1);
+        if (a.phd!.fundingState.route === 'self') { expect(b.stats).toEqual(a.stats); continue; }
+        expect(b).toEqual(a);
+        compared++;
+      }
+    }
+    expect(compared).toBeGreaterThan(50);
+  });
+
+  it('TA lives keep the self mind −5 (0014#17)', () => {
+    let compared = 0;
+    for (let i = 0; i < 40 && compared < 5; i++) {
+      const seed = newSeed(`mind${i}`);
+      const a = createLife({ funding: 'self' }, seed, P_TA1), b = createLife({ funding: 'project' }, seed, P_TA1);
+      if (b.phd!.fundingState.route === 'self') continue;
+      expect(a.phd!.fundingState.monthly).toBeGreaterThan(0);
+      expect(a.stats.mind).toBe(Math.max(0, b.stats.mind - 5));
+      compared++;
+    }
+    expect(compared).toBeGreaterThan(0);
+  });
+
+  it('school values: TA monthly from -stipend-ta* records or 400,000 (0014#35); waiver korea·uos 1.0, else 0', () => {
+    const expected: Record<string, number> = { snu: 300_000, kaist: 550_000, gist: 295_000, jnu: 500_000, cnu: 400_000, akj: 600_000, ewha: 666_667, yonsei: 400_000, dgist: 400_000 };
+    for (const [school, monthly] of Object.entries(expected)) {
+      const group = school === 'akj' ? '인문사회' as const : ['kaist', 'gist', 'dgist'].includes(school) ? '이공' as const : undefined;
+      const s = createLife({ school, funding: 'self', ...(group ? { group } : {}) }, newSeed(`sch-${school}`), P_TA1);
+      const f = s.phd!.fundingState;
+      expect(f.route).toBe('self'); expect(f.monthly).toBe(monthly); expect(f.tuitionWaiver).toBe(0);
+      if (school === 'yonsei' || school === 'dgist') expect(f.recordIds).toContain('0014#35');
+    }
+    for (const school of ['korea', 'uos']) {
+      const f = createLife({ school, funding: 'self' }, newSeed(`sch-${school}`), P_TA1).phd!.fundingState;
+      expect(f.tuitionWaiver).toBe(1); expect(f.monthly).toBe(400_000);
+    }
   });
 });

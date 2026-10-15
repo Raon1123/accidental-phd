@@ -22,3 +22,4 @@
 | [wave-04-engine-impl.md](wave-04-engine-impl.md) | 엔진 구현 |
 | [wave-05-ui-narrative.md](wave-05-ui-narrative.md) | UI·서사·가상 뉴스 |
 | [wave-06-balance-retro.md](wave-06-balance-retro.md) | 밸런스·플레이테스트·회고 |
+| [wave-07-content-expansion.md](wave-07-content-expansion.md) | 콘텐츠 확장(초안) |

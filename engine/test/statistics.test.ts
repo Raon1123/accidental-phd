@@ -58,6 +58,18 @@ describe('facultyMarket 2025 (노동 §2.2, §3.1)', () => {
   });
 });
 
+describe('living-cost funding sources 2015, split from the family-support record (decision 0022)', () => {
+  const raw = (id: string) => data.records.get(id) as unknown as Record<string, unknown>;
+  it('TA income 0.265 and part-time 0.172 share source, table, page and population with the original', () => {
+    const orig = raw('statistics-family-support-living-cost-2015');
+    for (const [id, value] of [['statistics-ta-income-living-cost-2015', 0.265], ['statistics-part-time-income-living-cost-2015', 0.172]] as const) {
+      const r = raw(id);
+      expect(r).toMatchObject({ value, unit: 'ratio', source_id: 'nhrc-2015-grad-research-env-survey' });
+      for (const k of ['table', 'page', 'population', 'year']) expect(r[k]).toEqual(orig[k]);
+    }
+  });
+});
+
 describe('admittedShares', () => {
   it('2025 PhD admissions by category', () => {
     const a = admittedShares(data);

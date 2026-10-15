@@ -1,5 +1,6 @@
 // 박사과정 결정 지점 트리거 (선택권 §3.1–§3.4). 월 틱 11단계(상태 §7.1)가 부른다.
 // 한 달에 결정 지점은 하나만 건다. 우선순위: post-qualifying > funding-expiry > first-paper-verdict > pre-graduation-path.
+// funding-expiry(§3.3)의 A·C는 원인(cause)이 아니라 자금 상태(`fundingExpired`)로 가용·효과가 갈린다(0014 #138·#139, 결정 기록 0023).
 // 자격시험 결과(post-qualifying)만 그 달의 사건이다. 나머지 셋은 상태에서 다시 계산할 수 있어서, 우선순위에 밀리면 다음 달에 다시 걸린다(사건이 사라지지 않는다).
 import { ASSUMED } from '../assumed';
 import type { DataBundle } from '../data/bundle';

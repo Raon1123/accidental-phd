@@ -2,7 +2,7 @@
 import { ASSUMED } from '../assumed';
 import { get, type DataBundle } from '../data/bundle';
 import { INSTITUTES, industryPay, institutePay, lecturerAnnual, nationalStep0, officerStepFrom, privateFacultyPay, stepPay, type StepTable } from '../data/salaries';
-import { odds, z } from '../odds';
+import { hazardMonth, odds, z } from '../odds';
 import { draw, drawNormal } from '../rng';
 import type { CareerState, LifeState, Route } from '../types';
 
@@ -90,6 +90,33 @@ const lostJob = (c: CareerState, month: number, routes: Route[]): CareerState =>
   return { ...rest, route: 'none', annualPay: 0, yearsInRoute: 0, searching: { routes, since: month, penalty: 1 }, retireAge: undefined };
 };
 
+/** 계약 경로(0014 #95·#133·#134): 채용 때 `contractUntil` 이 붙고 연말에 재계약을 추첨한다. */
+export type ContractRoute = keyof typeof ASSUMED.CONTRACT;
+export const isContractRoute = (r: Route): r is ContractRoute => r in ASSUMED.CONTRACT;
+// 재계약 실패 뒤 다시 찾는 경로(0014#134): 학계 계약직 = 학계 4경로, 임시직 = 임시직·기업(career-5y C 와 같은 묶음, 선택권 §3.5)
+const AFTER_CONTRACT: Record<ContractRoute, readonly Route[]> = {
+  postdoc: ACADEMIC_ROUTES, lecturer: ACADEMIC_ROUTES, nontenure: ACADEMIC_ROUTES, bridge: ['bridge', 'industry'],
+};
+// 기존 박사후·강사 추첨은 슬롯 `renew` 그대로 두고, 새 계약 경로는 `renew:<경로>` 슬롯을 쓴다(#84)
+const renewSlot = (r: ContractRoute): string => (r === 'postdoc' || r === 'lecturer' ? 'renew' : `renew:${r}`);
+
+// 해고 뒤 다시 찾는 경로(0014#135): 기업 = 기업(창업 폐업과 같다), 출연연 = 출연연·연구직 공무원
+const AFTER_LAYOFF: Partial<Record<Route, readonly Route[]>> = { industry: ['industry'], institute: ['institute', 'public'] };
+
+/**
+ * 정규직 해고 월 판정(#84, 0014#135). 기업 기준 연 해고 비율을 월 위험률 hazardMonth(r) 로 바꿔 슬롯 `layoff`(labor)로 추첨한다.
+ * 해고되면 자리를 잃고 그 경로 묶음으로 구직을 시작한다(`log.laid-off`). 비율이 0 이거나 표에 없는 경로는 추첨하지 않는다.
+ */
+export function layoffMonth(state: LifeState): LifeState {
+  const c = state.career;
+  if (!c || state.stage !== 'career') return state;
+  const rate = (ASSUMED.LAYOFF_YEAR as Partial<Record<Route, number>>)[c.route] ?? 0;
+  if (rate <= 0) return state;
+  if (draw(state.seed, 'labor', state.month, 'layoff') >= hazardMonth(rate)) return state;
+  const career = lostJob(c, state.month, [...(AFTER_LAYOFF[c.route] ?? [c.route])]);
+  return addLog({ ...state, career }, 'log.laid-off', ['career', 'layoff']);
+}
+
 /** 경력 논문 한 해 확률 odds(p0, 1.0·z(skill)). 연구 집중 해(career-10y B, 0014#38)는 p0 를 CAREER_10Y_RESEARCH.paperP0 로 바꾼다. */
 export function careerPaperProbability(skill: number, researchFocus: boolean): number {
   const p0 = researchFocus ? ASSUMED.CAREER_10Y_RESEARCH.paperP0 : ASSUMED.CAREER_PAPER.p0;
@@ -99,7 +126,7 @@ export function careerPaperProbability(skill: number, researchFocus: boolean): n
 /**
  * 연말 처리(상태 §7.2 2단계, 선택권 §9). 나이는 월 틱이 올린다.
  * 순서: 근속 → 호봉·연봉 인상 → 계약 만료 → 창업 존속 → 경력 논문.
- * 재계약 실패·폐업 뒤 다시 찾는 경로는 스펙에 없어 가정이다: 박사후·강사 = 학계 4경로, 창업 = 기업(`industry`).
+ * 재계약 실패·폐업 뒤 다시 찾는 경로는 스펙에 없어 가정이다: 박사후·강사·비정년 = 학계 4경로, 임시직 = 임시직·기업(0014#134), 창업 = 기업(`industry`).
  * 계약 만료는 상태 §7.2 2단계(연말 처리)에서만 확인하므로 만료 달이 지난 첫 연말에 판정한다(최대 11개월 늦다).
  */
 export function yearEnd(state: LifeState, data: DataBundle): LifeState {
@@ -117,10 +144,10 @@ export function yearEnd(state: LifeState, data: DataBundle): LifeState {
     c.annualPay = Math.round(c.annualPay * (1 + ASSUMED.SALARY_RAISE_RATE));
   }
 
-  if ((c.route === 'postdoc' || c.route === 'lecturer') && c.contractUntil !== undefined && month >= c.contractUntil) {
+  if (isContractRoute(c.route) && c.contractUntil !== undefined && month >= c.contractUntil) {
     const rule = ASSUMED.CONTRACT[c.route];
-    if (draw(state.seed, 'labor', month, 'renew') < rule.renewP) c.contractUntil = month + rule.years * ASSUMED.MONTHS_PER_YEAR;
-    else { c = lostJob(c, month, [...ACADEMIC_ROUTES]); next = addLog(next, 'log.contract-ended', ['career', 'contract']); }
+    if (draw(state.seed, 'labor', month, renewSlot(c.route)) < rule.renewP) c.contractUntil = month + rule.years * ASSUMED.MONTHS_PER_YEAR;
+    else { c = lostJob(c, month, [...AFTER_CONTRACT[c.route]]); next = addLog(next, 'log.contract-ended', ['career', 'contract']); }
   }
 
   if (c.route === 'startup') {
@@ -185,7 +212,7 @@ export function promotion(state: LifeState, data: DataBundle, dp: 'career-5y' | 
   if (c.route === 'professor') {
     if (!c.employer?.national) n.annualPay = Math.round(privateFacultyPay(data, tr.nextRank as 'associate' | 'professor').value * mult);
   } else if (c.route === 'nontenure') {
-    n = { ...n, route: 'professor', employer: { kind: 'university', national: false }, yearsInRoute: 0, retireAge: undefined,
+    n = { ...n, route: 'professor', employer: { kind: 'university', national: false }, yearsInRoute: 0, retireAge: undefined, contractUntil: undefined,   // 정년트랙은 계약 기간이 없다
       annualPay: Math.round(privateFacultyPay(data, 'assistant').value * mult) };
   } else if (c.route === 'institute') {
     if (state.choices.group === '이공' && c.employer?.instituteId) {

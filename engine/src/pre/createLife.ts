@@ -1,11 +1,11 @@
 // 입학 전 선택 6종과 초기화(선택권 §2, 상태 §1.4). 난수는 모두 이름 붙은 슬롯이다(상태 §6.2).
 //   luck   : group · track · subfield · department · funding · advisorPref
 //   init   : stat:health|mind|skill|relation|network (슬롯마다 :a/:b 두 개) · age · advisor · family
-//   funding: scholarship · scholarship:record · project
+//   funding: scholarship · scholarship:record · project · self:ta
 import { ASSUMED } from '../assumed';
 import { has, type DataBundle } from '../data/bundle';
 import { indexDepartments, trackWeights, unitKey, unitsForTrack, type DeptIndex } from '../data/departments';
-import { monthlyFromRecord, projectStipend, scholarshipOptions } from '../data/funding';
+import { monthlyFromRecord, projectStipend, scholarshipOptions, selfTaProbability, taFundingState } from '../data/funding';
 import { fieldOf, groupOf, kediOf, kscedOf, subfieldsOfDepartment, TRACKS, tracksOf } from '../data/taxonomy';
 import { entranceFee, waiverRate } from '../data/tuition';
 import { tuitionCharge } from '../phd/money';
@@ -184,7 +184,12 @@ export function createLife(config: LifeConfig, seed: string, data: DataBundle): 
     }
   }
   fundingState ??= { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] };
-  if (fundingState.route === 'self') stats.mind = clamp(stats.mind + ASSUMED.SELF_FUNDING_MIND_PENALTY, ASSUMED.STAT_MIN, ASSUMED.STAT_MAX);
+  if (fundingState.route === 'self') {
+    // 입학 때 조교 추첨(0014#136 확률, 0014#137 상태): 자비로 확정된 삶(고른 자비·내려온 자비 모두)은 P_TA 로 §3.3 B 와 같은 조교 상태를 얻는다.
+    // 경로는 self 그대로라 참여율 추첨(#130)·배수(#125·#126)가 걸리지 않는다. 슬롯 funding/0/'self:ta' 는 새 슬롯이라 다른 추첨을 밀지 않는다.
+    if (draw(seed, 'funding', 0, 'self:ta') < selfTaProbability(data).value) fundingState = taFundingState(data, school, 'self');
+    stats.mind = clamp(stats.mind + ASSUMED.SELF_FUNDING_MIND_PENALTY, ASSUMED.STAT_MIN, ASSUMED.STAT_MAX);
+  }
 
   // ── 가족 지원(0014#11) ──
   const famWeights: Record<string, number> = {};

@@ -25,6 +25,25 @@ function checkCommon(r, at, ids, errors) {
 }
 
 function readJson(p) { return JSON.parse(readFileSync(p, 'utf8')); }
+// 창작 문장에 들어가면 안 되는 실명: 학교 매핑 표(schools README)의 실명 열과 '대학교' 줄임, 투고처 레코드 note 머리의 이름(`ACL: …`).
+function realNameList(root) {
+  const names = new Set();
+  const readme = join(root, 'data/packs/schools/README.md');
+  if (existsSync(readme)) {
+    for (const line of readFileSync(readme, 'utf8').split(/\r?\n/)) {
+      const c = line.trim().replace(/^\||\|$/g, '').split('|').map(s => s.trim());
+      if (c.length !== 3 || !/^[a-z_]+$/.test(c[0]) || c[0] === 'school_id') continue;
+      names.add(c[1]);
+      if (c[1].endsWith('대학교')) names.add(c[1].slice(0, -2));
+    }
+  }
+  const venues = join(root, 'data/packs/venues/records.json');
+  if (existsSync(venues)) for (const r of readJson(venues)) {
+    const m = String(r.note ?? '').match(/^([^:.(]{2,60})[:.(]/);
+    if (m) names.add(m[1].trim());
+  }
+  return [...names].filter(n => [...n].length >= 2);
+}
 function walk(dir, pred, out = []) {
   if (!existsSync(dir)) return out;
   for (const name of readdirSync(dir)) {
@@ -190,7 +209,18 @@ export function validate(root) {
   }
   // 화면 텍스트 팩(data/text/*.json): 항목마다 id 와 creative: true. 뉴스(news.*)는 type·headline·body(노동 스펙 §5.4, #58),
   // 장면(scenes.*)은 at·key·text 와 근거 refs(narratives 레코드 id 또는 'assumed', #57).
-  const TEXT_FIELDS = { news: ['type', 'headline', 'body'], scenes: ['at', 'key', 'text'] };
+  // 무작위 메모(flavor.*)는 category·stage·text·tags, 스토리라인(storylines.*)은 title·start_when 과 beats 2~4개.
+  // 이 둘의 문장(#112·#138 규칙)은 공백 포함 15~45자, 숫자·로마자 없음, 실명(학교 매핑 표의 실명과 그 줄임, 투고처 note 머리의 이름) 없음.
+  const TEXT_FIELDS = { news: ['type', 'headline', 'body'], scenes: ['at', 'key', 'text'], flavor: ['category', 'stage', 'text'], storylines: ['title', 'start_when'] };
+  const realNames = realNameList(root);
+  const lineErrors = (t, at) => {
+    const out = [];
+    const n = [...String(t ?? '').trim()].length;
+    if (n < 15 || n > 45) out.push(`${at}: text length ${n} not in 15..45`);
+    if (/[0-9A-Za-z０-９]/.test(t ?? '')) out.push(`${at}: text has digits or latin letters`);
+    for (const name of realNames) if (String(t).includes(name)) out.push(`${at}: text has a real name`);
+    return out;
+  };
   for (const file of walk(join(root, 'data/text'), p => p.endsWith('.json'))) {
     const rel = file.slice(root.length + 1);
     const items = readJson(file);
@@ -201,6 +231,17 @@ export function validate(root) {
       const kind = basename(file).split('.')[0];
       for (const f of ['id', ...(TEXT_FIELDS[kind] ?? [])]) if (typeof x[f] !== 'string' || !x[f].trim()) errors.push(`${at}: missing ${f}`);
       if (kind === 'scenes' && (!Array.isArray(x.refs) || x.refs.length === 0)) errors.push(`${at}: scenes need refs`);
+      if (kind === 'flavor') {
+        if (!Array.isArray(x.tags) || x.tags.length === 0) errors.push(`${at}: flavor needs tags`);
+        errors.push(...lineErrors(x.text, at));
+      }
+      if (kind === 'storylines') {
+        if (!Array.isArray(x.beats) || x.beats.length < 2 || x.beats.length > 4) errors.push(`${at}: storylines need 2..4 beats`);
+        else x.beats.forEach((b, j) => {
+          for (const f of ['text', 'gap_months', 'continue_if']) if (typeof b[f] !== 'string' || !b[f].trim()) errors.push(`${at}.beats[${j}]: missing ${f}`);
+          errors.push(...lineErrors(b.text, `${at}.beats[${j}]`));
+        });
+      }
       if (x.creative !== true) errors.push(`${at}: creative must be true`);
       if (x.id) { if (seen.has(x.id)) errors.push(`${at}: duplicate id ${x.id}`); seen.add(x.id); }
     });
