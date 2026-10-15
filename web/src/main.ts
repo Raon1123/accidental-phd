@@ -1,6 +1,7 @@
 // 웹 진입점. 데이터(data.json)를 받아 DataBundle 을 만들고, 분야 선택·지금 삶(진행 화면)·기록 보관 화면을 그린다.
 // 진행 로직(한 칸, 자동 모드, 결정 지점, 연구노트, 인생 지도)은 play.ts, 동기·분기는 cohort.ts 에 있고, 여기는 DOM 과 타이머만 다룬다.
 import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile, type WebSource } from '../../engine/src/browser';
+import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
@@ -25,6 +26,7 @@ let statPrev: LifeState['stats'] | undefined;                            // 능�
 let workDraft: WorkDraft = {};   // 다음 칸에 한 번만 보내는 근로·참여율 입력(엔진이 상태에 남긴다)
 let focus: Focus | undefined;   // undefined = 지금 포커스 유지
 let timer: ReturnType<typeof setTimeout> | undefined;
+let art: ArtMode = loadArt(store);   // 그림 설정(#151). 다시 그리지 않고 <html data-art> 와 aria-pressed 만 바꾼다(포커스 유지)
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLElementTagNameMap[K] {
   const e = document.createElement(tag);
@@ -570,6 +572,25 @@ function resetSide(): void {
   branchedFrom = undefined;
 }
 
+/** 그림 설정 단추(#151): 제목 아래 한 줄. */
+function renderArt(root: HTMLElement): void {
+  document.documentElement.dataset.art = art;
+  const box = el('p');
+  box.className = 'art';
+  box.setAttribute('role', 'group');
+  box.setAttribute('aria-label', t.art.label);
+  box.append(el('span', t.art.label));
+  for (const m of ART_MODES) {
+    box.append(pressed(button(t.art[m], () => {
+      art = m;
+      saveArt(store, m);
+      document.documentElement.dataset.art = m;
+      box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === `art:${m}`)));
+    }, false, `art:${m}`), art === m));
+  }
+  root.append(box);
+}
+
 function startLife(track: string | null): void {
   if (!data) return;
   stop();
@@ -622,6 +643,7 @@ async function start(): Promise<void> {
 
 document.title = t.title;
 document.getElementById('title')!.textContent = t.title;
+renderArt(document.querySelector('header')!);
 document.getElementById('skip')!.textContent = t.skipToMain;
 document.getElementById('notice')!.textContent = t.creativeNotice;
 void start();

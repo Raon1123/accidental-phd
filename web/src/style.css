@@ -107,3 +107,8 @@ fieldset button { min-height: 2.75rem; padding: .5rem 1rem; }
   --ret-d1: #5b3a6e; --ret-d2: #4a2f63; --ret-d3: #3a2657; --ret-d4: #2b1d47; --ret-hill: #2d4a33; --ret-hill2: #22392a; --ret-grass: #1f3324;
 } }
 svg.px { display: block; shape-rendering: crispEdges; }
+
+/* 그림 설정(#151): 끄기면 그림을 숨긴다. 간단히는 장면만 숨긴다(#152 부터 장면에 .px-scene). */
+.art { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; margin: 0 0 .75rem; font-size: .85rem; color: var(--muted); }
+.art button { padding: .1rem .55rem; }
+html[data-art="off"] .px-icon, html[data-art="off"] .px-scene, html[data-art="lite"] .px-scene { display: none; }

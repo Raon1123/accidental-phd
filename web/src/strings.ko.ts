@@ -1,6 +1,7 @@
 // 화면 문자열(한국어). 코드에 문장을 직접 쓰지 않는다(결정 기록 0001). 다른 언어는 같은 키로 파일을 더한다.
 export const ko = {
   dates: { calendar: '{y}년 {m}월', elapsedYM: '{y}년 {m}개월', elapsedY: '{y}년', elapsedM: '{m}개월' },
+  art: { label: '그림', full: '모두', lite: '간단히', off: '끄기' },
   title: '어쩌다 박사: 한국 연구자의 일생',
   skipToMain: '본문 건너뛰기',
   loading: '데이터를 읽는 중입니다.',
