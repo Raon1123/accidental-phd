@@ -68,6 +68,9 @@ PR은 `validate-data`와 `test` 워크플로우를 통과해야 한다. 수치 �
 - 브랜치 이름: `wave-N/<slug>`, `stats/<topic>`, `adr/<slug>`.
 - PR 본문은 `.github/pull_request_template.md`를 채운다. 연결 issue를 `Closes #N`으로 적는다.
 - 머지는 병합 커밋(merge commit)으로 한다. squash·rebase 병합은 쓰지 않는다. wave 체크리스트와 결정 기록이 완료 근거로 인용하는 커밋 해시가 main에서 도달 가능해야 하기 때문이다(결정 기록 0016 §1). 머지 후 `docs/waves/STATUS.md`를 같은 PR에서 갱신했는지 확인한다.
+- wave/N issue를 닫는 PR은 STATUS의 해당 wave 행과 wave 파일 체크리스트 줄을 같은 PR에서 고친다. design 큐 PR(`[design]` issue)은 STATUS를 고치지 않는다. 충돌을 피하려고 고치지 못했으면 PR 본문에 "STATUS 미갱신"을 적고, 다음에 머지되는 wave/N PR이 고친다(결정 기록 0018 §4).
+- issue 없이 사용자 규칙만으로 여는 PR은 issue를 먼저 만들거나, 같은 PR에서 wave 파일 체크리스트 줄을 더한다. PR 본문에서 판정을 묻는 질문은 `needs-judge` 라벨을 붙인 issue로 옮긴 뒤에 머지한다(0018 §4).
+- 결정 기록 0014에 행을 더하거나 엔진 주석에 새 0014 번호를 쓰는 PR은 `node scripts/check-assumed.mjs`가 exit 0인지 확인하고 출력 두 줄을 PR 본문에 붙인다(0018 §4).
 
 ## needs-judge
 
