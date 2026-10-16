@@ -206,7 +206,7 @@ export const ko = {
     },
     notes: '연구노트',
     summary: { heading: '삶의 정리', help: '주요 사건과 선택의 순간을 시간순으로 모았습니다. 가상 뉴스와 창작 장면은 뺐습니다.', empty: '정리할 주요 사건이 없습니다.', span: '기간: {from} ~ {to} ({elapsed})' },
-    noteKinds: { good: '성취', bad: '실패', news: '소식', decision: '결정', leave: '휴학', start: '시작', end: '마무리', scene: '장면', plain: '기록' },
+    noteKinds: { good: '성취', bad: '실패', news: '소식', decision: '결정', leave: '휴학', start: '시작', end: '마무리', scene: '장면', flavor: '일상', plain: '기록' },
     notesEmpty: '아직 기록이 없습니다.',
     creative: '창작',
     monthSuffix: '개월째',
