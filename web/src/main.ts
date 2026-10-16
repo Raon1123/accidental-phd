@@ -4,8 +4,9 @@ import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type F
 import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
-import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Speed } from './play';
-import { iconOf, iconRects, type Icon, type Rect } from './pixel';
+import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Note, type Speed } from './play';
+import { WIDE_W, cropOf, latestEvent, type Crop, type LatestEvent } from './artview';
+import { SCENE_W, iconOf, iconRects, sceneOf, sceneRects, type Icon, type Rect } from './pixel';
 import { lifeConfig, selfTaNote, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
 import { ko as t } from './strings.ko';
@@ -27,6 +28,7 @@ let statPrev: LifeState['stats'] | undefined;                            // 능�
 let workDraft: WorkDraft = {};   // 다음 칸에 한 번만 보내는 근로·참여율 입력(엔진이 상태에 남긴다)
 let focus: Focus | undefined;   // undefined = 지금 포커스 유지
 let timer: ReturnType<typeof setTimeout> | undefined;
+let recent: LatestEvent | undefined;   // 가장 최근 사건(초상 말풍선과 문장, #152). renderInner 가 매번 새로 정한다
 let art: ArtMode = loadArt(store);   // 그림 설정(#151). 다시 그리지 않고 <html data-art> 와 aria-pressed 만 바꾼다(포커스 유지)
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLElementTagNameMap[K] {
@@ -37,12 +39,20 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLE
 }
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
-/** 픽셀 사각형 → SVG(#151). 색은 토큰(var(--…))만 쓴다. 장식이므로 화면 낭독기에서 숨긴다. */
-function pixelSvg(width: number, height: number, rects: readonly Rect[]): SVGSVGElement {
+/**
+ * 픽셀 사각형 → SVG(#151). 색은 토큰(var(--…))만 쓴다.
+ * label 이 있으면 뜻을 가진 그림이라 role="img" + 설명을 단다(#152). 없으면 장식이라 화면 낭독기에서 숨긴다.
+ * x·y 는 viewBox 의 왼쪽 위(큰 그림에서 부분만 쓸 때), fit 은 preserveAspectRatio.
+ */
+function pixelSvg(width: number, height: number, rects: readonly Rect[], opts: { label?: string; x?: number; y?: number; fit?: string } = {}): SVGSVGElement {
   const svg = document.createElementNS(SVG_NS, 'svg');
-  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  svg.setAttribute('viewBox', `${opts.x ?? 0} ${opts.y ?? 0} ${width} ${height}`);
   svg.setAttribute('class', 'px');
-  svg.setAttribute('aria-hidden', 'true');
+  if (opts.fit) svg.setAttribute('preserveAspectRatio', opts.fit);
+  if (opts.label) {
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', opts.label);
+  } else svg.setAttribute('aria-hidden', 'true');
   for (const r of rects) {
     const e = document.createElementNS(SVG_NS, 'rect');
     e.setAttribute('x', String(r.x)); e.setAttribute('y', String(r.y));
@@ -52,11 +62,40 @@ function pixelSvg(width: number, height: number, rects: readonly Rect[]): SVGSVG
   }
   return svg;
 }
+/** 큰 그림에서 crop 부분만 보이는 SVG(#152). label 은 뜻이 있는 장면에만 준다. */
+function sceneSvg(rects: readonly Rect[], c: Crop, label?: string, fit?: string): SVGSVGElement {
+  return pixelSvg(c.w, c.h, rects, { x: c.x, y: c.y, ...(label ? { label } : {}), ...(fit ? { fit } : {}) });
+}
 function iconEl(icon: Icon): HTMLElement {
   const s = el('span');
   s.className = 'px-icon';
   s.append(pixelSvg(12, 12, iconRects(icon)));
   return s;
+}
+
+/** 초상 창(#152, 안 d): 인물 위 말풍선에 최근 사건 아이콘, 아래 한 줄에 그 사건 문장. 장면이 없으면(시작 전) 만들지 않는다. */
+function portraitEl(s: LifeState): HTMLElement | undefined {
+  const stage = sceneOf(s);
+  if (!stage) return undefined;
+  const fig = el('figure');
+  fig.className = 'px-scene portrait';
+  fig.append(sceneSvg(sceneRects(stage, { width: SCENE_W, bubble: recent?.icon }), cropOf('portrait', stage), t.art.scene[stage]));
+  if (recent) fig.append(el('figcaption', recent.line));
+  return fig;
+}
+
+/**
+ * 본문 바깥 여백의 풍경(#152, 안 c): <html data-scene> 이 하늘·벽 색을 정하고(CSS), 화면 아래에 풍경 띠를 깐다.
+ * 장식이라 화면 낭독기에서 숨긴다(뜻은 초상 창의 설명이 전한다). 단계가 그대로면 다시 그리지 않는다.
+ */
+function renderBackdrop(root: HTMLElement, s: LifeState | undefined): void {
+  const stage = s ? sceneOf(s) : undefined;
+  if (stage) document.documentElement.dataset.scene = stage;
+  else delete document.documentElement.dataset.scene;
+  if ((root.dataset.stage ?? '') === (stage ?? '')) return;
+  root.dataset.stage = stage ?? '';
+  root.replaceChildren();
+  if (stage) root.append(sceneSvg(sceneRects(stage, { width: WIDE_W }), cropOf('strip', stage), undefined, 'xMidYMax slice'));
 }
 
 /** `key`(data-k)는 다시 그린 뒤 키보드 포커스를 같은 조작으로 되돌릴 때 쓴다(#61). 없으면 글자. */
@@ -220,11 +259,10 @@ function renderMap(root: HTMLElement, s: LifeState): void {
 }
 
 /** 연구노트 피드(페이지 상단, #123): 최신순 한 줄씩. 종류별 색 띠와 종류 글자 표지를 함께 단다(색만으로 뜻을 전하지 않는다). */
-function renderFeed(root: HTMLElement): void {
+function renderFeed(root: HTMLElement, list: readonly Note[]): void {
   root.replaceChildren();
   if (!life) return;
   root.append(el('h2', t.play.notes));
-  const list = notes(life, t);
   if (list.length === 0) { root.append(el('p', t.play.notesEmpty)); return; }
   const ol = el('ol');
   ol.className = 'notes feed';
@@ -290,6 +328,8 @@ function renderMoneyCard(root: HTMLElement): void {
   if (!life || !data) return;
   const M = t.play.money;
   root.setAttribute('aria-label', M.heading);
+  const portrait = portraitEl(life);   // 자금 카드 위 초상 창(#152). 좁은 화면에서는 CSS 가 숨긴다
+  if (portrait) root.append(portrait);
   const v = moneyView(life, data);
   const glance = el('dl');
   glance.className = 'glance';
@@ -581,7 +621,10 @@ function trackStatChange(): void {
 function renderInner(): void {
   shownIds = [];
   trackStatChange();
-  renderFeed(document.getElementById('feed')!);
+  const list = life ? notes(life, t) : [];
+  recent = latestEvent(list, t);
+  renderBackdrop(document.getElementById('backdrop')!, life);
+  renderFeed(document.getElementById('feed')!, list);
   renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);
   renderCohort(document.getElementById('cohort')!);

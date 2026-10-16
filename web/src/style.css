@@ -118,3 +118,22 @@ html[data-art="off"] .px-icon, html[data-art="off"] .px-scene, html[data-art="li
 .px-icon { display: inline-block; width: 1.25rem; height: 1.25rem; padding: 2px; box-sizing: content-box; background: var(--px-tile); border-radius: 3px; vertical-align: -0.4rem; margin-right: .3rem; }
 .px-icon svg { width: 100%; height: 100%; }
 html:not([data-art="off"]) .px-icon + .note-kind { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* 초상 창(#152, 안 d): 왼쪽 칸 자금 카드 위. 64rem 미만에서는 숨기고 상태 줄이 대신한다(#153). 보이고 숨기는 display 는 클래스로만 정한다. */
+.portrait { display: none; margin: 0 0 .75rem; }
+.portrait svg { width: 100%; height: auto; border: 3px solid var(--fg); }
+.portrait figcaption { margin-top: .3rem; font-size: .9rem; color: var(--fg); }
+@media (min-width: 64rem) {
+  .portrait { display: block; }
+}
+
+/* 여백 풍경(#152, 안 c): html 배경이 장면 색이고, 화면 아래에 풍경 띠를 고정한다. 본문(body)은 불투명(--bg)이라 글자 뒤에는 비치지 않는다.
+   색은 그림 토큰이라 어두운 테마에서 밤 색으로 바뀐다. 간단히·끄기에서는 .px-scene 규칙이 띠를 숨기고, 배경 색은 data-art="full" 일 때만 준다. */
+.backdrop { display: none; }
+@media (min-width: 64rem) {
+  .backdrop { display: block; position: fixed; left: 0; right: 0; bottom: 0; height: 9rem; z-index: -1; pointer-events: none; }
+  .backdrop svg { width: 100%; height: 100%; }
+  html[data-art="full"][data-scene="phd"] { background: var(--lab-wall); }
+  html[data-art="full"][data-scene="career"] { background: var(--car-sky); }
+  html[data-art="full"][data-scene="retire"] { background: var(--ret-d2); }
+}
