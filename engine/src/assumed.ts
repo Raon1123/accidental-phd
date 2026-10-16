@@ -102,7 +102,7 @@ export const ASSUMED = {
     thesis: { f: 1.2, health: -2.0, mind: -1.0, skill: 0.3, relation: 0, network: 0, cash: 0 },           // 0014#39
   } satisfies Record<Focus, { f: number; health: number; mind: number; skill: number; relation: number; network: number; cash: number }>,
   JOB_HOURS: 20,                                                                       // 0014#40
-  WRITING_RATE_BASE: 12, WRITING_RATE_SKILL: 0.2, WRITING_MAX: 100,                    // 0014#41 writing += 12 + 0.2·skill, 100 이 되면 투고
+  WRITING_RATE_BASE: 25, WRITING_RATE_SKILL: 0.2, WRITING_MAX: 100,                    // 0014#41 writing += (25 + 0.2·skill) × 성장 배수, 100 이 되면 투고; 재유도 2026-10-16: 12 → 25 (집필 포커스 달 실현 G 0.636 아래 평균 역량 실효 22/월을 되살림, 결정 기록 0028)
   PROGRESS_NOISE_LO: 0.65, PROGRESS_NOISE_HI: 1.50,                                    // 0014#42 U(0.65, 1.50)
   PROGRESS_SKILL_BASE: 0.65, PROGRESS_SKILL_DIV: 140,                                  // 0014#42 0.65 + skill/140
   WORK_WEEK_HOURS: 44, COURSEWORK_HOURS: 6, RESEARCH_TIME_MIN: 0.12,                   // 0014#42
@@ -114,8 +114,8 @@ export const ASSUMED = {
     natural: 'statistics-phd-duration-mean-years-natural',                             // 0014#44
     engineering: 'statistics-phd-duration-mean-years-engineering',                     // 0014#44
   } satisfies Record<Kedi, string>,
-  G_PREP_MONTHS: 6, G_MBAR_INIT: 0.279, PROJECT_MAX: 100,                               // 0014#45 g = 100 / ((12·T − 6) × M̄); 보정 2026-10-14: M̄ 0.68 → 0.40, 2026-10-15: 0.40 → 0.30 (#79 성장 배수 포함 실현 평균 0.34–0.35, 중앙값 맞춤 상수; calibration-wave6-step2.md), 2026-10-15: 0.30 → 0.263 (결정 기록 0025 근로 시작 조건 뒤 실현 M̄, 0015 §4; calibration-wave6-step7.md), 2026-10-15: 0.263 → 0.279 (결정 기록 0026 조교 상태 표식 뒤 실현 M̄, 0015 §4; calibration-wave6-step8.md)
-  G_INIT: { humanities: 5.43, social: 6.64, natural: 5.97, engineering: 5.97 } satisfies Record<Kedi, number>, // 0014#45 M̄ 0.279 에서의 g (M̄ 0.263: 5.76/7.04/6.34/6.34, M̄ 0.30: 5.05/6.17/5.56/5.56, M̄ 0.40: 3.79/4.63/4.17/4.17, 초안 M̄ 0.68: 2.23/2.72/2.45/2.45)
+  G_PREP_MONTHS: 6, G_MBAR_INIT: 0.242, PROJECT_MAX: 100,                               // 0014#45 g = 100 / ((12·T − 6) × M̄); 보정 2026-10-14: M̄ 0.68 → 0.40, 2026-10-15: 0.40 → 0.30 (#79 성장 배수 포함 실현 평균 0.34–0.35, 중앙값 맞춤 상수; calibration-wave6-step2.md), 2026-10-15: 0.30 → 0.263 (결정 기록 0025 근로 시작 조건 뒤 실현 M̄, 0015 §4; calibration-wave6-step7.md), 2026-10-15: 0.263 → 0.279 (결정 기록 0026 조교 상태 표식 뒤 실현 M̄, 0015 §4; calibration-wave6-step8.md), 2026-10-16: 0.279 → 0.242 (실현 M̄ 측정에 휴학 달을 배수 0으로 넣음, 결정 기록 0028; calibration-wave6-step10.md)
+  G_INIT: { humanities: 6.26, social: 7.65, natural: 6.89, engineering: 6.89 } satisfies Record<Kedi, number>, // 0014#45 M̄ 0.242 에서의 g (M̄ 0.279: 5.43/6.64/5.97/5.97, M̄ 0.263: 5.76/7.04/6.34/6.34, M̄ 0.30: 5.05/6.17/5.56/5.56, M̄ 0.40: 3.79/4.63/4.17/4.17, 초안 M̄ 0.68: 2.23/2.72/2.45/2.45)
 
   // ── 자동 진행 정책·위험률 (0014 #46–#52) ──
   POLICY: {

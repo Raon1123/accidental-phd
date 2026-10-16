@@ -37,12 +37,13 @@ describe('applyFocus (선택권 §4.1)', () => {
     expect(Number.isInteger(s2.stats.mind)).toBe(true);
   });
 
-  it('write: creates draft p1 and adds 12 + 0.2·skill (skill before this month)', () => {
+  // 0014 #41 재유도 2026-10-16(결정 기록 0028): 12 → 25. 이 상태는 근로·과제 참여가 없어 성장 배수 1이다.
+  it('write: creates draft p1 and adds 25 + 0.2·skill (skill before this month)', () => {
     const s = applyFocus(base({ focus: 'write', stats: { skill: 60 } }), data);
-    expect(s.phd!.papers).toEqual([{ id: 'p1', status: 'draft', writing: 12 + 0.2 * 60, quality: 0, attempts: 0, logitBonus: 0 }]);
+    expect(s.phd!.papers).toEqual([{ id: 'p1', status: 'draft', writing: 25 + 0.2 * 60, quality: 0, attempts: 0, logitBonus: 0 }]);
     const s2 = applyFocus(s, data);                  // 같은 초고에 이어 쓴다
     expect(s2.phd!.papers).toHaveLength(1);
-    expect(s2.phd!.papers[0]!.writing).toBeCloseTo(24 + 12 + 0.2 * s.stats.skill, 10);
+    expect(s2.phd!.papers[0]!.writing).toBeCloseTo(37 + 25 + 0.2 * s.stats.skill, 10);
   });
 
   it('write: caps writing at 100 and starts p2 when no draft is active', () => {
