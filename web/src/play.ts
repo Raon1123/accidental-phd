@@ -133,7 +133,17 @@ type LogEntry = LifeState['log'][number];
 /** 연구노트 한 줄의 문장. 가상 뉴스(news.*)는 news.ts 의 헤드라인·효과 태그(#58). 모르는 키는 던진다. */
 export function noteText(e: LogEntry, t: Strings, s?: LifeState): string {
   if (e.textKey.startsWith('news.')) return newsLine(e, t, s);
-  return lookup(t.texts, e.textKey, 'note');
+  const text = lookup(t.texts, e.textKey, 'note');
+  // 논문 심사 결과(#185, #189): tags [paperId, tier, venueId, attempts]. 투고처는 진행 중 논문 표(view.ts venueLabel)와 같은 규칙.
+  if (PAPER_VERDICT.test(e.textKey)) return text.replace('{venue}', verdictVenue(e.tags[1] ?? '', e.tags[2] ?? '', t));
+  return text;
+}
+
+const PAPER_VERDICT = /^log\.paper-(accepted|revision|rejected)$/;
+function verdictVenue(tier: string, venueId: string, t: Strings): string {
+  const P = t.play.papers;
+  const q = `Q${(tier || 'T4').slice(1)}`;
+  return P.venueTier.replace('{q}', q).replace('{kind}', venueId.startsWith('venues-conf-') ? P.venueKind.conference : P.venueKind.journal);
 }
 
 /**
@@ -143,8 +153,8 @@ export function noteText(e: LogEntry, t: Strings, s?: LifeState): string {
 export type NoteKind = 'good' | 'bad' | 'news' | 'decision' | 'leave' | 'start' | 'end' | 'scene' | 'flavor' | 'plain';
 export interface Note { month: number; key: string; text: string; creative: boolean; scene?: true; kind: NoteKind }
 
-const GOOD = new Set(['log.qual-pass', 'log.defense-pass', 'log.degree', 'log.hired', 'log.promotion', 'log.end-degree']);
-const BAD = new Set(['log.qual-fail', 'log.defense-fail', 'log.scholarship-review-failed', 'log.promotion-failed', 'log.contract-ended', 'log.laid-off', 'log.startup-closed', 'log.end-dropout', 'log.end-residence', 'log.end-financial', 'log.end-exit-master']);
+const GOOD = new Set(['log.paper-accepted', 'log.qual-pass', 'log.defense-pass', 'log.degree', 'log.hired', 'log.promotion', 'log.end-degree']);
+const BAD = new Set(['log.paper-rejected', 'log.qual-fail', 'log.defense-fail', 'log.scholarship-review-failed', 'log.promotion-failed', 'log.contract-ended', 'log.laid-off', 'log.startup-closed', 'log.end-dropout', 'log.end-residence', 'log.end-financial', 'log.end-exit-master']);
 
 /** 연구노트 한 줄의 종류(피드의 색·표지). 모르는 키는 plain. */
 export function noteKind(textKey: string): NoteKind {
