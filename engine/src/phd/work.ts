@@ -130,14 +130,29 @@ export function applyWorkInput(s: LifeState, input: MonthInput): LifeState {
   return { ...s, phd: out };
 }
 
-/** 자동 정책(0014 #129): 현금이 음수면 근로를 시작하고(강의 자격이면 강의 3시수), 현금이 생활비 3개월치 이상이면 그만둔다. */
+/** 지난달 정산의 대출 원장 종류(§5.4, 0014 #132). `money.ts` 가 이 파일을 import 하므로 순환을 피해 여기에 둔다. */
+const LOAN_KINDS: readonly string[] = ['loan', 'tuition-loan', 'living-loan'];
+
+/**
+ * 지난달 정산에 부족분이 있었는가(§5.4의 대출 전 현금 < 0). 한도가 남았으면 지난달 대출 항목(학자금·일반)으로,
+ * 한도가 다 찼으면 음수로 남은 현금으로 나타난다(결정 기록 0025).
+ */
+function shortLastMonth(s: LifeState): boolean {
+  return s.money.cash < 0 || s.ledger.some(e => e.month === s.month - 1 && LOAN_KINDS.includes(e.kind) && e.amount > 0);
+}
+
+/**
+ * 자동 정책(0014 #129, 선택권 §4.7): 지난달 정산에서 부족분이 있었고(대출 전 현금 < 0: 그달 학자금대출·일반 대출을 받았거나,
+ * 한도가 다 차 현금이 음수로 남았다) 근로하지 않으면 근로를 시작하고(강의 자격이면 강의 3시수, 아니면 아르바이트 min(상한, 15)시간),
+ * 현금이 생활비 3개월치 이상이면 그만둔다. 2026-10-15 결정 기록 0025: 정산 뒤 현금은 대출로 0이 되어 옛 조건 "현금 < 0"은 한도 도달 뒤에만 켜졌다.
+ */
 export function autoPartTime(s: LifeState, participation = participationOf(s)): PartTime | undefined {
   const phd = phdOf(s);
   const A = ASSUMED.AUTO_PART_TIME;
   if (phd.leave.active) return phd.partTime;
   const living = (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(s.choices.school) ? ASSUMED.LIVING_COST.capital : ASSUMED.LIVING_COST.regional;
   if (s.money.cash >= living * A.stopCashMonths) return undefined;
-  if (phd.partTime || s.money.cash >= 0) return phd.partTime;
+  if (phd.partTime || !shortLastMonth(s)) return phd.partTime;
   const cap = partTimeCap(s, participation);
   if (lectureEligible(s) && A.lectureHours * ASSUMED.PHD_LECTURE.timeMult <= cap) return { kind: 'lecture', hours: A.lectureHours };
   const hours = Math.min(cap, A.jobHours);

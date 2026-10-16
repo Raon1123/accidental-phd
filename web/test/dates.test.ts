@@ -1,6 +1,6 @@
 // 월 표기(#129): 달력 연월과 경과 기간, 삶의 정리.
 import { describe, expect, it } from 'vitest';
-import { createLife, newSeed } from '../../engine/src/browser';
+import { createLife, newSeed, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import { calendarLabel, elapsedLabel } from '../src/dates';
 import { ko } from '../src/strings.ko';
@@ -44,6 +44,14 @@ describe('life summary (#129)', () => {
     expect(v.items.map(i => i.when)).toContain('2029년 9월');   // 30개월째 자격시험 합격
     expect(v.items.length).toBeGreaterThanOrEqual(2);
   });
+  it('each summary line carries the icon of its record (#151)', () => {
+    const s = createLife({ track: 'computer', auto: true }, newSeed('summary-icons'), data);
+    const log = [...s.log, { month: 30, textKey: 'log.qual-pass', tags: [], creative: false }, { month: 70, textKey: 'log.degree', tags: [], creative: false }];
+    const v = lifeSummary({ ...s, log, stage: 'end' as const, end: { reason: 'degree' as const, month: 70 } }, ko);
+    expect(v.items.find(i => i.when === '2029년 9월')?.icon).toBe('star');
+    expect(v.items.find(i => i.when === '2033년 1월')?.icon).toBe('degree');
+    expect(v.items.every(i => i.icon !== undefined)).toBe(true);
+  });
 });
 
 describe('glance status line (#132)', () => {
@@ -51,5 +59,16 @@ describe('glance status line (#132)', () => {
     const s = createLife({ track: 'computer' }, newSeed('glance'), data);
     const row = glanceRows(s, ko, data).find(r => r[0] === ko.stage)!;
     expect(row[1]).toBe(statusLine(s, ko));
+  });
+
+  it('shows statusLine as the stage row in the career stage too', () => {
+    const base = createLife({ track: 'computer' }, newSeed('glance-career'), data);
+    const s: LifeState = {
+      ...base, stage: 'career', month: 100,
+      career: { degreeMonth: 90, degree: 'phd', route: 'industry', employer: { kind: 'company' }, annualPay: 0, yearsInRoute: 1, workYears: 1, academicMonths: 0, paperScore: 0, careerPapers: 0 },
+    };
+    const row = glanceRows(s, ko, data).find(r => r[0] === ko.stage)!;
+    expect(row[1]).toBe(statusLine(s, ko));
+    expect(row[1]).toContain('기업');
   });
 });

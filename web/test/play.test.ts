@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, type Paper } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { BASE_MS, SPEEDS, fundingStatus, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
+import { BASE_MS, SPEEDS, fundingStatus, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteKind, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
 import { participationReason, paperView, statBars, summaryRows, venueLabel, workView } from '../src/view';
 
@@ -434,5 +434,12 @@ describe('funding status with a self-route TA post (#163)', () => {
       }
     }
     expect(seen).toBe(true);
+  });
+});
+
+describe('note kinds (#84)', () => {
+  it('shows a layoff record as a bad event like a contract end', () => {
+    expect(noteKind('log.laid-off')).toBe('bad');
+    expect(noteKind('log.contract-ended')).toBe('bad');
   });
 });

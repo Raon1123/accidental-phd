@@ -58,7 +58,7 @@ const EMPLOY_WINDOW_MONTHS = MONTHS;           // 졸업 후 1년
 export interface LifeRecord {
   i: number; seed: string; group: Group; kedi: Kedi; ksced: Ksced; track: string; capital: boolean; entryAge: number;
   funding0: FundingRoute;                       // 처음 자금 경로(운 반영 뒤)
-  ta0: boolean;                                 // 입학 때 조교 추첨에 걸린 자비 삶(0014#137): route self 이고 monthly > 0
+  ta0: boolean;                                 // 입학 때 조교 추첨에 걸린 자비 삶(0014#137): 조교 술어 dutyHours > 0(0014#140)
   stipend0: number; waiver0: number; family0: number;   // 입학 때 월 장려금, 등록금 감면율, 월 가족 지원
   workMonths: number;                           // 휴학이 아닌 박사과정 달 중 근로 설정(partTime)이 있는 달 수
   leaveStarts: { hazard: number; burnout: number; voluntary: number };   // 휴학 시작 횟수(이유별)
@@ -81,7 +81,7 @@ export interface LifeRecord {
 const rec0 = (i: number, s: LifeState): LifeRecord => ({
   i, seed: s.seed, group: s.choices.group, kedi: s.choices.kedi, ksced: s.choices.ksced, track: s.choices.track,
   capital: (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(s.choices.school), entryAge: Math.floor(s.ageMonths / MONTHS),
-  funding0: s.phd!.fundingState.route, ta0: s.phd!.fundingState.route === 'self' && s.phd!.fundingState.monthly > 0,
+  funding0: s.phd!.fundingState.route, ta0: s.phd!.fundingState.dutyHours > 0,
   stipend0: s.phd!.fundingState.monthly, waiver0: s.phd!.fundingState.tuitionWaiver, family0: s.phd!.familySupport, workMonths: 0,
   leaveStarts: { hazard: 0, burnout: 0, voluntary: 0 }, qualFailEnd: false, submitted: 0, accepted: 0, outcome: 'capped', phdMonths: 0, leaveMonths: 0, leaveHit: 0, peakDebt: 0, ledgerPhd: {}, netMonthly: 0,
   demandSum: DEMAND_ROUTES.map(() => 0), demandN: 0, shadowMismatch: 0, mSum: 0, mN: 0, careerMonths: 0,

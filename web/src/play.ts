@@ -138,10 +138,10 @@ export function noteText(e: LogEntry, t: Strings, s?: LifeState): string {
  * 서사 장면(#57): 결정 기록 아래에 고른 선택지의 결과 문장을, 채용·학위·종료 같은 기록 아래에 장면을 창작 줄로 붙인다.
  */
 export type NoteKind = 'good' | 'bad' | 'news' | 'decision' | 'leave' | 'start' | 'end' | 'scene' | 'plain';
-export interface Note { month: number; text: string; creative: boolean; scene?: true; kind: NoteKind }
+export interface Note { month: number; key: string; text: string; creative: boolean; scene?: true; kind: NoteKind }
 
 const GOOD = new Set(['log.qual-pass', 'log.defense-pass', 'log.degree', 'log.hired', 'log.promotion', 'log.end-degree']);
-const BAD = new Set(['log.qual-fail', 'log.defense-fail', 'log.scholarship-review-failed', 'log.promotion-failed', 'log.contract-ended', 'log.startup-closed', 'log.end-dropout', 'log.end-residence', 'log.end-financial', 'log.end-exit-master']);
+const BAD = new Set(['log.qual-fail', 'log.defense-fail', 'log.scholarship-review-failed', 'log.promotion-failed', 'log.contract-ended', 'log.laid-off', 'log.startup-closed', 'log.end-dropout', 'log.end-residence', 'log.end-financial', 'log.end-exit-master']);
 
 /** 연구노트 한 줄의 종류(피드의 색·표지). 모르는 키는 plain. */
 export function noteKind(textKey: string): NoteKind {
@@ -157,9 +157,9 @@ export function noteKind(textKey: string): NoteKind {
 export function notes(s: LifeState, t: Strings): Note[] {
   const groups = s.log.map((e, i): Note[] => {
     if (e.textKey === 'log.month') return [];
-    const out: Note[] = [{ month: e.month, text: noteText(e, t, s), creative: e.creative, kind: noteKind(e.textKey) }];
+    const out: Note[] = [{ month: e.month, key: e.textKey, text: noteText(e, t, s), creative: e.creative, kind: noteKind(e.textKey) }];
     const extra = e.textKey.startsWith('decision.') ? decisionResult(s.choices.group, e.textKey) : logScene(s, e, i)?.text;
-    if (extra) out.push({ month: e.month, text: extra, creative: true, scene: true, kind: 'scene' });
+    if (extra) out.push({ month: e.month, key: e.textKey, text: extra, creative: true, scene: true, kind: 'scene' });
     return out;
   });
   return groups.reverse().flat();
