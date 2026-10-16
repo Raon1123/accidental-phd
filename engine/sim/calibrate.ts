@@ -14,7 +14,8 @@
 //  - 학위 후 1년 안 취업 = 첫 'log.hired' 의 달 ≤ 졸업 달 + 12 (졸업 전 구직 채용 포함, 임시직 bridge 포함). 석사 수료 이탈자는 분모에서 뺀다.
 //  - 수요 계수 = 경력 단계의 매 달 demand(state, route) 평균. advanceYear 는 연말 상태만 돌려주므로, 같은 newsSeed 로 updateNews 를 달마다 다시 돌리는
 //    그림자 상태에서 표본을 뽑는다(뉴스는 newsSeed 와 달에만 의존한다). 연말에 그림자 뉴스와 실제 뉴스가 다르면 shadowMismatch 로 센다.
-//  - M̄ 실현값 = 휴학이 아니고 project < 100 인 박사과정 달마다 progressGain(g = 1) × 성장 배수(#79) 를 틱과 같은 입력(월+1, 정책 포커스, 수업 기간)으로 다시 계산한 값의 평균.
+//  - M̄ 실현값 = project < 100 인 박사과정 달마다 progressGain(g = 1) × 성장 배수(#79) 를 틱과 같은 입력(월+1, 정책 포커스, 수업 기간)으로 다시 계산한 값의 평균.
+//    휴학 달은 진척이 멈추므로 배수 0으로 센다(결정 기록 0028: 공식의 12·T − 6 은 휴학 달을 포함한 달력 개월). 옛 정의(휴학 달 제외, 2026-10-16 이전)도 함께 남긴다.
 //
 // --override 는 가져온 ASSUMED 객체에 Object.assign 하는 sim 전용 편법이다(런타임에는 동결되지 않은 보통 객체). 얕은 덮어쓰기이고, 실행이 끝나면 되돌린다.
 // 모듈 안에서 import 시점에 값을 굳히는 상수(career/tick.ts 의 FIVE_YEARS_MONTHS 등, phd/papers.ts 의 FIRST_TIER, decide.ts 의 CAREER_5Y_STAY_MIND)는 덮어써도 닿지 않는다.
@@ -74,7 +75,8 @@ export interface LifeRecord {
   firstHireMonth?: number; firstHireRoute?: string; firstProfMonth?: number;
   demandSum: number[]; demandN: number;         // DEMAND_ROUTES 순서, 경력 달 수
   shadowMismatch: number;
-  mSum: number; mN: number;                     // 실현 M 합과 달 수
+  mSum: number; mN: number;                     // 실현 M 합과 달 수(휴학 달 포함, 0으로 셈)
+  mLeaveN: number;                              // mN 중 휴학 달 수(옛 정의 = mSum ÷ (mN − mLeaveN))
   careerMonths: number;
 }
 
@@ -84,13 +86,14 @@ const rec0 = (i: number, s: LifeState): LifeRecord => ({
   funding0: s.phd!.fundingState.route, ta0: s.phd!.fundingState.dutyHours > 0,
   stipend0: s.phd!.fundingState.monthly, waiver0: s.phd!.fundingState.tuitionWaiver, family0: s.phd!.familySupport, workMonths: 0,
   leaveStarts: { hazard: 0, burnout: 0, voluntary: 0 }, qualFailEnd: false, submitted: 0, accepted: 0, outcome: 'capped', phdMonths: 0, leaveMonths: 0, leaveHit: 0, peakDebt: 0, ledgerPhd: {}, netMonthly: 0,
-  demandSum: DEMAND_ROUTES.map(() => 0), demandN: 0, shadowMismatch: 0, mSum: 0, mN: 0, careerMonths: 0,
+  demandSum: DEMAND_ROUTES.map(() => 0), demandN: 0, shadowMismatch: 0, mSum: 0, mN: 0, mLeaveN: 0, careerMonths: 0,
 });
 
-/** 이번 틱(month = state.month + 1)의 g 외 배수 M = progressGain(g = 1). 틱 1·4단계와 같은 입력을 재현한다(휴학 중이면 null). */
+/** 이번 틱(month = state.month + 1)의 g 외 배수 M = progressGain(g = 1). 틱 1·4단계와 같은 입력을 재현한다(project ≥ 100 이면 null, 휴학 중이면 0 — 결정 기록 0028). */
 function realizedM(state: LifeState, data: DataBundle): number | null {
   const phd = state.phd!;
-  if (phd.leave.active || phd.project >= ASSUMED.PROJECT_MAX) return null;
+  if (phd.project >= ASSUMED.PROJECT_MAX) return null;
+  if (phd.leave.active) return 0;   // 진척은 휴학 달에 멈춘다(progress.ts applyProgress)
   const month = state.month + 1;
   const coursework = phd.enrolledMonths + 1 < ASSUMED.COURSEWORK_MONTHS;
   const next: LifeState = { ...state, month, phd: { ...phd, coursework } };
@@ -119,7 +122,7 @@ export function simulateLife(i: number, data: DataBundle, group?: Group): LifeRe
   // ── 박사과정: 월 틱 ──
   while (s.stage === 'phd' && s.month < CAP_MONTH) {
     const m = realizedM(s, data);
-    if (m !== null) { r.mSum += m; r.mN += 1; }
+    if (m !== null) { r.mSum += m; r.mN += 1; if (s.phd!.leave.active) r.mLeaveN += 1; }
     s = advanceMonth(s, data);
     const phd = s.phd!, t = s.month;
     leaveFlags.push(phd.leave.active);
@@ -256,7 +259,8 @@ export interface Diagnostics {
   noPaperShare: { all: number | null; longLived: number | null; nAll: number; nLong: number };
   milestones: { qualShare: number | null; qualMedian: number | null; project90Median: number | null; pathDecisionMedian: number | null; degreeMedian: number | null; firstSubmitMedian: number | null; degreeShare: number | null };
   hire: { medMonthsAfterDegree: number | null; nonBridgeShare: number | null; hiredShare: number | null; nGrads: number };
-  mbar: { byKedi: Record<string, { mean: number | null; n: number; impliedG: number | null; gNow: number }>; pooled: number | null; gMbarInit: number };
+  /** mean·pooled = 휴학 달을 0으로 넣은 정의(0028), meanActive·pooledActive = 휴학 달을 뺀 옛 정의, leaveShare = 분모 중 휴학 달 비율. */
+  mbar: { byKedi: Record<string, { mean: number | null; meanActive: number | null; leaveShare: number | null; n: number; impliedG: number | null; gNow: number }>; pooled: number | null; pooledActive: number | null; leaveShare: number | null; gMbarInit: number };
   causes: {
     leaveStartsPerYear: Record<string, { hazard: number; burnout: number; voluntary: number; windowRate: number | null; prevalence: number | null; personYears: number }>;
     dropoutPerYear: Record<string, { background: number; qualFail: number; residence: number; financial: number; exitMaster: number; personYears: number }>;
@@ -317,11 +321,14 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
     const rs = records.filter(r => r.kedi === k);
     const n = rs.reduce((a, r) => a + r.mN, 0);
     const m = n > 0 ? rs.reduce((a, r) => a + r.mSum, 0) / n : null;
+    const nLeave = rs.reduce((a, r) => a + r.mLeaveN, 0);
+    const mActive = n - nLeave > 0 ? rs.reduce((a, r) => a + r.mSum, 0) / (n - nLeave) : null;
     const T = durationYears(data, k).value;
-    mbarBy[k] = { mean: m, n, impliedG: m ? ASSUMED.PROJECT_MAX / ((MONTHS * T - ASSUMED.G_PREP_MONTHS) * m) : null,
+    mbarBy[k] = { mean: m, meanActive: mActive, leaveShare: share(nLeave, n), n, impliedG: m ? ASSUMED.PROJECT_MAX / ((MONTHS * T - ASSUMED.G_PREP_MONTHS) * m) : null,
       gNow: ASSUMED.PROJECT_MAX / ((MONTHS * T - ASSUMED.G_PREP_MONTHS) * ASSUMED.G_MBAR_INIT) };
   }
-  const nAll = records.reduce((a, r) => a + r.mN, 0);
+  const nAll = records.reduce((a, r) => a + r.mN, 0), nLeaveAll = records.reduce((a, r) => a + r.mLeaveN, 0);
+  const mSumAll = records.reduce((a, r) => a + r.mSum, 0);
 
   const causes: Diagnostics['causes'] = { leaveStartsPerYear: {}, dropoutPerYear: {}, gradMilestones: {} as never, firstHireRoutes: {}, income0: {}, papers: {} as never, employmentVariants: {}, financialByFunding: {} };
   const familyLevels = ASSUMED.FAMILY_SUPPORT.map(fs => fs.monthly);
@@ -409,7 +416,7 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
     },
     hire: { medMonthsAfterDegree: median(hireDelay), nonBridgeShare: share(hiredGrads.filter(r => r.firstHireRoute !== 'bridge').length, hiredGrads.length),
       hiredShare: share(hiredGrads.length, grads.length), nGrads: grads.length },
-    mbar: { byKedi: mbarBy, pooled: nAll > 0 ? records.reduce((a, r) => a + r.mSum, 0) / nAll : null, gMbarInit: ASSUMED.G_MBAR_INIT },
+    mbar: { byKedi: mbarBy, pooled: nAll > 0 ? mSumAll / nAll : null, pooledActive: nAll - nLeaveAll > 0 ? mSumAll / (nAll - nLeaveAll) : null, leaveShare: share(nLeaveAll, nAll), gMbarInit: ASSUMED.G_MBAR_INIT },
     causes, shadowMismatch: records.reduce((a, r) => a + r.shadowMismatch, 0), nLives: records.length,
   };
 }
@@ -602,9 +609,9 @@ export function renderDiagnostics(d: Diagnostics, data: DataBundle): string {
   for (const [f, v] of Object.entries(c.income0)) L.push(`| ${f} | ${v.n} | ${man(v.stipend)} (${man(v.stipendMin)}–${man(v.stipendMax)}) | ${man(v.family)} | ${pct(v.waiver)} | ${man(v.livingCapital)} / ${man(v.livingRegional)} |`);
   L.push('', '### M̄ 실현값 (0014 #45, 선택권 §4.2)', '',
     `현재 \`ASSUMED.G_MBAR_INIT\` = ${d.mbar.gMbarInit}. 계획 문서가 \`PROGRESS_MBAR\` 라고 적은 상수는 코드에서 \`G_MBAR_INIT\` 다. \`G_INIT\`(계열별 g 표)은 소스 어디에서도 읽지 않는다(\`gK\` 가 레코드와 \`G_MBAR_INIT\` 에서 계산한다).`, '',
-    '| 계열 | 실현 M̄ (휴학이 아니고 project < 100 인 달) | 달 수 | 현재 g | 실현 M̄ 를 쓴 g |', '|---|---|---|---|---|');
-  for (const k of KEDIS) { const v = d.mbar.byKedi[k]!; L.push(`| ${k} | ${f2(v.mean, 3)} | ${v.n} | ${f2(v.gNow, 3)} | ${f2(v.impliedG, 3)} |`); }
-  L.push(`| 전체 | ${f2(d.mbar.pooled, 3)} | | | |`, '', `그림자 뉴스와 실제 뉴스가 연말에 어긋난 횟수: ${d.shadowMismatch} (삶 ${d.nLives}).`);
+    '| 계열 | 실현 M̄ (project < 100 인 달, 휴학 달은 0) | 달 수 | 그중 휴학 달 | 옛 정의 실현 M̄ (휴학 달 제외) | 현재 g | 실현 M̄ 를 쓴 g |', '|---|---|---|---|---|---|---|');
+  for (const k of KEDIS) { const v = d.mbar.byKedi[k]!; L.push(`| ${k} | ${f2(v.mean, 3)} | ${v.n} | ${pct(v.leaveShare)} | ${f2(v.meanActive, 3)} | ${f2(v.gNow, 3)} | ${f2(v.impliedG, 3)} |`); }
+  L.push(`| 전체 | ${f2(d.mbar.pooled, 3)} | | ${pct(d.mbar.leaveShare)} | ${f2(d.mbar.pooledActive, 3)} | | |`, '', `그림자 뉴스와 실제 뉴스가 연말에 어긋난 횟수: ${d.shadowMismatch} (삶 ${d.nLives}).`);
   void data;
   return L.join('\n');
 }
@@ -717,7 +724,7 @@ export function renderMbar(res: { realized: number | null; runs: MbarRun[] }, da
   const T = KEDIS.map(k => durationYears(data, k).value);
   const tol = ASSUMED.CALIBRATION_TOL.degreeYears + 1e-12;
   const L: string[] = ['## 5. M̄ 추정 (finance-neutral 맥락, g_k = 100 / ((12·T_k − 6) × M̄))', '',
-    `실현 M̄(휴학이 아니고 project < 100 인 달의 g 외 배수 평균, 기본 \`G_MBAR_INIT\` = ${ASSUMED.G_MBAR_INIT} 로 돌린 N=${seeds}): ${f2(res.realized, 3)}. 이 값을 쓰면 g 가 현재보다 커진다. 아래는 같은 seed 로 \`G_MBAR_INIT\` 만 바꿔 돌린 학위 기간 중앙값이다(작은 M̄ = 큰 g). T_k = ${KEDIS.map((k, i) => `${k} ${T[i]}`).join(', ')}.`, '',
+    `실현 M̄(project < 100 인 달의 g 외 배수 평균, 휴학 달은 0, 기본 \`G_MBAR_INIT\` = ${ASSUMED.G_MBAR_INIT} 로 돌린 N=${seeds}): ${f2(res.realized, 3)}. 이 값을 쓰면 g 가 현재보다 커진다. 아래는 같은 seed 로 \`G_MBAR_INIT\` 만 바꿔 돌린 학위 기간 중앙값이다(작은 M̄ = 큰 g). T_k = ${KEDIS.map((k, i) => `${k} ${T[i]}`).join(', ')}.`, '',
     '| G_MBAR_INIT | 비고 | 학위 기간(인/사/자/공, 년) | 계열별 통과(±0.5) | 졸업 | 재학연한 | 진척 ≥ 90 개월 | 채택 논문 요건 개월 | 졸업 개월(중앙값) |', '|---|---|---|---|---|---|---|---|---|'];
   for (const r of res.runs) {
     const pass = r.degreeYears.map((v, i) => (v !== null && Math.abs(v - T[i]!) <= tol ? '통과' : '실패')).join('/');
