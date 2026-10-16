@@ -245,3 +245,29 @@ describe('status bar and alert bar (#153)', () => {
     expect(inner.indexOf('recent = latestEvent')).toBeLessThan(inner.indexOf('renderAlertBar('));
   });
 });
+
+describe('money card fold and tables (#153)', () => {
+  it('the card body is a details.fold whose open state continues from the previous draw', () => {
+    const body = fnBody(main, 'renderMoneyCard');
+    expect(body).toMatch(/host\.querySelector<HTMLDetailsElement>\('details\.fold'\)/);
+    expect(body).toMatch(/moneyFoldOpen\(prevFold\?\.open, window\.matchMedia\('\(min-width: 64rem\)'\)\.matches\)/);
+    expect(body).toMatch(/moneySummary\(life, t\)/);
+    expect(body).toMatch(/dataset\.k = 'money-fold'/);
+    expect(main).not.toMatch(/addEventListener\('toggle'/);
+  });
+  it('the portrait stays above the fold, so it is not folded away on wide screens', () => {
+    const body = fnBody(main, 'renderMoneyCard');
+    expect(body.indexOf('portraitEl(')).toBeLessThan(body.indexOf("el('details')"));
+  });
+  it('focus on the summary survives a redraw: the restore also looks inside aside[id]', () => {
+    expect(main).toMatch(/closest\('section\[id\], aside\[id\]'\)/);
+  });
+  it('wide tables scroll inside their own labelled, keyboard-reachable box instead of widening the page', () => {
+    const body = fnBody(main, 'scrollBox');
+    expect(body).toMatch(/role', 'region'/);
+    expect(body).toMatch(/aria-label', label/);
+    expect(body).toMatch(/tabIndex = 0/);
+    expect(main.match(/scrollBox\(/g)!.length).toBeGreaterThanOrEqual(4);   // 정의 + 월별 계산서·동기·분기 비교
+    expect(ruleBody(css, '.table-scroll')).toMatch(/overflow-x:\s*auto/);
+  });
+});
