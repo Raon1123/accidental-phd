@@ -1,7 +1,15 @@
 // 화면 문자열(한국어). 코드에 문장을 직접 쓰지 않는다(결정 기록 0001). 다른 언어는 같은 키로 파일을 더한다.
 export const ko = {
   dates: { calendar: '{y}년 {m}월', elapsedYM: '{y}년 {m}개월', elapsedY: '{y}년', elapsedM: '{m}개월' },
-  art: { label: '그림', full: '모두', lite: '간단히', off: '끄기' },
+  art: {
+    label: '그림', full: '모두', lite: '간단히', off: '끄기',
+    // 장면 그림의 설명(role="img" 의 aria-label). 실제 기관을 가리키지 않는다.
+    scene: {
+      phd: '밤의 연구실 그림. 창밖에 달이 떠 있고 인물이 모니터 앞에 앉아 있다.',
+      career: '낮의 연구 기관 건물 앞 그림. 인물이 가방을 들고 서 있다.',
+      retire: '노을 지는 공원 그림. 인물이 벤치에 앉아 있다.',
+    },
+  },
   title: '어쩌다 박사: 한국 연구자의 일생',
   skipToMain: '본문 건너뛰기',
   loading: '데이터를 읽는 중입니다.',
