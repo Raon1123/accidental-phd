@@ -705,7 +705,8 @@ function render(): void {
   } else if (focusKey !== undefined && focusIn) {
     const same = document.querySelector<HTMLElement>(`#${focusIn} [data-k="${CSS.escape(focusKey)}"]`);
     if (same && !(same as HTMLButtonElement).disabled) same.focus();
-    else (document.querySelector<HTMLElement>(`#${focusIn} [data-k="run"]`) ?? document.querySelector<HTMLElement>(`#${focusIn} h2`))?.focus();
+    // 큰 사건 장면이 다음 진행으로 접히면(#154) 그 안의 닫기 단추가 사라지므로 연구노트 제목으로 옮긴다
+    else (document.querySelector<HTMLElement>(`#${focusIn} [data-k="run"]`) ?? document.querySelector<HTMLElement>(`#${focusIn} h2`) ?? document.querySelector<HTMLElement>('#feed h2'))?.focus();
   }
   lastPending = pendingKey;
 }

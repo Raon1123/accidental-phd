@@ -362,6 +362,9 @@ describe('big event scene on screen (#154)', () => {
     const body = fnBody(main, 'renderBigScene');
     expect(body).toMatch(/bigScene = undefined; render\(\); document\.querySelector<HTMLElement>\('#feed h2'\)\?\.focus\(\)/);
   });
+  it('when the next step folds the scene while its close button has focus, focus goes to the research notes heading (#154 review)', () => {
+    expect(fnBody(main, 'render')).toMatch(/\?\? document\.querySelector<HTMLElement>\('#feed h2'\)\)\?\.focus\(\)/);
+  });
   it('the entrance effect is asked for only when a different scene is drawn for the first time', () => {
     const body = fnBody(main, 'renderBigScene');
     expect(body).toMatch(/classList\.toggle\('fresh', v\.id !== bigShown\)/);
