@@ -185,6 +185,18 @@ describe('resolveVerdicts (선택권 §6.4, §3.2)', () => {
       expect(p.dueMonth! - 13).toBeGreaterThanOrEqual(lo); expect(p.dueMonth! - 13).toBeLessThanOrEqual(hi + dhi);
     }
   });
+  it('#185: every verdict leaves one log line (first verdict too); the automatic resubmission after a rejection leaves none', () => {
+    const line = (s: LifeState) => s.log.filter(l => l.textKey.startsWith('log.paper-'));
+    for (const [cut, verdict] of [[(u: number) => u < 0.01, 'accepted'], [(u: number) => classifyVerdict(u, 0.25) === 'revision', 'revision'], [(u: number) => u >= 0.99, 'rejected']] as const) {
+      const id = idWith(cut);
+      for (const base of [fixture(STEM, 12, [submitted(id, 12)]), nonFirst(id, 'T1')]) {
+        const p = base.phd!.papers.find(x => x.id === id)!;
+        const { state } = resolveVerdicts(base, data);
+        expect(line(state)).toEqual([{ month: 12, textKey: `log.paper-${verdict}`, tags: [id, p.tier ?? '', p.venueId ?? '', String(p.attempts)], creative: false }]);
+        expect(state.log.slice(0, base.log.length)).toEqual(base.log);
+      }
+    }
+  });
   it('lowerTier', () => {
     expect([lowerTier('T1'), lowerTier('T2'), lowerTier('T3'), lowerTier('T4')]).toEqual(['T2', 'T3', 'T4', 'T4']);
   });

@@ -300,6 +300,9 @@ export const ko = {
   texts: {
     'life.start': '박사과정에 입학했습니다.',
     'leave.start': '휴학을 시작했습니다.',
+    'log.paper-accepted': '논문이 채택되었습니다.',
+    'log.paper-revision': '논문에 수정 요구가 왔습니다.',
+    'log.paper-rejected': '논문이 거절되었습니다.',
     'log.month': '한 달이 지났습니다.',
     'log.career-year': '경력 한 해가 지났습니다.',
     'log.qual-pass': '자격시험에 합격했습니다.',
