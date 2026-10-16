@@ -162,6 +162,47 @@ describe('auto policy (#79)', () => {
     expect(autoPartTime({ ...working, money: { ...working.money, cash: 100_000_000 } })).toBeUndefined();
   });
 
+  // 결정 기록 0025: 시작 조건은 "지난달 정산에 부족분"(대출 전 현금 < 0) — 지난달 대출 항목이 있거나 현금이 음수로 남음.
+  it('starts work when last month settled a shortfall with a loan (decision 0025)', () => {
+    const s = base({ month: 5, cash: 0 });
+    for (const kind of ['living-loan', 'loan', 'tuition-loan']) {
+      expect(autoPartTime({ ...s, ledger: [{ month: 4, kind, amount: 500_000 }] })).toEqual({ kind: 'job', hours: ASSUMED.AUTO_PART_TIME.jobHours });
+    }
+    const lecturer = base({ month: 5, cash: 0, qualified: true, papers: [ACCEPTED] });
+    expect(autoPartTime({ ...lecturer, ledger: [{ month: 4, kind: 'loan', amount: 500_000 }] })).toEqual({ kind: 'lecture', hours: ASSUMED.AUTO_PART_TIME.lectureHours });
+  });
+
+  it('ignores loans older than last month, interest entries and zero amounts', () => {
+    const s = base({ month: 5, cash: 0 });
+    expect(autoPartTime({ ...s, ledger: [{ month: 3, kind: 'loan', amount: 500_000 }] })).toBeUndefined();
+    expect(autoPartTime({ ...s, ledger: [{ month: 4, kind: 'interest', amount: -10_000 }, { month: 4, kind: 'living-loan-interest', amount: -2_000 }] })).toBeUndefined();
+    expect(autoPartTime({ ...s, ledger: [{ month: 4, kind: 'loan', amount: 0 }] })).toBeUndefined();
+  });
+
+  it('keeps current work without a new shortfall, and the stop rule wins over a last-month loan', () => {
+    const working = applyWorkInput(base({ month: 5 }), { partTime: { kind: 'job', hours: 10 } });
+    expect(autoPartTime({ ...working, money: { ...working.money, cash: 0 } })).toEqual({ kind: 'job', hours: 10 });
+    const loan = [{ month: 4, kind: 'loan', amount: 500_000 }];
+    expect(autoPartTime({ ...working, ledger: loan, money: { ...working.money, cash: 100_000_000 } })).toBeUndefined();
+    const idle = base({ month: 5 });
+    expect(autoPartTime({ ...idle, ledger: loan, money: { ...idle.money, cash: 100_000_000 } })).toBeUndefined();
+  });
+
+  it('an auto life with zero cash starts work the month after its first loan, not at the credit limit', () => {
+    let s = base({ auto: true, cash: 0 });
+    const firstWork: number[] = [];
+    for (let i = 0; i < 6 && s.stage === 'phd'; i++) {
+      s = advanceMonth(s, data);
+      if (s.phd!.partTime) firstWork.push(s.month);
+    }
+    const loanMonths = s.ledger.filter(e => ['loan', 'tuition-loan', 'living-loan'].includes(e.kind) && e.amount > 0).map(e => e.month);
+    expect(loanMonths.length).toBeGreaterThan(0);
+    const firstLoan = Math.min(...loanMonths);
+    expect(firstWork[0]).toBe(firstLoan + 1);
+    expect(s.ledger.some(e => e.month === firstLoan + 1 && (e.kind === 'part-time' || e.kind === 'lecture'))).toBe(true);
+    expect(s.money.debt).toBeLessThan(s.money.loanLimit);
+  });
+
   it('an auto life with a cash shortfall picks up part-time work', () => {
     let s = { ...base({ auto: true, cash: -1 }) };
     s = advanceMonth(s, data);
@@ -171,7 +212,7 @@ describe('auto policy (#79)', () => {
 });
 
 describe('self-funded TA life (0014#137, decision 0022): existing work rules unchanged', () => {
-  const ta = taFundingState(data, 'snu', 'self');
+  const ta = taFundingState(data, 'snu');
   it('cap = 40 − 10 duty = 30; auto policy still starts the 15-hour job when cash < 0', () => {
     expect(partTimeCap(base({ funding: ta }))).toBe(30);
     expect(autoPartTime(base({ funding: ta, cash: -1 }))).toEqual({ kind: 'job', hours: ASSUMED.AUTO_PART_TIME.jobHours });
@@ -182,5 +223,32 @@ describe('self-funded TA life (0014#137, decision 0022): existing work rules unc
     expect(growthMultiplier({ ...withTa, phd: { ...withTa.phd!, partTime: job } })).toBe(growthMultiplier({ ...without, phd: { ...without.phd!, partTime: job } }));
     const course = withTa.phd!.coursework ? ASSUMED.COURSEWORK_HOURS : 0;
     expect(researchTime(withTa)).toBeCloseTo((44 - 10 - course) / 44, 10);
+  });
+});
+
+describe('TA state reached through funding-expiry B equals the entry TA state under the work rules (0014#140, decision 0026)', () => {
+  const ta = taFundingState(data, 'snu');
+  const entry = base({ month: 25, funding: ta });
+  // B 는 fundingState 만 taFundingState 로 바꾼다(decide.test). 과제 삶의 참여율 값은 남아도 읽히지 않는다.
+  const fromProject = (r: number): LifeState => { const s = base({ month: 25, funding: PROJECT }); return { ...s, phd: { ...s.phd!, participation: r, fundingState: ta } }; };
+  for (const r of [0.25, 1]) {
+    it(`former project life with r = ${r}: no participation, stipend scale 1, cap 30, same growth multiplier, no draw next month`, () => {
+      const s = fromProject(r);
+      expect(participationOf(s)).toBe(0);
+      expect(stipendScale(s)).toBe(1);
+      expect(partTimeCap(s)).toBe(partTimeCap(entry));
+      expect(partTimeCap(s)).toBe(30);
+      expect(growthMultiplier(s)).toBe(growthMultiplier(entry));
+      const next = drawParticipation({ ...s, month: 26 });
+      expect(next.phd!.participation).toBe(r);
+      const t = advanceMonth(s, data);
+      const stipend = t.ledger.filter(e => e.month === 26 && e.kind === 'stipend').reduce((a, e) => a + e.amount, 0);
+      if (!t.phd?.leave.active) expect(stipend).toBe(ta.monthly);
+    });
+  }
+  it('a self life without participation stays without it after the B state', () => {
+    const s = base({ month: 25, funding: ta });
+    expect(s.phd!.participation).toBeUndefined();
+    expect(drawParticipation({ ...s, month: 26 }).phd!.participation).toBeUndefined();
   });
 });

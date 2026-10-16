@@ -7,6 +7,7 @@ import { decide, describeOptions, extensionProbability, fundingExpired, optionUn
 import { odds, z } from '../src/odds';
 import { advanceMonth } from '../src/index';
 import { checkTriggers } from '../src/phd/triggers';
+import { taFundingState } from '../src/data/funding';
 import { createLife } from '../src/pre/createLife';
 import { draw } from '../src/rng';
 import type { LifeConfig, LifeState, MonthInput, Paper, PhdState, Stats, Tier } from '../src/types';
@@ -305,6 +306,26 @@ describe('end conditions', () => {
       s = advanceMonth(s, data);
       expect(s.stage).toBe('phd'); expect(s.pending).toBeNull(); expect(fundingExpired(s)).toBe(false);
       expect(s.ledger.some(e => e.month === s.month && e.kind === 'stipend' && e.amount > 0)).toBe(true);
+    }
+    s = advanceMonth(s, data);
+    expect(s.decisions).toHaveLength(1);
+    expectNoDegreeCareer(s, 'financial', 6);
+  });
+  // 결정 기록 0026: 조교 상태(경로 self + 의무 10시간, 0014#140)는 살아 있는 자금이라 C 가 유지하고(0014#141), 기한이 없어 다시 열리지 않는다
+  const brokeTa = (seed: string): LifeState => { const s = broke({ auto: false }, seed); return { ...s, phd: { ...s.phd!, fundingState: taFundingState(data, s.choices.school) } }; };
+  const crisisCTa = (seed: string): LifeState => { const s = ticks(brokeTa(seed), 3); return s.pending ? decide(s, data, 2) : s; };
+  it('crisis on a TA state: C keeps the TA income, the prompt does not reopen, and the life still ends as financial (0014#141)', () => {
+    const sd = findSeed('FT', x => ticks(crisisCTa(x), 3).end?.reason === 'financial');
+    let s = ticks(brokeTa(sd), 3);
+    const ta = taFundingState(data, s.choices.school);
+    expect(s.pending).toMatchObject({ dp: 'funding-expiry', month: 3, context: { cause: 'crisis' } });
+    expect(describeOptions(s, data).map(o => o.unavailable)).toEqual(['no-funding', undefined, undefined, undefined]);
+    s = decide(s, data, 2);
+    expect(s.phd!.fundingState).toEqual(ta);
+    for (let i = 0; i < 2; i++) {
+      s = advanceMonth(s, data);
+      expect(s.stage).toBe('phd'); expect(s.pending).toBeNull(); expect(fundingExpired(s)).toBe(false);
+      expect(s.ledger.filter(e => e.month === s.month && e.kind === 'stipend').reduce((a, e) => a + e.amount, 0)).toBe(ta.monthly);
     }
     s = advanceMonth(s, data);
     expect(s.decisions).toHaveLength(1);

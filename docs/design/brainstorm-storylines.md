@@ -229,14 +229,14 @@
 
 | 단계 | 문장 | 태그 | 조건 | 감사 |
 |---|---|---|---|---|
-| 박사과정 | 방학 중에도 평일 종일 조교 근무가 배정되어 있다. | 조교 근무, 방학 | stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 AND month%12 in {4,5,10,11}(방학 달) | 유지 |
-| 박사과정 | 종합시험 접수 마감일 학과 사무실에 혼자 남아 접수 명단을 확인한다. | 조교 근무, 학과 행정 | stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 | 유지 |
-| 박사과정 | 조교 순번제를 건의하러 학과장실 앞까지 갔다가 문을 두드리지 못하고 돌아선다. | 조교 근무, 신입 | stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 AND month<=12 | 수정 |
+| 박사과정 | 방학 중에도 평일 종일 조교 근무가 배정되어 있다. | 조교 근무, 방학 | stage=phd AND phd.fundingState.dutyHours>0 AND month%12 in {4,5,10,11}(방학 달) | 유지 |
+| 박사과정 | 종합시험 접수 마감일 학과 사무실에 혼자 남아 접수 명단을 확인한다. | 조교 근무, 학과 행정 | stage=phd AND phd.fundingState.dutyHours>0 | 유지 |
+| 박사과정 | 조교 순번제를 건의하러 학과장실 앞까지 갔다가 문을 두드리지 못하고 돌아선다. | 조교 근무, 신입 | stage=phd AND phd.fundingState.dutyHours>0 AND month<=12 | 수정 |
 | 박사과정 | 연구비 인건비 지급 명세서에서 세금을 떼고 남은 실수령액을 다시 확인한다. | 과제 참여, 명세서 | stage=phd AND phd.fundingState.route=project AND phd.participation>0 AND month%6==0(학기 경계) | 수정 |
 | 박사과정 | 과제비 증빙 영수증을 품목별로 붙이느라 금요일 저녁 사무실 불이 늦게 꺼진다. | 과제 참여, 증빙 | stage=phd AND phd.fundingState.route=project AND phd.participation>0 | 유지 |
 | 박사과정 | 재료비 잔액으로는 시약이 모자라지만 활동비 항목에서 옮겨 올 수 없다. | 과제 참여, 예산 | stage=phd AND phd.fundingState.route=project AND phd.participation>0 AND choices.group=이공 | 수정 |
-| 박사과정 | 장학금도 과제 인건비도 없어 적금을 깨서 등록금 고지서 금액을 낸다. | 자비, 저축 | stage=phd AND phd.fundingState.route=self AND month%6==0(등록금 달) | 수정 |
-| 박사과정 | 다음 달 생활비를 항목별로 나눈 표를 다시 짜며 식비 칸부터 줄인다. | 자비, 생활비 | stage=phd AND phd.fundingState.route=self AND phd.familySupport=0 | 수정 |
+| 박사과정 | 장학금도 과제 인건비도 없어 적금을 깨서 등록금 고지서 금액을 낸다. | 자비, 저축 | stage=phd AND phd.fundingState.route=self AND phd.fundingState.dutyHours=0 AND month%6==0(등록금 달) | 수정 |
+| 박사과정 | 다음 달 생활비를 항목별로 나눈 표를 다시 짜며 식비 칸부터 줄인다. | 자비, 생활비 | stage=phd AND phd.fundingState.route=self AND phd.fundingState.dutyHours=0 AND phd.familySupport=0 | 수정 |
 | 박사과정 | 과외 시간이 세미나와 겹쳐 학부모에게 요일을 옮겨 달라는 문자를 보낸다. | 아르바이트, 시간표 | stage=phd AND phd.partTime.kind=job | 수정 |
 | 박사과정 | 모의고사 지문을 출제 기준표에 맞춰 쓰고 학원 실장에게 메일로 넘긴다. | 아르바이트, 출제 | stage=phd AND phd.partTime.kind=job | 유지 |
 | 박사과정 | 녹취 파일을 한 줄씩 풀어 적다가 인터뷰 음성이 끊기는 구간을 표시한다. | 아르바이트, 녹취 | stage=phd AND phd.partTime.kind=job | 유지 |
@@ -288,7 +288,7 @@
 | 박사과정 | 가족 카드로 찍은 학회 등록비를 명세서에서 찾아 표시해 둔다. | 가족, 학회 | stage=phd AND phd.familySupport>0 AND ledger에 conference가 있는 달 (재등장 간격 48개월) | 유지 |
 | 박사과정 | 장학금 탈락 안내를 닫고 조교 모집 공고를 다시 열어 본다. | 생계, 조교 | stage=phd AND phd.familySupport=0 AND 그 달 기록 log.scholarship-review-failed (재등장 간격 48개월) | 수정 |
 | 박사과정 | 논문 교정 아르바이트 정산 메일이 밀려 있어 날짜별로 정리한다. | 생계, 아르바이트 | stage=phd AND phd.familySupport=0 AND phd.partTime.kind=job (재등장 간격 48개월) | 수정 |
-| 박사과정 | 관리비 자동이체가 빠져나간 통장 잔고를 보고 조교비 입금일까지 날을 센다. | 생계, 통장 | stage=phd AND phd.familySupport=0 AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 (재등장 간격 48개월) | 수정 |
+| 박사과정 | 관리비 자동이체가 빠져나간 통장 잔고를 보고 조교비 입금일까지 날을 센다. | 생계, 통장 | stage=phd AND phd.familySupport=0 AND phd.fundingState.dutyHours>0 (재등장 간격 48개월) | 수정 |
 | 박사과정 | 휴학 신청서 사본을 고향 집 식탁 서랍에 넣어 두고 방을 치운다. | 휴학, 고향 | stage=phd AND leave.start가 있는 달 (재등장 간격 48개월) | 유지 |
 | 박사과정 | 고향 집 작은방 책상 위에 노트북과 읽지 않은 논문 복사본을 쌓아 둔다. | 휴학, 고향 | stage=phd AND phd.leave.active=true (재등장 간격 48개월) | 유지 |
 | 박사과정 | 본가 현관 신발장에 학교 출입증이 그대로 걸려 있다. | 휴학, 가족 | stage=phd AND phd.leave.active=true (재등장 간격 48개월) | 수정 |
@@ -417,16 +417,16 @@
 ### 조교 근무표 (`story-hs-phd-1`, 인문사회)
 
 - 근거: hs-phd-08
-- 시작 조건: stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 AND month 3~18
+- 시작 조건: stage=phd AND phd.fundingState.dutyHours>0 AND month 3~18
 
 | 순서 | 문장 | 간격(개월) | 이어질 조건 |
 |---|---|---|---|
-| 1 | 방학 중 평일 종일 근무표가 하루 단위로 행정실 공지에 올라온다. | 0 | route=project AND dutyHours>0 AND NOT leave.active |
-| 2 | 신입 조교들이 순번제를 부탁하러 갔다가 건방지다는 말을 듣는다. | 1-3 | route=project AND dutyHours>0 AND NOT leave.active |
+| 1 | 방학 중 평일 종일 근무표가 하루 단위로 행정실 공지에 올라온다. | 0 | dutyHours>0 AND NOT leave.active |
+| 2 | 신입 조교들이 순번제를 부탁하러 갔다가 건방지다는 말을 듣는다. | 1-3 | dutyHours>0 AND NOT leave.active |
 | 3 | 비밀유지 서약서 서명 안내가 오고 근무표는 그대로 붙어 있다. | 1-3 | 항상 |
 
 - 결말: 흐지부지 (근무표는 그대로이고 서약서 안내가 온다). 중간 마무리: phd.leave.active가 시작되면 끊김 대신 '휴학 신청 전에 근무표 인수 서류를 후배 조교에게 넘긴다.'
-- 감사: 유지. route=project·dutyHours>0·month 3~18은 엔진 값으로 판정되고, 방학 근무표·순번제 부탁·비밀유지 서약서는 행정조교 현실의 구체적 순서다.
+- 감사: 유지. dutyHours>0·month 3~18은 엔진 값으로 판정되고, 방학 근무표·순번제 부탁·비밀유지 서약서는 행정조교 현실의 구체적 순서다.
 
 ### 먼저 나온 논문 (`story-hs-phd-2`, 인문사회)
 
