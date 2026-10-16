@@ -172,18 +172,20 @@ function button(text: string, onClick: () => void, disabled = false, key = text)
   return b;
 }
 
-/** 눌린 상태를 보조기기에도 알린다. 같은 묶음 안에서 하나만 눌려 있다. */
-/** 가로로 넘칠 수 있는 표를 감싼다(#153): 좁은 화면에서 페이지가 아니라 표만 가로로 민다. 키보드로 닿도록 tabindex 0, 이름은 표 제목. */
+/** 가로로 넘칠 수 있는 표를 감싼다(#153): 좁은 화면에서 페이지가 아니라 표만 가로로 민다. 키보드로 닿도록 tabindex 0, 이름은 표 제목.
+ *  자동 진행으로 다시 그려도 포커스와 가로 위치가 남도록 data-k 를 붙인다(render 가 되돌린다). */
 function scrollBox(child: HTMLElement, label: string): HTMLElement {
   const box = el('div');
   box.className = 'table-scroll';
   box.tabIndex = 0;
+  box.dataset.k = `scroll:${label}`;
   box.setAttribute('role', 'region');
   box.setAttribute('aria-label', label);
   box.append(child);
   return box;
 }
 
+/** 눌린 상태를 보조기기에도 알린다. 같은 묶음 안에서 하나만 눌려 있다. */
 function pressed(b: HTMLButtonElement, on: boolean): HTMLButtonElement {
   b.setAttribute('aria-pressed', String(on));
   return b;
@@ -693,7 +695,10 @@ function render(): void {
   const active = document.activeElement as HTMLElement | null;
   const focusKey = active?.dataset.k;
   const focusIn = active?.closest('section[id], aside[id]')?.id;   // 자금 카드(aside#money)의 요약 줄도 포커스를 되돌린다(#153)
+  // 가로로 민 표의 위치(#153): 다시 그린 뒤 같은 data-k 상자에 되돌린다
+  const scrolled = new Map(Array.from(document.querySelectorAll<HTMLElement>('.table-scroll')).map(b => [b.dataset.k ?? '', b.scrollLeft] as const));
   renderInner();
+  document.querySelectorAll<HTMLElement>('.table-scroll').forEach(b => { const x = scrolled.get(b.dataset.k ?? ''); if (x) b.scrollLeft = x; });
   const pendingKey = life?.pending ? `${life.pending.dp}:${life.pending.month}` : '';
   if (pendingKey && pendingKey !== lastPending) {
     document.querySelector<HTMLElement>('#current .decision h3')?.focus();

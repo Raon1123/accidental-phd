@@ -61,6 +61,8 @@ describe('latest event (#152)', () => {
 const css = readFileSync(resolve(__dirname, '../src/style.css'), 'utf8');
 const main = readFileSync(resolve(__dirname, '../src/main.ts'), 'utf8');
 const wide = blocks(css, '@media (min-width: 64rem)').join('\n');
+// 여백 풍경은 본문 바깥 여백이 생기는 76rem 부터(#152 검토: 64–76rem 에서는 본문이 화면을 채운다)
+const scenery = blocks(css, '@media (min-width: 76rem)').join('\n');
 
 describe('portrait window (#152)', () => {
   it('every scene has a Korean description for screen readers, and none names a real institution', () => {
@@ -116,18 +118,18 @@ describe('margin scenery (#152)', () => {
     expect(wide).not.toMatch(/(^|\s)body\s*\{[^}]*background/);
   });
   it('the html background takes the scene color only on wide screens and only when pictures are full', () => {
-    const rules = [...wide.matchAll(/html\[data-art="full"\]\[data-scene="(\w+)"\]\s*\{\s*background:\s*var\(--([a-z0-9-]+)\)/g)];
+    const rules = [...scenery.matchAll(/html\[data-art="full"\]\[data-scene="(\w+)"\]\s*\{\s*background:\s*var\(--([a-z0-9-]+)\)/g)];
     expect(rules.map(m => m[1]).sort()).toEqual(['career', 'phd', 'retire']);
     for (const m of rules) {
       expect(defines(lightRoot, m[2]!), `light ${m[2]}`).toBe(true);
       expect(defines(darkRoot, m[2]!), `dark ${m[2]} (night colors)`).toBe(true);
     }
-    expect(stripBlocks(css, '@media (min-width: 64rem)')).not.toMatch(/html\[data-art="full"\]\[data-scene/);
+    expect(stripBlocks(css, '@media (min-width: 76rem)')).not.toMatch(/html\[data-art="full"\]\[data-scene/);
   });
-  it('the strip is fixed to the bottom, behind the body, ignores the pointer, and is hidden below 64rem', () => {
+  it('the strip is fixed to the bottom, behind the body, ignores the pointer, and is hidden until the margins appear (76rem)', () => {
     const rule = ruleBody(css, '.backdrop')!;
     expect(rule).toMatch(/display:\s*none/);
-    const w = ruleBody(wide, '.backdrop')!;
+    const w = ruleBody(scenery, '.backdrop')!;
     expect(w).toMatch(/display:\s*block/);
     expect(w).toMatch(/position:\s*fixed/);
     expect(w).toMatch(/bottom:\s*0/);
@@ -216,9 +218,18 @@ describe('status bar and alert bar (#153)', () => {
   });
   it('the bars do not hide a focused control or a heading scrolled into view (scroll padding at least the bar height)', () => {
     const root = ruleBody(narrow, 'html')!;
-    expect(root).toMatch(/scroll-padding-top:\s*[\d.]+rem/);
+    // 상태 줄은 단계 문장과 사실 줄이 각각 두 줄로 꺾이면 약 5.8rem 이 된다(#153 검토). 그보다 넉넉해야 한다.
+    expect(Number(/scroll-padding-top:\s*([\d.]+)rem/.exec(root)![1])).toBeGreaterThanOrEqual(6);
     expect(root).toMatch(/scroll-padding-bottom:\s*[\d.]+rem/);
     expect(ruleBody(narrow, 'body')).toMatch(/padding-bottom:\s*[\d.]+rem/);
+  });
+  it('the skip link, when focused, draws above the fixed status bar (#153 review)', () => {
+    const z = (r: string | undefined) => Number(/z-index:\s*(\d+)/.exec(r ?? '')?.[1] ?? 0);
+    expect(z(ruleBody(css, '.skip:focus'))).toBeGreaterThan(z(ruleBody(narrow, '.statusbar')));
+  });
+  it('table boxes keep keyboard focus and sideways scroll across auto-run redraws (#153 review)', () => {
+    expect(fnBody(main, 'scrollBox')).toMatch(/dataset\.k = `scroll:\$\{label\}`/);
+    expect(fnBody(main, 'render')).toMatch(/scrollLeft/);
   });
   it('display of the bars is set by classes only, so the picture setting can hide them', () => {
     expect(css).not.toMatch(/#(statusbar|alertbar)\s*[,{][^}]*display/);
