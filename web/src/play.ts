@@ -5,6 +5,7 @@ import {
   type CareerFlow,
   type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision, type Route,
 } from '../../engine/src/browser';
+import { flavorText, pickFlavor, tickMonth, type FlavorPick } from './flavor';
 import { newsLine } from './news';
 import { causeOf, decisionResult, logScene, pendingScene } from './scenes';
 import type { Strings } from './strings.ko';
@@ -139,7 +140,7 @@ export function noteText(e: LogEntry, t: Strings, s?: LifeState): string {
  * 연구노트: 최신순. 매달 붙는 'log.month' 는 뺀다(내용이 없는 줄). 창작 줄에는 표시를 붙인다.
  * 서사 장면(#57): 결정 기록 아래에 고른 선택지의 결과 문장을, 채용·학위·종료 같은 기록 아래에 장면을 창작 줄로 붙인다.
  */
-export type NoteKind = 'good' | 'bad' | 'news' | 'decision' | 'leave' | 'start' | 'end' | 'scene' | 'plain';
+export type NoteKind = 'good' | 'bad' | 'news' | 'decision' | 'leave' | 'start' | 'end' | 'scene' | 'flavor' | 'plain';
 export interface Note { month: number; key: string; text: string; creative: boolean; scene?: true; kind: NoteKind }
 
 const GOOD = new Set(['log.qual-pass', 'log.defense-pass', 'log.degree', 'log.hired', 'log.promotion', 'log.end-degree']);
@@ -156,15 +157,54 @@ export function noteKind(textKey: string): NoteKind {
   if (textKey === 'log.retired' || textKey === 'log.end-age80') return 'end';
   return 'plain';
 }
-export function notes(s: LifeState, t: Strings): Note[] {
+/** 기록 줄에 붙는 장면 문장(결정 결과 또는 logScene). */
+const sceneOf = (s: LifeState, e: LifeState['log'][number], i: number): string | undefined =>
+  e.textKey.startsWith('decision.') ? decisionResult(s.choices.group, e.textKey, e.tags[3]) : logScene(s, e, i)?.text;
+
+/**
+ * 연구노트. `flavor` 는 화면이 칸마다 고른 일상 문장(#183, flavor.ts). 그 달 기록 줄들 뒤(피드에서는 위)에 붙는다.
+ * 기록에 없는 달(보관함에서 연 뒤 잘린 기록 등)의 문장은 버린다.
+ */
+export function notes(s: LifeState, t: Strings, flavor: readonly FlavorPick[] = []): Note[] {
+  const byMonth = new Map(flavor.filter(f => f.month <= s.month).map(f => [f.month, f.id]));
   const groups = s.log.map((e, i): Note[] => {
-    if (e.textKey === 'log.month') return [];
-    const out: Note[] = [{ month: e.month, key: e.textKey, text: noteText(e, t, s), creative: e.creative, kind: noteKind(e.textKey) }];
-    const extra = e.textKey.startsWith('decision.') ? decisionResult(s.choices.group, e.textKey, e.tags[3]) : logScene(s, e, i)?.text;
+    const out: Note[] = e.textKey === 'log.month' ? [] : [{ month: e.month, key: e.textKey, text: noteText(e, t, s), creative: e.creative, kind: noteKind(e.textKey) }];
+    const extra = e.textKey === 'log.month' ? undefined : sceneOf(s, e, i);
     if (extra) out.push({ month: e.month, key: e.textKey, text: extra, creative: true, scene: true, kind: 'scene' });
+    const last = i === s.log.length - 1 || s.log[i + 1]!.month !== e.month;
+    const id = last ? byMonth.get(e.month) : undefined;
+    if (id !== undefined) { byMonth.delete(e.month); out.push(...flavorNote(e.month, id)); }
     return out;
   });
-  return groups.reverse().flat();
+  const list = groups.reverse().flat();
+  if (byMonth.size === 0) return list;
+  // 기록 줄이 없는 칸(은퇴 뒤 해 등)의 문장은 따로 넣고 달 순서로 맞춘다(같은 달 안의 순서는 그대로).
+  for (const [month, id] of byMonth) list.push(...flavorNote(month, id));
+  return list.sort((a, b) => b.month - a.month);
+}
+
+function flavorNote(month: number, id: string): Note[] {
+  const text = flavorText(id);
+  return text ? [{ month, key: `flavor.${id}`, text, creative: true, kind: 'flavor' }] : [];
+}
+
+/**
+ * 한 칸을 진행한 뒤 붙일 일상 문장(#183). prev → next 사이에 새로 생긴 기록·원장으로 조건을 보고,
+ * 그 칸에 장면 문장이 있으면 붙이지 않는다. 고른 것이 없으면 picks 를 그대로 돌려준다.
+ * next 가 prev 의 뒤가 아니면(다른 삶, 되감은 분기) 지난 기록을 버리고 새로 시작한다.
+ */
+export function nextFlavor(prev: LifeState | undefined, next: LifeState, picks: readonly FlavorPick[]): FlavorPick[] {
+  const continued = prev !== undefined && prev.seed === next.seed && next.log.length >= prev.log.length && next.month >= prev.month;
+  const kept = continued ? picks.filter(p => p.month <= next.month) : [];
+  if (!continued) return kept;
+  const from = prev.log.length;
+  const log = next.log.slice(from);
+  const tick = { prev, next, log, ledger: next.ledger.slice(prev.ledger.length) };
+  // 장면은 그 달 전체에서 본다: 은퇴 뒤 해처럼 두 칸이 같은 달 기록을 남길 수 있다
+  const month = tickMonth(tick);
+  const hasScene = next.log.some((e, i) => e.month === month && e.textKey !== 'log.month' && sceneOf(next, e, i) !== undefined);
+  const pick = pickFlavor(tick, kept, hasScene);
+  return pick ? [...kept, pick] : kept;
 }
 
 /** 인생 지도 칸 수: 박사과정 1칸 = 1개월, 경력과 은퇴 1칸 = 1년. */
