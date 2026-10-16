@@ -137,7 +137,7 @@ const SUMMARY_KINDS: ReadonlySet<NoteKind> = new Set<NoteKind>(['good', 'bad', '
 /** 삶의 정리(#129): 주요 사건과 선택의 순간을 시간순으로. 가상 뉴스·창작 장면·평범한 기록은 뺀다. */
 export function lifeSummary(s: LifeState, t: Strings): LifeSummary {
   const items = notes(s, t)
-    .filter(n => !n.scene && SUMMARY_KINDS.has(n.kind))
+    .filter(n => !n.scene && SUMMARY_KINDS.has(n.kind) && n.key !== 'log.paper-rejected')   // 거절은 한 삶에 여러 번 나와 요약을 덮는다(#189)
     .reverse()   // notes() 는 최신순
     .map(n => ({ when: calendarLabel(n.month, t), kind: t.play.noteKinds[n.kind], text: n.text, icon: iconOf(n.key, n.kind) }));
   const to = s.end?.month ?? s.month;
