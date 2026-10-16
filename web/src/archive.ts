@@ -37,3 +37,35 @@ export function memoryStore(): KeyValueStore {
   const m = new Map<string, string>();
   return { getItem: k => m.get(k) ?? null, setItem: (k, v) => void m.set(k, v) };
 }
+
+const PROBE_KEY = 'aphd:probe';
+
+/**
+ * 브라우저 저장소를 연다(#184). 저장소 접근이 던지면(사이트 데이터 차단, 일부 사생활 모드) 메모리 저장소로 대신하고
+ * persistent 를 false 로 둔다. 연 뒤에 쓰기가 던지면(용량 초과) 그 값은 메모리에 두고 persistent 를 false 로 바꾼다.
+ * 읽기·쓰기 어느 쪽도 바깥으로 던지지 않는다.
+ */
+export function guardedStore(open: () => KeyValueStore): { store: KeyValueStore; persistent: () => boolean } {
+  const memory = new Map<string, string>();   // 쓰기에 실패한 값(성공한 쓰기는 이 칸을 지운다)
+  let inner: KeyValueStore | undefined;
+  try {
+    inner = open();
+    inner.setItem(PROBE_KEY, '1');
+    inner.getItem(PROBE_KEY);
+  } catch { inner = undefined; }
+  let ok = inner !== undefined;
+  const store: KeyValueStore = {
+    getItem: k => {
+      const v = memory.get(k);
+      if (v !== undefined || !inner) return v ?? null;
+      try { return inner.getItem(k); } catch { return null; }
+    },
+    setItem: (k, v) => {
+      if (inner) {
+        try { inner.setItem(k, v); memory.delete(k); return; } catch { ok = false; }
+      }
+      memory.set(k, v);
+    },
+  };
+  return { store, persistent: () => ok };
+}
