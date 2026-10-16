@@ -13,6 +13,7 @@ export type { DataBundle, DataRecord, DataValue } from './data/bundle';
 export { newSeed, cohortSeed } from './rng';
 export { policyFocus, policyDecision } from './policy';
 export { TRACKS, groupOf } from './data/taxonomy';
+export { selfTaProbability } from './data/funding';
 export { previewCashflow } from './phd/money';
 export { applyWorkInput, drawParticipation, participationMean, researchMarket, growthMultiplier, lectureEligible, participationOf, partTimeCap, partTimePay, partTimeWeekHours, workWeekHours } from './phd/work';
 export { previewCareerFlow, type CareerFlow } from './career/tick';

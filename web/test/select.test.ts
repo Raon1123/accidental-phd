@@ -1,8 +1,8 @@
 // 입학 전 선택(#54): 분야(전공군)만 고르고 나머지는 운에 맡긴다(사용자 결정 2026-10-14).
 import { describe, expect, it } from 'vitest';
-import { TRACKS, createLife, groupOf, newSeed } from '../../engine/src/browser';
+import { ASSUMED, TRACKS, createLife, groupOf, newSeed, selfTaProbability } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { departmentLabel, lifeConfig, trackGroups, trackLabel } from '../src/select';
+import { departmentLabel, lifeConfig, selfTaNote, trackGroups, trackLabel } from '../src/select';
 import { ko } from '../src/strings.ko';
 
 const data = loadData();
@@ -53,5 +53,21 @@ describe('track selection (#54)', () => {
     const seed = newSeed('select-same');
     expect(createLife(lifeConfig('ai'), seed, data)).toEqual(createLife(lifeConfig('ai'), seed, data));
     expect(createLife(lifeConfig(null), seed, data)).toEqual(createLife(lifeConfig(null), seed, data));
+  });
+});
+
+describe('self-funding TA odds shown before entry (#163)', () => {
+  it('prints the engine probability, not a typed-in number, and says the TA post is an offer', () => {
+    const p = selfTaProbability(data).value;
+    const note = selfTaNote(data, ko);
+    expect(note).toContain(`${Math.round(p * 1000) / 10}%`);
+    expect(note).toContain(ko.selfTa.offer);
+    expect(note).toContain('26.5%');   // 결정 기록 0022 의 P_TA 0.265
+    expect(note).toContain(`주 ${ASSUMED.TA_DUTY_HOURS}시간`);
+    expect(note).not.toContain('{');
+    // 값이 바뀌면 문장도 바뀐다
+    const other = { ...data, records: new Map(data.records) };
+    other.records.set('statistics-ta-income-living-cost-2015', { ...data.records.get('statistics-ta-income-living-cost-2015')!, value: 0.5 } as never);
+    expect(selfTaNote(other, ko)).toContain('50%');
   });
 });
