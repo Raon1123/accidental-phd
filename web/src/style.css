@@ -3,7 +3,7 @@
 @media (prefers-color-scheme: dark) { :root { --fg: #ececec; --bg: #161616; --muted: #b8b8b8; --accent: #8ab4f8; --btn-bg: #2b2b2b; --btn-fg: #ececec; --btn-off: #a0a0a0; --focus: #8ab4f8; --bar-track: #2f2f2f; --bar-delta: #4f7ab3; --note-good: #6fcf8f; --note-bad: #f2807a; --note-news: #8ab4f8; --note-leave: #e0b45c; } }
 body { margin: 0 auto; max-width: 48rem; padding: 0 1rem; font-family: system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; color: var(--fg); background: var(--bg); line-height: 1.6; }
 .skip { position: absolute; left: -999px; }
-.skip:focus { left: 1rem; top: 1rem; background: var(--bg); color: var(--accent); padding: .25rem .5rem; }
+.skip:focus { left: 1rem; top: 1rem; z-index: 30; background: var(--bg); color: var(--accent); padding: .25rem .5rem; }   /* 고정 상태 줄(z-index 20, #153) 위에 보이게 */
 button, select { font: inherit; color: var(--btn-fg); background: var(--btn-bg); border: 1px solid var(--muted); border-radius: 4px; }
 button { padding: .4rem .8rem; cursor: pointer; }
 button:disabled { color: var(--btn-off); cursor: not-allowed; }
@@ -144,7 +144,7 @@ html:not([data-art="off"]) .px-icon + .note-kind { position: absolute; width: 1p
 .statusbar { display: none; }
 .alertbar { display: none; }
 @media not all and (min-width: 64rem) {
-  html { scroll-padding-top: 5rem; scroll-padding-bottom: 4.5rem; }
+  html { scroll-padding-top: 7rem; scroll-padding-bottom: 4.5rem; }   /* 상태 줄이 두 줄로 꺾여도(약 5.8rem) 포커스가 가려지지 않게 */
   body { padding-bottom: 4.5rem; }
   .statusbar { position: sticky; top: 0; z-index: 20; display: flex; gap: .6rem; align-items: center; margin: 0 -1rem; padding: .35rem 1rem; background: var(--bg); color: var(--fg); border-bottom: 2px solid var(--accent); }
   .alertbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; gap: .5rem; align-items: center; padding: .4rem 1rem; background: var(--bg); color: var(--fg); border-top: 2px solid var(--accent); font-size: .9rem; }

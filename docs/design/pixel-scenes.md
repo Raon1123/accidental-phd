@@ -31,6 +31,7 @@
 | 최근 사건 문장 | 초상 창 아래 한 줄 | 화면 아래 고정 알림 막대(아이콘 + 문장). 같은 문장이 연구노트에 글자로 있으므로 막대는 `aria-hidden`이고 새 낭독 영역을 만들지 않는다 |
 | 자금 카드 | 지금처럼 펼침 | 접힘(`<details>`), 요약 줄에 현금 |
 
+- 자금 카드의 접힘 상태는 처음에는 화면 폭을 따르고(좁으면 접힘, 넓으면 펼침), 그 뒤로는 다시 그리거나 화면 폭이 바뀌어도 사용자가 마지막으로 둔 대로 남는다(#153).
 - 단계 → 장면: `phd` → 박사과정, `career` → 경력, `retired` → 은퇴, `end` → 기록에 은퇴가 있으면 은퇴, 경력이 있으면 경력, 아니면 박사과정. `pre`(시작 전)에는 그림이 없다.
 - 기록 → 아이콘: 연구노트 키로 먼저 정하고(`log.qual-pass`·`log.promotion` 별, `log.defense-pass`·`log.degree`·`log.end-degree` 학사모, `log.hired` 가방, `life.start` 시작, `log.retired`·`log.end-age80` 깃발), 나머지는 종류(`NoteKind`)로 정한다(good 별, bad 찢긴 종이, leave 모래시계, news 편지, decision 갈림길). `scene`·`plain` 줄에는 아이콘이 없다. 새 키(예: #84의 `log.laid-off`)는 종류를 따라간다.
 - 큰 사건: `life.start`, `log.degree`, `log.hired`, `log.retired`, `log.end-*`. 자동 진행 4× 이상에서는 큰 장면을 띄우지 않고 초상 말풍선만 바꾼다(번쩍임 방지).

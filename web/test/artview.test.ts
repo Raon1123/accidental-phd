@@ -218,9 +218,18 @@ describe('status bar and alert bar (#153)', () => {
   });
   it('the bars do not hide a focused control or a heading scrolled into view (scroll padding at least the bar height)', () => {
     const root = ruleBody(narrow, 'html')!;
-    expect(root).toMatch(/scroll-padding-top:\s*[\d.]+rem/);
+    // 상태 줄은 단계 문장과 사실 줄이 각각 두 줄로 꺾이면 약 5.8rem 이 된다(#153 검토). 그보다 넉넉해야 한다.
+    expect(Number(/scroll-padding-top:\s*([\d.]+)rem/.exec(root)![1])).toBeGreaterThanOrEqual(6);
     expect(root).toMatch(/scroll-padding-bottom:\s*[\d.]+rem/);
     expect(ruleBody(narrow, 'body')).toMatch(/padding-bottom:\s*[\d.]+rem/);
+  });
+  it('the skip link, when focused, draws above the fixed status bar (#153 review)', () => {
+    const z = (r: string | undefined) => Number(/z-index:\s*(\d+)/.exec(r ?? '')?.[1] ?? 0);
+    expect(z(ruleBody(css, '.skip:focus'))).toBeGreaterThan(z(ruleBody(narrow, '.statusbar')));
+  });
+  it('table boxes keep keyboard focus and sideways scroll across auto-run redraws (#153 review)', () => {
+    expect(fnBody(main, 'scrollBox')).toMatch(/dataset\.k = `scroll:\$\{label\}`/);
+    expect(fnBody(main, 'render')).toMatch(/scrollLeft/);
   });
   it('display of the bars is set by classes only, so the picture setting can hide them', () => {
     expect(css).not.toMatch(/#(statusbar|alertbar)\s*[,{][^}]*display/);
