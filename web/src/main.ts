@@ -5,7 +5,7 @@ import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Note, type Speed } from './play';
-import { WIDE_W, cropOf, latestEvent, type Crop, type LatestEvent } from './artview';
+import { WIDE_W, cropOf, latestEvent, moneyFoldOpen, moneySummary, statusBarView, type Crop, type LatestEvent } from './artview';
 import { SCENE_W, iconOf, iconRects, sceneOf, sceneRects, type Icon, type Rect } from './pixel';
 import { lifeConfig, selfTaNote, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
@@ -98,6 +98,41 @@ function renderBackdrop(root: HTMLElement, s: LifeState | undefined): void {
   if (stage) root.append(sceneSvg(sceneRects(stage, { width: WIDE_W }), cropOf('strip', stage), undefined, 'xMidYMax slice'));
 }
 
+/**
+ * 모바일 위 고정 상태 줄(#153): 24칸 초상, 단계 문장, 나이·진행 기간·현금. 64rem 미만에서만 보인다(CSS).
+ * 초상은 뜻이 있는 장면이라 설명을 달고 그림 설정(간단히·끄기)이 숨긴다. 글자는 모든 설정에서 남는다.
+ */
+function renderStatusBar(root: HTMLElement): void {
+  root.replaceChildren();
+  if (!life) return;
+  const v = statusBarView(life, t);
+  if (v.stage) {
+    const pic = el('span');
+    pic.className = 'px-scene sb-portrait';
+    pic.append(sceneSvg(sceneRects(v.stage, { width: SCENE_W }), cropOf('status', v.stage), t.art.scene[v.stage]));
+    root.append(pic);
+  }
+  const text = el('div');
+  text.className = 'sb-text';
+  const facts = el('span');
+  facts.className = 'sb-facts';
+  for (const f of v.facts) facts.append(el('span', f));
+  text.append(el('strong', v.line), facts);
+  root.append(text);
+}
+
+/**
+ * 화면 아래 고정 알림 막대(#153): 최근 사건 아이콘 + 문장. 같은 문장이 연구노트에 글자로 있으므로 요소 전체가
+ * aria-hidden 이고(index.html) 여기서 낭독 영역을 만들지 않는다.
+ */
+function renderAlertBar(root: HTMLElement): void {
+  root.replaceChildren();
+  if (!recent) return;
+  const text = el('span', recent.line);
+  text.className = 'alert-text';
+  root.append(iconEl(recent.icon), text);
+}
+
 /** `key`(data-k)는 다시 그린 뒤 키보드 포커스를 같은 조작으로 되돌릴 때 쓴다(#61). 없으면 글자. */
 function button(text: string, onClick: () => void, disabled = false, key = text): HTMLButtonElement {
   const b = el('button', text);
@@ -106,6 +141,19 @@ function button(text: string, onClick: () => void, disabled = false, key = text)
   b.dataset.k = key;
   b.addEventListener('click', onClick);
   return b;
+}
+
+/** 가로로 넘칠 수 있는 표를 감싼다(#153): 좁은 화면에서 페이지가 아니라 표만 가로로 민다. 키보드로 닿도록 tabindex 0, 이름은 표 제목.
+ *  자동 진행으로 다시 그려도 포커스와 가로 위치가 남도록 data-k 를 붙인다(render 가 되돌린다). */
+function scrollBox(child: HTMLElement, label: string): HTMLElement {
+  const box = el('div');
+  box.className = 'table-scroll';
+  box.tabIndex = 0;
+  box.dataset.k = `scroll:${label}`;
+  box.setAttribute('role', 'region');
+  box.setAttribute('aria-label', label);
+  box.append(child);
+  return box;
 }
 
 /** 눌린 상태를 보조기기에도 알린다. 같은 묶음 안에서 하나만 눌려 있다. */
@@ -323,13 +371,22 @@ function renderStatBars(): HTMLElement {
   return box;
 }
 
-function renderMoneyCard(root: HTMLElement): void {
-  root.replaceChildren();
+function renderMoneyCard(host: HTMLElement): void {
+  const prevFold = host.querySelector<HTMLDetailsElement>('details.fold');   // 다시 그리기 전의 열림 상태(리스너 없이 읽는다)
+  host.replaceChildren();
   if (!life || !data) return;
   const M = t.play.money;
-  root.setAttribute('aria-label', M.heading);
-  const portrait = portraitEl(life);   // 자금 카드 위 초상 창(#152). 좁은 화면에서는 CSS 가 숨긴다
-  if (portrait) root.append(portrait);
+  host.setAttribute('aria-label', M.heading);
+  const portrait = portraitEl(life);   // 자금 카드 위 초상 창(#152). 좁은 화면에서는 CSS 가 숨긴다. 접히는 몫이 아니다
+  if (portrait) host.append(portrait);
+  // 카드 본문은 <details> 로 접는다(#153): 좁은 화면에서는 접고 요약 줄에 현금, 넓은 화면에서는 지금처럼 펼친다.
+  const root = el('details');
+  root.className = 'fold';
+  root.open = moneyFoldOpen(prevFold?.open, window.matchMedia('(min-width: 64rem)').matches);
+  const sum = el('summary', moneySummary(life, t));
+  sum.dataset.k = 'money-fold';
+  root.append(sum);
+  host.append(root);
   const v = moneyView(life, data);
   const glance = el('dl');
   glance.className = 'glance';
@@ -407,7 +464,7 @@ function renderLedger(root: HTMLElement, keys: readonly LedgerKey[]): void {
       for (const k of keys) tr.append(el('td', k === 'month' ? calendarLabel(r.month, t) : wonText(r[k], t)));
       tbl.append(tr);
     }
-    det.append(tbl);
+    det.append(scrollBox(tbl, M.ledgerHeading));
   }
   root.append(det);
 }
@@ -536,7 +593,7 @@ function renderCohort(root: HTMLElement): void {
     for (const v of [r.name, r.who, r.stage, r.end]) tr.append(el('td', v));
     table.append(tr);
   }
-  root.append(table);
+  root.append(scrollBox(table, t.cohort.heading));
 }
 
 function renderBranch(root: HTMLElement): void {
@@ -572,7 +629,7 @@ function renderBranch(root: HTMLElement): void {
     for (const v of row) tr.append(el('td', v));
     table.append(tr);
   }
-  root.append(table, el('p', fill(t.cohort.shared, { n: sharedPrefix(life, b) })));
+  root.append(scrollBox(table, t.cohort.branchHeading), el('p', fill(t.cohort.shared, { n: sharedPrefix(life, b) })));
 }
 
 function renderSources(root: HTMLElement): void {
@@ -596,8 +653,11 @@ function render(): void {
   // 다시 그리면 DOM 이 바뀌므로, 포커스가 있던 조작(data-k)을 기억했다가 되돌린다(#61 키보드 조작).
   const active = document.activeElement as HTMLElement | null;
   const focusKey = active?.dataset.k;
-  const focusIn = active?.closest('section[id]')?.id;
+  const focusIn = active?.closest('section[id], aside[id]')?.id;   // 자금 카드(aside#money)의 요약 줄도 포커스를 되돌린다(#153)
+  // 가로로 민 표의 위치(#153): 다시 그린 뒤 같은 data-k 상자에 되돌린다
+  const scrolled = new Map(Array.from(document.querySelectorAll<HTMLElement>('.table-scroll')).map(b => [b.dataset.k ?? '', b.scrollLeft] as const));
   renderInner();
+  document.querySelectorAll<HTMLElement>('.table-scroll').forEach(b => { const x = scrolled.get(b.dataset.k ?? ''); if (x) b.scrollLeft = x; });
   const pendingKey = life?.pending ? `${life.pending.dp}:${life.pending.month}` : '';
   if (pendingKey && pendingKey !== lastPending) {
     document.querySelector<HTMLElement>('#current .decision h3')?.focus();
@@ -624,6 +684,8 @@ function renderInner(): void {
   const list = life ? notes(life, t) : [];
   recent = latestEvent(list, t);
   renderBackdrop(document.getElementById('backdrop')!, life);
+  renderStatusBar(document.getElementById('statusbar')!);
+  renderAlertBar(document.getElementById('alertbar')!);
   renderFeed(document.getElementById('feed')!, list);
   renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);

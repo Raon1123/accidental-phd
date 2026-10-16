@@ -4,9 +4,9 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createLife, newSeed, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { WIDE_W, cropOf, latestEvent } from '../src/artview';
+import { WIDE_W, cropOf, latestEvent, moneyFoldOpen, moneySummary, statusBarView } from '../src/artview';
 import { SCENE_H, SCENE_W, scenePerson, type SceneStage } from '../src/pixel';
-import { notes } from '../src/play';
+import { notes, statusLine, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
 import { blocks, fnBody, ruleBody, stripBlocks } from './helpers';
 
@@ -146,5 +146,139 @@ describe('margin scenery (#152)', () => {
   });
   it('the strip is redrawn only when the stage changes', () => {
     expect(fnBody(main, 'renderBackdrop')).toMatch(/dataset\.stage/);
+  });
+});
+
+describe('mobile status line (#153)', () => {
+  it('the status crop is 24×24, inside the 96×40 scene, and holds the whole person', () => {
+    for (const st of STAGES) {
+      const c = cropOf('status', st);
+      const p = scenePerson(st);
+      expect([c.w, c.h], st).toEqual([24, 24]);
+      expect(c.x >= 0 && c.x + c.w <= SCENE_W && c.y >= 0 && c.y + c.h <= SCENE_H, st).toBe(true);
+      expect(c.x <= p.x && p.x + 8 <= c.x + c.w, `${st} width`).toBe(true);
+      expect(c.y <= p.y && p.y + 12 <= c.y + c.h, `${st} height`).toBe(true);
+    }
+  });
+  it('shows the stage sentence, then age, elapsed time and cash', () => {
+    const s = withLog([], { stage: 'phd', month: 40, ageMonths: 27 * 12 + 5, money: { ...base.money, cash: 11_025_000 } });
+    const v = statusBarView(s, ko);
+    expect(v.line).toBe(statusLine(s, ko));
+    expect(v.facts).toEqual([
+      `${ko.play.age} 27${ko.play.ageUnit}`,
+      `${ko.month} 3년 4개월`,
+      `${ko.play.money.cash} ${wonText(11_025_000, ko)}`,
+    ]);
+    expect(v.facts[2]).toContain('1,102.5');
+    expect(v.stage).toBe('phd');
+  });
+  it('has no picture before the life starts', () => {
+    expect(statusBarView(withLog([], { stage: 'pre' }), ko).stage).toBeUndefined();
+  });
+});
+
+describe('money card fold (#153)', () => {
+  it('the summary line carries the cash', () => {
+    const s = withLog([], { money: { ...base.money, cash: -2_500_000 } });
+    expect(moneySummary(s, ko)).toBe(`${ko.play.money.heading} · ${ko.play.money.cash} ${wonText(-2_500_000, ko)}`);
+  });
+  it('the open state continues from before the redraw, and starts open only on wide screens', () => {
+    expect(moneyFoldOpen(undefined, true)).toBe(true);
+    expect(moneyFoldOpen(undefined, false)).toBe(false);
+    expect(moneyFoldOpen(false, true)).toBe(false);
+    expect(moneyFoldOpen(true, false)).toBe(true);
+  });
+});
+
+describe('status bar and alert bar (#153)', () => {
+  const narrow = blocks(css, '@media not all and (min-width: 64rem)').join('\n');
+  it('index.html: the status bar comes right after the skip link and is not focusable; the alert bar is aria-hidden', () => {
+    expect(html).toMatch(/<a class="skip" id="skip" href="#main"><\/a>\s*<div id="statusbar" class="statusbar"><\/div>/);
+    expect(html).toMatch(/<div id="alertbar" class="alertbar px-scene" aria-hidden="true"><\/div>/);
+  });
+  it('both bars are hidden by default and shown only below 64rem; the wide layout shows the portrait instead', () => {
+    expect(ruleBody(css, '.statusbar')).toMatch(/display:\s*none/);
+    expect(ruleBody(css, '.alertbar')).toMatch(/display:\s*none/);
+    expect(ruleBody(narrow, '.statusbar')).toMatch(/display:\s*flex/);
+    expect(ruleBody(narrow, '.alertbar')).toMatch(/display:\s*flex/);
+    expect(wide).not.toMatch(/\.(statusbar|alertbar)\s*\{[^}]*display:\s*(flex|block)/);
+  });
+  it('the status bar sticks to the top and the alert bar to the bottom, above the content, in the normal text colors', () => {
+    const top = ruleBody(narrow, '.statusbar')!;
+    expect(top).toMatch(/position:\s*sticky/);
+    expect(top).toMatch(/top:\s*0/);
+    expect(top).toMatch(/color:\s*var\(--fg\)/);
+    expect(top).toMatch(/background:\s*var\(--bg\)/);
+    const bottom = ruleBody(narrow, '.alertbar')!;
+    expect(bottom).toMatch(/position:\s*fixed/);
+    expect(bottom).toMatch(/bottom:\s*0/);
+    expect(bottom).toMatch(/color:\s*var\(--fg\)/);
+    expect(bottom).toMatch(/background:\s*var\(--bg\)/);
+    for (const r of [top, bottom]) expect(r).toMatch(/z-index:\s*\d+/);
+  });
+  it('the bars do not hide a focused control or a heading scrolled into view (scroll padding at least the bar height)', () => {
+    const root = ruleBody(narrow, 'html')!;
+    // 상태 줄은 단계 문장과 사실 줄이 각각 두 줄로 꺾이면 약 5.8rem 이 된다(#153 검토). 그보다 넉넉해야 한다.
+    expect(Number(/scroll-padding-top:\s*([\d.]+)rem/.exec(root)![1])).toBeGreaterThanOrEqual(6);
+    expect(root).toMatch(/scroll-padding-bottom:\s*[\d.]+rem/);
+    expect(ruleBody(narrow, 'body')).toMatch(/padding-bottom:\s*[\d.]+rem/);
+  });
+  it('the skip link, when focused, draws above the fixed status bar (#153 review)', () => {
+    const z = (r: string | undefined) => Number(/z-index:\s*(\d+)/.exec(r ?? '')?.[1] ?? 0);
+    expect(z(ruleBody(css, '.skip:focus'))).toBeGreaterThan(z(ruleBody(narrow, '.statusbar')));
+  });
+  it('table boxes keep keyboard focus and sideways scroll across auto-run redraws (#153 review)', () => {
+    expect(fnBody(main, 'scrollBox')).toMatch(/dataset\.k = `scroll:\$\{label\}`/);
+    expect(fnBody(main, 'render')).toMatch(/scrollLeft/);
+  });
+  it('display of the bars is set by classes only, so the picture setting can hide them', () => {
+    expect(css).not.toMatch(/#(statusbar|alertbar)\s*[,{][^}]*display/);
+    expect(css).toMatch(/html\[data-art="off"\] \.px-scene/);
+  });
+  it('the status bar portrait is a labelled scene that the picture setting hides; its text stays in every mode', () => {
+    const body = fnBody(main, 'renderStatusBar');
+    expect(body).toMatch(/px-scene sb-portrait/);
+    expect(body).toMatch(/cropOf\('status', v\.stage\)/);
+    expect(body).toMatch(/t\.art\.scene\[v\.stage\]/);
+    expect(body).toMatch(/statusBarView\(life, t\)/);
+    expect(ruleBody(narrow, '.sb-portrait')).toMatch(/display:\s*block/);
+  });
+  it('the alert bar shows the latest event as an icon and a sentence, and creates no live region', () => {
+    const body = fnBody(main, 'renderAlertBar');
+    expect(body).toMatch(/iconEl\(recent\.icon\)/);
+    expect(body).toMatch(/recent\.line/);
+    expect(body).not.toMatch(/aria-live|'role'|aria-atomic/);
+    expect(fnBody(main, 'renderInner')).toMatch(/renderStatusBar\(document\.getElementById\('statusbar'\)!\)/);
+    expect(fnBody(main, 'renderInner')).toMatch(/renderAlertBar\(document\.getElementById\('alertbar'\)!\)/);
+  });
+  it('the bars are filled after the latest event is known', () => {
+    const inner = fnBody(main, 'renderInner');
+    expect(inner.indexOf('recent = latestEvent')).toBeLessThan(inner.indexOf('renderAlertBar('));
+  });
+});
+
+describe('money card fold and tables (#153)', () => {
+  it('the card body is a details.fold whose open state continues from the previous draw', () => {
+    const body = fnBody(main, 'renderMoneyCard');
+    expect(body).toMatch(/host\.querySelector<HTMLDetailsElement>\('details\.fold'\)/);
+    expect(body).toMatch(/moneyFoldOpen\(prevFold\?\.open, window\.matchMedia\('\(min-width: 64rem\)'\)\.matches\)/);
+    expect(body).toMatch(/moneySummary\(life, t\)/);
+    expect(body).toMatch(/dataset\.k = 'money-fold'/);
+    expect(main).not.toMatch(/addEventListener\('toggle'/);
+  });
+  it('the portrait stays above the fold, so it is not folded away on wide screens', () => {
+    const body = fnBody(main, 'renderMoneyCard');
+    expect(body.indexOf('portraitEl(')).toBeLessThan(body.indexOf("el('details')"));
+  });
+  it('focus on the summary survives a redraw: the restore also looks inside aside[id]', () => {
+    expect(main).toMatch(/closest\('section\[id\], aside\[id\]'\)/);
+  });
+  it('wide tables scroll inside their own labelled, keyboard-reachable box instead of widening the page', () => {
+    const body = fnBody(main, 'scrollBox');
+    expect(body).toMatch(/role', 'region'/);
+    expect(body).toMatch(/aria-label', label/);
+    expect(body).toMatch(/tabIndex = 0/);
+    expect(main.match(/scrollBox\(/g)!.length).toBeGreaterThanOrEqual(4);   // 정의 + 월별 계산서·동기·분기 비교
+    expect(ruleBody(css, '.table-scroll')).toMatch(/overflow-x:\s*auto/);
   });
 });
