@@ -332,7 +332,7 @@ export function decide(state: LifeState, data: DataBundle, optionIndex: number, 
 
   const outcome = decisionOutcome(pending);
   let next = EFFECTS[pending.dp](state, data, pending, opt.key);
-  next = addLog(next, `decision.${pending.dp}${outcome ? `.${outcome}` : ''}.${opt.key}`, ['decision', pending.dp, opt.key]);
+  next = addLog(next, `decision.${pending.dp}${outcome ? `.${outcome}` : ''}.${opt.key}`, ['decision', pending.dp, opt.key, ...(typeof pending.context.cause === 'string' ? [pending.context.cause] : [])]);   // 원인(funding-expiry)은 네 번째 tag: 화면이 원인별 결과 문장을 고른다
 
   let snapshots: Snapshot[] = next.snapshots;
   for (let i = snapshots.length - 1; i >= 0; i--) {

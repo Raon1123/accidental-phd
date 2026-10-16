@@ -194,6 +194,22 @@
     "creative": true
   },
   {
+    "id": "scene-fund-hs-crisis",
+    "at": "decision",
+    "key": "funding-expiry",
+    "group": "인문사회",
+    "cause": "crisis",
+    "text": "대출 한도 소진 통지가 왔다. 저축은 바닥났고 더 빌릴 곳도 없다. 이대로는 생활을 이어 갈 수 없으니, 무엇이든 바꿔야 한다.",
+    "options": {
+      "C": "지금 자금과 수입으로 버티며, 석 달 안에 현금이 돌아오지 않으면 등록을 이어갈 수 없다."
+    },
+    "refs": [
+      "nar-hs-funding-4",
+      "nar-hs-funding-6"
+    ],
+    "creative": true
+  },
+  {
     "id": "scene-fund-stem",
     "at": "decision",
     "key": "funding-expiry",
@@ -204,6 +220,23 @@
       "B": "연구실 안의 조교나 강의 근무를 맡아 생활을 이어 가며, 연구 시간은 줄어든다.",
       "C": "저축과 대출로 연구를 이어 가며, 졸업 뒤까지 빚이 남을 위험을 진다.",
       "D": "학업을 멈추고 연구실 밖의 일자리에서 일하며, 학위 일정은 늦어지지만 생활은 안정된다."
+    },
+    "refs": [
+      "nar-stem-funding-6",
+      "nar-stem-funding-8",
+      "nar-stem-early-career-7"
+    ],
+    "creative": true
+  },
+  {
+    "id": "scene-fund-stem-crisis",
+    "at": "decision",
+    "key": "funding-expiry",
+    "group": "이공",
+    "cause": "crisis",
+    "text": "대출 한도 소진 통지가 왔다. 저축은 바닥났고 더 빌릴 곳도 없다. 이대로는 생활을 이어 갈 수 없으니, 무엇이든 바꿔야 한다.",
+    "options": {
+      "C": "지금 자금과 수입으로 버티며, 석 달 안에 현금이 돌아오지 않으면 등록을 이어갈 수 없다."
     },
     "refs": [
       "nar-stem-funding-6",

@@ -5,7 +5,7 @@ import pack from '../../data/text/scenes.ko.json';
 
 export type HireWhen = 'first' | 'switch' | 'no-phd';
 export interface Scene {
-  id: string; at: 'decision' | 'log'; key: string; group?: Group; route?: Route; when?: HireWhen;
+  id: string; at: 'decision' | 'log'; key: string; group?: Group; route?: Route; when?: HireWhen; cause?: string;
   text: string; options?: Readonly<Record<string, string>>; refs: readonly string[]; creative: true;
 }
 export const SCENES: readonly Scene[] = pack as Scene[];
@@ -14,22 +14,37 @@ type LogEntry = LifeState['log'][number];
 
 const fits = (x: Scene, group: Group): boolean => x.group === undefined || x.group === group;
 
-/** 결정 지점 장면. 키는 `<지점>[.<결과>]`(play.prompts 와 같다). 계열이 맞는 장면을 앞세우고, 없으면 계열 없는 장면. */
-export function decisionScene(group: Group, dpKey: string): Scene | undefined {
-  const items = SCENES.filter(x => x.at === 'decision' && x.key === dpKey && fits(x, group));
-  return items.find(x => x.group === group) ?? items[0];
+/**
+ * 결정 지점 장면 후보. 키는 `<지점>[.<결과>]`(play.prompts 와 같다). 원인(cause)이 맞는 변형이 앞서고, 그 다음 계열이 맞는 장면, 그 다음 계열 없는 장면.
+ * 원인이 다른 변형은 후보가 아니다(재정 위기가 아닌 만료에 위기 장면이 나오지 않는다, 결정 기록 0023).
+ */
+function decisionScenes(group: Group, dpKey: string, cause?: string): Scene[] {
+  const items = SCENES.filter(x => x.at === 'decision' && x.key === dpKey && fits(x, group) && (x.cause === undefined || x.cause === cause));
+  const rank = (x: Scene): number => (x.cause !== undefined ? 0 : 2) + (x.group === group ? 0 : 1);
+  return items.sort((a, b) => rank(a) - rank(b));
 }
+
+export function decisionScene(group: Group, dpKey: string, cause?: string): Scene | undefined {
+  return decisionScenes(group, dpKey, cause)[0];
+}
+
+/** 결정 지점의 원인. 엔진 context 에 문자열 cause 가 있는 지점(funding-expiry)만. */
+export const causeOf = (p: PendingDecision): string | undefined => (typeof p.context.cause === 'string' ? p.context.cause : undefined);
 
 export function pendingScene(s: LifeState, p: PendingDecision): Scene | undefined {
   const outcome = decisionOutcome(p);
-  return decisionScene(s.choices.group, outcome ? `${p.dp}.${outcome}` : p.dp);
+  return decisionScene(s.choices.group, outcome ? `${p.dp}.${outcome}` : p.dp, causeOf(p));
 }
 
-/** 결정 기록 `decision.<지점>[.<결과>].<선택지>` 의 결과 문장. 선택지 뒤에 꼬리가 붙은 기록(`….B.paper-p0` 등)은 없다. */
-export function decisionResult(group: Group, textKey: string): string | undefined {
+/**
+ * 결정 기록 `decision.<지점>[.<결과>].<선택지>` 의 결과 문장. 선택지 뒤에 꼬리가 붙은 기록(`….B.paper-p0` 등)은 없다.
+ * cause 는 기록 tags 의 네 번째 값. 원인 변형에 그 선택지 문장이 없으면 원인 없는 장면의 문장을 쓴다.
+ */
+export function decisionResult(group: Group, textKey: string, cause?: string): string | undefined {
   const m = /^decision\.(.+)\.([A-D])$/.exec(textKey);
   if (!m) return undefined;
-  return decisionScene(group, m[1]!)?.options?.[m[2]!];
+  for (const x of decisionScenes(group, m[1]!, cause)) if (x.options?.[m[2]!]) return x.options[m[2]!];
+  return undefined;
 }
 
 /**

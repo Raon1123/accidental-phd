@@ -6,7 +6,7 @@ import {
   type DataBundle, type Focus, type LifeState, type MonthInput, type PendingDecision, type Route,
 } from '../../engine/src/browser';
 import { newsLine } from './news';
-import { decisionResult, logScene, pendingScene } from './scenes';
+import { causeOf, decisionResult, logScene, pendingScene } from './scenes';
 import type { Strings } from './strings.ko';
 
 /** 비정규직 경로(계약·임시직): 박사후연구원, 시간강사, 비정년 교원, 임시직. 그 밖(창업 제외)은 정규직이다. */
@@ -118,6 +118,8 @@ export function decisionView(s: LifeState, data: DataBundle, t: Strings): Decisi
     options: p.options.map((o, index) => {
       const info = infos[index]!;
       const view: DecisionView['options'][number] = { index, key: o.key, label: lookup(t.texts, optionKey(p, o.key), 'option') };
+      // 재정 위기로 걸린 만료의 C 는 대출로 버틸 수 없으므로 '대출로 버틴다' 대신 위기용 문구와 3개월 기한을 쓴다(결정 기록 0023).
+      if (p.dp === 'funding-expiry' && o.key === 'C' && causeOf(p) === 'crisis') view.label = `${t.play.crisisCLabel}. ${t.play.crisisC}`;
       if (info.probabilityHint && !info.unavailable) view.hint = `${t.play.hint} ${Math.round(info.probabilityHint.p * 100)}%`;
       if (info.unavailable) view.unavailable = lookup(t.play.unavailable, info.unavailable, 'unavailable');
       return view;
@@ -158,7 +160,7 @@ export function notes(s: LifeState, t: Strings): Note[] {
   const groups = s.log.map((e, i): Note[] => {
     if (e.textKey === 'log.month') return [];
     const out: Note[] = [{ month: e.month, key: e.textKey, text: noteText(e, t, s), creative: e.creative, kind: noteKind(e.textKey) }];
-    const extra = e.textKey.startsWith('decision.') ? decisionResult(s.choices.group, e.textKey) : logScene(s, e, i)?.text;
+    const extra = e.textKey.startsWith('decision.') ? decisionResult(s.choices.group, e.textKey, e.tags[3]) : logScene(s, e, i)?.text;
     if (extra) out.push({ month: e.month, key: e.textKey, text: extra, creative: true, scene: true, kind: 'scene' });
     return out;
   });
