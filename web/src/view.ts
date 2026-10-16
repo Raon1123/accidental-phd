@@ -3,6 +3,7 @@ import { ASSUMED, applyWorkInput, researchMarket, growthMultiplier, lectureEligi
 import { calendarLabel, elapsedLabel } from './dates';
 import { schoolDisplayName } from './schoolName';
 import { notes, statusLine, type NoteKind } from './play';
+import { iconOf, type Icon } from './pixel';
 import { departmentLabel, subfieldName, trackLabel } from './select';
 import type { Strings } from './strings.ko';
 
@@ -127,7 +128,7 @@ export function paperView(s: LifeState, t: Strings, data?: DataBundle): PaperVie
   return { accepted: s.phd.papers.filter(p => p.status === 'accepted').length, required: s.phd.requiredPapers, rows };
 }
 
-export interface SummaryItem { when: string; kind: string; text: string }
+export interface SummaryItem { when: string; kind: string; text: string; icon?: Icon }
 export interface LifeSummary { span: string; items: SummaryItem[] }
 
 const SUMMARY_KINDS: ReadonlySet<NoteKind> = new Set<NoteKind>(['good', 'bad', 'decision', 'leave', 'start', 'end']);
@@ -137,7 +138,7 @@ export function lifeSummary(s: LifeState, t: Strings): LifeSummary {
   const items = notes(s, t)
     .filter(n => !n.scene && SUMMARY_KINDS.has(n.kind))
     .reverse()   // notes() 는 최신순
-    .map(n => ({ when: calendarLabel(n.month, t), kind: t.play.noteKinds[n.kind], text: n.text }));
+    .map(n => ({ when: calendarLabel(n.month, t), kind: t.play.noteKinds[n.kind], text: n.text, icon: iconOf(n.key, n.kind) }));
   const to = s.end?.month ?? s.month;
   const span = t.play.summary.span
     .replace('{from}', calendarLabel(0, t)).replace('{to}', calendarLabel(to, t)).replace('{elapsed}', elapsedLabel(to, t));

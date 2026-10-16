@@ -643,6 +643,16 @@
     "creative": true
   },
   {
+    "id": "scene-laid-off",
+    "at": "log",
+    "key": "log.laid-off",
+    "text": "일하던 곳의 사정으로 자리를 잃었다. 마지막 급여가 들어온 달에 짐을 정리하며 그동안 맡았던 일을 이력서에 옮겨 적는다. 다시 공고를 찾아 지원서를 쓰고 면접 날짜를 수첩에 적는다. 답이 오지 않는 지원이 늘어도 다음 자리를 찾는다.",
+    "refs": [
+      "assumed"
+    ],
+    "creative": true
+  },
+  {
     "id": "scene-startup-closed",
     "at": "log",
     "key": "log.startup-closed",

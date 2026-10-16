@@ -27,17 +27,17 @@ const params = (o: Partial<GainParams> = {}): GainParams =>
   ({ g: 2, u: 0.5, skill: 70, researchTime: 1, health: 50, support: 50, rigor: 50, f: 1, blocked: false, ...o });
 
 describe('gK (선택권 §4.2)', () => {
-  it('matches 100 / ((12·T − 6) × M̄) from the duration records (M̄ = ASSUMED.G_MBAR_INIT, 보정 2026-10-15: 0.30)', () => {
+  it('matches 100 / ((12·T − 6) × M̄) from the duration records (M̄ = ASSUMED.G_MBAR_INIT, 보정 2026-10-15: 0.279)', () => {
     const t: Record<Kedi, number> = { humanities: 6, social: 5, natural: 5.5, engineering: 5.5 };
     for (const k of Object.keys(t) as Kedi[]) {
       expect(gK(data, k)).toBeCloseTo(100 / ((12 * t[k] - 6) * ASSUMED.G_MBAR_INIT), 10);
     }
   });
   it('is within 0.01 of the starting values in ASSUMED.G_INIT', () => {
-    expect(gK(data, 'humanities')).toBeCloseTo(ASSUMED.G_INIT.humanities, 1);     // 5.05 (M̄ 0.30)
-    expect(gK(data, 'social')).toBeCloseTo(ASSUMED.G_INIT.social, 1);             // 6.17
-    expect(gK(data, 'natural')).toBeCloseTo(ASSUMED.G_INIT.natural, 1);           // 5.56
-    expect(gK(data, 'engineering')).toBeCloseTo(ASSUMED.G_INIT.engineering, 1);   // 5.56
+    expect(gK(data, 'humanities')).toBeCloseTo(ASSUMED.G_INIT.humanities, 1);     // 5.43 (M̄ 0.279)
+    expect(gK(data, 'social')).toBeCloseTo(ASSUMED.G_INIT.social, 1);             // 6.64
+    expect(gK(data, 'natural')).toBeCloseTo(ASSUMED.G_INIT.natural, 1);           // 5.97
+    expect(gK(data, 'engineering')).toBeCloseTo(ASSUMED.G_INIT.engineering, 1);   // 5.97
     for (const k of Object.keys(ASSUMED.G_INIT) as Kedi[]) expect(Math.abs(gK(data, k) - ASSUMED.G_INIT[k])).toBeLessThanOrEqual(0.01);
   });
 });

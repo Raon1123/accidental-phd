@@ -28,7 +28,7 @@ function decisionKeys(): Map<string, string[]> {
 
 const NON_ACADEMIC = ['industry', 'public', 'startup', 'bridge'] as const;
 const ACADEMIC_FIRST = ['postdoc', 'lecturer', 'nontenure', 'professor', 'institute'] as const;
-const LOG_KEYS = ['log.degree', 'log.contract-ended', 'log.startup-closed', 'log.retired', 'log.end-age80', 'log.end-dropout', 'log.end-financial', 'log.end-residence'];
+const LOG_KEYS = ['log.degree', 'log.contract-ended', 'log.startup-closed', 'log.laid-off', 'log.retired', 'log.end-age80', 'log.end-dropout', 'log.end-financial', 'log.end-residence'];
 
 describe('scene pack coverage (#57)', () => {
   it('every decision combination has a scene for each group, with one result per option letter', () => {

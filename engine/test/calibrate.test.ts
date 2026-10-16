@@ -96,7 +96,7 @@ describe('--override', () => {
     const share = (r: typeof base): number => r.diagnostics.outcomeByGroup.all!.financial / r.diagnostics.outcomeByGroup.all!.n;
     expect(withOverrides({ LOAN_LIMIT: 300_000_000 }, () => createLife({ auto: true }, 'APHD-CAL00001', data).money.loanLimit)).toBe(300_000_000);
     expect(ASSUMED.LOAN_LIMIT).not.toBe(300_000_000);   // 끝나면 되돌린다
-    expect(share(base)).toBeGreaterThan(0.3);
+    expect(share(base)).toBeGreaterThan(0.1);   // 기본 상수에도 재정 파탄이 있어야 비교가 뜻이 있다(결정 기록 0025 뒤 40삶 0.225)
     expect(share(lenient)).toBeLessThan(share(base));
   });
 

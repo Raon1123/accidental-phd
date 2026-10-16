@@ -1346,7 +1346,7 @@
       "조교 근무",
       "방학"
     ],
-    "when": "stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 AND month%12 in {4,5,10,11}(방학 달)",
+    "when": "stage=phd AND phd.fundingState.dutyHours>0 AND month%12 in {4,5,10,11}(방학 달)",
     "creative": true
   },
   {
@@ -1358,7 +1358,7 @@
       "조교 근무",
       "학과 행정"
     ],
-    "when": "stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0",
+    "when": "stage=phd AND phd.fundingState.dutyHours>0",
     "creative": true
   },
   {
@@ -1370,7 +1370,7 @@
       "조교 근무",
       "신입"
     ],
-    "when": "stage=phd AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 AND month<=12",
+    "when": "stage=phd AND phd.fundingState.dutyHours>0 AND month<=12",
     "creative": true
   },
   {
@@ -1418,7 +1418,7 @@
       "자비",
       "저축"
     ],
-    "when": "stage=phd AND phd.fundingState.route=self AND month%6==0(등록금 달)",
+    "when": "stage=phd AND phd.fundingState.route=self AND phd.fundingState.dutyHours=0 AND month%6==0(등록금 달)",
     "creative": true
   },
   {
@@ -1430,7 +1430,7 @@
       "자비",
       "생활비"
     ],
-    "when": "stage=phd AND phd.fundingState.route=self AND phd.familySupport=0",
+    "when": "stage=phd AND phd.fundingState.route=self AND phd.fundingState.dutyHours=0 AND phd.familySupport=0",
     "creative": true
   },
   {
@@ -1886,7 +1886,7 @@
       "생계",
       "통장"
     ],
-    "when": "stage=phd AND phd.familySupport=0 AND phd.fundingState.route=project AND phd.fundingState.dutyHours>0 (재등장 간격 48개월)",
+    "when": "stage=phd AND phd.familySupport=0 AND phd.fundingState.dutyHours>0 (재등장 간격 48개월)",
     "creative": true
   },
   {

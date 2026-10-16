@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { ASSUMED, createLife, decide, newSeed, policyDecision, type LifeState, type Paper } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { BASE_MS, SPEEDS, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
+import { BASE_MS, SPEEDS, autoRuleText, statusLine, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, noteKind, noteText, notes, optionKey, setAuto, step, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
 import { participationReason, paperView, statBars, venueLabel, workView } from '../src/view';
 
@@ -395,5 +395,12 @@ describe('student loan rows (#135)', () => {
     expect(v.tuitionLoan).toBe(3_000_000);
     expect(v.livingLoan).toBe(1_200_000);
     expect(moneyView(s0, data).tuitionLoan).toBe(0);
+  });
+});
+
+describe('note kinds (#84)', () => {
+  it('shows a layoff record as a bad event like a contract end', () => {
+    expect(noteKind('log.laid-off')).toBe('bad');
+    expect(noteKind('log.contract-ended')).toBe('bad');
   });
 });
