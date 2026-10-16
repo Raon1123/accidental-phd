@@ -393,13 +393,15 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
       expect(want.recordIds).toEqual([taStipend(data, school).id, waiverRate(data, school, 'project').id]);
     }
   });
-  it('self-funded TA life (decision 0022): never expires; on forced expiry A is no-funding, B gives the same TA state, C keeps the TA income (0014#141)', () => {
+  it('self-funded TA life (decision 0022): never expires; on forced expiry A is no-funding, B is already-ta (0014#142), C keeps the TA income (0014#141)', () => {
     const ta = taFundingState(data, 'snu');
     const s = phdFixture({ month: 99, phd: { fundingState: ta } });
     expect(fundingExpired(s)).toBe(false);
     const p = withPending(s, 'funding-expiry', { cause: 'crisis' });
     expect(optionUnavailable(p, p.pending!, 'A')).toBe('no-funding');
-    expect(choose(p, 'B').phd!.fundingState).toEqual(ta);
+    expect(optionUnavailable(p, p.pending!, 'B')).toBe('already-ta');
+    expect(() => choose(p, 'B')).toThrow(/unavailable \(already-ta\)/);
+    expect(describeOptions(p, data).map(o => o.unavailable)).toEqual(['no-funding', 'already-ta', undefined, undefined]);
     const c = choose(p, 'C');
     expect(c.phd!.fundingState).toEqual(ta);
     expect(c.phd!.fundingState.monthly).toBe(300_000);
@@ -408,10 +410,25 @@ describe('decide: funding-expiry (선택권 §3.3)', () => {
   it('C keeps a TA state reached through B but resets the post-D marker state (0014#141; 0023)', () => {
     const viaB = choose(expiry(project, 24), 'B');
     const p = withPending({ ...viaB, pending: null, month: 30 }, 'funding-expiry', { cause: 'crisis' });
+    expect(optionUnavailable(p, p.pending!, 'B')).toBe('already-ta');   // 0014#142: B 로 얻은 조교 상태도 같다
     expect(choose(p, 'C').phd!.fundingState).toEqual(viaB.phd!.fundingState);
     const afterD = { route: 'self' as const, monthly: 2_000_000, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: ['0014#36'] };
     const d = withPending(phdFixture({ phd: { fundingState: afterD } }), 'funding-expiry', { cause: 'crisis' });
     expect(choose(d, 'C').phd!.fundingState).toEqual(SELF_RESET);
+  });
+  it('B stays open outside the TA state (0014#142 only closes dutyHours > 0): project, scholarship, plain self, post-D marker, and a retry', () => {
+    const afterD = { route: 'self' as const, monthly: 2_000_000, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: ['0014#36'] };
+    const self = { route: 'self' as const, monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] };
+    for (const cause of ['until', 'crisis'] as const) {
+      for (const f of [project, scholarship]) { const s = expiry(f, 24, {}, { cause }); expect(optionUnavailable(s, s.pending!, 'B')).toBeUndefined(); }
+    }
+    for (const f of [self, afterD]) {
+      const s = withPending(phdFixture({ phd: { fundingState: f } }), 'funding-expiry', { cause: 'crisis' });
+      expect(optionUnavailable(s, s.pending!, 'B')).toBeUndefined();
+      expect(choose(s, 'B').phd!.fundingState.dutyHours).toBe(ASSUMED.TA_DUTY_HOURS);
+    }
+    const retry = expiry(project, 24, {}, { cause: 'until', retry: true });
+    expect(optionUnavailable(retry, retry.pending!, 'B')).toBeUndefined();
   });
 });
 
