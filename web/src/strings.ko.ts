@@ -57,6 +57,7 @@ export const ko = {
   saveNow: '지금 상태 저장',
   archiveHeading: '최근 기록',
   archiveEmpty: '저장한 기록이 없습니다.',
+  archiveNotPersistent: '이 브라우저는 사이트 저장을 막고 있어, 저장한 기록이 이 창을 닫으면 사라집니다.',
   open: '불러오기',
   currentHeading: '지금 삶',
   noLife: '아직 시작한 삶이 없습니다.',

@@ -2,7 +2,7 @@
 // 진행 로직(한 칸, 자동 모드, 결정 지점, 연구노트, 인생 지도)은 play.ts, 동기·분기는 cohort.ts 에 있고, 여기는 DOM 과 타이머만 다룬다.
 import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile, type WebSource } from '../../engine/src/browser';
 import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
-import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
+import { guardedStore, loadLife, readArchive, saveLife } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Note, type Speed } from './play';
 import { WIDE_W, bigSceneAfter, cropOf, latestEvent, moneyFoldOpen, moneySummary, statusBarView, type BigSceneView, type Crop, type LatestEvent } from './artview';
@@ -13,7 +13,7 @@ import { ko as t } from './strings.ko';
 import { calendarLabel, elapsedLabel } from './dates';
 import { detailRows, glanceRows, lifeSummary, paperView, statBars, workView, type WorkDraft } from './view';
 
-const store: KeyValueStore = window.localStorage;
+const { store, persistent } = guardedStore(() => window.localStorage);   // 저장소가 막히면 메모리로 대신한다(#184)
 let data: DataBundle | undefined;
 let sources: Record<string, WebSource> = {};
 let shownIds: string[] = [];   // 지금 화면에 보인 값의 근거 id(출처 footer 가 읽는다)
@@ -610,6 +610,7 @@ function localTime(iso: string): string {
 
 function renderArchive(root: HTMLElement): void {
   root.replaceChildren(el('h2', t.archiveHeading));
+  if (!persistent()) root.append(el('p', t.archiveNotPersistent));
   const entries = readArchive(store);
   if (entries.length === 0) { root.append(el('p', t.archiveEmpty)); return; }
   const ul = el('ul');
