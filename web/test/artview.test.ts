@@ -329,3 +329,63 @@ describe('big event scene rules (#154)', () => {
     expect(bigIcon('log.hired')).toBe('hired');
   });
 });
+
+describe('big event scene on screen (#154)', () => {
+  it('index.html: an empty section right above the feed', () => {
+    expect(html).toMatch(/<section id="bigscene" class="bigscene px-scene"><\/section>\s*<section id="feed"><\/section>/);
+  });
+  it('strings: region name and close button are Korean text outside main.ts', () => {
+    expect(ko.bigScene.region).toMatch(/[가-힣]/);
+    expect(ko.bigScene.close).toMatch(/[가-힣]/);
+  });
+  it('the scene is a labelled 160-wide picture followed by the dialog, with a real close button', () => {
+    const body = fnBody(main, 'renderBigScene');
+    expect(body).toMatch(/t\.art\.scene\[v\.stage\]/);
+    expect(body).toMatch(/sceneRects\(v\.stage, \{ width: WIDE_W \}\)/);
+    expect(body).toMatch(/cropOf\('wide', v\.stage\)/);
+    expect(body).toMatch(/button\(t\.bigScene\.close/);
+    expect(body).toMatch(/\[\$\{t\.play\.creative\}\]/);
+    expect(body).not.toMatch(/role', 'dialog'|aria-modal|aria-live/);
+  });
+  it('closing clears the scene and moves focus to the research notes heading, not to a removed element', () => {
+    const body = fnBody(main, 'renderBigScene');
+    expect(body).toMatch(/bigScene = undefined; render\(\); document\.querySelector<HTMLElement>\('#feed h2'\)\?\.focus\(\)/);
+  });
+  it('the entrance effect is asked for only when a different scene is drawn for the first time', () => {
+    const body = fnBody(main, 'renderBigScene');
+    expect(body).toMatch(/classList\.toggle\('fresh', v\.id !== bigShown\)/);
+    expect(body).toMatch(/bigShown = v\.id/);
+  });
+  it('every place that replaces the life goes through adopt, so the scene is decided in one spot', () => {
+    expect(main).not.toMatch(/\blife = (advanceWith|decide|setAuto|createLife)\(/);
+    expect(fnBody(main, 'tick')).toMatch(/adopt\(next, life\.log\.length, halted\(next\) \? undefined : speed\)/);
+    expect(fnBody(main, 'startLife')).toMatch(/adopt\(createLife\(/);
+    expect(main).toMatch(/adopt\(advanceWith\(life, data\), life\.log\.length\)/);
+    expect(main).toMatch(/adopt\(decide\(life, data, i\), life\.log\.length\)/);
+    expect(main).toMatch(/adopt\(setAuto\(life, data, cb\.checked\), life\.log\.length\)/);
+  });
+  it('a loaded life shows no scene for events that are already past', () => {
+    expect(main).toMatch(/life = loadLife\(store, e\.id\); bigScene = undefined;/);
+  });
+  it('adopt keeps the scene when the engine was not called (same state back)', () => {
+    expect(fnBody(main, 'adopt')).toMatch(/if \(next === life\) return;/);
+  });
+  it('renderInner draws the scene', () => {
+    expect(fnBody(main, 'renderInner')).toMatch(/renderBigScene\(document\.getElementById\('bigscene'\)!\)/);
+  });
+  it('the dialog text uses the normal colors and the box is capped in width', () => {
+    const d = ruleBody(css, '.dialog')!;
+    expect(d).toMatch(/color:\s*var\(--fg\)/);
+    expect(d).toMatch(/background:\s*var\(--bg\)/);
+    expect(ruleBody(css, '.bigscene')).toMatch(/max-width:\s*48rem/);
+    expect(css).toMatch(/\.bigscene:empty\s*\{[^}]*display:\s*none/);
+    expect(css).not.toMatch(/#bigscene\s*[,{]/);
+  });
+  it('all motion lives in the no-preference block (reduced motion gets none)', () => {
+    const rest = stripBlocks(css, '@media (prefers-reduced-motion: no-preference)');
+    expect(rest).not.toMatch(/animation\s*:|animation-name|transition\s*:|@keyframes/);
+    const motion = blocks(css, '@media (prefers-reduced-motion: no-preference)').join('\n');
+    expect(motion).toMatch(/@keyframes px-pop/);
+    expect(motion).toMatch(/\.bigscene\.fresh \.dialog\s*\{[^}]*animation:\s*px-pop/);
+  });
+});
