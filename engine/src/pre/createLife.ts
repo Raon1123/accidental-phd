@@ -186,8 +186,8 @@ export function createLife(config: LifeConfig, seed: string, data: DataBundle): 
   fundingState ??= { route: 'self', monthly: 0, tuitionWaiver: 0, until: -1, dutyHours: 0, recordIds: [] };
   if (fundingState.route === 'self') {
     // 입학 때 조교 추첨(0014#136 확률, 0014#137 상태): 자비로 확정된 삶(고른 자비·내려온 자비 모두)은 P_TA 로 §3.3 B 와 같은 조교 상태를 얻는다.
-    // 경로는 self 그대로라 참여율 추첨(#130)·배수(#125·#126)가 걸리지 않는다. 슬롯 funding/0/'self:ta' 는 새 슬롯이라 다른 추첨을 밀지 않는다.
-    if (draw(seed, 'funding', 0, 'self:ta') < selfTaProbability(data).value) fundingState = taFundingState(data, school, 'self');
+    // 표식은 0014#140(경로 self + 의무 시간, §3.3 B 와 공통)이라 참여율 추첨(#130)·배수(#125·#126)가 걸리지 않는다. 슬롯 funding/0/'self:ta' 는 새 슬롯이라 다른 추첨을 밀지 않는다.
+    if (draw(seed, 'funding', 0, 'self:ta') < selfTaProbability(data).value) fundingState = taFundingState(data, school);
     stats.mind = clamp(stats.mind + ASSUMED.SELF_FUNDING_MIND_PENALTY, ASSUMED.STAT_MIN, ASSUMED.STAT_MAX);
   }
 

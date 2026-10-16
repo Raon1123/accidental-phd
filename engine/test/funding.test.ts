@@ -8,9 +8,9 @@ describe('self-funding TA draw values (0014#136·#137, decision 0022)', () => {
     expect(selfTaProbability(data)).toMatchObject({ value: 0.265, id: 'statistics-ta-income-living-cost-2015' });
   });
   it('taFundingState: snu 300,000, no end date, 10 duty hours; schools without a TA record carry 0014#35', () => {
-    expect(taFundingState(data, 'snu', 'self')).toMatchObject({ route: 'self', monthly: 300_000, until: -1, dutyHours: 10 });
-    expect(taFundingState(data, 'yonsei', 'self').recordIds).toContain('0014#35');
-    expect(taFundingState(data, 'snu', 'project').route).toBe('project');
+    expect(taFundingState(data, 'snu')).toMatchObject({ route: 'self', monthly: 300_000, until: -1, dutyHours: 10 });
+    expect(taFundingState(data, 'yonsei').recordIds).toContain('0014#35');
+    expect(taFundingState(data, 'korea').route).toBe('self');   // 0014#140: 조교 상태의 표식은 경로 self + 의무 시간 하나
   });
 });
 

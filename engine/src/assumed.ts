@@ -83,7 +83,9 @@ export const ASSUMED = {
   // 0014#136 자비 경로 입학 때 조교 추첨 확률은 레코드 statistics-ta-income-living-cost-2015(data/funding.ts selfTaProbability, 결정 기록 0022), 새 수치 없음.
   // 0014#137 그 조교 상태는 아래 두 값과 #21 감면 규칙을 쓴다(data/funding.ts taFundingState).
   // 0014#138 funding-expiry A 는 자금이 이번 달 끝날 때(fundingExpired)만 연다. 끝나지 않은 자금은 'not-expiring'(decide.ts optionUnavailable, 결정 기록 0023), 새 수치 없음.
-  // 0014#139 funding-expiry C 는 끝난 자금·자비 경로만 자비로 전환하고 살아 있는 과제·장학 자금은 유지한다(decide.ts fundingExpiry, 결정 기록 0023), 새 수치 없음.
+  // 0014#139 funding-expiry C 는 끝난 자금·조교가 아닌 자비 경로만 자비로 전환하고 살아 있는 과제·장학 자금과 조교 상태는 유지한다(#141 보완)(decide.ts fundingExpiry, 결정 기록 0023), 새 수치 없음.
+  // 0014#140 조교 상태의 표식은 경로 self + dutyHours 10 + until −1 하나다. B 와 입학 때 조교 추첨이 같은 상태(data/funding.ts taFundingState, 결정 기록 0026), 새 수치 없음.
+  // 0014#141 funding-expiry C 는 조교 상태(dutyHours > 0)를 살아 있는 자금으로 유지한다(decide.ts fundingExpiry, 결정 기록 0026), 새 수치 없음.
   TA_FALLBACK_MONTHLY: 400_000, TA_DUTY_HOURS: 10,                                     // 0014#35; 입학 때 조교 추첨 #137에도 쓴다
   LEAVE_JOB_INCOME: 2_000_000,                                                         // 0014#36
   PRE_GRAD_PROJECT_MIN: 90, JOB_SEARCH_MONTHS: 6,                                      // 0014#37 심사 준비 단계 진척 ≥ 90, 구직 약 6개월
@@ -111,8 +113,8 @@ export const ASSUMED = {
     natural: 'statistics-phd-duration-mean-years-natural',                             // 0014#44
     engineering: 'statistics-phd-duration-mean-years-engineering',                     // 0014#44
   } satisfies Record<Kedi, string>,
-  G_PREP_MONTHS: 6, G_MBAR_INIT: 0.263, PROJECT_MAX: 100,                               // 0014#45 g = 100 / ((12·T − 6) × M̄); 보정 2026-10-14: M̄ 0.68 → 0.40, 2026-10-15: 0.40 → 0.30 (#79 성장 배수 포함 실현 평균 0.34–0.35, 중앙값 맞춤 상수; calibration-wave6-step2.md), 2026-10-15: 0.30 → 0.263 (결정 기록 0025 근로 시작 조건 뒤 실현 M̄, 0015 §4; calibration-wave6-step7.md)
-  G_INIT: { humanities: 5.76, social: 7.04, natural: 6.34, engineering: 6.34 } satisfies Record<Kedi, number>, // 0014#45 M̄ 0.263 에서의 g (M̄ 0.30: 5.05/6.17/5.56/5.56, M̄ 0.40: 3.79/4.63/4.17/4.17, 초안 M̄ 0.68: 2.23/2.72/2.45/2.45)
+  G_PREP_MONTHS: 6, G_MBAR_INIT: 0.279, PROJECT_MAX: 100,                               // 0014#45 g = 100 / ((12·T − 6) × M̄); 보정 2026-10-14: M̄ 0.68 → 0.40, 2026-10-15: 0.40 → 0.30 (#79 성장 배수 포함 실현 평균 0.34–0.35, 중앙값 맞춤 상수; calibration-wave6-step2.md), 2026-10-15: 0.30 → 0.263 (결정 기록 0025 근로 시작 조건 뒤 실현 M̄, 0015 §4; calibration-wave6-step7.md), 2026-10-15: 0.263 → 0.279 (결정 기록 0026 조교 상태 표식 뒤 실현 M̄, 0015 §4; calibration-wave6-step8.md)
+  G_INIT: { humanities: 5.43, social: 6.64, natural: 5.97, engineering: 5.97 } satisfies Record<Kedi, number>, // 0014#45 M̄ 0.279 에서의 g (M̄ 0.263: 5.76/7.04/6.34/6.34, M̄ 0.30: 5.05/6.17/5.56/5.56, M̄ 0.40: 3.79/4.63/4.17/4.17, 초안 M̄ 0.68: 2.23/2.72/2.45/2.45)
 
   // ── 자동 진행 정책·위험률 (0014 #46–#52) ──
   POLICY: {
