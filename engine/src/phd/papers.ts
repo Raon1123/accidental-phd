@@ -95,6 +95,7 @@ export function classifyVerdict(u: number, pAcc: number): Verdict {
  * 첫 판정이 아니면 기본 방침을 바로 적용한다:
  *   거절 → 한 계층 낮춰 다음 달 재투고(T4 유지), 수정 요구 → status 'revision', 재심 기간 = ceil(심사 기간 / 2), 질·로짓 보정 그대로(최소 수정).
  * 재심 기간은 이번 달에 심사 기간을 새로 추첨(슬롯 `${id}:review:re`)해 절반으로 올림한다.
+ * 판정마다 로그 한 줄(`log.paper-{accepted,revision,rejected}`, tags [paperId, tier, venueId, attempts], #185)을 남긴다. 거절 뒤 자동 재투고는 줄을 남기지 않는다.
  */
 export function resolveVerdicts(state: LifeState, data: DataBundle): { state: LifeState; verdicts: { paperId: string; verdict: Verdict; first: boolean }[] } {
   if (!state.phd) return { state, verdicts: [] };
@@ -107,6 +108,7 @@ export function resolveVerdicts(state: LifeState, data: DataBundle): { state: Li
       && !out.decisions.some(d => d.dp === 'first-paper-verdict')
       && !out.phd!.papers.some(x => x.id !== id && x.status !== 'draft' && x.status !== 'submitted');
     verdicts.push({ paperId: id, verdict, first });
+    out = { ...out, log: [...out.log, { month: state.month, textKey: `log.paper-${verdict}`, tags: [id, p.tier ?? '', p.venueId ?? '', String(p.attempts)], creative: false }] };
 
     const settle = (status: Paper['status']): LifeState => replacePaper(out, id, x => { const { dueMonth: _d, ...rest } = x; return { ...rest, status }; });
     if (verdict === 'accepted' || first) { out = settle(verdict === 'accepted' ? 'accepted' : verdict === 'revision' ? 'revision' : 'rejected'); continue; }
