@@ -4,9 +4,9 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createLife, newSeed, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { WIDE_W, cropOf, latestEvent } from '../src/artview';
+import { WIDE_W, cropOf, latestEvent, moneyFoldOpen, moneySummary, statusBarView } from '../src/artview';
 import { SCENE_H, SCENE_W, scenePerson, type SceneStage } from '../src/pixel';
-import { notes } from '../src/play';
+import { notes, statusLine, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
 import { blocks, fnBody, ruleBody, stripBlocks } from './helpers';
 
@@ -144,5 +144,46 @@ describe('margin scenery (#152)', () => {
   });
   it('the strip is redrawn only when the stage changes', () => {
     expect(fnBody(main, 'renderBackdrop')).toMatch(/dataset\.stage/);
+  });
+});
+
+describe('mobile status line (#153)', () => {
+  it('the status crop is 24×24, inside the 96×40 scene, and holds the whole person', () => {
+    for (const st of STAGES) {
+      const c = cropOf('status', st);
+      const p = scenePerson(st);
+      expect([c.w, c.h], st).toEqual([24, 24]);
+      expect(c.x >= 0 && c.x + c.w <= SCENE_W && c.y >= 0 && c.y + c.h <= SCENE_H, st).toBe(true);
+      expect(c.x <= p.x && p.x + 8 <= c.x + c.w, `${st} width`).toBe(true);
+      expect(c.y <= p.y && p.y + 12 <= c.y + c.h, `${st} height`).toBe(true);
+    }
+  });
+  it('shows the stage sentence, then age, elapsed time and cash', () => {
+    const s = withLog([], { stage: 'phd', month: 40, ageMonths: 27 * 12 + 5, money: { ...base.money, cash: 11_025_000 } });
+    const v = statusBarView(s, ko);
+    expect(v.line).toBe(statusLine(s, ko));
+    expect(v.facts).toEqual([
+      `${ko.play.age} 27${ko.play.ageUnit}`,
+      `${ko.month} 3년 4개월`,
+      `${ko.play.money.cash} ${wonText(11_025_000, ko)}`,
+    ]);
+    expect(v.facts[2]).toContain('1,102.5');
+    expect(v.stage).toBe('phd');
+  });
+  it('has no picture before the life starts', () => {
+    expect(statusBarView(withLog([], { stage: 'pre' }), ko).stage).toBeUndefined();
+  });
+});
+
+describe('money card fold (#153)', () => {
+  it('the summary line carries the cash', () => {
+    const s = withLog([], { money: { ...base.money, cash: -2_500_000 } });
+    expect(moneySummary(s, ko)).toBe(`${ko.play.money.heading} · ${ko.play.money.cash} ${wonText(-2_500_000, ko)}`);
+  });
+  it('the open state continues from before the redraw, and starts open only on wide screens', () => {
+    expect(moneyFoldOpen(undefined, true)).toBe(true);
+    expect(moneyFoldOpen(undefined, false)).toBe(false);
+    expect(moneyFoldOpen(false, true)).toBe(false);
+    expect(moneyFoldOpen(true, false)).toBe(true);
   });
 });
