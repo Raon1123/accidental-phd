@@ -2,13 +2,14 @@
 // 그리기는 main.ts 가 하고, 사각형 목록은 pixel.ts 의 sceneRects 가 만든다.
 import type { LifeState } from '../../engine/src/browser';
 import { calendarLabel, elapsedLabel } from './dates';
-import { SCENE_H, SCENE_W, iconOf, sceneOf, scenePerson, type Icon, type SceneStage } from './pixel';
-import { statusLine, wonText, type Note } from './play';
+import { SCENE_H, SCENE_W, iconOf, isBigEvent, sceneOf, scenePerson, type Icon, type SceneStage } from './pixel';
+import { noteKind, noteText, statusLine, wonText, type Note } from './play';
+import { logScene } from './scenes';
 import type { Strings } from './strings.ko';
 
 /** 그림 한 장에서 잘라 쓰는 사각형(칸 단위). SVG viewBox 가 된다. */
 export interface Crop { x: number; y: number; w: number; h: number }
-export type CropKind = 'portrait' | 'status' | 'strip';
+export type CropKind = 'portrait' | 'status' | 'strip' | 'wide';
 
 export const PORTRAIT_W = 48;   // 초상 창: 인물 중심 48칸(§2)
 export const WIDE_W = 160;      // 넓은 장면: 160칸(§2). 풍경 띠와 큰 사건 장면(#154)이 쓴다
@@ -30,6 +31,7 @@ export function cropOf(kind: CropKind, stage: SceneStage): Crop {
     case 'portrait': return { x: clamp(p.x + PERSON_W / 2 - PORTRAIT_W / 2, 0, SCENE_W - PORTRAIT_W), y: 0, w: PORTRAIT_W, h: SCENE_H };
     case 'status': return { x: clamp(p.x + PERSON_W / 2 - STATUS_W / 2, 0, SCENE_W - STATUS_W), y: clamp(p.y - 6, 0, SCENE_H - STATUS_W), w: STATUS_W, h: STATUS_W };
     case 'strip': return { x: 0, y: SCENE_H - STRIP_H, w: WIDE_W, h: STRIP_H };
+    case 'wide': return { x: 0, y: 0, w: WIDE_W, h: SCENE_H };
   }
 }
 
@@ -75,4 +77,49 @@ export function moneySummary(s: LifeState, t: Strings): string {
  */
 export function moneyFoldOpen(prev: boolean | undefined, wide: boolean): boolean {
   return prev ?? wide;
+}
+
+/** 자동 진행이 이 배속 이상이면 큰 장면을 띄우지 않는다(번쩍임 방지, §4). 초상 말풍선은 그대로 바뀐다. */
+export const AUTO_SKIP_SPEED = 4;
+
+/** autoSpeed = 자동 진행 중인 배속(수동 진행·결정·새 삶은 undefined). */
+export function showsBigScene(autoSpeed: number | undefined): boolean {
+  return autoSpeed === undefined || autoSpeed < AUTO_SKIP_SPEED;
+}
+
+type LogEntry = LifeState['log'][number];
+
+/** 이전 상태 이후(`prevLogLength` 번째부터) 새로 쌓인 기록 중 마지막 큰 사건. 같은 사건이 두 번 뜨지 않게 이전 기록은 보지 않는다. */
+export function newBigEntry(log: LifeState['log'], prevLogLength: number): LogEntry | undefined {
+  for (let i = log.length - 1; i >= prevLogLength; i--) if (isBigEvent(log[i]!.textKey)) return log[i];
+  return undefined;
+}
+
+/** 큰 사건의 그림: 기록 키·종류 규칙(iconOf)을 따르고, 아직 종류를 모르는 새 기록 종료 키(`log.end-*`)는 깃발. */
+export function bigIcon(textKey: string): Icon {
+  return iconOf(textKey, noteKind(textKey)) ?? 'end';
+}
+
+export interface BigSceneView {
+  /** 같은 장면인지 가리는 값(등장 효과를 처음 그릴 때만 걸기 위해). */
+  id: string;
+  stage: SceneStage;
+  icon: Icon;
+  /** 대화 상자 글: 기록 문장, 그 아래 붙는 서사 장면(있으면, 창작). */
+  lines: { text: string; creative: boolean }[];
+}
+
+/**
+ * 진행 직후의 큰 장면. `prevLogLength` = 진행 전 상태의 기록 길이(새 삶은 0, 불러온 삶은 그 기록 길이).
+ * 자동 진행이 너무 빠르거나, 새 큰 사건이 없거나, 장면이 없는 단계(시작 전)면 undefined.
+ */
+export function bigSceneAfter(s: LifeState, t: Strings, prevLogLength: number, autoSpeed: number | undefined): BigSceneView | undefined {
+  if (!showsBigScene(autoSpeed)) return undefined;
+  const e = newBigEntry(s.log, prevLogLength);
+  const stage = sceneOf(s);
+  if (!e || !stage) return undefined;
+  const lines = [{ text: noteText(e, t, s), creative: e.creative }];
+  const extra = logScene(s, e, s.log.indexOf(e))?.text;
+  if (extra) lines.push({ text: extra, creative: true });
+  return { id: `${s.seed}:${e.month}:${e.textKey}`, stage, icon: bigIcon(e.textKey), lines };
 }

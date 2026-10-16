@@ -10,6 +10,7 @@ export const ko = {
       retire: '노을 지는 공원 그림. 인물이 벤치에 앉아 있다.',
     },
   },
+  bigScene: { region: '큰 사건 장면', close: '장면 닫기' },
   title: '어쩌다 박사: 한국 연구자의 일생',
   skipToMain: '본문 건너뛰기',
   loading: '데이터를 읽는 중입니다.',

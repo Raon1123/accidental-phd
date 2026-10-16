@@ -5,7 +5,7 @@ import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Note, type Speed } from './play';
-import { WIDE_W, cropOf, latestEvent, moneyFoldOpen, moneySummary, statusBarView, type Crop, type LatestEvent } from './artview';
+import { WIDE_W, bigSceneAfter, cropOf, latestEvent, moneyFoldOpen, moneySummary, statusBarView, type BigSceneView, type Crop, type LatestEvent } from './artview';
 import { SCENE_W, iconOf, iconRects, sceneOf, sceneRects, type Icon, type Rect } from './pixel';
 import { lifeConfig, selfTaNote, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
@@ -29,6 +29,8 @@ let workDraft: WorkDraft = {};   // 다음 칸에 한 번만 보내는 근로·�
 let focus: Focus | undefined;   // undefined = 지금 포커스 유지
 let timer: ReturnType<typeof setTimeout> | undefined;
 let recent: LatestEvent | undefined;   // 가장 최근 사건(초상 말풍선과 문장, #152). renderInner 가 매번 새로 정한다
+let bigScene: BigSceneView | undefined;   // 큰 사건 장면(#154). adopt 가 진행할 때마다 새로 정한다
+let bigShown = '';                        // 마지막으로 그린 큰 장면 id(처음 그릴 때만 등장 효과)
 let art: ArtMode = loadArt(store);   // 그림 설정(#151). 다시 그리지 않고 <html data-art> 와 aria-pressed 만 바꾼다(포커스 유지)
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLElementTagNameMap[K] {
@@ -134,6 +136,33 @@ function renderAlertBar(root: HTMLElement): void {
 }
 
 /** `key`(data-k)는 다시 그린 뒤 키보드 포커스를 같은 조작으로 되돌릴 때 쓴다(#61). 없으면 글자. */
+/**
+ * 큰 사건 장면(#154, 안 a): 연구노트 위에 넓은 장면(160칸)과 대화 상자. 닫기 단추로 닫고 다음 진행 때 접힌다.
+ * 대화 상자 글은 연구노트와 같은 문장이고 낭독 영역이 아니다. 등장 효과(.fresh)는 다른 장면을 처음 그릴 때만 건다.
+ */
+function renderBigScene(root: HTMLElement): void {
+  root.replaceChildren();
+  const v = bigScene;
+  if (!v) {
+    bigShown = '';
+    for (const a of ['role', 'aria-label']) root.removeAttribute(a);
+    root.classList.remove('fresh');
+    return;
+  }
+  root.setAttribute('role', 'group');
+  root.setAttribute('aria-label', t.bigScene.region);
+  root.classList.toggle('fresh', v.id !== bigShown);
+  bigShown = v.id;
+  const body = el('div');
+  body.className = 'dialog-body';
+  for (const l of v.lines) body.append(el('p', l.creative ? `${l.text} [${t.play.creative}]` : l.text));
+  body.append(button(t.bigScene.close, () => { bigScene = undefined; render(); document.querySelector<HTMLElement>('#feed h2')?.focus(); }, false, 'bigscene:close'));
+  const dlg = el('div');
+  dlg.className = 'dialog';
+  dlg.append(iconEl(v.icon), body);
+  root.append(sceneSvg(sceneRects(v.stage, { width: WIDE_W }), cropOf('wide', v.stage), t.art.scene[v.stage]), dlg);
+}
+
 function button(text: string, onClick: () => void, disabled = false, key = text): HTMLButtonElement {
   const b = el('button', text);
   b.type = 'button';
@@ -177,9 +206,21 @@ function advanceWith(s: LifeState, d: DataBundle): LifeState {
   try { return step(s, d, focus, draft); } catch { return step(s, d, focus); }
 }
 
+/**
+ * 상태를 바꿔 끼우고, 이번 진행에서 새로 쌓인 큰 사건이 있으면 큰 장면을 정한다(#154).
+ * 진행할 때마다 새로 정하므로 새 큰 사건이 없으면 장면은 접힌다("다음 진행 때 접힘").
+ * prevLogLength = 진행 전 기록 길이(새 삶은 0). autoSpeed = 자동 진행 중인 배속, 수동 진행·결정은 undefined.
+ */
+function adopt(next: LifeState, prevLogLength: number, autoSpeed?: number): void {
+  if (next === life) return;   // 엔진을 부르지 않은 같은 상태: 장면을 그대로 둔다
+  life = next;
+  bigScene = bigSceneAfter(next, t, prevLogLength, autoSpeed);
+}
+
 function tick(): void {
   if (!life || !data || !running) return;
-  life = advanceWith(life, data);
+  const next = advanceWith(life, data);
+  adopt(next, life.log.length, halted(next) ? undefined : speed);   // 멈추는 칸은 자동 진행이 아니다: 결정 지점·기록 끝의 큰 사건은 배속과 무관하게 보인다
   if (halted(life)) stop();
   render();
   if (running) timer = setTimeout(tick, intervalMs(speed));
@@ -236,7 +277,7 @@ function renderControls(root: HTMLElement, s: LifeState): void {
   bar.className = 'controls';
   bar.append(
     running ? button(t.play.pause, () => { stop(); render(); }, false, 'run') : button(t.play.run, run, halted(s), 'run'),
-    button(t.play.stepOnce, () => { if (life && data) { life = advanceWith(life, data); render(); } }, running || halted(s)),
+    button(t.play.stepOnce, () => { if (life && data) { adopt(advanceWith(life, data), life.log.length); render(); } }, running || halted(s)),
   );
   const sp = el('fieldset');
   sp.append(el('legend', t.play.speed));
@@ -247,7 +288,7 @@ function renderControls(root: HTMLElement, s: LifeState): void {
   cb.dataset.k = 'auto';
   cb.type = 'checkbox';
   cb.checked = s.auto;
-  cb.addEventListener('change', () => { if (life && data) { life = setAuto(life, data, cb.checked); render(); } });
+  cb.addEventListener('change', () => { if (life && data) { adopt(setAuto(life, data, cb.checked), life.log.length); render(); } });
   au.append(cb, ` ${t.play.auto}`);
   bar.append(sp, au);
   root.append(bar, el('p', autoRuleText(t)));
@@ -554,7 +595,7 @@ function renderCurrent(root: HTMLElement): void {
   root.append(dl);
   if (life.stage === 'end') { root.append(el('p', t.play.ended)); renderSummary(root, life); }
   renderControls(root, life);
-  renderDecision(root, life, i => { if (life && data) { life = decide(life, data, i); render(); } });
+  renderDecision(root, life, i => { if (life && data) { adopt(decide(life, data, i), life.log.length); render(); } });
   root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
   renderPapers(root, life);
   renderMap(root, life);
@@ -574,7 +615,7 @@ function renderArchive(root: HTMLElement): void {
   const ul = el('ul');
   for (const e of entries) {
     const li = el('li', `${e.id} · ${t.savedAt} ${localTime(e.savedAt)} `);
-    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); resetSide(); collapseSelect(); render(); focusCurrent(); }, false, `open:${e.id}`));
+    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); bigScene = undefined; resetSide(); collapseSelect(); render(); focusCurrent(); }, false, `open:${e.id}`));
     ul.append(li);
   }
   root.append(ul);
@@ -643,6 +684,9 @@ function renderSources(root: HTMLElement): void {
 /** 지금 삶 제목으로 포커스를 옮긴다(새 삶·불러오기 뒤 키보드 사용자가 내용을 이어 읽도록). */
 function focusCurrent(): void {
   const h = document.querySelector<HTMLElement>('#current h2');
+  // 입학 장면(#154)이 떠 있으면 그 장면이 보이게 맨 위를 보이고, 포커스는 그대로 지금 삶 제목에 둔다
+  const scene = document.querySelector<HTMLElement>('#bigscene');
+  if (scene?.childElementCount) { h?.focus({ preventScroll: true }); scrollTo(0, 0); return; }
   h?.scrollIntoView();
   h?.focus();
 }
@@ -664,7 +708,8 @@ function render(): void {
   } else if (focusKey !== undefined && focusIn) {
     const same = document.querySelector<HTMLElement>(`#${focusIn} [data-k="${CSS.escape(focusKey)}"]`);
     if (same && !(same as HTMLButtonElement).disabled) same.focus();
-    else (document.querySelector<HTMLElement>(`#${focusIn} [data-k="run"]`) ?? document.querySelector<HTMLElement>(`#${focusIn} h2`))?.focus();
+    // 큰 사건 장면이 다음 진행으로 접히면(#154) 그 안의 닫기 단추가 사라지므로 연구노트 제목으로 옮긴다
+    else (document.querySelector<HTMLElement>(`#${focusIn} [data-k="run"]`) ?? document.querySelector<HTMLElement>(`#${focusIn} h2`) ?? document.querySelector<HTMLElement>('#feed h2'))?.focus();
   }
   lastPending = pendingKey;
 }
@@ -683,6 +728,7 @@ function renderInner(): void {
   trackStatChange();
   const list = life ? notes(life, t) : [];
   recent = latestEvent(list, t);
+  renderBigScene(document.getElementById('bigscene')!);
   renderBackdrop(document.getElementById('backdrop')!, life);
   renderStatusBar(document.getElementById('statusbar')!);
   renderAlertBar(document.getElementById('alertbar')!);
@@ -728,7 +774,7 @@ function startLife(track: string | null): void {
   if (!data) return;
   stop();
   focus = undefined;
-  life = createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data);
+  adopt(createLife(lifeConfig(track), newSeed(`${Date.now()}-${Math.random()}`), data), 0);   // 새 삶은 입학 장면으로 시작한다
   resetSide();
   collapseSelect();
   render();
