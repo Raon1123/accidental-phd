@@ -187,3 +187,61 @@ describe('money card fold (#153)', () => {
     expect(moneyFoldOpen(true, false)).toBe(true);
   });
 });
+
+describe('status bar and alert bar (#153)', () => {
+  const narrow = blocks(css, '@media not all and (min-width: 64rem)').join('\n');
+  it('index.html: the status bar comes right after the skip link and is not focusable; the alert bar is aria-hidden', () => {
+    expect(html).toMatch(/<a class="skip" id="skip" href="#main"><\/a>\s*<div id="statusbar" class="statusbar"><\/div>/);
+    expect(html).toMatch(/<div id="alertbar" class="alertbar px-scene" aria-hidden="true"><\/div>/);
+  });
+  it('both bars are hidden by default and shown only below 64rem; the wide layout shows the portrait instead', () => {
+    expect(ruleBody(css, '.statusbar')).toMatch(/display:\s*none/);
+    expect(ruleBody(css, '.alertbar')).toMatch(/display:\s*none/);
+    expect(ruleBody(narrow, '.statusbar')).toMatch(/display:\s*flex/);
+    expect(ruleBody(narrow, '.alertbar')).toMatch(/display:\s*flex/);
+    expect(wide).not.toMatch(/\.(statusbar|alertbar)\s*\{[^}]*display:\s*(flex|block)/);
+  });
+  it('the status bar sticks to the top and the alert bar to the bottom, above the content, in the normal text colors', () => {
+    const top = ruleBody(narrow, '.statusbar')!;
+    expect(top).toMatch(/position:\s*sticky/);
+    expect(top).toMatch(/top:\s*0/);
+    expect(top).toMatch(/color:\s*var\(--fg\)/);
+    expect(top).toMatch(/background:\s*var\(--bg\)/);
+    const bottom = ruleBody(narrow, '.alertbar')!;
+    expect(bottom).toMatch(/position:\s*fixed/);
+    expect(bottom).toMatch(/bottom:\s*0/);
+    expect(bottom).toMatch(/color:\s*var\(--fg\)/);
+    expect(bottom).toMatch(/background:\s*var\(--bg\)/);
+    for (const r of [top, bottom]) expect(r).toMatch(/z-index:\s*\d+/);
+  });
+  it('the bars do not hide a focused control or a heading scrolled into view (scroll padding at least the bar height)', () => {
+    const root = ruleBody(narrow, 'html')!;
+    expect(root).toMatch(/scroll-padding-top:\s*[\d.]+rem/);
+    expect(root).toMatch(/scroll-padding-bottom:\s*[\d.]+rem/);
+    expect(ruleBody(narrow, 'body')).toMatch(/padding-bottom:\s*[\d.]+rem/);
+  });
+  it('display of the bars is set by classes only, so the picture setting can hide them', () => {
+    expect(css).not.toMatch(/#(statusbar|alertbar)\s*[,{][^}]*display/);
+    expect(css).toMatch(/html\[data-art="off"\] \.px-scene/);
+  });
+  it('the status bar portrait is a labelled scene that the picture setting hides; its text stays in every mode', () => {
+    const body = fnBody(main, 'renderStatusBar');
+    expect(body).toMatch(/px-scene sb-portrait/);
+    expect(body).toMatch(/cropOf\('status', v\.stage\)/);
+    expect(body).toMatch(/t\.art\.scene\[v\.stage\]/);
+    expect(body).toMatch(/statusBarView\(life, t\)/);
+    expect(ruleBody(narrow, '.sb-portrait')).toMatch(/display:\s*block/);
+  });
+  it('the alert bar shows the latest event as an icon and a sentence, and creates no live region', () => {
+    const body = fnBody(main, 'renderAlertBar');
+    expect(body).toMatch(/iconEl\(recent\.icon\)/);
+    expect(body).toMatch(/recent\.line/);
+    expect(body).not.toMatch(/aria-live|'role'|aria-atomic/);
+    expect(fnBody(main, 'renderInner')).toMatch(/renderStatusBar\(document\.getElementById\('statusbar'\)!\)/);
+    expect(fnBody(main, 'renderInner')).toMatch(/renderAlertBar\(document\.getElementById\('alertbar'\)!\)/);
+  });
+  it('the bars are filled after the latest event is known', () => {
+    const inner = fnBody(main, 'renderInner');
+    expect(inner.indexOf('recent = latestEvent')).toBeLessThan(inner.indexOf('renderAlertBar('));
+  });
+});

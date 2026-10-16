@@ -5,7 +5,7 @@ import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
 import { loadLife, readArchive, saveLife, type KeyValueStore } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, notes, setAuto, step, wonText, type Note, type Speed } from './play';
-import { WIDE_W, cropOf, latestEvent, type Crop, type LatestEvent } from './artview';
+import { WIDE_W, cropOf, latestEvent, statusBarView, type Crop, type LatestEvent } from './artview';
 import { SCENE_W, iconOf, iconRects, sceneOf, sceneRects, type Icon, type Rect } from './pixel';
 import { lifeConfig, selfTaNote, trackGroups } from './select';
 import { confidenceOf, footerLines, moneyRows, stipendGuarantee } from './sources';
@@ -96,6 +96,41 @@ function renderBackdrop(root: HTMLElement, s: LifeState | undefined): void {
   root.dataset.stage = stage ?? '';
   root.replaceChildren();
   if (stage) root.append(sceneSvg(sceneRects(stage, { width: WIDE_W }), cropOf('strip', stage), undefined, 'xMidYMax slice'));
+}
+
+/**
+ * 모바일 위 고정 상태 줄(#153): 24칸 초상, 단계 문장, 나이·진행 기간·현금. 64rem 미만에서만 보인다(CSS).
+ * 초상은 뜻이 있는 장면이라 설명을 달고 그림 설정(간단히·끄기)이 숨긴다. 글자는 모든 설정에서 남는다.
+ */
+function renderStatusBar(root: HTMLElement): void {
+  root.replaceChildren();
+  if (!life) return;
+  const v = statusBarView(life, t);
+  if (v.stage) {
+    const pic = el('span');
+    pic.className = 'px-scene sb-portrait';
+    pic.append(sceneSvg(sceneRects(v.stage, { width: SCENE_W }), cropOf('status', v.stage), t.art.scene[v.stage]));
+    root.append(pic);
+  }
+  const text = el('div');
+  text.className = 'sb-text';
+  const facts = el('span');
+  facts.className = 'sb-facts';
+  for (const f of v.facts) facts.append(el('span', f));
+  text.append(el('strong', v.line), facts);
+  root.append(text);
+}
+
+/**
+ * 화면 아래 고정 알림 막대(#153): 최근 사건 아이콘 + 문장. 같은 문장이 연구노트에 글자로 있으므로 요소 전체가
+ * aria-hidden 이고(index.html) 여기서 낭독 영역을 만들지 않는다.
+ */
+function renderAlertBar(root: HTMLElement): void {
+  root.replaceChildren();
+  if (!recent) return;
+  const text = el('span', recent.line);
+  text.className = 'alert-text';
+  root.append(iconEl(recent.icon), text);
 }
 
 /** `key`(data-k)는 다시 그린 뒤 키보드 포커스를 같은 조작으로 되돌릴 때 쓴다(#61). 없으면 글자. */
@@ -624,6 +659,8 @@ function renderInner(): void {
   const list = life ? notes(life, t) : [];
   recent = latestEvent(list, t);
   renderBackdrop(document.getElementById('backdrop')!, life);
+  renderStatusBar(document.getElementById('statusbar')!);
+  renderAlertBar(document.getElementById('alertbar')!);
   renderFeed(document.getElementById('feed')!, list);
   renderMoneyCard(document.getElementById('money')!);
   renderCurrent(document.getElementById('current')!);
