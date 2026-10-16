@@ -300,6 +300,12 @@ describe('big event scene rules (#154)', () => {
     expect(newBigEntry(log, 99)).toBeUndefined();   // 다른 삶을 불러온 경우
     expect(newBigEntry([entry(0, 'life.start'), entry(30, 'log.qual-pass')], 1)).toBeUndefined();   // 새 줄이 큰 사건이 아니면 없다
   });
+  it('starting a life keeps the enrolment scene in view: the page stays at the top while focus goes to the current-life heading (#154 browser check)', () => {
+    const body = fnBody(main, 'focusCurrent');
+    expect(body).toMatch(/#bigscene/);
+    expect(body).toMatch(/focus\(\{ preventScroll: true \}\)/);
+    expect(body).toMatch(/scrollTo\(0, 0\)/);
+  });
   it('a new life starts with the enrolment scene, with the record sentence in the dialog', () => {
     const s = withLog([entry(0, 'life.start')], { stage: 'phd' });
     const v = bigSceneAfter(s, ko, 0, undefined)!;

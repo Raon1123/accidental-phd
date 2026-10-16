@@ -684,6 +684,9 @@ function renderSources(root: HTMLElement): void {
 /** 지금 삶 제목으로 포커스를 옮긴다(새 삶·불러오기 뒤 키보드 사용자가 내용을 이어 읽도록). */
 function focusCurrent(): void {
   const h = document.querySelector<HTMLElement>('#current h2');
+  // 입학 장면(#154)이 떠 있으면 그 장면이 보이게 맨 위를 보이고, 포커스는 그대로 지금 삶 제목에 둔다
+  const scene = document.querySelector<HTMLElement>('#bigscene');
+  if (scene?.childElementCount) { h?.focus({ preventScroll: true }); scrollTo(0, 0); return; }
   h?.scrollIntoView();
   h?.focus();
 }
