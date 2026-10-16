@@ -86,6 +86,7 @@ export const ASSUMED = {
   // 0014#139 funding-expiry C 는 끝난 자금·조교가 아닌 자비 경로만 자비로 전환하고 살아 있는 과제·장학 자금과 조교 상태는 유지한다(#141 보완)(decide.ts fundingExpiry, 결정 기록 0023), 새 수치 없음.
   // 0014#140 조교 상태의 표식은 경로 self + dutyHours 10 + until −1 하나다. B 와 입학 때 조교 추첨이 같은 상태(data/funding.ts taFundingState, 결정 기록 0026), 새 수치 없음.
   // 0014#141 funding-expiry C 는 조교 상태(dutyHours > 0)를 살아 있는 자금으로 유지한다(decide.ts fundingExpiry, 결정 기록 0026), 새 수치 없음.
+  // 0014#142 funding-expiry B 는 조교 상태(dutyHours > 0)에서 'already-ta' 로 닫는다(decide.ts optionUnavailable, 결정 기록 0027), 새 수치 없음.
   TA_FALLBACK_MONTHLY: 400_000, TA_DUTY_HOURS: 10,                                     // 0014#35; 입학 때 조교 추첨 #137에도 쓴다
   LEAVE_JOB_INCOME: 2_000_000,                                                         // 0014#36
   PRE_GRAD_PROJECT_MIN: 90, JOB_SEARCH_MONTHS: 6,                                      // 0014#37 심사 준비 단계 진척 ≥ 90, 구직 약 6개월

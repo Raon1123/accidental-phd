@@ -319,7 +319,7 @@ describe('end conditions', () => {
     let s = ticks(brokeTa(sd), 3);
     const ta = taFundingState(data, s.choices.school);
     expect(s.pending).toMatchObject({ dp: 'funding-expiry', month: 3, context: { cause: 'crisis' } });
-    expect(describeOptions(s, data).map(o => o.unavailable)).toEqual(['no-funding', undefined, undefined, undefined]);
+    expect(describeOptions(s, data).map(o => o.unavailable)).toEqual(['no-funding', 'already-ta', undefined, undefined]);   // 0014#142
     s = decide(s, data, 2);
     expect(s.phd!.fundingState).toEqual(ta);
     for (let i = 0; i < 2; i++) {

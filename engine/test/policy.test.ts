@@ -3,6 +3,7 @@ import { ASSUMED } from '../src/assumed';
 import { pathDistribution } from '../src/career/path';
 import { loadData } from '../src/data/load';
 import { PATH_OPTIONS, decide, type PendingContext } from '../src/decide';
+import { taFundingState } from '../src/data/funding';
 import { createLife } from '../src/pre/createLife';
 import { policyDecision, policyFocus } from '../src/policy';
 import type { DecisionId, Focus, LifeState, Paper, PendingDecision, Stats } from '../src/types';
@@ -134,6 +135,12 @@ describe('policyDecision (선택권 §4.4, 0014#46)', () => {
     const g = decisionFreq(capped, 'funding-expiry', { cause: 'crisis' });
     expect(g[0]).toBe(0); expect(g[3]).toBe(0);
     near(g, [0, 0.75, 0.25, 0]);
+  });
+  it('a crisis in a TA state never picks A (no-funding) or B (already-ta, 0014#142): C / D renormalize to 0.5 / 0.5; with D capped, C 1.0', () => {
+    const ta = life({ phd: { fundingState: taFundingState(data, base.choices.school) } });
+    near(decisionFreq(ta, 'funding-expiry', { cause: 'crisis' }), [0, 0, 0.5, 0.5]);
+    const capped = { ...ta, phd: { ...ta.phd!, leave: { active: false, until: -1, totalMonths: 34 } } };
+    expect(decisionFreq(capped, 'funding-expiry', { cause: 'crisis' })).toEqual([0, 0, 1, 0]);
   });
   it('leaves that would exceed the 36-month cap are never chosen (post-qualifying B, funding-expiry D)', () => {
     const capped = life({ phd: { leave: { active: false, until: -1, totalMonths: 34 } } });

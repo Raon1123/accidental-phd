@@ -109,6 +109,8 @@ export function optionUnavailable(s: LifeState, p: PendingDecision, key: string)
   if (p.dp === 'post-qualifying' && key === 'B' && leaveBlocked(s, ASSUMED.POST_QUAL_REST_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'D' && leaveBlocked(s, FUNDING_D_LEAVE_MONTHS)) return 'leave-cap';
   if (p.dp === 'funding-expiry' && key === 'A' && ctxOf<FundingExpiryContext>(p).retry) return 'already-tried';
+  // 0014#142(결정 기록 0027): 조교 상태(#140 술어 dutyHours > 0)에서 B 는 taFundingState 가 같은 상태를 다시 주는 항등 효과라 닫는다 — no-funding 과 같은 "할 것이 없다" 사유.
+  if (p.dp === 'funding-expiry' && key === 'B' && (s.phd?.fundingState.dutyHours ?? 0) > 0) return 'already-ta';
   if (p.dp === 'funding-expiry' && key === 'A') {
     const f = s.phd?.fundingState;
     if (!f || f.route === 'self' || f.until < 0) return 'no-funding';   // 연장할 자금이 없다: 자비, 또는 끝나는 날이 없는 자금(조교 등)
@@ -232,7 +234,7 @@ function fundingExpiry(s: LifeState, data: DataBundle, p: PendingDecision, key: 
   }
   // B: 조교 상태(0014#35, 입학 때 조교 추첨과 같은 값 — data/funding.ts taFundingState).
   // 조교 상태 표식 0014#140(결정 기록 0026): 경로 self + 의무 10시간, 입학 조교와 같은 상태라 참여율·배수가 걸리지 않는다.
-  // 입학 때 조교를 얻은 자비 삶이 §5.5 강제 만료로 여기 오면 B 는 같은 값을 다시 준다. 결정 기록 0023 은 B 효과를 바꾸지 않는다(수입 비교를 가용 조건에 넣지 않는다).
+  // 조교 상태에서는 optionUnavailable 이 B 를 already-ta 로 닫으므로(0014#142, 결정 기록 0027) 여기 오는 삶은 조교가 아니다. 결정 기록 0023 은 B 효과를 바꾸지 않는다(수입 비교를 가용 조건에 넣지 않는다).
   if (key === 'B') return patchPhd(s, { fundingState: taFundingState(data, s.choices.school) });
   // C(0014#139·#141, 결정 기록 0023·0026): 자금이 끝났거나(fundingExpired) 조교가 아닌 자비 경로이면 자비로 전환하고,
   // 살아 있는 과제·장학 자금과 조교 상태(dutyHours > 0)는 그대로 둔다.
