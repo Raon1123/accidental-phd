@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createLife, newSeed, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
-import { WIDE_W, cropOf, latestEvent, moneyFoldOpen, moneySummary, statusBarView } from '../src/artview';
+import { AUTO_SKIP_SPEED, WIDE_W, bigIcon, bigSceneAfter, cropOf, latestEvent, moneyFoldOpen, moneySummary, newBigEntry, showsBigScene, statusBarView } from '../src/artview';
 import { SCENE_H, SCENE_W, scenePerson, type SceneStage } from '../src/pixel';
 import { notes, statusLine, wonText } from '../src/play';
 import { ko } from '../src/strings.ko';
@@ -269,5 +269,63 @@ describe('money card fold and tables (#153)', () => {
     expect(body).toMatch(/tabIndex = 0/);
     expect(main.match(/scrollBox\(/g)!.length).toBeGreaterThanOrEqual(4);   // 정의 + 월별 계산서·동기·분기 비교
     expect(ruleBody(css, '.table-scroll')).toMatch(/overflow-x:\s*auto/);
+  });
+});
+
+describe('big event scene rules (#154)', () => {
+  it('the wide crop is the whole 160×40 scene', () => {
+    for (const st of STAGES) expect(cropOf('wide', st)).toEqual({ x: 0, y: 0, w: WIDE_W, h: SCENE_H });
+  });
+  it('auto-advance at 4× or faster shows no big scene; manual and slow auto do', () => {
+    expect(AUTO_SKIP_SPEED).toBe(4);
+    for (const v of [undefined, 1, 2]) expect(showsBigScene(v), String(v)).toBe(true);
+    for (const v of [4, 8, 16]) expect(showsBigScene(v), String(v)).toBe(false);
+  });
+  it('only entries added since the previous state count, and the last big one wins', () => {
+    const log = [entry(0, 'life.start'), entry(30, 'log.qual-pass'), entry(70, 'log.degree'), entry(70, 'log.month')];
+    expect(newBigEntry(log, 0)?.textKey).toBe('log.degree');
+    expect(newBigEntry(log, 3)).toBeUndefined();
+    expect(newBigEntry(log, 1)?.textKey).toBe('log.degree');
+    expect(newBigEntry(log, 99)).toBeUndefined();   // 다른 삶을 불러온 경우
+    expect(newBigEntry([entry(0, 'life.start'), entry(30, 'log.qual-pass')], 1)).toBeUndefined();   // 새 줄이 큰 사건이 아니면 없다
+  });
+  it('a new life starts with the enrolment scene, with the record sentence in the dialog', () => {
+    const s = withLog([entry(0, 'life.start')], { stage: 'phd' });
+    const v = bigSceneAfter(s, ko, 0, undefined)!;
+    expect(v.stage).toBe('phd');
+    expect(v.icon).toBe('start');
+    expect(v.id).toBe(`${s.seed}:0:life.start`);
+    expect(v.lines[0]).toEqual({ text: ko.texts['life.start'], creative: false });
+    expect(v.lines.slice(1).every(l => l.creative)).toBe(true);   // 붙는 서사 장면 줄은 창작 표시 대상
+  });
+  it('the degree scene is the career scene with the degree icon', () => {
+    const s = withLog([entry(0, 'life.start'), entry(70, 'log.degree')], { stage: 'career' });
+    const v = bigSceneAfter(s, ko, 1, 2)!;
+    expect(v.stage).toBe('career');
+    expect(v.icon).toBe('degree');
+    expect(v.lines[0]!.text).toBe(ko.texts['log.degree']);
+  });
+  it('a record end shows the scene of the stage the life ended in, with a picture that fits the reason', () => {
+    const s = withLog([entry(0, 'life.start'), entry(40, 'log.end-financial')], { stage: 'end', career: undefined });
+    const v = bigSceneAfter(s, ko, 1, undefined)!;
+    expect(v.stage).toBe('phd');
+    expect(v.icon).toBe('fail');
+    const r = withLog([entry(0, 'life.start'), entry(500, 'log.retired'), entry(600, 'log.end-age80')], { stage: 'end' });
+    expect(bigSceneAfter(r, ko, 2, undefined)!.stage).toBe('retire');
+    expect(bigSceneAfter(r, ko, 2, undefined)!.icon).toBe('end');
+  });
+  it('nothing for a previous state, a non-big new entry, or fast auto-advance', () => {
+    const s = withLog([entry(0, 'life.start'), entry(30, 'log.qual-pass')], { stage: 'phd' });
+    expect(bigSceneAfter(s, ko, 2, undefined)).toBeUndefined();   // 새 줄이 없다
+    expect(bigSceneAfter(s, ko, 1, undefined)).toBeUndefined();   // 새 줄이 큰 사건이 아니다
+    expect(bigSceneAfter(s, ko, 0, 8)).toBeUndefined();           // 8× 자동 진행
+    expect(bigSceneAfter(s, ko, 0, 2)).toBeDefined();             // 2× 자동 진행은 띄운다
+  });
+  it('no scene before the life has a stage', () => {
+    expect(bigSceneAfter(withLog([entry(0, 'life.start')], { stage: 'pre' }), ko, 0, undefined)).toBeUndefined();
+  });
+  it('a new engine end key still gets a picture', () => {
+    expect(bigIcon('log.end-laid-off')).toBe('end');
+    expect(bigIcon('log.hired')).toBe('hired');
   });
 });
