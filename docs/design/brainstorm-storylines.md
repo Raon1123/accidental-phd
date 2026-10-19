@@ -908,6 +908,7 @@
 ### 5.3 팩 파일과 검사
 
 - `lines[].when`과 `storylines[].start_when`·`continue_if`는 지금 사람이 읽는 조건 문자열이다. 연결 PR에서 판정 가능한 형식(필드·연산자·값 목록)으로 바꾸고, `scripts/validate-data.mjs`에 형식 검사(15~45자, 숫자 없음, 범주·태그 필수, 조건 필드가 실제 상태 필드인지)를 더한다.
+  - 스토리라인은 #190에서 바꿨다. 조건은 `web/src/flavor.ts` atom 형식(`AND`·`OR`·`NOT`)이고, 사람이 읽던 `ending` 산문은 `ending`(좋게·나쁘게·흐지부지), `interrupt`(열린 동안 휴학이 시작되면 붙는 문장), 비트별 `break_text`·`break_if`(조건이 끝내 깨질 때 문장)로 나눴다. 비트 문장은 그대로다. 해석 못 한 원자 0건은 `web/test/storylines.test.ts`가, 간격 형식·끝맺음 값·새 문장의 문장 규칙은 `scripts/validate-data.mjs`가 검사한다. 진행 규칙은 `web/src/storylines.ts` 머리 주석.
 - `daily[].stage`의 `"all"`은 공통 단계다. 일상 문장은 범주와 단계만 있고 상태 조건이 없다.
 - 재등장 간격(박사과정 30개월, 그 밖 48개월)과 같은 첫 태그 감쇠는 brainstorm-random-lines.md §3을 따른다.
 - 테스트: 같은 seed면 같은 문장, 예약된 메모가 무작위 메모보다 먼저, 장면 문장이 있는 달에는 미룸, 조건이 깨지면 마무리 메모, 실명 목록(비공개 대응표의 해시, #113)과 겹침 0건.
