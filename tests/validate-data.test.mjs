@@ -200,6 +200,8 @@ test('flavor and storyline lines follow the line rules and hold no real name (#1
   ]));
   writeFileSync(join(root, 'data/text/storylines.ko.json'), JSON.stringify([
     { id: 's', title: 't', start_when: 'stage=phd', creative: true, beats: [{ text: ok, gap_months: '0', continue_if: '항상' }] },
+    { id: 's2', title: 't', start_when: 'stage=phd', ending: '좋게', interrupt: { when: '항상', text: '짧다' }, creative: true, beats: [
+      { text: ok, gap_months: '0', continue_if: '항상' }, { text: ok, gap_months: '한두 달', continue_if: '항상', break_if: '항상' }] },
   ]));
   const r = validate(root);
   assert.ok(!r.errors.some(e => e.includes('flavor.ko.json[0]')));
@@ -208,6 +210,11 @@ test('flavor and storyline lines follow the line rules and hold no real name (#1
   assert.ok(r.errors.some(e => e.includes('[3]: text has digits')));
   assert.ok(r.errors.some(e => e.includes('[3]: flavor needs tags')));
   assert.ok(r.errors.some(e => e.includes('storylines.ko.json[0]: storylines need 2..4 beats')));
+  assert.ok(r.errors.some(e => e.includes('storylines.ko.json[0]: ending must be')));
+  assert.ok(!r.errors.some(e => e.includes('storylines.ko.json[1]: ending')));
+  assert.ok(r.errors.some(e => e.includes('storylines.ko.json[1].interrupt: text length')));
+  assert.ok(r.errors.some(e => e.includes('storylines.ko.json[1].beats[1]: gap_months must be N or N-M')));
+  assert.ok(r.errors.some(e => e.includes('storylines.ko.json[1].beats[1]: break_if needs break_text')));
 });
 test('scene pack items need at, key, text and refs (#57)', () => {
   const root = fixture();

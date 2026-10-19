@@ -240,7 +240,16 @@ export function validate(root) {
         else x.beats.forEach((b, j) => {
           for (const f of ['text', 'gap_months', 'continue_if']) if (typeof b[f] !== 'string' || !b[f].trim()) errors.push(`${at}.beats[${j}]: missing ${f}`);
           errors.push(...lineErrors(b.text, `${at}.beats[${j}]`));
+          // #190: 간격은 `N` 또는 `N-M`(개월), 끊김 문장(break_text)도 같은 문장 규칙, break_if 는 break_text 가 있을 때만.
+          if (!/^\d+(-\d+)?$/.test(String(b.gap_months ?? ''))) errors.push(`${at}.beats[${j}]: gap_months must be N or N-M`);
+          if (b.break_text !== undefined) errors.push(...lineErrors(b.break_text, `${at}.beats[${j}].break_text`));
+          if (b.break_if !== undefined && b.break_text === undefined) errors.push(`${at}.beats[${j}]: break_if needs break_text`);
         });
+        if (!['좋게', '나쁘게', '흐지부지'].includes(x.ending)) errors.push(`${at}: ending must be 좋게, 나쁘게 or 흐지부지`);
+        if (x.interrupt !== undefined) {
+          if (typeof x.interrupt?.when !== 'string' || !x.interrupt.when.trim()) errors.push(`${at}: interrupt needs when`);
+          errors.push(...lineErrors(x.interrupt?.text, `${at}.interrupt`));
+        }
       }
       if (x.creative !== true) errors.push(`${at}: creative must be true`);
       if (x.id) { if (seen.has(x.id)) errors.push(`${at}: duplicate id ${x.id}`); seen.add(x.id); }
