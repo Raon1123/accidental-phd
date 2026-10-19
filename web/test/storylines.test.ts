@@ -67,7 +67,7 @@ describe('storylines (#190)', () => {
           const gap = ls[i]!.month - ls[i - 1]!.month;
           const yearly = s.career !== undefined && ls[i]!.month > s.career.degreeMonth;
           expect(gap).toBeGreaterThanOrEqual(lo);
-          expect(gap).toBeLessThanOrEqual(yearly ? Math.max(hi, lo + 11) : hi);
+          expect(gap).toBeLessThanOrEqual(yearly ? hi + 11 : hi);
         }
       }
     }
@@ -132,6 +132,15 @@ describe('storylines (#190)', () => {
     expect(stepStory(tick(at(withPaper('accepted'), 44), at(withPaper('accepted'), 45)), o('accepted'), false).lines[0]!.kind).toBe('beat');
     expect(stepStory(tick(at(withPaper('rejected'), 46), at(withPaper('rejected'), 47)), o('rejected'), false).lines[0]!.kind).toBe('break');
     expect(stepStory(tick(at(withPaper('submitted'), 46), at(withPaper('submitted'), 47)), o('submitted'), false).lines).toEqual([]);
+  });
+  it('a yearly tick just past the window still shows the beat when the tick before was inside it', () => {
+    const career = { ...base, stage: 'career' as const };
+    const st = open('story-life-family-retire-3', 2, 100, 112);   // 비트 2: 12~24개월, 조건 stage=career, 창 끝 124
+    const out = stepStory(tick(at(career, 120), at(career, 132), [{ month: 132, textKey: 'log.month', tags: [], creative: false }]), st, false);
+    expect(out.lines).toEqual([{ month: 132, id: 'story-life-family-retire-3', beat: 2, kind: 'beat' }]);
+    const late = stepStory(tick(at(career, 132), at(career, 144), [{ month: 144, textKey: 'log.month', tags: [], creative: false }]), st, false);
+    expect(late.lines).toEqual([]);
+    expect(late.open).toBeUndefined();
   });
   it('no storyline opens on a tick that stops at a decision or has a scene line', () => {
     const k = tick(at(base, 3), { ...at(base, 4), pending: { dp: 'post-qualifying', month: 4, context: {}, options: [] } });

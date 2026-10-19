@@ -81,7 +81,7 @@ const ctxOf = (k: Tick, o: Pick<StoryOpen, 'start' | 'startMonth' | 'paper'>): T
  * - 결정 지점에서 멈춘 칸은 건너뛴다(볼 달이 지난 비트는 다음 칸에 본다).
  * - 열린 것이 있으면: 휴학 시작이면 interrupt 문장으로 닫는다. due 부터 비트 조건을 보고, 참이면 비트를 붙인다(마지막이면 닫는다).
  *   거짓이면 gap_months 의 끝(last + 최대 간격)까지 기다리고, 그때도 거짓이면 break_if(없으면 참)가 맞을 때 break_text 를 붙이고 닫는다.
- *   그래서 비트 간격은 늘 gap_months 안이다(해 단위 칸이면 그 안의 첫 칸). 삶이 끝난 칸에서는 기다리지 않고 break 만 본다.
+ *   그래서 비트 간격은 gap_months 안이다. 해 단위 칸(경력·은퇴)이면 창이 끝난 뒤 첫 칸까지 본다(앞 칸이 창 안이었을 때). 삶이 끝난 칸에서는 기다리지 않고 break 만 본다.
  * - 열린 것이 없으면: 장면 문장이 붙는 칸이 아니고 삶이 끝나지 않았을 때, 아직 열지 않은 스토리라인 가운데 시작 조건과 첫 비트 조건이
  *   맞는 것 하나를 추첨으로 열고 첫 비트를 붙인다.
  */
@@ -99,7 +99,9 @@ export function stepStory(k: Tick, st: StoryState, hasScene: boolean): StoryStat
     if (c.interrupt?.pred(ctx)) return add({ month, id: o.id, beat: o.beat, kind: 'interrupt' });
     if (month < o.due && !ended) return st;
     const b = c.beats[o.beat]!;
-    if (month >= o.due && month <= o.last + b.hi && b.when.pred(ctx)) {
+    // 해 단위 칸(경력·은퇴)은 창을 건너뛸 수 있다: 앞 칸이 창 안이었으면 창 뒤 첫 칸도 본다
+    const inWindow = month <= o.last + b.hi || k.prev.month < o.last + b.hi;
+    if (month >= o.due && inWindow && b.when.pred(ctx)) {
       const line: StoryLine = { month, id: o.id, beat: o.beat, kind: 'beat' };
       const next = o.beat + 1;
       if (next >= c.beats.length || ended) return add(line);
