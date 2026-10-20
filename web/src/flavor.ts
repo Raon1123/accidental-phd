@@ -12,8 +12,11 @@ export interface FlavorPick { month: number; id: string }
 
 type LogEntry = LifeState['log'][number];
 type LedgerEntry = LifeState['ledger'][number];
-/** 한 칸: 진행 전 상태, 진행 뒤 상태, 그 칸에 새로 생긴 기록·원장 줄. */
-export interface Tick { prev: LifeState; next: LifeState; log: readonly LogEntry[]; ledger: readonly LedgerEntry[] }
+/**
+ * 한 칸: 진행 전 상태, 진행 뒤 상태, 그 칸에 새로 생긴 기록·원장 줄.
+ * 스토리라인(#190)은 열린 때의 상태(`start`)·연구노트 달(`startMonth`)과 묶인 논문 id(`paper`)를 더 넘긴다. 일상 문장은 넘기지 않는다.
+ */
+export interface Tick { prev: LifeState; next: LifeState; log: readonly LogEntry[]; ledger: readonly LedgerEntry[]; start?: LifeState; startMonth?: number; paper?: string }
 type Pred = (k: Tick) => boolean;
 
 // 같은 줄의 재등장 간격(brainstorm-random-lines.md §3): 박사과정 30개월, 그 밖 48개월. 줄의 조건에 "재등장 간격 N개월"이 있으면 그 값.
@@ -38,6 +41,15 @@ function read(s: LifeState, path: string): unknown {
   return v;
 }
 
+/** 조건 경로의 값. `paper.` 으로 시작하면 스토리라인에 묶인 논문(#190), 아니면 진행 뒤 상태. */
+function val(k: Tick, path: string): unknown {
+  if (!path.startsWith('paper.')) return read(k.next, path);
+  const p = k.next.phd?.papers.find(x => x.id === k.paper);
+  return p === undefined ? undefined : read(p as unknown as LifeState, path.slice('paper.'.length));
+}
+/** 스토리라인이 열린 달부터의 기록에 키가 있는가. 열린 때가 없으면(일상 문장) 거짓. */
+const sinceStart = (k: Tick, test: (e: LogEntry) => boolean): boolean =>
+  k.startMonth !== undefined && k.next.log.some(e => e.month >= k.startMonth! && test(e));
 const logHas = (k: Tick, re: RegExp): boolean => k.log.some(e => re.test(e.textKey));
 const hired = (k: Tick, route?: string): boolean => k.log.some(e => e.textKey === 'log.hired' && (route === undefined || e.tags[2] === route));
 /** `log.x`·`decision.x.*` 꼴 키를 정규식으로. `*` 는 아무 꼬리. */
@@ -61,8 +73,8 @@ const PHRASES: readonly [RegExp, (m: RegExpExecArray) => Pred][] = [
   [/^month%(\d+) in \{([\d,]+)\}\(.*\)$/, m => k => m[2]!.split(',').map(Number).includes(k.prev.month % Number(m[1]))],
   [/^month%(\d+)==(\d+)\(.*\)$/, m => k => k.prev.month % Number(m[1]) === Number(m[2])],
   [/^ageMonths>=(\d+)\(\d+세\)$/, m => k => k.next.ageMonths >= Number(m[1])],
-  [/^stats\.(\w+) 상위 구간$/, m => k => (read(k.next, `stats.${m[1]}`) as number) >= HIGH],
-  [/^stats\.(\w+) 하위 구간$/, m => k => (read(k.next, `stats.${m[1]}`) as number) <= LOW],
+  [/^([\w.]+) 상위 구간$/, m => k => { const x = read(k.next, m[1]!); return typeof x === 'number' && x >= HIGH; }],
+  [/^([\w.]+) 하위 구간$/, m => k => { const x = read(k.next, m[1]!); return typeof x === 'number' && x <= LOW; }],
   [/^phd\.advisor\.type 그대로$/, () => k => k.prev.phd?.advisor.type === k.next.phd?.advisor.type],
   [/^phd\.advisor\.type이 바뀐 뒤 첫 달$/, () => k => k.prev.phd !== undefined && k.prev.phd.advisor.type !== k.next.phd?.advisor.type],
   [/^phd\.partTime\.kind가 (\w+)로 바뀐 달$/, m => k => k.next.phd?.partTime?.kind === m[1] && k.prev.phd?.partTime?.kind !== m[1]],
@@ -76,6 +88,18 @@ const PHRASES: readonly [RegExp, (m: RegExpExecArray) => Pred][] = [
   [/^career\.searching\.routes에 (\w+)$/, m => k => (k.next.career?.searching?.routes ?? []).some(r => r === m[1])],
   [/^news\.([\w-]+) 유효$/, m => k => k.next.news.some(n => n.type === m[1])],
   [/^대출 한도 소진$/, () => k => k.next.money.loanLimit > 0 && k.next.money.debt >= k.next.money.loanLimit],
+  // 스토리라인(#190) 조건. `열린` 이 붙은 것은 열린 때의 상태가 있어야 참이 될 수 있다.
+  [/^항상$/, () => () => true],
+  [/^그 달 기록 leave\.start(?:\((\w+)\))?$/, m => k => k.log.some(e => e.textKey === 'leave.start' && (m[1] === undefined || e.tags[1] === m[1]))],
+  [/^기록에 ((?:log|decision)\.[\w.*-]+)( 없음)?$/, m => { const re = keyRe(m[1]!); return k => k.next.log.some(e => re.test(e.textKey)) !== (m[2] !== undefined); }],
+  [/^열린 뒤 기록 log\.hired(?:\((\w+)\))?$/, m => k => sinceStart(k, e => e.textKey === 'log.hired' && (m[1] === undefined || e.tags[2] === m[1]))],
+  [/^열린 뒤 기록 ((?:log|decision)\.[\w.*-]+)$/, m => { const re = keyRe(m[1]!); return k => sinceStart(k, e => re.test(e.textKey)); }],
+  [/^열린 때보다 ([\w.]+) 증가$/, m => k => { if (!k.start) return false; const a = read(k.start, m[1]!), b = read(k.next, m[1]!); return typeof a === 'number' && typeof b === 'number' && b > a; }],
+  [/^([\w.]+) 열린 때와 다름$/, m => k => k.start !== undefined && read(k.start, m[1]!) !== read(k.next, m[1]!)],
+  [/^열린 뒤 학기 경계를 지남$/, () => k => k.startMonth !== undefined && Math.floor(k.next.month / 6) > Math.floor(k.startMonth / 6)],
+  [/^구직 (\d+)년 이상$/, m => k => k.next.career?.searching !== undefined && k.next.month - k.next.career.searching.since >= 12 * Number(m[1])],
+  [/^phd\.graduationMonth (\d+)개월 이내$/, m => k => { const g = k.next.phd?.graduationMonth; return g !== undefined && g - k.next.month <= Number(m[1]); }],
+  [/^career\.postRetireResearchUntil 이전$/, () => k => { const u = k.next.career?.postRetireResearchUntil; return u !== undefined && k.next.month < u; }],
   [/^학위 취득 뒤 첫해$/, () => k => k.next.career?.degree === 'phd' && k.next.month - k.next.career.degreeMonth <= 12],
 ];
 
@@ -90,21 +114,22 @@ export function atom(a: string): Pred | undefined {
     const ps = or.map(atom);
     return ps.every(Boolean) ? k => ps.some(p => p!(k)) : undefined;
   }
+  if (a.startsWith('NOT ')) { const p = atom(a.slice(4)); return p ? k => !p(k) : undefined; }
   for (const [re, make] of PHRASES) { const m = re.exec(a); if (m) return make(m); }
   let m = /^stage=(\w+)$/.exec(a);
   if (m) return k => k.next.stage === m![1];
   m = /^month(>=|<=)(\d+)$/.exec(a);
   if (m) { const n = Number(m[2]); return m[1] === '>=' ? k => k.prev.month >= n : k => k.prev.month <= n; }
   m = /^([a-z][\w.]*) in \{([^}]*)\}$/i.exec(a);
-  if (m) { const vs = m[2]!.split(',').map(x => x.trim()); const path = m[1]!; return k => vs.some(v => same(read(k.next, path), v)); }
+  if (m) { const vs = m[2]!.split(',').map(x => x.trim()); const path = m[1]!; return k => vs.some(v => same(val(k, path), v)); }
   m = /^([a-z][\w.]*)(>=|<=|>|<|=)([^\s]+)$/i.exec(a);
   if (m) {
     const [, path, op, v] = m as unknown as [string, string, string, string];
     const n = num(v);
-    if (op === '=') return k => same(read(k.next, path), v);
+    if (op === '=') return k => same(val(k, path), v);
     if (n === undefined) return undefined;
     return k => {
-      const x = read(k.next, path);
+      const x = val(k, path);
       if (typeof x !== 'number') return false;
       return op === '>' ? x > n : op === '<' ? x < n : op === '>=' ? x >= n : x <= n;
     };
