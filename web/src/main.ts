@@ -2,7 +2,7 @@
 // 진행 로직(한 칸, 자동 모드, 결정 지점, 연구노트, 인생 지도)은 play.ts, 동기·분기는 cohort.ts 에 있고, 여기는 DOM 과 타이머만 다룬다.
 import { bundleFromWebData, createLife, decide, newSeed, type DataBundle, type Focus, type LifeState, type WebDataFile, type WebSource } from '../../engine/src/browser';
 import { ART_MODES, loadArt, saveArt, type ArtMode } from './art';
-import { guardedStore, loadLife, readArchive, saveLife } from './archive';
+import { guardedStore, loadLife, loadView, readArchive, saveLife } from './archive';
 import { branchPoints, catchUp, cohortRows, compareRows, createCohort, fill, openBranch, runUntilHalt, sharedPrefix } from './cohort';
 import { FOCUSES, SPEEDS, fundingStatus, autoRuleText, decisionView, halted, intervalMs, ledgerRows, lifeMap, moneyView, nextFlavor, nextStory, notes, setAuto, step, wonText, type Note, type Speed } from './play';
 import type { FlavorPick } from './flavor';
@@ -33,8 +33,8 @@ let timer: ReturnType<typeof setTimeout> | undefined;
 let recent: LatestEvent | undefined;   // 가장 최근 사건(초상 말풍선과 문장, #152). renderInner 가 매번 새로 정한다
 let bigScene: BigSceneView | undefined;   // 큰 사건 장면(#154). adopt 가 진행할 때마다 새로 정한다
 let bigShown = '';                        // 마지막으로 그린 큰 장면 id(처음 그릴 때만 등장 효과)
-let story: StoryState = NO_STORY;   // 스토리라인 진행(#190). 일상 문장처럼 저장하지 않고 화면이 들고 있다
-let flavor: FlavorPick[] = [];   // 칸마다 고른 일상 문장(#183). 진행한 순간의 상태로 고르므로 화면이 들고 있다(보관함에서 연 삶은 연 뒤부터)
+let story: StoryState = NO_STORY;   // 스토리라인 진행(#190). 엔진 저장에는 없고 화면이 들고 있다. 보관함 항목의 view 로 같이 저장한다(#195)
+let flavor: FlavorPick[] = [];   // 칸마다 고른 일상 문장(#183). 진행한 순간의 상태로 고르므로 화면이 들고 있다. 보관함 항목의 view 로 같이 저장한다(옛 항목은 연 뒤부터)
 let art: ArtMode = loadArt(store);   // 그림 설정(#151). 다시 그리지 않고 <html data-art> 와 aria-pressed 만 바꾼다(포커스 유지)
 
 function el<K extends keyof HTMLElementTagNameMap>(tag: K, text?: string): HTMLElementTagNameMap[K] {
@@ -602,7 +602,7 @@ function renderCurrent(root: HTMLElement): void {
   if (life.stage === 'end') { root.append(el('p', t.play.ended)); renderSummary(root, life); }
   renderControls(root, life);
   renderDecision(root, life, i => { if (life && data) { adopt(decide(life, data, i), life.log.length); render(); } });
-  root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life); render(); } }));
+  root.append(button(t.saveNow, () => { if (life) { saveLife(store, life.seed, life, new Date(), { story, flavor }); render(); } }));
   renderPapers(root, life);
   renderMap(root, life);
 }
@@ -622,7 +622,7 @@ function renderArchive(root: HTMLElement): void {
   const ul = el('ul');
   for (const e of entries) {
     const li = el('li', `${e.id} · ${t.savedAt} ${localTime(e.savedAt)} `);
-    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); bigScene = undefined; flavor = []; story = NO_STORY; resetSide(); collapseSelect(); render(); focusCurrent(); }, false, `open:${e.id}`));
+    li.append(button(t.open, () => { stop(); focus = undefined; life = loadLife(store, e.id); bigScene = undefined; ({ story, flavor } = loadView(store, e.id, life)); resetSide(); collapseSelect(); render(); focusCurrent(); }, false, `open:${e.id}`));
     ul.append(li);
   }
   root.append(ul);

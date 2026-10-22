@@ -1,10 +1,12 @@
 // 스토리라인(#190): 조건 해석, 같은 seed 같은 비트, 비트 간격, 조건이 깨지면 닫힘(중간 마무리), 한 삶에 한 번, 비트 달에 일상 줄 없음.
 import { describe, expect, it } from 'vitest';
-import { createLife, type LifeState } from '../../engine/src/browser';
+import { readFileSync } from 'node:fs';
+import { createLife, decide, policyDecision, type LifeState } from '../../engine/src/browser';
 import { loadData } from '../../engine/src/index';
 import type { FlavorPick, Tick } from '../src/flavor';
+import { ARCHIVE_KEY, loadLife, loadView, memoryStore, saveLife } from '../src/archive';
 import { halted, nextFlavor, nextStory, notes, setAuto, step } from '../src/play';
-import { COMPILED_STORIES, NO_STORY, STORYLINES, cond, gapRange, stepStory, storyText, unknownAtoms, type StoryOpen, type StoryState } from '../src/storylines';
+import { COMPILED_STORIES, NO_STORY, START_PATHS, STORYLINES, cond, gapRange, pruneStart, stepStory, storyText, unknownAtoms, type StoryOpen, type StoryState } from '../src/storylines';
 import { ko } from '../src/strings.ko';
 
 const data = loadData();
@@ -146,5 +148,119 @@ describe('storylines (#190)', () => {
     const k = tick(at(base, 3), { ...at(base, 4), pending: { dp: 'post-qualifying', month: 4, context: {}, options: [] } });
     expect(stepStory(k, NO_STORY, false)).toBe(NO_STORY);
     expect(stepStory(tick(at(base, 3), at(base, 4)), NO_STORY, true)).toBe(NO_STORY);
+  });
+});
+
+// 저장 불러오기 뒤에도 이어짐(#195): 화면의 adopt 처럼 칸 진행·결정·자동 전환마다 나눠 부른다.
+describe('storylines survive save and load (#195)', () => {
+  type View = { story: StoryState; flavor: FlavorPick[] };
+  const adopt = (life: LifeState, next: LifeState, v: View): View => {
+    const story = nextStory(life, next, v.story);
+    return { story, flavor: nextFlavor(life, next, v.flavor, story.lines) };
+  };
+  /** adopt 방식으로 n 번 바꿔 끼운다(결정 지점에서는 첫 선택지로 결정, 자동 전환은 시작에 한 번). */
+  function play(life: LifeState, v: View, n: number): { life: LifeState; v: View; swaps: number } {
+    let swaps = 0;
+    while (swaps < n && life.stage !== 'end') {
+      const next = life.pending ? decide(life, data, policyDecision(life, data, life.pending), true) : step(life, data);
+      v = adopt(life, next, v);
+      life = next;
+      swaps++;
+    }
+    return { life, v, swaps };
+  }
+  const start = (seed: string, track: string) => {
+    const s0 = createLife({ track } as never, seed, data);
+    return { life: s0, v: { story: NO_STORY, flavor: [] } as View };
+  };
+  const cases = [['ST-0', 'history'], ['ST-3', 'life_science'], ['ST-23', 'materials']] as const;
+  const splits = [30, 60, 90];
+
+  for (const [seed, track] of cases) {
+    for (const at of splits) {
+      it(`${seed} saved at swap ${at} continues with the same lines as an uninterrupted life`, () => {
+        const a = start(seed, track);
+        const whole = play(a.life, a.v, 400);
+        const first = play(a.life, a.v, at);
+        const store = memoryStore();
+        saveLife(store, seed, first.life, new Date(0), first.v);
+        const loaded = loadLife(store, seed);
+        const restored = loadView(store, seed, loaded);
+        const rest = play(loaded, restored, 400 - first.swaps);
+        expect(rest.v.story.lines).toEqual(whole.v.story.lines);
+        expect(rest.v.story.done).toEqual(whole.v.story.done);
+        expect(rest.v.flavor).toEqual(whole.v.flavor);
+        expect(rest.life).toEqual(whole.life);
+      });
+    }
+  }
+
+  it('without the saved view a loaded life drops what was open (the bug this fixes)', () => {
+    const open = cases.map(([seed, track]) => {
+      const a = start(seed, track);
+      return [seed, track, play(a.life, a.v, 400)] as const;
+    });
+    // 어느 한 삶이라도 스토리라인이 이어지는 중간에 저장하면 view 없이 열었을 때 줄이 달라진다
+    let differs = false;
+    let sawOpen = false;
+    for (const [seed, track, whole] of open) {
+      for (const at of splits) {
+        const a = start(seed, track);
+        const first = play(a.life, a.v, at);
+        if (first.v.story.open) sawOpen = true;
+        const rest = play(first.life, { story: NO_STORY, flavor: [] }, 400 - first.swaps);
+        if (JSON.stringify(rest.v.story.lines) !== JSON.stringify(whole.v.story.lines.filter(l => l.month > first.life.month))) differs = true;
+      }
+    }
+    expect(sawOpen).toBe(true);
+    expect(differs).toBe(true);
+  });
+
+  it('the stored open storyline keeps only the paths conditions read, and stays small', () => {
+    for (const [seed, track] of cases) {
+      const a = start(seed, track);
+      let { life, v } = a;
+      for (let i = 0; i < 400 && life.stage !== 'end'; i++) {
+        const r = play(life, v, 1);
+        life = r.life; v = r.v;
+        if (v.story.open) expect(JSON.stringify(v.story.open.start).length).toBeLessThan(200);
+      }
+    }
+  });
+
+  it('every path a storyline condition reads from the opening state is in START_PATHS', () => {
+    const text = JSON.stringify(STORYLINES);
+    const paths = [...text.matchAll(/열린 때보다 ([\w.]+) 증가|([\w.]+) 열린 때와 다름/g)].map(m => (m[1] ?? m[2])!);
+    expect(paths.length).toBeGreaterThan(0);
+    for (const p of paths) expect(START_PATHS).toContain(p);
+  });
+
+  it('pruneStart reads like the full state on those paths', () => {
+    const s = start('ST-0', 'history').life;
+    const phd = play(s, { story: NO_STORY, flavor: [] }, 12).life;
+    const p = pruneStart(phd);
+    expect(p.phd?.project).toBe(phd.phd?.project);
+    expect(p.phd?.advisor.type).toBe(phd.phd?.advisor.type);
+  });
+
+  it('a view from another month, a malformed view, or no view loads as empty', () => {
+    const a = start('ST-0', 'history');
+    const r = play(a.life, a.v, 60);
+    const store = memoryStore();
+    saveLife(store, 'x', r.life, new Date(0), r.v);
+    const later = { ...r.life, month: r.life.month + 1 };
+    expect(loadView(store, 'x', later)).toEqual({ story: NO_STORY, flavor: [] });
+    expect(loadView(store, 'none', r.life)).toEqual({ story: NO_STORY, flavor: [] });
+    const bad = memoryStore();
+    saveLife(bad, 'x', r.life, new Date(0));
+    expect(loadView(bad, 'x', r.life)).toEqual({ story: NO_STORY, flavor: [] });
+    bad.setItem(ARCHIVE_KEY, JSON.stringify([{ id: 'x', savedAt: '', save: {}, view: { month: r.life.month, story: 1, flavor: [] } }]));
+    expect(loadView(bad, 'x', r.life)).toEqual({ story: NO_STORY, flavor: [] });
+  });
+
+  it('the main screen saves and restores the view with the life', () => {
+    const main = readFileSync(new URL('../src/main.ts', import.meta.url), 'utf8');
+    expect(main).toMatch(/saveLife\(store, life\.seed, life, new Date\(\), \{ story, flavor \}\)/);
+    expect(main).toMatch(/life = loadLife\(store, e\.id\); bigScene = undefined; \(\{ story, flavor \} = loadView\(store, e\.id, life\)\);/);
   });
 });
