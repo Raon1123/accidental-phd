@@ -106,7 +106,7 @@ if (s.pending) {
 
 선택지의 문구 키(`options[].textKey`)는 `decision.<dp>.<letter>`다(예: `decision.career-5y.D`). 결정한 뒤 남는 기록 줄의 키는 결과 갈래가 있는 결정이면 `decision.<dp>.<갈래>.<letter>`(갈래: `pass`·`fail`·`accept`·`revise`·`reject`), 없으면 `decision.<dp>.<letter>`다.
 
-자동 진행·동기 정책(선택권 §4.4, 0014 #46, `src/policy.ts`)은 기대 효용을 계산하지 않는다. 포커스는 체력 또는 마음 < 30이면 `rest`, 진로가 정해져 구직 중이면 `network` 0.3·`thesis` 0.7, 자격시험 합격 뒤면 `thesis` 0.5·`research` 0.2·`write` 0.2·`network` 0.1, 그 밖에는 쓰는 중인 초고가 있으면 확률 0.6으로 `write`, 아니면 `research`다(코드가 확인하는 순서). 결정은 선택지별 고정 가중치로 뽑고, `pre-graduation-path`만 선택권 §8의 진로 분포를 쓴다. 고를 수 없는 선택지는 가중치 0으로 거른다. 난수는 `policy` 스트림의 `focus`, `decide:<dp>` 슬롯이다.
+자동 진행·동기 정책(선택권 §4.4, 0014 #46, `src/policy.ts`)은 기대 효용을 계산하지 않는다. 포커스는 체력 또는 마음 < 30이면 `rest`, 진로가 정해져 구직 중이면 `network` 0.3·`thesis` 0.7, 자격시험 합격 뒤면 `thesis` 0.3·`research` 0.1·`write` 0.5·`network` 0.1(0014 #46 보정 2026-10-14), 그 밖에는 쓰는 중인 초고가 있거나 논문이 하나도 없고 자격시험 첫 응시 창이 열렸으면(재학 12개월 이상, 첫 초고 규칙, 결정 기록 0029) 확률 0.6으로 `write`, 아니면 `research`다(코드가 확인하는 순서). 결정은 선택지별 고정 가중치로 뽑고, `pre-graduation-path`만 선택권 §8의 진로 분포를 쓴다. 고를 수 없는 선택지는 가중치 0으로 거른다. 난수는 `policy` 스트림의 `focus`, `decide:<dp>` 슬롯이다.
 
 ## 6. 저장 형식
 

@@ -69,6 +69,9 @@ export interface LifeRecord {
   outcome: Outcome; phdMonths: number; degreeMonth?: number;
   leaveMonths: number; leaveHit: number;        // leaveHit = 휴학 달이 있는 창의 길이 가중 합(년)
   qualMonth?: number; project90Month?: number; firstSubmitMonth?: number; pathDecisionMonth?: number;
+  firstDraftMonth?: number;                     // phd.papers 가 처음 비지 않은 달(첫 초고, 결정 기록 0029)
+  firstVerdictMonth?: number;                   // first-paper-verdict 결정 달
+  verdicts: { accepted: number; revision: number; rejected: number };   // 박사과정 동안 심사 판정 수(log.paper-*)
   firstDebtMonth?: number; limitMonth?: number; negCashMonth?: number; peakDebt: number;
   ledgerPhd: Record<string, number>;            // 박사과정 동안 원장 종류별 합(원)
   netMonthly: number;                           // 박사과정 월평균 순현금흐름 = Δ(cash − debt) / phdMonths
@@ -85,7 +88,7 @@ const rec0 = (i: number, s: LifeState): LifeRecord => ({
   capital: (ASSUMED.CAPITAL_SCHOOLS as readonly string[]).includes(s.choices.school), entryAge: Math.floor(s.ageMonths / MONTHS),
   funding0: s.phd!.fundingState.route, ta0: s.phd!.fundingState.dutyHours > 0,
   stipend0: s.phd!.fundingState.monthly, waiver0: s.phd!.fundingState.tuitionWaiver, family0: s.phd!.familySupport, workMonths: 0,
-  leaveStarts: { hazard: 0, burnout: 0, voluntary: 0 }, qualFailEnd: false, submitted: 0, accepted: 0, outcome: 'capped', phdMonths: 0, leaveMonths: 0, leaveHit: 0, peakDebt: 0, ledgerPhd: {}, netMonthly: 0,
+  leaveStarts: { hazard: 0, burnout: 0, voluntary: 0 }, qualFailEnd: false, submitted: 0, accepted: 0, verdicts: { accepted: 0, revision: 0, rejected: 0 }, outcome: 'capped', phdMonths: 0, leaveMonths: 0, leaveHit: 0, peakDebt: 0, ledgerPhd: {}, netMonthly: 0,
   demandSum: DEMAND_ROUTES.map(() => 0), demandN: 0, shadowMismatch: 0, mSum: 0, mN: 0, mLeaveN: 0, careerMonths: 0,
 });
 
@@ -95,8 +98,9 @@ function realizedM(state: LifeState, data: DataBundle): number | null {
   if (phd.project >= ASSUMED.PROJECT_MAX) return null;
   if (phd.leave.active) return 0;   // 진척은 휴학 달에 멈춘다(progress.ts applyProgress)
   const month = state.month + 1;
-  const coursework = phd.enrolledMonths + 1 < ASSUMED.COURSEWORK_MONTHS;
-  const next: LifeState = { ...state, month, phd: { ...phd, coursework } };
+  const enrolledMonths = phd.enrolledMonths + 1;   // 틱 1단계처럼 포커스를 고르기 전에 재학 개월을 올린다(휴학 달은 위에서 이미 0)
+  const coursework = enrolledMonths < ASSUMED.COURSEWORK_MONTHS;
+  const next: LifeState = { ...state, month, phd: { ...phd, enrolledMonths, coursework } };
   const focus = state.auto ? policyFocus(next, data) : phd.focus;
   const withFocus: LifeState = { ...next, phd: { ...next.phd!, focus } };
   const blocked = draw(state.seed, 'progress', month, 'blocked') < blockedProbability(state.choices.track);
@@ -131,6 +135,7 @@ export function simulateLife(i: number, data: DataBundle, group?: Group): LifeRe
     if (phd.qualified && r.qualMonth === undefined) r.qualMonth = t;
     if (r.paperReadyMonth === undefined && acceptedCount(phd.papers, ASSUMED.REQUIRED_PAPERS[s.choices.group].minTier) >= phd.requiredPapers) r.paperReadyMonth = t;
     if (phd.project >= ASSUMED.PRE_GRAD_PROJECT_MIN && r.project90Month === undefined) r.project90Month = t;
+    if (r.firstDraftMonth === undefined && phd.papers.length > 0) r.firstDraftMonth = t;
     if (r.firstSubmitMonth === undefined && phd.papers.some(p => p.status !== 'draft')) r.firstSubmitMonth = t;
     if (s.money.debt > 0 && r.firstDebtMonth === undefined) r.firstDebtMonth = t;
     if (r.limitMonth === undefined && (s.money.debt >= s.money.loanLimit || s.money.cash < 0)) r.limitMonth = t;
@@ -177,6 +182,13 @@ function finishPhd(r: LifeRecord, s: LifeState, startNet: number, flags: boolean
   for (const e of s.log) if (e.textKey === 'leave.start') { const why = e.tags[1]; if (why === 'hazard' || why === 'burnout' || why === 'voluntary') r.leaveStarts[why] += 1; }
   const pathDecision = s.decisions.find(d => d.dp === 'pre-graduation-path');
   if (pathDecision) r.pathDecisionMonth = pathDecision.month;
+  const firstVerdict = s.decisions.find(d => d.dp === 'first-paper-verdict');
+  if (firstVerdict) r.firstVerdictMonth = firstVerdict.month;
+  for (const e of s.log) {
+    if (e.textKey === 'log.paper-accepted') r.verdicts.accepted += 1;
+    else if (e.textKey === 'log.paper-revision') r.verdicts.revision += 1;
+    else if (e.textKey === 'log.paper-rejected') r.verdicts.rejected += 1;
+  }
   r.ledgerPhd = sumLedger(s);
   r.netMonthly = r.phdMonths > 0 ? (s.money.cash - s.money.debt - startNet) / r.phdMonths : 0;
   let hit = 0;
@@ -257,6 +269,8 @@ export interface Diagnostics {
   loan: { byFunding: Record<string, { n: number; hitLimit: number; medLimitMonth: number | null; medFirstDebtMonth: number | null; medPeakDebt: number | null }>; medLimitMonthAll: number | null };
   netByFunding: Record<string, { n: number; netMonthly: number | null; perMonth: Record<string, number> }>;
   noPaperShare: { all: number | null; longLived: number | null; nAll: number; nLong: number };
+  /** 첫 초고·첫 투고 시점(결정 기록 0029). 키 'all' 과 KEDI 계열. preQualDraft = 첫 초고가 합격 달 이하(같은 달이면 포커스가 시험보다 먼저 정해진다)이거나 합격 없이 초고를 만든 삶 ÷ n. */
+  paperTiming: Record<string, { n: number; firstDraft: number | null; firstSubmit: number | null; noSubmit: number | null; preQualDraft: number | null; firstVerdict: number | null; acceptShare: number | null; verdicts: number }>;
   milestones: { qualShare: number | null; qualMedian: number | null; project90Median: number | null; pathDecisionMedian: number | null; degreeMedian: number | null; firstSubmitMedian: number | null; degreeShare: number | null };
   hire: { medMonthsAfterDegree: number | null; nonBridgeShare: number | null; hiredShare: number | null; nGrads: number };
   /** mean·pooled = 휴학 달을 0으로 넣은 정의(0028), meanActive·pooledActive = 휴학 달을 뺀 옛 정의, leaveShare = 분모 중 휴학 달 비율. */
@@ -401,8 +415,22 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
     work: { lives: workLives.length, all: records.length, shareLives: share(workLives.length, records.length), workMonths, activeMonths, shareMonths: share(workMonths, activeMonths),
       ref: data.records.get(PART_TIME_RECORD)?.value ?? NaN, refId: PART_TIME_RECORD },
   };
+  const paperTiming: Diagnostics['paperTiming'] = {};
+  for (const key of ['all', ...KEDIS]) {
+    const rs = key === 'all' ? records : records.filter(r => r.kedi === key);
+    const drafted = rs.filter(r => r.firstDraftMonth !== undefined);
+    const v = rs.reduce((a, r) => ({ acc: a.acc + r.verdicts.accepted, all: a.all + r.verdicts.accepted + r.verdicts.revision + r.verdicts.rejected }), { acc: 0, all: 0 });
+    paperTiming[key] = {
+      n: rs.length, firstDraft: median(drafted.map(r => r.firstDraftMonth!)),
+      firstSubmit: median(rs.filter(r => r.firstSubmitMonth !== undefined).map(r => r.firstSubmitMonth!)),
+      noSubmit: share(noPaper(rs), rs.length),
+      preQualDraft: share(drafted.filter(r => r.qualMonth === undefined || r.firstDraftMonth! <= r.qualMonth).length, rs.length),
+      firstVerdict: median(rs.filter(r => r.firstVerdictMonth !== undefined).map(r => r.firstVerdictMonth!)),
+      acceptShare: share(v.acc, v.all), verdicts: v.all,
+    };
+  }
   return {
-    reportOnly,
+    reportOnly, paperTiming,
     outcomeByGroup, outcomeMonthMedian, loan: { byFunding: loanBy, medLimitMonthAll: median(allHit.map(r => r.limitMonth!)) }, netByFunding: netBy,
     noPaperShare: { all: share(noPaper(records), records.length), longLived: share(noPaper(long), long.length), nAll: records.length, nLong: long.length },
     milestones: {
@@ -592,6 +620,13 @@ export function renderDiagnostics(d: Diagnostics, data: DataBundle): string {
     `- 자격시험 합격 삶 ${pct(ms.qualShare)}, 합격 개월 중앙값 ${mo(ms.qualMedian)}.`,
     `- 첫 투고 개월 중앙값 ${mo(ms.firstSubmitMedian)}; 진척 ≥ 90 개월 중앙값 ${mo(ms.project90Median)}; 졸업 직전 진로 결정(pre-graduation-path) 개월 중앙값 ${mo(ms.pathDecisionMedian)}; 졸업 개월 중앙값 ${mo(ms.degreeMedian)} (졸업 ${pct(ms.degreeShare)}).`,
     `- 졸업자 중 졸업 뒤 첫 채용까지 중앙값 ${mo(d.hire.medMonthsAfterDegree)}개월(졸업 전 채용은 0), 채용된 졸업자 ${pct(d.hire.hiredShare)}, 그중 임시직(bridge)이 아닌 비율 ${pct(d.hire.nonBridgeShare)} (n=${d.hire.nGrads}).`);
+  const half = (v: number | null): string => (v === null ? '—' : Number.isInteger(v) ? String(v) : v.toFixed(1));
+  L.push('', '첫 초고·첫 투고(결정 기록 0029; 개월 중앙값은 그 일이 있었던 삶만, 입학 = 0. 합격 전 초고 = 첫 초고 달 ≤ 합격 달이거나 합격 없이 초고를 만든 삶 ÷ n. 채택 비율 = 박사과정 심사 판정 중 채택):', '',
+    '| 계열 | n | 첫 초고 | 첫 투고 | 미투고 삶 | 합격 전 초고 삶 | first-paper-verdict | 채택 비율 (판정 수) |', '|---|---|---|---|---|---|---|---|');
+  for (const key of ['all', ...KEDIS]) {
+    const t = d.paperTiming[key]!;
+    L.push(`| ${key === 'all' ? '전체' : key} | ${t.n} | ${half(t.firstDraft)} | ${half(t.firstSubmit)} | ${pct(t.noSubmit)} | ${pct(t.preQualDraft)} | ${half(t.firstVerdict)} | ${f2(t.acceptShare, 3)} (${t.verdicts}) |`);
+  }
 
   const c = d.causes, gm = c.gradMilestones;
   L.push('', '### 휴학 시작 이유와 이탈 원인 (삶-년당 발생, 계열별)', '', '| 계열 | 삶-년 | 창(12개월) | 휴학 중인 달 비율(스냅샷, 표의 모의값) | 휴학 시작/년 hazard | burnout | voluntary | 이탈/년 background | 자격시험 3불합격 | residence | financial | 석사 수료 이탈 |', '|---|---|---|---|---|---|---|---|---|---|---|---|');
