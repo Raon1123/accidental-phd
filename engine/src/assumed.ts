@@ -120,7 +120,7 @@ export const ASSUMED = {
   // ── 자동 진행 정책·위험률 (0014 #46–#52) ──
   POLICY: {
     restThreshold: 30,                                                                 // 0014#46 체력·마음 < 30 → rest
-    writeP: 0.6,                                                                       // 0014#46 활성 초고 writing < 100 → write 확률
+    writeP: 0.6,                                                                       // 0014#46 활성 초고 writing < 100, 또는 논문이 없고 응시 창이 열림(첫 초고 규칙, 0029) → write 확률
     postQualFocus: { thesis: 0.3, research: 0.1, write: 0.5, network: 0.1 },           // 0014#46 자격시험 합격 후 (보정 2026-10-14: 0.5/0.2/0.2/0.1 → 집필 가중, calibration-wave4.md)
     jobSearchFocus: { network: 0.3, thesis: 0.7 },                                     // 0014#46 졸업 직전 구직 중
     decisions: {                                                                       // 0014#46 선택지 순서 A, B, C(, D)의 고정 가중치

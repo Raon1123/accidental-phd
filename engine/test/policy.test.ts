@@ -38,8 +38,20 @@ describe('policyFocus (선택권 §4.4)', () => {
   it('rest wins over job search and thesis', () => {
     expect(policyFocus(life({ stats: { mind: 20 }, phd: { qualified: true, path: 'academia' } }), data)).toBe('rest');
   });
-  it('before the qualifying exam and without a draft: always research', () => {
-    expect(focusFreq(life())).toEqual({ research: 1 });
+  it('before the exam window opens (enrolledMonths < 12) and without a paper: always research', () => {
+    expect(focusFreq(life({ phd: { enrolledMonths: 0 } }))).toEqual({ research: 1 });
+    expect(focusFreq(life({ phd: { enrolledMonths: ASSUMED.QUAL_EXAM.firstWindowMonths - 1 } }))).toEqual({ research: 1 });
+  });
+  it('first-draft rule (결정 기록 0029): no paper yet, not qualified, exam window open (enrolledMonths ≥ 12) → write with probability 0.6', () => {
+    for (const months of [ASSUMED.QUAL_EXAM.firstWindowMonths, 30]) {
+      const f = focusFreq(life({ phd: { enrolledMonths: months, papers: [] } }));
+      expect(Object.keys(f).sort()).toEqual(['research', 'write']);
+      expect(Math.abs(f.write! - ASSUMED.POLICY.writeP)).toBeLessThan(TOL);
+    }
+  });
+  it('first-draft rule applies to the first draft only: a submitted paper without an active draft, before qualifying → always research', () => {
+    expect(focusFreq(life({ phd: { enrolledMonths: 30, papers: [{ ...draft(100), status: 'submitted' }] } }))).toEqual({ research: 1 });
+    expect(focusFreq(life({ phd: { enrolledMonths: 30, papers: [{ ...draft(100), status: 'rejected' }] } }))).toEqual({ research: 1 });
   });
   it('before the exam with an active draft under 100: write with probability 0.6, otherwise research', () => {
     const f = focusFreq(life({ phd: { papers: [draft(40)] } }));

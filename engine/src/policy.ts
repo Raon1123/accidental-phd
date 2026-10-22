@@ -10,9 +10,10 @@ import { pickWeighted } from './util';
 
 /**
  * 이번 달 포커스(선택권 §4.4). 순서: 체력·마음 < 30 → rest, 졸업 직전 구직 중(phd.path 가 정해짐) → network 0.3·thesis 0.7,
- * 자격시험 합격 후 → thesis 0.5·research 0.2·write 0.2·network 0.1, 그 밖 → 활성 초고가 있고 writing < 100 이면 확률 0.6 write, 아니면 research.
+ * 자격시험 합격 후 → postQualFocus(thesis 0.3·research 0.1·write 0.5·network 0.1), 그 밖 → 활성 초고가 있고 writing < 100 이면 확률 0.6 write,
+ * 또는 논문·초고가 하나도 없고 자격시험 첫 응시 창이 열렸으면(enrolledMonths ≥ 12, 0014#72) 같은 확률 0.6 write(이 달의 집필이 첫 초고를 만든다), 아니면 research.
+ * 첫 초고 규칙(결정 기록 0029): 응시 창 전에는 초고를 시작하지 않고, 첫 투고 뒤 합격 전에는 새 초고를 시작하지 않는다. 새 상수 없이 #72 의 창과 #46 의 writeP 를 읽는다.
  * thesis 는 자격시험 합격 뒤에만 나온다. 휴학 중에는 포커스가 효과가 없으므로 지금 포커스를 그대로 낸다(기록이 불필요하게 바뀌지 않게).
- * 스펙 문구 그대로, 초고가 아직 없으면 자격시험 합격 전에는 write 를 고르지 않는다(초고는 write 포커스가 만든다).
  */
 export function policyFocus(state: LifeState, _data?: DataBundle): Focus {
   const phd = state.phd;
@@ -27,7 +28,8 @@ export function policyFocus(state: LifeState, _data?: DataBundle): Focus {
   }
   if (phd.qualified) return pickWeighted(u, { ...P.postQualFocus }) as Focus;
   const draft = activeDraft(phd.papers);
-  return draft !== undefined && draft.writing < ASSUMED.WRITING_MAX && u < P.writeP ? 'write' : 'research';
+  const canStartFirst = phd.papers.length === 0 && phd.enrolledMonths >= ASSUMED.QUAL_EXAM.firstWindowMonths;
+  return ((draft !== undefined && draft.writing < ASSUMED.WRITING_MAX) || canStartFirst) && u < P.writeP ? 'write' : 'research';
 }
 
 /** POLICY.decisions 의 키: 결과 갈래가 있으면 `${dp}:${갈래}`, 없으면 `${dp}`. pre-graduation-path 는 표가 아니라 §8 분포를 쓴다. */
