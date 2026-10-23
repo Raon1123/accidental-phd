@@ -16,11 +16,17 @@ export function professorBaseline(data: DataBundle, kedi: Kedi): { B: number; h:
   return { B, h: Math.min(ASSUMED.PROFESSOR_H.cap, ASSUMED.PROFESSOR_H.kappa * B) };
 }
 
-/** 시간강사 연 채용 h = clamp(0.15·L_k, 0.20, 0.85), L_k = (비전임 − 명예교수 배분) ÷ 박사 학위 취득자 (노동 §3.1, 0014#105·#106). */
+/** 강사 비중 s = 강사 ÷ (비전임 − 명예교수), 일반대학 전체(2025: 40,180 ÷ 77,061 = 0.5214). 계열별 강사 분해가 없어 전 계열 공통으로 쓴다 (노동 §3.1, 0014#106 2026-10-23). */
+export function lecturerShare(data: DataBundle): number {
+  const m = facultyMarket(data);
+  return m.lecturersAll.value / (m.nonFulltimeAll.value - m.honorary.value);
+}
+
+/** 시간강사 연 채용 h = clamp(0.15·L_k, 0.20, 0.85), L_k = (비전임_k − 명예교수 배분_k) × 강사 비중 s ÷ 박사 학위 취득자_k (노동 §3.1, 0014#105·#106). */
 export function lecturerH(data: DataBundle, kedi: Kedi): number {
   const m = facultyMarket(data);
   const honoraryShare = m.honorary.value * m.stock[kedi]!.value / m.stockAll.value;
-  const L = (m.nonFulltime[kedi].value - honoraryShare) / m.phdAwarded[kedi].value;
+  const L = (m.nonFulltime[kedi].value - honoraryShare) * lecturerShare(data) / m.phdAwarded[kedi].value;
   const p = ASSUMED.LECTURER_H;
   return clamp(p.coef * L, p.lo, p.hi);
 }

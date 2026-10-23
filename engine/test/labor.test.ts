@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { ASSUMED } from '../src/assumed';
 import { loadData } from '../src/data/load';
-import { applyHire, hireProbability, lecturerH, postingProbability, professorBaseline, routeH, searchMonth } from '../src/career/labor';
+import { applyHire, hireProbability, lecturerH, lecturerShare, postingProbability, professorBaseline, routeH, searchMonth } from '../src/career/labor';
 import { demand } from '../src/career/news';
 import { draw } from '../src/rng';
 import type { CareerState, Choices, LifeState, Route, Stats } from '../src/types';
@@ -43,18 +43,21 @@ describe('professorBaseline (노동 §2.2–§2.3)', () => {
 });
 
 describe('lecturerH (노동 §3.1)', () => {
-  it('humanities hits 0.85, social 0.454, natural 0.327, engineering 0.299', () => {
-    expect(lecturerH(data, 'humanities')).toBe(0.85);
-    expect(Math.abs(lecturerH(data, 'social') - 0.454)).toBeLessThan(5e-4);
-    expect(Math.abs(lecturerH(data, 'natural') - 0.327)).toBeLessThan(1e-3);
-    expect(Math.abs(lecturerH(data, 'engineering') - 0.299)).toBeLessThan(1e-3);
+  it('lecturer share of non-full-time faculty without honorary = 40,180 / 77,061 = 0.5214 (0014#106 2026-10-23)', () => {
+    expect(Math.abs(lecturerShare(data) - 0.5214)).toBeLessThan(5e-5);
+  });
+  it('humanities 0.593, social 0.237, natural and engineering at the 0.20 floor', () => {
+    expect(Math.abs(lecturerH(data, 'humanities') - 0.593)).toBeLessThan(5e-4);
+    expect(Math.abs(lecturerH(data, 'social') - 0.237)).toBeLessThan(5e-4);
+    expect(lecturerH(data, 'natural')).toBe(0.20);
+    expect(lecturerH(data, 'engineering')).toBe(0.20);
   });
 });
 
 describe('routeH', () => {
   it('professor and lecturer come from records, the rest from the assumed table', () => {
     expect(routeH(data, 'professor', '인문사회', 'humanities')).toBe(0.10);
-    expect(routeH(data, 'lecturer', '인문사회', 'humanities')).toBe(0.85);
+    expect(Math.abs(routeH(data, 'lecturer', '인문사회', 'humanities') - 0.593)).toBeLessThan(5e-4);
     expect(routeH(data, 'postdoc', '이공', 'engineering')).toBe(0.60);
     expect(routeH(data, 'postdoc', '인문사회', 'humanities')).toBe(0.25);
     expect(routeH(data, 'industry', '이공', 'engineering')).toBe(0.55);
@@ -73,7 +76,7 @@ describe('postingProbability (노동 §3.3)', () => {
   it('matches the other rows of the §3.3 table', () => {
     expect(Math.abs(postingProbability(data, 'postdoc', '이공', 'engineering', 1) - 0.1838)).toBeLessThan(5e-4);
     expect(Math.abs(postingProbability(data, 'industry', '이공', 'engineering', 1) - 0.2146)).toBeLessThan(5e-4);
-    expect(Math.abs(postingProbability(data, 'lecturer', '인문사회', 'humanities', 1) - 0.2925)).toBeLessThan(5e-4);
+    expect(Math.abs(postingProbability(data, 'lecturer', '인문사회', 'humanities', 1) - 0.1443)).toBeLessThan(5e-4);
     expect(Math.abs(postingProbability(data, 'public', '이공', 'engineering', 1) - 0.0343)).toBeLessThan(5e-4);
   });
   it('scales with demand and stays inside [0.005, 0.60]', () => {

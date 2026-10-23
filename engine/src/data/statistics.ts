@@ -29,6 +29,8 @@ export interface FacultyMarket {
   newHiresAll: DataValue; phdAwardedTotal: DataValue; stock: Record<string, DataValue>; stockAll: DataValue;
   phdAwarded: Record<Kedi | 'education', DataValue> & Partial<Record<'medical' | 'arts-sports', DataValue>>;
   nonFulltime: Record<Kedi, DataValue>; honorary: DataValue;
+  /** 비전임 전체와 그중 강사(계열 분해 없음). 강사 비중 = 강사 ÷ (비전임 − 명예), 노동 §3.1·0014#106. */
+  nonFulltimeAll: DataValue; lecturersAll: DataValue;
 }
 
 /** 교수 시장 기준값 레코드 묶음(노동 §2.2, §3.1). 기본 연도는 LABOR_BASE_YEAR(0014#102). */
@@ -48,6 +50,8 @@ export function facultyMarket(data: DataBundle, year: number = ASSUMED.LABOR_BAS
     stock, stockAll: get(data, `statistics-faculty-fulltime-stock-all-${year}`),
     phdAwarded, nonFulltime,
     honorary: get(data, `statistics-faculty-honorary-all-${year}`),
+    nonFulltimeAll: get(data, `statistics-faculty-nonfulltime-stock-all-${year}`),
+    lecturersAll: get(data, `statistics-faculty-lecturers-all-${year}`),
   };
 }
 
