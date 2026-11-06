@@ -28,7 +28,8 @@ import { demand, updateNews } from '../src/career/news';
 import { loadData, type DataBundle } from '../src/data/load';
 import { dropoutRate, durationYears, employedRate, leaveRate } from '../src/data/statistics';
 import { advanceMonth, advanceYear, createLife, newSeed } from '../src/index';
-import { professorBaseline } from '../src/career/labor';
+import { lecturerH, professorBaseline } from '../src/career/labor';
+import { get } from '../src/data/bundle';
 import { acceptedCount } from '../src/phd/papers';
 import { policyFocus } from '../src/policy';
 import { progressGain, blockedProbability, researchTime } from '../src/phd/progress';
@@ -54,6 +55,10 @@ const MONTHS = ASSUMED.MONTHS_PER_YEAR;
 const CAP_MONTH = ASSUMED.END_AGE * MONTHS;   // 안전 상한: 입학부터 80년
 const TENURE_WINDOW_MONTHS = 10 * MONTHS;      // 졸업 후 10년 (보고용 창)
 const EMPLOY_WINDOW_MONTHS = MONTHS;           // 졸업 후 1년
+export const EMPLOY_GRID_MONTHS = [0, 3, 6, 12, 24] as const;   // 취업 창 격자(보고만, 2026-10-23 12단계): 첫 채용 ≤ 졸업 달 + w
+// 임시(강사+박사후) 비율의 레코드 역산 입력(보고만): 1 − 상용 − 비임금 − 일용, 취업자 조건부 분포(표 9 note)
+const SANGYONG_RECORD = (c: Ksced): string => `statistics-status-sangyong-${c}-2021-2024`;
+const NONWAGE_RECORD = 'statistics-nonwage-share', ILYONG_RECORD = 'statistics-status-ilyong-fulltime-study';
 
 // ───────────────────────── 기록 ─────────────────────────
 export interface LifeRecord {
@@ -283,6 +288,13 @@ export interface Diagnostics {
     income0: Record<string, { n: number; stipend: number | null; stipendMin: number | null; stipendMax: number | null; family: number | null; waiver: number | null; livingCapital: number; livingRegional: number }>;
     papers: { meanSubmitted: number | null; meanAccepted: number | null; n: number };
     employmentVariants: Record<string, { n: number; all: number | null; exLecturer: number | null; exLecturerStartup: number | null; ref: number }>;
+    /** 취업 지표의 보고만 열(2026-10-23 12단계, 판정에 쓰지 않는다). 비율의 분모는 졸업자 n, temp 만 12개월 안 채용자. */
+    employmentReport: Record<string, {
+      n: number; windows: Record<string, number | null>; pre: number | null; post12: number | null; later: number | null; never: number | null;
+      byRoute: Record<string, number>; delayMedian: number | null; hired: number | null;
+      temp: number | null; tempGrads: number | null; refTemp: number; refTempGrads: number; sangyong: number;
+    }>;
+    lecturerH: Record<string, number>;   // 시간강사 연 채용 h(노동 §3.1, 0014#106)
     /** 처음 자금 경로(self·조교 분리) × 재정 파탄 원인 분해(3단계 §1 표의 상설판). 키 'all' 은 전체. */
     financialByFunding: Record<string, {
       n: number; financial: number; byFamily: { monthly: number; n: number; rate: number | null }[]; capital: number | null; regional: number | null;
@@ -344,7 +356,7 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
   const nAll = records.reduce((a, r) => a + r.mN, 0), nLeaveAll = records.reduce((a, r) => a + r.mLeaveN, 0);
   const mSumAll = records.reduce((a, r) => a + r.mSum, 0);
 
-  const causes: Diagnostics['causes'] = { leaveStartsPerYear: {}, dropoutPerYear: {}, gradMilestones: {} as never, firstHireRoutes: {}, income0: {}, papers: {} as never, employmentVariants: {}, financialByFunding: {} };
+  const causes: Diagnostics['causes'] = { leaveStartsPerYear: {}, dropoutPerYear: {}, gradMilestones: {} as never, firstHireRoutes: {}, income0: {}, papers: {} as never, employmentVariants: {}, employmentReport: {}, lecturerH: {}, financialByFunding: {} };
   const familyLevels = ASSUMED.FAMILY_SUPPORT.map(fs => fs.monthly);
   for (const key of ['all', ...FUNDING_KEYS]) {
     const rs = key === 'all' ? records : records.filter(r => fundingKey(r) === key);
@@ -403,7 +415,28 @@ export function diagnose(records: LifeRecord[], data: DataBundle): Diagnostics {
       exLecturerStartup: share(gs.filter(r => within12(r) && r.firstHireRoute !== 'lecturer' && r.firstHireRoute !== 'startup').length, gs.length),
       ref: employedRate(data, c).value,
     };
+    const hired = gs.filter(r => r.firstHireMonth !== undefined);
+    const within = gs.filter(within12);
+    const byRoute: Record<string, number> = {};
+    for (const r of within) byRoute[r.firstHireRoute ?? '?'] = (byRoute[r.firstHireRoute ?? '?'] ?? 0) + 1;
+    const isTemp = (r: LifeRecord): boolean => r.firstHireRoute === 'lecturer' || r.firstHireRoute === 'postdoc';
+    const sangyong = get(data, SANGYONG_RECORD(c)).value;
+    const refTemp = 1 - sangyong - get(data, NONWAGE_RECORD).value - get(data, ILYONG_RECORD).value;
+    causes.employmentReport[c] = {
+      n: gs.length,
+      windows: Object.fromEntries(EMPLOY_GRID_MONTHS.map(w => [String(w), share(gs.filter(r => r.firstHireMonth !== undefined && r.firstHireMonth <= r.degreeMonth! + w).length, gs.length)])),
+      pre: share(hired.filter(r => r.firstHireMonth! <= r.degreeMonth!).length, gs.length),
+      post12: share(within.filter(r => r.firstHireMonth! > r.degreeMonth!).length, gs.length),
+      later: share(hired.length - within.length, gs.length),
+      never: share(gs.length - hired.length, gs.length),
+      byRoute: Object.fromEntries(Object.entries(byRoute).map(([k, v]) => [k, v / gs.length])),
+      delayMedian: median(hired.map(r => Math.max(0, r.firstHireMonth! - r.degreeMonth!))),
+      hired: share(hired.length, gs.length),
+      temp: share(within.filter(isTemp).length, within.length), tempGrads: share(within.filter(isTemp).length, gs.length),
+      refTemp, refTempGrads: employedRate(data, c).value * refTemp, sangyong,
+    };
   }
+  for (const k of KEDIS) causes.lecturerH[k] = lecturerH(data, k);
   const longLives = records.filter(r => r.phdMonths >= 48);
   causes.papers = { meanSubmitted: mean(longLives.map(r => r.submitted)), meanAccepted: mean(longLives.map(r => r.accepted)), n: longLives.length };
   const selfLives = records.filter(r => r.funding0 === 'self'), taLives = records.filter(r => r.ta0);
@@ -640,6 +673,20 @@ export function renderDiagnostics(d: Diagnostics, data: DataBundle): string {
   for (const g of GROUPS) L.push(`- ${g}: ${Object.entries(c.firstHireRoutes[g]!).map(([k, v]) => `${k} ${v}`).join(', ')}`);
   L.push('', '취업 변형(졸업자 중 졸업 후 1년 안 첫 채용; 표의 취업은 `전체`):', '', '| KSCED | 졸업자 n | 전체 | 시간강사 제외 | 시간강사·창업 제외 | 기준값 |', '|---|---|---|---|---|---|');
   for (const [k, v] of Object.entries(c.employmentVariants)) L.push(`| ${k} | ${v.n} | ${f2(v.all, 3)} | ${f2(v.exLecturer, 3)} | ${f2(v.exLecturerStartup, 3)} | ${f2(v.ref, 3)} |`);
+  L.push('', `시간강사 연 채용 h(노동 §3.1, 0014 #106): ${KEDIS.map(k => `${k} ${f2(c.lecturerH[k] ?? null, 3)}`).join(' / ')}.`);
+  const er = c.employmentReport;
+  L.push('', '취업 보고만 열(2026-10-23 12단계, 판정에 쓰지 않는다; 비율의 분모는 졸업자 n). 창 격자 = 첫 채용 달 ≤ 졸업 달 + w; 표의 취업은 w = 12:', '',
+    `| KSCED | 졸업자 n | ${EMPLOY_GRID_MONTHS.map(w => `+${w}`).join(' | ')} | 기준값 |`, `|---|---|${EMPLOY_GRID_MONTHS.map(() => '---|').join('')}---|`);
+  for (const k of KSCEDS) { const v = er[k]!; L.push(`| ${k} | ${v.n} | ${EMPLOY_GRID_MONTHS.map(w => f2(v.windows[String(w)] ?? null, 3)).join(' | ')} | ${f2(c.employmentVariants[k]!.ref, 3)} |`); }
+  L.push('', '첫 채용 시점 분해(졸업 전 = 첫 채용 달 ≤ 졸업 달, 지연 = 채용된 졸업자의 졸업 뒤 첫 채용까지 개월, 졸업 전은 0):', '',
+    '| KSCED | 졸업자 n | 졸업 전 | 졸업 뒤 12개월 안 | 그 뒤 | 채용 없음 | 지연 중앙값 | 최종 채용 |', '|---|---|---|---|---|---|---|---|');
+  for (const k of KSCEDS) { const v = er[k]!; L.push(`| ${k} | ${v.n} | ${f2(v.pre, 3)} | ${f2(v.post12, 3)} | ${f2(v.later, 3)} | ${f2(v.never, 3)} | ${mo(v.delayMedian)} | ${f2(v.hired, 3)} |`); }
+  const routeCols = [...DEMAND_ROUTES, 'startup', 'bridge'];
+  L.push('', '졸업 후 12개월 안 첫 채용 경로(÷ 졸업자 n):', '', `| KSCED | ${routeCols.join(' | ')} |`, `|---|${routeCols.map(() => '---|').join('')}`);
+  for (const k of KSCEDS) { const v = er[k]!; L.push(`| ${k} | ${routeCols.map(r => f2(v.byRoute[r] ?? 0, 3)).join(' | ')} |`); }
+  L.push('', `임시(강사+박사후) 비율과 레코드 역산. 역산 = 1 − 상용(\`statistics-status-sangyong-{ksced}-2021-2024\`) − 비임금(\`${NONWAGE_RECORD}\`) − 일용(\`${ILYONG_RECORD}\`), 취업자 조건부 분포(표 9). 상용은 2021~2024 합산, 비임금·일용은 2024 전체 값이다. 졸업자 기준 = 취업률(\`statistics-employed-{ksced}\`) × 역산:`, '',
+    '| KSCED | 모의: 12개월 안 채용 중 강사+박사후 | 레코드 역산(취업자 중 임시) | 상용 | 모의: 졸업자 중 | 레코드: 취업률 × 역산 |', '|---|---|---|---|---|---|');
+  for (const k of KSCEDS) { const v = er[k]!; L.push(`| ${k} | ${f2(v.temp, 3)} | ${f2(v.refTemp, 3)} | ${f2(v.sangyong, 3)} | ${f2(v.tempGrads, 3)} | ${f2(v.refTempGrads, 3)} |`); }
   L.push('', '입학 때 소득 구조(월):', '', '| 처음 자금 경로 | n | 장려금 중앙값 (최소–최대) | 가족 지원 평균 | 등록금 감면율 평균 | 생활비 수도권/비수도권 |', '|---|---|---|---|---|---|');
   for (const [f, v] of Object.entries(c.income0)) L.push(`| ${f} | ${v.n} | ${man(v.stipend)} (${man(v.stipendMin)}–${man(v.stipendMax)}) | ${man(v.family)} | ${pct(v.waiver)} | ${man(v.livingCapital)} / ${man(v.livingRegional)} |`);
   L.push('', '### M̄ 실현값 (0014 #45, 선택권 §4.2)', '',

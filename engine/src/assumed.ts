@@ -294,7 +294,7 @@ export const ASSUMED = {
   NEW_HIRE_ALLOCATION: 'fulltime-stock-share',                                         // 0014#103 신규채용 × 전임 스톡 비중(총량은 레코드)
   PROFESSOR_H: { kappa: 0.5, cap: 0.10 },                                              // 0014#104 h = min(0.10, 0.5 × B_k)
   HONORARY_ALLOCATION: 'fulltime-stock-share',                                         // 0014#105 명예교수 총량은 레코드
-  LECTURER_H: { coef: 0.15, lo: 0.20, hi: 0.85 },                                      // 0014#106
+  LECTURER_H: { coef: 0.15, lo: 0.20, hi: 0.85 },                                      // 0014#106 h = clamp(coef × L_k), L_k = 비전임(명예 제외) × 강사 비중(레코드, 계열 공통) ÷ 학위 취득자 (2026-10-23 결정 기록 0031: 강사 아닌 비전임을 뺌, 계수·경계 그대로)
   ROUTE_H: {                                                                           // 연 채용 h. 교수·시간강사는 레코드에서 계산(#104, #106)
     postdoc: { '이공': 0.60, '인문사회': 0.25 },                                       // 0014#107
     nontenure: { '이공': 0.10, '인문사회': 0.10 },                                     // 0014#109
